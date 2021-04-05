@@ -11,18 +11,19 @@ using namespace boost::numeric::odeint;
  * Analytic solution is x(t) = sqrt(t) - 1/t
  */
 
-void rhs( const double x , double &dxdt , const double t )
+void rhs( const double x , double &dxdt , const double t ) // right hand side 
 {
     dxdt = 3.0/(2.0*t*t) + x/(2.0*t);
 }
 
-void write_cout( const double &x , const double t )
+void write_cout( const double &x , const double t ) // print statement
 {
     cout << t << '\t' << x << endl;
 }
 
 // state_type = double
-typedef runge_kutta_dopri5< double > stepper_type;
+//typedef runge_kutta_dopri5< double > stepper_type; //stepper or solver type
+typedef runge_kutta_cash_karp54< double > stepper_type;
 
 int main()
 {
