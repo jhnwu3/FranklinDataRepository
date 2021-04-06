@@ -28,7 +28,7 @@ int main(int argc, char **argv)
 {
     oFile.open("ODE_Soln.csv");
     state_type x = { 10.0 , 1.0 , 1.0 }; // initial conditions
-    integrate_adaptive( make_controlled( 1E-12 , 1E-12 , stepper_type() ) ,
-                        tripleNonlinearODE , x , 1.0 , 10.0 , 0.1 , write_file );
+    //integrate_adaptive( make_controlled( 1E-12 , 1E-12 , stepper_type() ) ,
+      //                  tripleNonlinearODE , x , 1.0 , 10.0 , 0.1 , write_file );
     oFile.close();
 }
