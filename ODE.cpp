@@ -9,7 +9,7 @@ using namespace boost::numeric::odeint;
 const double sigma = 10.0;
 const double R = 28.0;
 const double b = 8.0 / 3.0;
-/* ofstream oFile; */
+ ofstream oFile; 
 
 typedef boost::array< double , 3 > state_type;
 
@@ -23,13 +23,14 @@ void lorenz( const state_type &x , state_type &dxdt , double t )
 void write_lorenz( const state_type &x , const double t )
 {
     
-  //  oFile.open("ODE_Soln.csv");
-    cout << t << '\t' << x[0] << '\t' << x[1] << '\t' << x[2] << endl;
+    
+    oFile << t << '\t' << x[0] << '\t' << x[1] << '\t' << x[2] << endl;
 }
 
 int main(int argc, char **argv)
 {
+    oFile.open("ODE_Soln.csv");
     state_type x = { 10.0 , 1.0 , 1.0 }; // initial conditions
     integrate( lorenz , x , 0.0 , 25.0 , 0.1 , write_lorenz );
-   // oFile.close();
+    oFile.close();
 }
