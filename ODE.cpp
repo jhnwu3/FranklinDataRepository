@@ -24,7 +24,7 @@ void write_lorenz( const state_type &x , const double t )
 {
     
     
-    oFile << t << '\t' << x[0] << '\t' << x[1] << '\t' << x[2] << endl;
+    oFile << t << ',' << x[0] << ',' << x[1] << ',' << x[2] << endl;
 }
 
 int main(int argc, char **argv)
