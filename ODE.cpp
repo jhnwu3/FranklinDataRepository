@@ -1,33 +1,35 @@
 #include <iostream>
+#include <boost/array.hpp>
+#include <fstream>
 #include <boost/numeric/odeint.hpp>
-
 
 using namespace std;
 using namespace boost::numeric::odeint;
 
+const double sigma = 10.0;
+const double R = 28.0;
+const double b = 8.0 / 3.0;
+ofstream oFile;
 
-/* we solve the simple ODE x' = 3/(2t^2) + x/(2t)
- * with initial condition x(1) = 0.
- * Analytic solution is x(t) = sqrt(t) - 1/t
- */
+typedef boost::array< double , 3 > state_type;
 
-void rhs( const double x , double &dxdt , const double t ) // right hand side 
+void lorenz( const state_type &x , state_type &dxdt , double t )
 {
-    dxdt = 3.0/(2.0*t*t) + x/(2.0*t);
+    dxdt[0] = sigma * ( x[1] - x[0] );
+    dxdt[1] = R * x[0] - x[1] - x[0] * x[2];
+    dxdt[2] = -b * x[2] + x[0] * x[1];
 }
 
-void write_cout( const double &x , const double t ) // print statement
+void write_lorenz( const state_type &x , const double t )
 {
-    cout << t << '\t' << x << endl;
+    
+    oFile.open("ODE_Soln.csv");
+    oFile << t << '\t' << x[0] << '\t' << x[1] << '\t' << x[2] << endl;
 }
 
-// state_type = double
-//typedef runge_kutta_dopri5< double > stepper_type; //stepper or solver type
-typedef runge_kutta_cash_karp54< double > stepper_type;
-
-int main()
+int main(int argc, char **argv)
 {
-    double x = 0.0;    
-    integrate_adaptive( make_controlled( 1E-12 , 1E-12 , stepper_type() ) ,
-                        rhs , x , 1.0 , 10.0 , 0.1 , write_cout );
+    state_type x = { 10.0 , 1.0 , 1.0 }; // initial conditions
+    integrate( lorenz , x , 0.0 , 25.0 , 0.1 , write_lorenz );
+    oFile.close();
 }
