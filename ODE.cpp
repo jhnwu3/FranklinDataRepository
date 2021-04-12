@@ -28,7 +28,7 @@ struct rhs_van
 void tripleNonlinearODE( const state_type &x , state_type &dxdt , double t )
 {
     dxdt[0] =  x[0] + 4*x[2]; // dx /dt = x + 4z
-    dxdt[1] =  2*x[1]; // dy / dt = 2y
+    dxdt[1] =  2*x[1]*x[0]; // dy / dt = 2y*x
     dxdt[2] =  3*x[0] + x[1] - 3*x[2]; // dz / dt = 3x + y - 3z
 }
 
