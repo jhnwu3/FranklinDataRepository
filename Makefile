@@ -1,7 +1,7 @@
 
 # comments in a Makefile start with sharp 
 # target all means all targets currently defined in this file 
-all: PSO
+all: PSO ODE
 
 # this target is for the executable 
 PSO: PSO.o 
@@ -17,4 +17,4 @@ ODE.o: ODE.cpp
 # this target deletes all files produced from the Makefile
 # so that a completely new compile of all items is required
 clean:
-	rm -rf *.o PSO
+	rm -rf *.o PSO ODE
