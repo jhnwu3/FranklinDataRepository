@@ -22,9 +22,9 @@ ofstream oFile;
 void write_file( const state_type &c , const double t )
 {
     oFile << t << ',' << c[0] << ',' << c[1] << ',' << c[2] << endl;
-    if(t == 100.0){
-         cout << t << ',' << c[0] << ',' << c[1] << ',' << c[2] << endl;
-    }
+    
+    cout << t << ',' << c[0] << ',' << c[1] << ',' << c[2] << endl;
+    
 }
 
 void tripleNonlinearODE( const state_type &c , state_type &dcdt , double t )
