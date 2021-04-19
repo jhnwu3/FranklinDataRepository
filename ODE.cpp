@@ -21,10 +21,7 @@ ka2 = 0.01, ka3 = 0.01, C1T = 20, C2T = 5, C3T = 4;
 ofstream oFile; 
 void write_file( const state_type &c , const double t )
 {
-    oFile << t << ',' << c[0] << ',' << c[1] << ',' << c[2] << endl;
-    
-    cout << t << ',' << c[0] << ',' << c[1] << ',' << c[2] << endl;
-    
+    oFile << t << ',' << c[0] << ',' << c[1] << ',' << c[2] << endl; 
 }
 
 void tripleNonlinearODE( const state_type &c , state_type &dcdt , double t )
@@ -42,6 +39,6 @@ int main(int argc, char **argv)
     state_type c0 = {10.0 , 0.0 , 0.0 };
     controlled_stepper_type controlled_stepper;
    // integrate_adaptive(controlled_stepper, tripleNonlinearODE, c0, 0.0, 500.0, 10.0, write_file);
-    integrate(tripleNonlinearODE, c0, 0.0, 500.0, 10.0, write_file);
+    integrate(tripleNonlinearODE, c0, 0.0, 500.0, 1.0, write_file);
     oFile.close();
 }
