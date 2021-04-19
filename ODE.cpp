@@ -38,6 +38,7 @@ int main(int argc, char **argv)
     oFile.open("ODE_Soln.csv");
     state_type c0 = {10.0 , 0.0 , 0.0 };
     controlled_stepper_type controlled_stepper;
-    integrate_adaptive(controlled_stepper, tripleNonlinearODE, c0, 0.0, 500.0, 10.0, write_file);
+   // integrate_adaptive(controlled_stepper, tripleNonlinearODE, c0, 0.0, 500.0, 10.0, write_file);
+    integrate(tripleNonlinearODE, c0, 0.0, 500.0, 10.0, write_file);
     oFile.close();
 }
