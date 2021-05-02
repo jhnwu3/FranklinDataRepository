@@ -25,6 +25,11 @@ void write_file( const state_type &c , const double t )
     oFile << t << ',' << c[0] << ',' << c[1] << ',' << c[2] << endl; 
     oFileGNU << t << ' ' << c[0] << ' ' << c[1] << ' ' << c[2] << endl; 
 }
+void write_file_const( const state_type &c , const double t )
+{
+    oFile << t << ',' << c[0] << ',' << c[1] << ',' << c[2] << endl; 
+    oFileGNU << t << ' ' << c[0] << ' ' << c[1] << ' ' << c[2] << endl; 
+}
 
 void tripleNonlinearODE( const state_type &c , state_type &dcdt , double t )
 {
@@ -42,6 +47,7 @@ int main(int argc, char **argv)
     state_type c0 = {10.0 , 0.0 , 0.0 };
     controlled_stepper_type controlled_stepper;
    // integrate_adaptive(controlled_stepper, tripleNonlinearODE, c0, 0.0, 500.0, 10.0, write_file);
+    integrate_const(controlled_stepper, tripleNonlinearODE, c0, 0.0, 500.0, 10.0, write_file_const);
     integrate(tripleNonlinearODE, c0, 0.0, 500.0, 10.0, write_file);
     oFile.close();
     oFileGNU.close();
