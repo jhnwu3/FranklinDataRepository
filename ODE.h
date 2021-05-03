@@ -3,7 +3,7 @@
 #include <fstream>
 #include <boost/numeric/odeint.hpp>
 #include <vector>
-#include <eigen/Dense>
+#include <Eigen/Dense>
 #include <random>
 
 /* namespaces for ease of use */
