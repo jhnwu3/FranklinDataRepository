@@ -11,17 +11,17 @@ PSO: PSO.o
 PSO.o: PSO.cpp
 	g++ -c PSO.cpp
 # target dependencies for ODE section
-ODE: ODE.o fileIO.o ODESys.o var.o sample.o
-	g++ ODE.o -o ODE
-ODE.o: ODE.cpp
+ODE: ODE.o fileIO.o ODESys.o var.o sample.o 
+	g++ ODE.o fileIO.o ODESys.o var.o sample.o -o ODE
+ODE.o: ODE.cpp ODE.hpp
 	g++ -c ODE.cpp
-fileIO.o: fileIO.cpp
+fileIO.o: fileIO.cpp ODE.hpp
 	g++ -c fileIO.cpp
-ODESys.o: ODESys.cpp
+ODESys.o: ODESys.cpp ODE.hpp
 	g++ -c ODESys.cpp
-var.o: var.cpp
+var.o: var.cpp ODE.hpp
 	g++ -c var.cpp
-sample.o: sample.cpp
+sample.o: sample.cpp ODE.hpp
 	g++ -c sample.cpp
 
 # this target deletes all files produced from the Makefile

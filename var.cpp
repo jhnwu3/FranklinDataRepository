@@ -8,4 +8,4 @@ int N = 10000; // number of items to sample for
 /* time conditions */
 double x0 = 0.0, xf = 500.0, dxdt = 10.0;
 /* Matrix to fill */
-MatrixXd pAvg((int) xf / 10, 4);
+MatrixXd pAvg( (int) xf / 10, 4);
