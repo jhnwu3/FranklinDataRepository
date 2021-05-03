@@ -11,10 +11,19 @@ PSO: PSO.o
 PSO.o: PSO.cpp
 	g++ -c PSO.cpp
 # target dependencies for ODE section
-ODE: ODE.o
+ODE: ODE.o fileIO.o ODESys.o var.o sample.o
 	g++ ODE.o -o ODE
 ODE.o: ODE.cpp
 	g++ -c ODE.cpp
+fileIO.o: fileIO.cpp
+	g++ -c fileIO.cpp
+ODESys.o: ODESys.cpp
+	g++ -c ODESys.cpp
+var.o: var.cpp
+	g++ -c var.cpp
+sample.o: sample.cpp
+	g++ -c sample.cpp
+
 # this target deletes all files produced from the Makefile
 # so that a completely new compile of all items is required
 clean:
