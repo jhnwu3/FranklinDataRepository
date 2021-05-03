@@ -1,4 +1,4 @@
-#include "ODE.h"
+#include "ODE.hpp"
 
 void tripleNonlinearODE( const state_type &c , state_type &dcdt , double t )
 {

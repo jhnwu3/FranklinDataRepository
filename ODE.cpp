@@ -1,4 +1,4 @@
-#include "ODE.h"
+#include "ODE.hpp"
 
 int main(int argc, char **argv)
 {

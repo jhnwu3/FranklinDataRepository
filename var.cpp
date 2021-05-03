@@ -1,4 +1,4 @@
-#include "ODE.h"
+#include "ODE.hpp"
 
 /* diff eq. constants definitions */
 double ke = 0.0001, kme = 20, kf = 0.01, kmf = 18, kd = 0.03, kmd = 1, 

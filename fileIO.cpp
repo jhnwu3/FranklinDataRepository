@@ -5,7 +5,7 @@
 #include <vector>
 #include <eigen/Dense>
 #include <random>
-#include "ODE.h"
+#include "ODE.hpp"
 
 /* open files for writing */
 void open_files(){

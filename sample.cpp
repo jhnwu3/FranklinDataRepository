@@ -1,4 +1,4 @@
-#include "ODE.h"
+#include "ODE.hpp"
 
 /* Collect data functions for matrix Pav */
 
