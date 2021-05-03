@@ -139,8 +139,8 @@ int main() {
 	VectorXd term_vec(9);
 
 	/* IMPORTANT THAT YOU INSTANTIATE THE RANDOM GENERATOR LIKE THIS!*/
-	std::random_device                  rand_dev;
-	std::mt19937                        generator(rand_dev());
+	std::random_device rand_dev;
+	std::mt19937 generator(rand_dev());
 	uniform_real_distribution<double> unifDist(0.0, 1.0);
 
 	for (int q = 1; q <= Niter; q++) {

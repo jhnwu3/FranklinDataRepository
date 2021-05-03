@@ -10,6 +10,7 @@ PSO: PSO.o
 # this target is the dependency for PSO.o
 PSO.o: PSO.cpp
 	g++ -c PSO.cpp
+# target dependencies for ODE section
 ODE: ODE.o
 	g++ ODE.o -o ODE
 ODE.o: ODE.cpp
