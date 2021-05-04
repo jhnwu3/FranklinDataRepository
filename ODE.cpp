@@ -4,8 +4,8 @@ ofstream oFile;
 ofstream oFile1; 
 ofstream oFileGNU; 
 
-/* Global Matrix, first moment to fill! */
-MatrixXd mAv = MatrixXd::Zero((int) tf / dt, pCol);
+/* Global Matrix, first moment to fill! add 1 for the extra row */
+MatrixXd mAv = MatrixXd::Zero((int) (tf / dt) + 1, pCol);
 
 /********** File IO **********/
 
