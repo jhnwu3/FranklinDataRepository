@@ -6,6 +6,7 @@
 #include <Eigen/Dense>
 #include <random>
 #include "ODE.hpp"
+using namespace localFileIO;
 
 /* open files for writing */
 void open_files(){

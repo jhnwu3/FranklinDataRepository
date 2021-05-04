@@ -2,6 +2,11 @@
 
 int main(int argc, char **argv)
 {
+    /* Uniform Random Number Generator */
+    random_device rand_dev;
+    mt19937 generator(rand_dev());
+    uniform_real_distribution<double> unifDist(0.0, 1.0);
+    
     open_files();
     state_type c0 = {10.0 , 0.0 , 0.0 };
     controlled_stepper_type controlled_stepper;
