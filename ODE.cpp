@@ -2,7 +2,7 @@
 
 ofstream oFile; 
 ofstream oFile1; 
-ofstream oFileGNU; 
+ofstream oFileMAV; 
 
 /* Global Matrix, first moment to fill */
 MatrixXd mAv = MatrixXd::Zero((int) (tf / dt) + 1, pCol);
@@ -13,27 +13,23 @@ MatrixXd mAv = MatrixXd::Zero((int) (tf / dt) + 1, pCol);
 void open_files(){
     oFile.open("ODE_Soln.csv");
     oFile1.open("ODE_Const_Soln.csv"); 
-    oFileGNU.open("ODE_Soln");
+    oFileMAV.open("mAv.csv");
 }
 
 /* write data to specific csv functions */
-void write_file( const state_type &c , const double t ){
-    oFile << t << ',' << c[0] << ',' << c[1] << ',' << c[2] << endl; 
-    oFileGNU << t << ' ' << c[0] << ' ' << c[1] << ' ' << c[2] << endl; 
-}
+void write_file( const state_type &c , const double t ){ oFile << t << ',' << c[0] << ',' << c[1] << ',' << c[2] << endl; }
 void write_file_const( const state_type &c , const double t ){ oFile1 << t << ',' << c[0] << ',' << c[1] << ',' << c[2] << endl; }
 
 /* close files */
 void close_files(){
     oFile.close();
     oFile1.close();
-    oFileGNU.close();
+    oFileMAV.close();
 }
 
 /* Only to be used with integrate_const */
 void sample_const( const state_type &c , const double t){
     int row = t/10;
-    oFile1 << t << ',' << c[0] << ',' << c[1] << ',' << c[2] << endl; 
     // Columns filled in matrix: t, c[0], c[1], c[2]
     mAv(row,0) = t;
     mAv(row,1) += c[0] / N;
@@ -59,6 +55,7 @@ int main(int argc, char **argv)
        c0 = {10.0*unifDist(generator), unifDist(generator), unifDist(generator)};
        integrate_const(controlled_stepper, tripleNonlinearODE, c0, t0, tf, dt, sample_const);
    }
+    oFileMAV << mAv << endl;
     close_files();
 }
 
