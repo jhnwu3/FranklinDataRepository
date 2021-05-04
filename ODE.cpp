@@ -4,7 +4,7 @@ ofstream oFile;
 ofstream oFile1; 
 ofstream oFileGNU; 
 
-/* Global Matrix, first moment to fill! add 1 for the extra row */
+/* Global Matrix, first moment to fill */
 MatrixXd mAv = MatrixXd::Zero((int) (tf / dt) + 1, pCol);
 
 /********** File IO **********/
@@ -33,7 +33,6 @@ void close_files(){
 /* Only to be used with integrate_const */
 void sample_const( const state_type &c , const double t){
     int row = t/10;
-    cout << "row:" << row << endl;
     oFile1 << t << ',' << c[0] << ',' << c[1] << ',' << c[2] << endl; 
     // Columns filled in matrix: t, c[0], c[1], c[2]
     mAv(row,0) = t;
