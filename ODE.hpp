@@ -18,13 +18,6 @@ typedef boost::array< double , 3 > state_type;
 typedef runge_kutta_cash_karp54< state_type > error_stepper_type;
 typedef controlled_runge_kutta< error_stepper_type > controlled_stepper_type;
 
-/* file io */
-namespace localFileIO {
-    ofstream oFile; 
-    ofstream oFile1; 
-    ofstream oFileGNU; 
-}
-
 void open_files();
 void close_files();
 void write_file( const state_type &c , const double t );
@@ -37,11 +30,9 @@ void sample_adapt( const state_type &c , const double t);
 void tripleNonlinearODE( const state_type &c , state_type &dcdt , double t );
 
 /* model global diff eq. constants */
-double extern ke , kme, kf, kmf, kd, kmd, ka2, ka3, C1T, C2T, C3T;
+double extern ke, kme, kf, kmf, kd, kmd, ka2, ka3, C1T, C2T, C3T;
 /* vars */
-int extern N;
+int extern N, pCol;
 /* time conditions */
 double extern t0, tf, dt;
 
-/* 1st moment matrix  */
-MatrixXd extern mAv;
