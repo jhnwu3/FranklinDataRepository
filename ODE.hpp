@@ -28,8 +28,8 @@ void write_file( const state_type &c , const double t );
 void write_file_const( const state_type &c , const double t );
 
 /* Collect data functions */
-void sample_const( const state_type &c , const double t, int i );
-void sample_adapt( const state_type &c , const double t, int i );
+void sample_const( const state_type &c , const double t);
+void sample_adapt( const state_type &c , const double t);
 /* ODE Systems Functions */
 void tripleNonlinearODE( const state_type &c , state_type &dcdt , double t );
 
@@ -38,7 +38,7 @@ double extern ke , kme, kf, kmf, kd, kmd, ka2, ka3, C1T, C2T, C3T;
 /* vars */
 int extern N;
 /* time conditions */
-double extern x0, xf, dxdt;
+double extern t0, tf, dt;
 
 MatrixXd extern pAvg;
 /* Uniform Random Number Generator */
