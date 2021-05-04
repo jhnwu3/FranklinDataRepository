@@ -40,7 +40,7 @@ int extern N;
 /* time conditions */
 double extern x0, xf, dxdt;
 
-MatrixXd extern pAvg( (int) xf/10, 4);
+MatrixXd extern pAvg;
 /* Uniform Random Number Generator */
 std::random_device rand_dev;
 std::mt19937 generator(rand_dev());
