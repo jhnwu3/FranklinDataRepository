@@ -19,9 +19,9 @@ typedef runge_kutta_cash_karp54< state_type > error_stepper_type;
 typedef controlled_runge_kutta< error_stepper_type > controlled_stepper_type;
 
 /* file io */
-ofstream oFile; 
-ofstream oFile1; 
-ofstream oFileGNU; 
+ofstream extern oFile; 
+ofstream extern oFile1; 
+ofstream extern oFileGNU; 
 void open_files();
 void close_files();
 void write_file( const state_type &c , const double t );
@@ -42,6 +42,6 @@ double extern t0, tf, dt;
 
 MatrixXd extern pAvg;
 /* Uniform Random Number Generator */
-std::random_device rand_dev;
-std::mt19937 generator(rand_dev());
-uniform_real_distribution<double> unifDist(0.0, 1.0);
+random_device extern rand_dev;
+mt19937 extern generator(rand_dev());
+uniform_real_distribution<double> extern unifDist(0.0, 1.0);
