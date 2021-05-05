@@ -5,6 +5,7 @@
 #include <vector>
 #include <Eigen/Dense>
 #include <random>
+#include <cmath>
 
 /* namespaces for ease of use */
 using namespace std;
@@ -35,4 +36,8 @@ double extern ke, kme, kf, kmf, kd, kmd, ka2, ka3, C1T, C2T, C3T;
 int extern N, pCol;
 /* time conditions */
 double extern t0, tf, dt;
-
+/* Normal Dist Vars */
+double extern mu_x, mu_y, mu_z; // true means for MVN(theta)
+double extern var_x, var_y, var_z; // true variances for MVN(theta);
+double extern rho_xy, rho_xz, rho_yz; // true correlations for MVN
+double extern sigma_x, sigma_y, sigma_z;

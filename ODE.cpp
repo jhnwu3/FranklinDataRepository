@@ -6,6 +6,7 @@ ofstream oFileMAV;
 
 /* Global Matrix, first moment to fill */
 MatrixXd mAv = MatrixXd::Zero((int) (tf / dt) + 1, pCol);
+MatrixXd mAv2 = MatrixXd::Zero((int) (tf / dt) + 1, pCol);
 
 /********** File IO **********/
 
@@ -42,17 +43,20 @@ void sample_adapt( const state_type &c , const double t){}
 
 int main(int argc, char **argv)
 {
-    /* Uniform Random Number Generator */
+    /* Random Number Generator */
     random_device rand_dev;
     mt19937 generator(rand_dev());
     uniform_real_distribution<double> unifDist(0.0, 1.0);
+    normal_distribution<double> xNorm(mu_x,sigma_x);
+    normal_distribution<double> yNorm(mu_y,sigma_y);
+    normal_distribution<double> zNorm(mu_z,sigma_z);
 
     open_files();
     state_type c0 = {10.0 , 0.0 , 0.0 };
     controlled_stepper_type controlled_stepper;
     /* average randomized sample/initial conditions from unif dist, N=10,000 */
    for(int i = 0; i < N; i++){
-       c0 = {10.0*unifDist(generator), unifDist(generator), unifDist(generator)};
+       c0 = {xNorm(generator), yNorm(generator), zNorm(generator)};
        integrate_const(controlled_stepper, tripleNonlinearODE, c0, t0, tf, dt, sample_const);
    }
     oFileMAV << mAv << endl;
