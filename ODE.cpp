@@ -86,7 +86,7 @@ int main(int argc, char **argv)
 
     
 
-    oFileMAV << m1 << endl;
+    oFileMAV << m2_1 << endl << endl << m2_2 << endl << endl << m2_3;
     close_files();
 }
 
