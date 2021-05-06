@@ -5,8 +5,12 @@ ofstream oFile1;
 ofstream oFileMAV; 
 
 /* Global Matrix, first moment to fill */
-MatrixXd mAv = MatrixXd::Zero((int) (tf / dt) + 1, pCol);
-MatrixXd mAv2 = MatrixXd::Zero((int) (tf / dt) + 1, pCol);
+MatrixXd m1 = MatrixXd::Zero((int) (tf / dt) + 1, nProt);
+
+/* Second moment matrices time steps. */
+MatrixXd m2_1 = MatrixXd::Zero(nProt, nProt); // t = 0
+MatrixXd m2_2 = MatrixXd::Zero(nProt, nProt); // t = 250
+MatrixXd m2_3 = MatrixXd::Zero(nProt, nProt); // t = 500
 
 /********** File IO **********/
 
@@ -31,11 +35,31 @@ void close_files(){
 /* Only to be used with integrate_const */
 void sample_const( const state_type &c , const double t){
     int row = t/10;
-    // Columns filled in matrix: t, c[0], c[1], c[2]
-    mAv(row,0) = t;
-    mAv(row,1) += c[0] / N;
-    mAv(row,2) += c[1] / N;
-    mAv(row,3) += c[2] / N;
+    // Fill first moment matrix: t, c[0], c[1], c[2]
+    m1(row,0) += c[0] / N;
+    m1(row,1) += c[1] / N;
+    m1(row,2) += c[2] / N;
+
+    /* We will have 4 time steps */
+    if(t == 0){
+        for(int row = 0; row < nProt; row++){
+            for(int col = 0; col < nProt; col++){
+                m2_1(row,col) += (c[row] * c[col]) / N;    
+            }
+        }
+    }else if (t == 250){
+        for(int row = 0; row < nProt; row++){
+            for(int col = 0; col < nProt; col++){
+                m2_2(row,col) += (c[row] * c[col]) / N;     
+            }
+        }
+    }else if (t == 500){
+        for(int row = 0; row < nProt; row++){
+            for(int col = 0; col < nProt; col++){
+                m2_3(row,col) += (c[row] * c[col]) / N;
+            }
+        }
+    }
 }
 /* Only to be used with integrate/integrate_adaptive - @TODO */
 void sample_adapt( const state_type &c , const double t){}
@@ -59,7 +83,10 @@ int main(int argc, char **argv)
        c0 = {xNorm(generator), yNorm(generator), zNorm(generator)};
        integrate_const(controlled_stepper, tripleNonlinearODE, c0, t0, tf, dt, sample_const);
    }
-    oFileMAV << mAv << endl;
+
+    
+
+    oFileMAV << m1 << endl;
     close_files();
 }
 

@@ -33,7 +33,7 @@ void tripleNonlinearODE( const state_type &c , state_type &dcdt , double t );
 /* model global diff eq. constants */
 double extern ke, kme, kf, kmf, kd, kmd, ka2, ka3, C1T, C2T, C3T;
 /* vars */
-int extern N, pCol;
+int extern N, nProt;
 /* time conditions */
 double extern t0, tf, dt;
 /* Normal Dist Vars */
