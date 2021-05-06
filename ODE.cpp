@@ -41,6 +41,7 @@ void sample_const( const state_type &c , const double t){
         mVec1(0) += c[0]; // store all first moments in the first part of the vec
         mVec1(1) += c[1];
         mVec1(2) += c[2];
+        cout << "t = 0" << endl;
         for(int row = 0; row < nProt; row++){
             for(int col = 0; col < nProt; col++){
                 m2_1(row,col) += (c[row] * c[col]);    
@@ -50,6 +51,7 @@ void sample_const( const state_type &c , const double t){
         mVec2(0) += c[0];
         mVec2(1) += c[1];
         mVec2(2) += c[2];
+        cout << "t = 250" << endl;
         for(int row = 0; row < nProt; row++){
             for(int col = 0; col < nProt; col++){
                 m2_2(row,col) += (c[row] * c[col]);     
@@ -59,6 +61,7 @@ void sample_const( const state_type &c , const double t){
         mVec3(0) += c[0];
         mVec3(1) += c[1];
         mVec3(2) += c[2];
+         cout << "t = 500" << endl;
         for(int row = 0; row < nProt; row++){
             for(int col = 0; col < nProt; col++){
                 m2_3(row,col) += (c[row] * c[col]);
