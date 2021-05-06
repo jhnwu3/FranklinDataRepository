@@ -39,8 +39,8 @@ void sample_const( const state_type &c , const double t){
     m1(row,0) += c[0] / N;
     m1(row,1) += c[1] / N;
     m1(row,2) += c[2] / N;
-
-    /* We will have 4 time steps */
+    cout << "alive" << endl;
+        /* We will have 4 time steps */
     if(t == 0){
         for(int row = 0; row < nProt; row++){
             for(int col = 0; col < nProt; col++){
