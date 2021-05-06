@@ -86,6 +86,9 @@ int main(int argc, char **argv)
 
     /* average randomized sample/initial conditions from unif dist, N=10,000 */
    for(int i = 0; i < N; i++){
+       if(i % 200 == 0){
+           cout << "At i =" << i << endl; 
+       }
        c0 = {xNorm(generator), yNorm(generator), zNorm(generator)};
        integrate_const(controlled_stepper, tripleNonlinearODE, c0, t0, tf, dt, sample_const);
    }
