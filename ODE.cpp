@@ -92,7 +92,7 @@ int main(int argc, char **argv)
        c0 = {xNorm(generator), yNorm(generator), zNorm(generator)};
        integrate_const(controlled_stepper, tripleNonlinearODE, c0, t0, tf, dt, sample_const);
    }
-
+    integrate_const(controlled_stepper, tripleNonlinearODE, c0, t0, tf, dt, write_file_const);
     
     for(int row = 0; row < nProt; row++){
         mVec1(row) /= N;
