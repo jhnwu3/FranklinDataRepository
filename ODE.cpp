@@ -85,7 +85,7 @@ int main(int argc, char **argv)
     controlled_stepper_type controlled_stepper;
 
     /* average randomized sample/initial conditions from unif dist, N=10,000 */
-   for(int i = 0; i < N; i++){
+   for(int i = 0; i < 10; i++){
        c0 = {xNorm(generator), yNorm(generator), zNorm(generator)};
        integrate_const(controlled_stepper, tripleNonlinearODE, c0, t0, tf, dt, write_file_const);
    }
