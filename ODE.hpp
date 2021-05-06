@@ -27,6 +27,7 @@ void write_file_const( const state_type &c , const double t );
 /* Collect data functions */
 void sample_const( const state_type &c , const double t);
 void sample_adapt( const state_type &c , const double t);
+
 /* ODE Systems Functions */
 void tripleNonlinearODE( const state_type &c , state_type &dcdt , double t );
 

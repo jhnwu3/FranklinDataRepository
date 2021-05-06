@@ -1,4 +1,4 @@
 #include "ODE.hpp"
 
-/* Collect data functions for matrix Pav - to be inserted in later */
+/* Calculation Functions to be used during solving/sampling of ODE solns */
 
