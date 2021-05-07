@@ -38,7 +38,6 @@ void sample_const( const state_type &c , const double t){
 
     /* We will have 3 time steps */
     if(t == 0){
-        cout << t << endl;
         mVec1(0) += c[0] / N; // store all first moments in the first part of the vec
         mVec1(1) += c[1] / N;
         mVec1(2) += c[2] / N;
@@ -87,9 +86,9 @@ int main(int argc, char **argv)
 
     /* average randomized sample/initial conditions from unif dist, N=10,000 */
    for(int i = 0; i < N; i++){
-       if(i % 200 == 0){
-           cout << i << endl; 
-       }
+       
+       cout << i << endl; 
+     
        c0 = {xNorm(generator), yNorm(generator), zNorm(generator)};
        integrate_const(controlled_stepper, tripleNonlinearODE, c0, t0, tf, dt, sample_const);
    }
