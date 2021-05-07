@@ -79,11 +79,14 @@ int main(int argc, char **argv)
     normal_distribution<double> xNorm(mu_x,sigma_x);
     normal_distribution<double> yNorm(mu_y,sigma_y);
     normal_distribution<double> zNorm(mu_z,sigma_z);
-
+    int mean = 0;
     open_files();
     state_type c0 = {10.0 , 0.0 , 0.0 };
     controlled_stepper_type controlled_stepper;
-
+    for(int i = 0; i < N; i++){
+        mean += xNorm(generator) / N;
+    }
+    cout << mean << endl;
     /* average randomized sample/initial conditions from unif dist, N=10,000 */
    for(int i = 0; i < N; i++){
        if(i % 1000 == 0){
