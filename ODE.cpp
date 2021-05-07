@@ -97,13 +97,21 @@ int main(int argc, char **argv)
    }
     
     for(int row = 0; row  < nProt; row++){
-        mVec1(0)/=N;
-        mVec2(0)/=N;
-        mVec3(0)/=N;
+        mVec1(row) /= N;
+        mVec2(row) /= N;
+        mVec3(row) /= N;
         for(int col = 0; col < nProt; col++){
             m2_1(row,col) /= N;
             m2_2(row,col) /= N;
             m2_3(row,col) /= N;
+        }
+    }
+    for(int i = 0; i < nProt; i++){
+        
+    }
+    for(int row = 1; row < nProt - 1; row++){
+        for(int col = row + 1; col < nProt; col++){
+
         }
     }
     oFileMAV << m2_1 << endl << endl << m2_2 << endl << endl << m2_3;
