@@ -106,6 +106,8 @@ int main(int argc, char **argv)
             m2_3(row,col) /= N;
         }
     }
+    
+    cout << "Diagonal:" << endl << m2_1.diagonal() << endl;
     for(int i = 0; i < nProt; i++){
         
     }
