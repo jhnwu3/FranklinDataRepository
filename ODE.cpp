@@ -109,7 +109,9 @@ int main(int argc, char **argv)
 
     cout << "Diagonal:" << endl << m2_1.diagonal()(0) << endl;
     for(int i = 0; i < nProt; i++){
-        
+        mVec1(nProt + i) = m2_1.diagonal()(i);
+        mVec2(nProt + i) = m2_2.diagonal()(i);
+        mVec3(nProt + i) = m2_3.diagonal()(i);
     }
     for(int row = 1; row < nProt - 1; row++){
         for(int col = row + 1; col < nProt; col++){
