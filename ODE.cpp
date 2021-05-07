@@ -84,14 +84,14 @@ int main(int argc, char **argv)
     state_type c0 = {10.0 , 0.0 , 0.0 };
     controlled_stepper_type controlled_stepper;
 
-    /* average randomized sample/initial conditions from unif dist, N=10,000 */
+    /* average randomized sample/initial conditions from unif dist, N=10,000 /
    for(int i = 0; i < N; i++){
        if(i % 200 == 0){
            cout << "At i =" << i << endl; 
        }
        c0 = {xNorm(generator), yNorm(generator), zNorm(generator)};
        integrate_const(controlled_stepper, tripleNonlinearODE, c0, t0, tf, dt, sample_const);
-   }
+   }*/
     integrate_const(controlled_stepper, tripleNonlinearODE, c0, t0, tf, dt, write_file_const);
     
     oFileMAV << m2_1 << endl << endl << m2_2 << endl << endl << m2_3;
