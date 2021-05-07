@@ -38,6 +38,7 @@ void sample_const( const state_type &c , const double t){
 
     /* We will have 3 time steps */
     if(t == 0){
+        cout << t << endl;
         mVec1(0) += c[0] / N; // store all first moments in the first part of the vec
         mVec1(1) += c[1] / N;
         mVec1(2) += c[2] / N;
