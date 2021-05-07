@@ -86,7 +86,7 @@ int main(int argc, char **argv)
     for(int i = 0; i < N; i++){
         mean += xNorm(generator) / N;
     }
-    cout << mean << endl;
+    cout << "mean" << mean << endl;
     /* average randomized sample/initial conditions from unif dist, N=10,000 */
    for(int i = 0; i < N; i++){
        if(i % 1000 == 0){
