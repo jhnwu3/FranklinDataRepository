@@ -7,11 +7,11 @@ ofstream oFileMAV;
 /* first moment */
 VectorXd mVec1 = VectorXd::Zero(nProt*(nProt + 3) / 2); // t = 0
 VectorXd mVec2 = VectorXd::Zero(nProt*(nProt + 3) / 2); // t = 250
-VectorXd mVec3 = VectorXd::Zero(nProt*(nProt + 3) / 2); // t = 500
+VectorXd mVec3 = VectorXd::Zero(nProt*(nProt + 3) / 2); // t = 450
 /* Second moment matrices time steps. */
 MatrixXd m2_1 = MatrixXd::Zero(nProt, nProt); // t = 0
 MatrixXd m2_2 = MatrixXd::Zero(nProt, nProt); // t = 250
-MatrixXd m2_3 = MatrixXd::Zero(nProt, nProt); // t = 500
+MatrixXd m2_3 = MatrixXd::Zero(nProt, nProt); // t = 450
 
 /********** File IO **********/
 
@@ -38,30 +38,30 @@ void sample_const( const state_type &c , const double t){
 
     /* We will have 3 time steps */
     if(t == 0){
-        mVec1(0) += c[0] / N; // store all first moments in the first part of the vec
-        mVec1(1) += c[1] / N;
-        mVec1(2) += c[2] / N;
+        mVec1(0) += c[0]; // store all first moments in the first part of the vec
+        mVec1(1) += c[1];
+        mVec1(2) += c[2];
         for(int row = 0; row < nProt; row++){
             for(int col = 0; col < nProt; col++){
-                m2_1(row,col) += (c[row] * c[col]) / N;    
+                m2_1(row,col) += (c[row] * c[col]);    
             }
         }
     }else if (t == 250){
-        mVec2(0) += c[0] / N;
-        mVec2(1) += c[1] / N;
-        mVec2(2) += c[2] / N;
+        mVec2(0) += c[0];
+        mVec2(1) += c[1];
+        mVec2(2) += c[2];
         for(int row = 0; row < nProt; row++){
             for(int col = 0; col < nProt; col++){
-                m2_2(row,col) += (c[row] * c[col]) / N;     
+                m2_2(row,col) += (c[row] * c[col]);     
             }
         }
-    }else if (t == 500){
-        mVec3(0) += c[0] / N;
-        mVec3(1) += c[1] / N;
-        mVec3(2) += c[2] / N;
+    }else if (t == 450){
+        mVec3(0) += c[0];
+        mVec3(1) += c[1];
+        mVec3(2) += c[2];
         for(int row = 0; row < nProt; row++){
             for(int col = 0; col < nProt; col++){
-                m2_3(row,col) += (c[row] * c[col]) / N;
+                m2_3(row,col) += (c[row] * c[col]);
             }
         }
     }
@@ -86,14 +86,23 @@ int main(int argc, char **argv)
 
     /* average randomized sample/initial conditions from unif dist, N=10,000 */
    for(int i = 0; i < N; i++){
-       
-       cout << i << endl; 
-     
+       if(i % 1000 == 0){
+           cout << i << endl; 
+       }
        c0 = {xNorm(generator), yNorm(generator), zNorm(generator)};
        integrate_const(controlled_stepper, tripleNonlinearODE, c0, t0, tf, dt, sample_const);
    }
     
-    
+    for(int row = 0; row  < nProt; row++){
+        mVec1(0)/=N;
+        mVec2(0)/=N;
+        mVec3(0)/=N;
+        for(int col = 0; col < nProt; col++){
+            m2_1(row,col) /= N;
+            m2_2(row,col) /= N;
+            m2_3(row,col) /= N;
+        }
+    }
     oFileMAV << m2_1 << endl << endl << m2_2 << endl << endl << m2_3;
     close_files();
     cout << "Code Finished Running!" << endl;
