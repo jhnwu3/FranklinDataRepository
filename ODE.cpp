@@ -121,7 +121,11 @@ int main(int argc, char **argv)
             mVec3(2*nProt + (row + col - 1)) = m2_3(row,col);
         }
     }
+    oFileMAV << "Matrices:" << endl;
     oFileMAV << m2_1 << endl << endl << m2_2 << endl << endl << m2_3;
+    
+    oFileMAV << "Full " << nProt << "moment(s) vector(s)" << endl;
+    oFileMAV << mVec1.transpose() << endl << mVec2.transpose() << endl << mVec3.transpose(); 
     close_files();
     cout << "Code Finished Running!" << endl;
 }
