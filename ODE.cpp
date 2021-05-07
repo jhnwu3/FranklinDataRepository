@@ -38,30 +38,30 @@ void sample_const( const state_type &c , const double t){
 
     /* We will have 3 time steps */
     if(t == 0){
-        mVec1(0) += c[0]; // store all first moments in the first part of the vec
-        mVec1(1) += c[1];
-        mVec1(2) += c[2];
+        mVec1(0) += c[0] / N; // store all first moments in the first part of the vec
+        mVec1(1) += c[1] / N;
+        mVec1(2) += c[2] / N;
         for(int row = 0; row < nProt; row++){
             for(int col = 0; col < nProt; col++){
-                m2_1(row,col) += (c[row] * c[col]);    
+                m2_1(row,col) += (c[row] * c[col]) / N;    
             }
         }
     }else if (t == 250){
-        mVec2(0) += c[0];
-        mVec2(1) += c[1];
-        mVec2(2) += c[2];
+        mVec2(0) += c[0] / N;
+        mVec2(1) += c[1] / N;
+        mVec2(2) += c[2] / N;
         for(int row = 0; row < nProt; row++){
             for(int col = 0; col < nProt; col++){
-                m2_2(row,col) += (c[row] * c[col]);     
+                m2_2(row,col) += (c[row] * c[col]) / N;     
             }
         }
     }else if (t == 500){
-        mVec3(0) += c[0];
-        mVec3(1) += c[1];
-        mVec3(2) += c[2];
+        mVec3(0) += c[0] / N;
+        mVec3(1) += c[1] / N;
+        mVec3(2) += c[2] / N;
         for(int row = 0; row < nProt; row++){
             for(int col = 0; col < nProt; col++){
-                m2_3(row,col) += (c[row] * c[col]);
+                m2_3(row,col) += (c[row] * c[col]) / N;
             }
         }
     }
@@ -94,17 +94,6 @@ int main(int argc, char **argv)
    }
     integrate_const(controlled_stepper, tripleNonlinearODE, c0, t0, tf, dt, write_file_const);
     
-    for(int row = 0; row < nProt; row++){
-        mVec1(row) /= N;
-        mVec2(row) /= N;
-        mVec3(row) /= N;
-        for(int col = 0; col < nProt; col++){
-            m2_1(row,col)/= N;
-            m2_2(row,col)/= N;
-            m2_3(row,col)/= N;
-        }
-    }
-
     oFileMAV << m2_1 << endl << endl << m2_2 << endl << endl << m2_3;
     close_files();
     cout << "Code Finished Running!" << endl;
