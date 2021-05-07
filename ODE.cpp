@@ -96,6 +96,7 @@ int main(int argc, char **argv)
        integrate_const(controlled_stepper, tripleNonlinearODE, c0, t0, tf, dt, sample_const);
    }
     
+    /* Divide the sums at the end to reduce number of needed division ops */
     for(int row = 0; row  < nProt; row++){
         mVec1(row) /= N;
         mVec2(row) /= N;
@@ -113,9 +114,11 @@ int main(int argc, char **argv)
         mVec2(nProt + i) = m2_2.diagonal()(i);
         mVec3(nProt + i) = m2_3.diagonal()(i);
     }
-    for(int row = 1; row < nProt - 1; row++){
+    for(int row = 0; row < nProt - 1; row++){
         for(int col = row + 1; col < nProt; col++){
-
+            mVec1(2*nProt + (row + col - 1)) = m2_1(row,col);
+            mVec2(2*nProt + (row + col - 1)) = m2_2(row,col);
+            mVec3(2*nProt + (row + col - 1)) = m2_3(row,col);
         }
     }
     oFileMAV << m2_1 << endl << endl << m2_2 << endl << endl << m2_3;
