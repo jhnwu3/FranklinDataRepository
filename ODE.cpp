@@ -84,7 +84,7 @@ int main(int argc, char **argv)
     state_type c0 = {10.0 , 0.0 , 0.0 };
     controlled_stepper_type controlled_stepper;
     for(int i = 0; i < N; i++){
-        cout << xNorm(generator) << endl;
+        oFile << xNorm(generator) << endl;
     }
    
     /* average randomized sample/initial conditions from unif dist, N=10,000 */
