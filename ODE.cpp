@@ -94,7 +94,6 @@ int main(int argc, char **argv)
         }
     }
 
-    cout << "Diagonal:" << endl << m2.diagonal()(1) << endl;
     /* Fill moment vector with diagonals and unique values of the matrix */
     for(int i = 0; i < nProt; i++){
         mVec(nProt + i) = m2.diagonal()(i);
@@ -116,6 +115,9 @@ int main(int argc, char **argv)
     
     oFileMAV << "Full " << nProt << " moment(s) vector(s)" << endl;
     oFileMAV << mVec.transpose() << endl;
+    
+    cout << "Full " << nProt << " moment(s) vector(s)" << endl;
+    cout << mVec.transpose() << endl;
 
     oFileMAV << "Cov Matrix" << endl << cov << endl;
 
