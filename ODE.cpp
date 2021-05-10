@@ -93,7 +93,7 @@ int main(int argc, char **argv)
         }
     }
 
-    cout << "Diagonal:" << endl << m2.diagonal()(0) << endl;
+    cout << "Diagonal:" << endl << m2.diagonal()(1) << endl;
     /* Fill moment vector with diagonals and unique values of the matrix */
     for(int i = 0; i < nProt; i++){
         mVec(nProt + i) = m2.diagonal()(i);
