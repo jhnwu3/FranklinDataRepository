@@ -9,7 +9,7 @@ void tripleNonlinearODE( const state_type &c , state_type &dcdt , double t )
 /* Try something new */
 void tripleLinearODE( const state_type &c , state_type &dcdt , double t )
 {
-    MatrixXd kr1(nProt, nProt); 
+    MatrixXd kr(nProt, nProt); 
     kr << 0, k2, k4,
             k3, 0, k1,
             0, k5, 0;
