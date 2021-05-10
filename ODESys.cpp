@@ -14,11 +14,7 @@ void tripleLinearODE( const state_type &c , state_type &dcdt , double t )
             k3, 0, k1,
             0, k5, 0;
     double kr[nProteins][nProteins] = {{0, k2, k4}, {k3, 0, k1}, {0, k5, 0}};
-    for(int i = 0; i < nProt; i++){
-        for(int j = 0; j < nProt; j++){
-            dcdt[i] +=  kr[i][j] *  c[j] - kr[j][i] * c[i];
-        }
-    }
+    
     dcdt[0] = (kr[0][0] * c[0] - kr[0][0] * c[0]) +
               (kr[0][1] * c[1] - kr[1][0] * c[0]) + 
               (kr[0][2] * c[2] - kr[2][0] * c[0]);
