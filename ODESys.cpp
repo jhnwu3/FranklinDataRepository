@@ -15,4 +15,7 @@ void tripleLinearODE( const state_type &c , state_type &dcdt , double t )
             dcdt[i] +=  kr[i][j] *  c[j] - kr[j][i] * c[i];
         }
     }
+    dcdt[0] = kr[0][0] * c[0] - kr[0][0] * c[0]  + kr[0][1] * c[1] - kr[1][0] * c[0] + kr[0][2] * c[2] - kr[2][0] * c[0];
+    dcdt[1] = kr[1][0] * c[0] - kr[0][1] * c[1] + kr[1][1] * c[1] - kr[1][0] * c[1] + kr[1][2] * c[2] - kr[2][1] * c[1];
+    dcdt[2] = kr[2][0] * c[0] - kr[0][2] * c[2] + kr[2][1] * c[1] - kr[1][2] * c[2] + kr[2][2] * c[2] - kr[2][2] * c[2];
 }
