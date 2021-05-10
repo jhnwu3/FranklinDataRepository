@@ -41,7 +41,7 @@ void close_files(){
 void sample_const( const state_type &c , const double t){
 
     /* We will have some number of time steps */
-    if(t == 0){
+    if(t == 3){
         mVec(0) += c[0]; // store all first moments in the first part of the moment vec
         mVec(1) += c[1];
         mVec(2) += c[2];
