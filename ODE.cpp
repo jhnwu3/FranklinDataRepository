@@ -106,7 +106,6 @@ int main(int argc, char **argv)
     }
 
     /* calculate covariance matrix */
-
     for(int row = 0; row < nProt; row++){
         for(int col = 0; col < nProt; col++){
             cov(row, col) = m2(row,col) - mVec(row)*mVec(col);
