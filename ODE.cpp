@@ -40,7 +40,7 @@ void close_files(){
 void sample_const( const state_type &c , const double t){
 
     /* We will have some number of time steps */
-    if(t == 10){
+    if(t == 0){
         mVec(0) += c[0]; // store all first moments in the first part of the moment vec
         mVec(1) += c[1];
         mVec(2) += c[2];
@@ -106,7 +106,7 @@ int main(int argc, char **argv)
     oFileMAV << "Matrices:" << endl;
     oFileMAV << m2 << endl << endl;
     
-    oFileMAV << "Full " << nProt << "moment(s) vector(s)" << endl;
+    oFileMAV << "Full " << nProt << " moment(s) vector(s)" << endl;
     oFileMAV << mVec.transpose() << endl;
     close_files();
     cout << "Code Finished Running!" << endl;
