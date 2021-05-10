@@ -115,11 +115,12 @@ int main(int argc, char **argv)
     
     oFileMAV << "Full " << nProt << " moment(s) vector(s)" << endl;
     oFileMAV << mVec.transpose() << endl;
-    
+
     cout << "Full " << nProt << " moment(s) vector(s)" << endl;
     cout << mVec.transpose() << endl;
 
     oFileMAV << "Cov Matrix" << endl << cov << endl;
+    cout << "Cov Matrix" << endl << cov << endl;
 
     close_files();
     cout << "Code Finished Running!" << endl;
