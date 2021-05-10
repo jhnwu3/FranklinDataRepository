@@ -123,6 +123,7 @@ int main(int argc, char **argv)
     cout << "Cov Matrix" << endl << cov << endl;
 
     close_files();
+    cout << ke << endl;
     cout << "Code Finished Running!" << endl;
 }
 
