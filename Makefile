@@ -21,8 +21,8 @@ ODESys.o: ODESys.cpp ODE.hpp
 	g++ -c ODESys.cpp
 var.o: var.cpp ODE.hpp
 	g++ -c var.cpp
-sample.o: sample.cpp ODE.hpp
-	g++ -c sample.cpp
+calc.o: calc.cpp ODE.hpp
+	g++ -c calc.cpp
 
 # this target deletes all files produced from the Makefile
 # so that a completely new compile of all items is required
