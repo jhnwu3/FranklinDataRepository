@@ -1,5 +1,4 @@
 #include "ODE.hpp"
-MatrixXd kr;
 
 void tripleNonlinearODE( const state_type &c , state_type &dcdt , double t )
 {
@@ -7,10 +6,17 @@ void tripleNonlinearODE( const state_type &c , state_type &dcdt , double t )
     dcdt[1] =  ka2 *(C2T - c[1]); // dc2/dt = ka2 * (C2T - c2)
     dcdt[2] =  ka3*(C3T - c[2]); // dc3/dt = ka3 * (C3t - c3)
 }
-/*void tripleLinearODE( const state_type &c , state_type &dcdt , double t )
+/* Try something new */
+void tripleLinearODE( const state_type &c , state_type &dcdt , double t )
 {
-   
-    dcdt[0] =  ;
-    dcdt[1] =  ;
-    dcdt[2] =  ;
-}*/
+    MatrixXd kr(nProt, nProt);
+    kr << 0, k2, k4,
+          k3, 0, k1,
+          0, k5, 0;
+
+    for(int i = 0; i < nProt; i++){
+        for(int j = 0; j < nProt; j++){
+            dcdt[i] +=  kr(i,j) *  c[j] - kr(j,i) * c[i];
+        }
+    }
+}

@@ -83,7 +83,7 @@ int main(int argc, char **argv)
        }
         initCon = sample();
         c0 = { exp(initCon(0)), exp(initCon(1)), exp(initCon(2))}; // assign vector for use in ODE solns.
-        integrate_const(controlled_stepper, tripleNonlinearODE, c0, t0, tf, dt, sample_const);
+        integrate_const(controlled_stepper, tripleLinearODE, c0, t0, tf, dt, sample_const);
    }
     
     /* Divide the sums at the end to reduce number of needed division ops */
@@ -123,7 +123,6 @@ int main(int argc, char **argv)
     cout << "Cov Matrix" << endl << cov << endl;
 
     close_files();
-    cout << ke << endl;
     cout << "Code Finished Running!" << endl;
 }
 

@@ -30,7 +30,7 @@ void sample_adapt( const state_type &c , const double t);
 
 /* ODE Systems Functions */
 void tripleNonlinearODE( const state_type &c , state_type &dcdt , double t );
-
+void tripleLinearODE( const state_type &c , state_type &dcdt , double t );
 /* model global diff eq. constants */
 double extern ke, kme, kf, kmf, kd, kmd, ka2, ka3, C1T, C2T, C3T;
 /* Bill's K */
