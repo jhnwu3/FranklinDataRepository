@@ -6,7 +6,7 @@
 #include <Eigen/Dense>
 #include <random>
 #include <cmath>
-
+#define nProteins 3
 /* namespaces for ease of use */
 using namespace std;
 using namespace boost::numeric::odeint;
@@ -45,7 +45,7 @@ double extern mu_x, mu_y, mu_z; // true means for MVN(theta)
 double extern var_x, var_y, var_z; // true variances for MVN(theta);
 double extern rho_xy, rho_xz, rho_yz; // true correlations for MVN
 double extern sigma_x, sigma_y, sigma_z;
-
+double kr[nProteins][nProteins];
 /* Struct for multi-variate normal distribution */
 struct normal_random_variable
 {
@@ -71,3 +71,4 @@ struct normal_random_variable
         return mean + transform * Eigen::VectorXd{ mean.size() }.unaryExpr([&](auto x) { return dist(gen); });
     }
 };
+
