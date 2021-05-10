@@ -15,4 +15,3 @@ double mu_x = 1.47, mu_y = 1.74, mu_z = 1.99; // true means for MVN(theta)
 double var_x = 0.77, var_y = 0.99, var_z = 1.11; // true variances for MVN(theta);
 double rho_xy = 0.10, rho_xz = 0.05, rho_yz = 0.10; // true correlations for MVN
 double sigma_x = sqrt(var_x), sigma_y = sqrt(var_y), sigma_z = sqrt(var_z);
-double kr[nProteins][nProteins] = {{0, k2, k4}, {k3, 0, k1}, {0, k5, 0}}
