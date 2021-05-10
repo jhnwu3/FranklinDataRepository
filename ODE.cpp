@@ -14,7 +14,8 @@ VectorXd mVec = VectorXd::Zero(nProt*(nProt + 3) / 2); // for some t
 /* Second moment matrix. */
 MatrixXd m2 = MatrixXd::Zero(nProt, nProt); // for some t
 
-
+/* Covariance Matrix */
+MatrixXd cov(nProt, nProt);
 /********** File IO **********/
 
 /* open files for writing */
@@ -103,11 +104,22 @@ int main(int argc, char **argv)
             mVec(2*nProt + (row + col - 1)) = m2(row,col);
         }
     }
+
+    /* calculate covariance matrix */
+
+    for(int row = 0; row < nProt; row++){
+        for(int col = 0; col < nProt; col++){
+            cov(row, col) = m2(row,col) - mVec(row)*mVec(col);
+        }
+    }
     oFileMAV << "Matrices:" << endl;
     oFileMAV << m2 << endl << endl;
     
     oFileMAV << "Full " << nProt << " moment(s) vector(s)" << endl;
     oFileMAV << mVec.transpose() << endl;
+
+    oFileMAV << "Cov Matrix" << endl << cov << endl;
+
     close_files();
     cout << "Code Finished Running!" << endl;
 }
