@@ -16,7 +16,7 @@ using Eigen::VectorXd;
 /* typedefs for boost ODE-ints*/
 typedef boost::numeric::ublas::vector< double > vector_type;
 typedef boost::numeric::ublas::matrix< double > matrix_type;
-typedef boost::array< double , 3 > state_type;
+typedef boost::array< double , NPROTEINS > state_type;
 typedef runge_kutta_cash_karp54< state_type > error_stepper_type;
 typedef controlled_runge_kutta< error_stepper_type > controlled_stepper_type;
 
@@ -30,9 +30,9 @@ void sample_const( const state_type &c , const double t);
 void sample_adapt( const state_type &c , const double t);
 
 /* ODE Systems Functions */
-void tripleNonlinearODE( const state_type &c , state_type &dcdt , double t );
-void tripleLinearODE( const state_type &c , state_type &dcdt , double t );
-
+void nonlinearODE3( const state_type &c , state_type &dcdt , double t );
+void linearODE3( const state_type &c , state_type &dcdt , double t );
+void nonlinearODE6( const state_type &c , state_type &dcdt , double t);
 /* Calculation Functions */
 double kCost(const VectorXd& kTrueVec, const VectorXd& kEstVec);
 double kCostMat(const VectorXd& kTrueVec, const VectorXd& kEstVec);

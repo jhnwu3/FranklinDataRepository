@@ -85,7 +85,7 @@ int main(int argc, char **argv)
     /* rate constants vectors */
     VectorXd kTrue(nMoments);
     kTrue << k1, k2, k3, k4, k5, 0, 0, 0, 0;
-    cout << "kTrue:" << kTrue.transpose() << endl;
+    
     VectorXd kEst(nMoments);
     VectorXd kEst1(nMoments);
 
@@ -97,7 +97,7 @@ int main(int argc, char **argv)
     
     /* ODE solver variables! */
     VectorXd initCon(3); // temp vector to be used for initiation conditions
-    state_type c0 = {10.0 , 0.0 , 0.0 };
+    state_type c0;
     controlled_stepper_type controlled_stepper;
 
     /* assign mu vector and sigma matrix values */
@@ -116,9 +116,12 @@ int main(int argc, char **argv)
        if(i % 1000 == 0){
            cout << i << endl; 
        }
-        initCon = sample();
-        c0 = { exp(initCon(0)), exp(initCon(1)), exp(initCon(2))}; // assign vector for use in ODE solns.
-        integrate_const(controlled_stepper, tripleNonlinearODE, c0, t0, tf, dt, sample_const);
+        initCon = sample(); // sample from multilognormal dist
+        for(int a = 0; a < nProt; a++){
+            c0[a] = exp(initCon(a)); // assign vector for use in ODE solns.
+        }
+        //c0 = { exp(initCon(0)), exp(initCon(1)), exp(initCon(2))}; // assign vector for use in ODE solns.
+        integrate_const(controlled_stepper, nonlinearODE3, c0, t0, tf, dt, sample_const);
    }
     
     /* Divide the sums at the end to reduce number of needed division ops */
@@ -146,7 +149,11 @@ int main(int argc, char **argv)
         }
     }
 
+    /***** printf statements ******/
     /* Print statement for the rates */
+    cout << "kTrue:" << endl << kTrue.transpose() << endl;
+    cout << "kEst between 0 and 1s:" << endl << kTrue.transpose() << endl;
+    cout << "kEst1 0.1 * rand(0,1) away:" << endl << kTrue.transpose() << endl;
     cout << "kCost for a set of k estimates between 0 and 1s: " << kCost(kTrue, kEst) << endl;
     cout << "kCost for a set of k estimates 0.1 * rand(0,1) away from true: " << kCost(kTrue, kEst1) << endl << endl;
     /* Print statement for the moments */
