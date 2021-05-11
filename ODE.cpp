@@ -100,16 +100,17 @@ int main(int argc, char **argv)
     controlled_stepper_type controlled_stepper;
 
     /* assign mu vector and sigma matrix values */
-  /*  mu << mu_x, mu_y, mu_z;
+    mu << mu_x, mu_y, mu_z;
     sigma << 0.77, 0.0873098, 0.046225, 
              0.0873098, 0.99, 0.104828, 
-             0.046225, 0.104828, 1.11; */
+             0.046225, 0.104828, 1.11; 
+    /*
      for(int row = 0; row < NPROTEINS; row++){
          mu(row) = 1 + unifDist(generator);
          for(int col = 0; col < NPROTEINS; col++){
              sigma(row,col) = unifDist(generator);
          }
-     }
+     }*/
 
     /* multivariate /normal distribution generator */
     normal_random_variable sample{mu, sigma};
