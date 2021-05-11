@@ -100,17 +100,17 @@ int main(int argc, char **argv)
     for(int row = 0; row  < nProt; row++){
         mVec(row) /= N;  
         for(int col = 0; col < nProt; col++){
-            m2(row,col) /= N;
+            m2(row, col) /= N;
         }
     }
-
+    cout << "Before filling" << endl << mVec.transpose() << endl;
     /* Fill moment vector with diagonals and unique values of the matrix */
     for(int i = 0; i < nProt; i++){
         mVec(nProt + i) = m2.diagonal()(i);
     }
     for(int row = 0; row < nProt - 1; row++){
         for(int col = row + 1; col < nProt; col++){
-            mVec(2*nProt + (row + col - 1)) = m2(row,col);
+            mVec(2*nProt + (row + col - 1)) = m2(row, col);
         }
     }
 
