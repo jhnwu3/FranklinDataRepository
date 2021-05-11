@@ -16,6 +16,7 @@ MatrixXd m2 = MatrixXd::Zero(nProt, nProt); // for some t
 
 /* Covariance Matrix */
 MatrixXd cov(nProt, nProt);
+
 /********** File IO **********/
 
 /* open files for writing */
@@ -56,7 +57,6 @@ void sample_const( const state_type &c , const double t){
 /* Only to be used with integrate/integrate_adaptive - @TODO */
 void sample_adapt( const state_type &c , const double t){}
 
-
 /* Temporary Location for Calculation Functions */
 double kCost (const VectorXd& kTrueVec, const VectorXd& kEstVec){
     double cost = 0;
@@ -68,6 +68,10 @@ double kCost (const VectorXd& kTrueVec, const VectorXd& kEstVec){
 
 int main(int argc, char **argv)
 {   
+    /* Random Number Generator */
+    random_device rand_dev;
+    mt19937 generator(rand_dev());
+    uniform_real_distribution<double> unifDist(0.0, 1.0);
     int nMoments = (nProt * (nProt + 3)) / 2;
     auto t1 = std::chrono::high_resolution_clock::now(); // start time
     /* rate constants vectors */
@@ -76,11 +80,13 @@ int main(int argc, char **argv)
     cout << "kTrue:" << kTrue.transpose() << endl;
     VectorXd kEst(nMoments);
     VectorXd kEst1(nMoments);
-    /* Random Number Generator */
-    random_device rand_dev;
-    mt19937 generator(rand_dev());
-    uniform_real_distribution<double> unifDist(0.0, 1.0);
 
+    /* Fill with temporary random vals */
+    for(int i = 0; i < nMoments; i++){
+        kEst(i) = unifDist(generator); // one random between 0 and 1
+        kEst1(i) = kTrue(i) + 0.1 * unifDist(generator); // another that differs from exact one by 0.1
+    }
+    
     /* ODE solver variables! */
     VectorXd initCon(3); // temp vector to be used for initiation conditions
     state_type c0 = {10.0 , 0.0 , 0.0 };
@@ -132,6 +138,10 @@ int main(int argc, char **argv)
         }
     }
 
+    /* Print statement for the rates */
+    cout << "kCost for a set of k estimates between 0 and 1s:" << kCost(kTrue, kEst) << endl;
+    cout << "kCost for a set of k estimates 0.1 * rand(0,1) away from true:" << kCost(kTrue, kEst1) << endl;
+    /* Print statement for the moments */
     oFileMAV << "2nd moment matrix:" << endl;
     oFileMAV << m2 << endl << endl;
 
