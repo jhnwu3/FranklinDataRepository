@@ -6,6 +6,7 @@
 #include <Eigen/Dense>
 #include <random>
 #include <cmath>
+#include <chrono>
 #define nProteins 3
 /* namespaces for ease of use */
 using namespace std;

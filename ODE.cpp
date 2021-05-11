@@ -59,6 +59,8 @@ void sample_adapt( const state_type &c , const double t){}
 
 int main(int argc, char **argv)
 {   
+    auto t1 = std::chrono::high_resolution_clock::now();
+
     /* Testing Vars */
     VectorXd tesMeanVec (nProt);
     /* Random Number Generator */
@@ -75,17 +77,10 @@ int main(int argc, char **argv)
     sigma << 0.77, 0.0873098, 0.046225, 
              0.0873098, 0.99, 0.104828, 
              0.046225, 0.104828, 1.11;
+
     /* multivariate /normal distribution generator */
     normal_random_variable sample{mu, sigma};
-    cout << "mu:" << endl << mu << endl;
-    cout << "sigma: " << endl << sigma << endl; 
     open_files();
-
-    for(int i = 0; i < N; i++){
-        tesMeanVec += sample() / N;
-    }
-    cout << "test avg vector"  << endl << tesMeanVec.transpose() << endl << endl;
-
     /* average randomized sample/initial conditions from unif dist, N=10,000, CALL ODE SOLVER HERE! */
    for(int i = 0; i < N; i++){
        if(i % 1000 == 0){
@@ -134,10 +129,12 @@ int main(int argc, char **argv)
     cout << mVec.transpose() << endl;
 
     oFileMAV << "Cov Matrix" << endl << cov << endl;
-    cout << "Cov Matrix" << endl << cov << endl;
+    cout << "Cov Matrix:" << endl << cov << endl;
 
     close_files();
-    cout << "Code Finished Running!" << endl;
+    auto t2 = std::chrono::high_resolution_clock::now();
+	auto duration = std::chrono::duration_cast<std::chrono::seconds>(t2 - t1).count();
+    cout << " Code Finished Running in " << duration << "time!"<< endl;
 }
 
 // examples of integrate functions:
