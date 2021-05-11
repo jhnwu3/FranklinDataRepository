@@ -44,7 +44,7 @@ double extern k1, k2, k3, k4, k5;
 /* vars */
 int extern N, nProt;
 /* time conditions */
-double extern t0, tf, dt;
+double extern t0, tf, dt, tn;
 /* Normal Dist Vars */
 double extern mu_x, mu_y, mu_z; // true means for MVN(theta)
 double extern var_x, var_y, var_z; // true variances for MVN(theta);
