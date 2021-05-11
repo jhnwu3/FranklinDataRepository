@@ -62,7 +62,6 @@ double kCost (const VectorXd& kTrueVec, const VectorXd& kEstVec){
     double cost = 0;
     for(int i = 0; i <nProt; i++){
         cost += (kEstVec(i) - kTrueVec(i)) * (kEstVec(i) - kTrueVec(i));
-        cout << "cost:" << cost << endl;
     }
     return cost;
 }
