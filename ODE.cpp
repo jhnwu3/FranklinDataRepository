@@ -13,7 +13,8 @@ VectorXd mVec = VectorXd::Zero(NPROTEINS*(NPROTEINS + 3) / 2); // for some t
 
 /* Second moment matrix. */
 MatrixXd m2 = MatrixXd::Zero(NPROTEINS, NPROTEINS); // for some t
-
+/* Weight/Identity Matrix */
+MatrixXd w = MatrixXd::Identity( (NPROTEINS * (NPROTEINS + 3)) / 2,  (NPROTEINS * (NPROTEINS + 3)) / 2);
 /* Covariance Matrix */
 MatrixXd cov(NPROTEINS, NPROTEINS);
 
@@ -69,7 +70,9 @@ double kCostMat(const VectorXd& kTrueVec, const VectorXd& kEstVec){
     double cost = 0;
     int nMoments = (NPROTEINS * (NPROTEINS + 3)) / 2;
     for(int i = 0; i < nMoments; i++){
-        cost += (kEstVec(i) - kTrueVec(i)) * (kEstVec(i) - kTrueVec(i));
+        for(int j = 0; j < nMoments; j++){
+           cost += (kEstVec(i) - kTrueVec(i)) * w(i,j) *(kEstVec(j) - kTrueVec(j));
+        }
     }
     return cost;
 }
@@ -84,13 +87,13 @@ int main(int argc, char **argv)
     auto t1 = std::chrono::high_resolution_clock::now(); // start time
     /* rate constants vectors */
     VectorXd kTrue(nMoments);
-   // kTrue << k1, k2, k3, k4, k5, 0, 0, 0, 0;
+    kTrue << k1, k2, k3, k4, k5, 0, 0, 0, 0;
     VectorXd kEst(nMoments);
     VectorXd kEst1(nMoments);
     
     /* Fill with temporary random vals */
     for(int i = 0; i < nMoments; i++){
-        kTrue(i) = unifDist(generator); // generate a random Ktrue even tho will be given
+       // kTrue(i) = unifDist(generator); // generate a random Ktrue even tho will be given
         kEst(i) = unifDist(generator); // one random between 0 and 1
         kEst1(i) = kTrue(i) + 0.1 * unifDist(generator); // another that differs from exact one by 0.1
     }
@@ -100,18 +103,18 @@ int main(int argc, char **argv)
     state_type c0;
     controlled_stepper_type controlled_stepper;
 
-    /* assign mu vector and sigma matrix values 
+    /* assign mu vector and sigma matrix values */
     mu << mu_x, mu_y, mu_z;
     sigma << 0.77, 0.0873098, 0.046225, 
              0.0873098, 0.99, 0.104828, 
-             0.046225, 0.104828, 1.11; */
+             0.046225, 0.104828, 1.11; 
     
-     for(int row = 0; row < NPROTEINS; row++){
+     /*for(int row = 0; row < NPROTEINS; row++){
          mu(row) = 1 + unifDist(generator);
          for(int col = 0; col < NPROTEINS; col++){
              sigma(row,col) = exp(unifDist(generator));
          }
-     }
+     }*/
     cout << "mu:" << mu.transpose() << endl << endl << "sigma:" << endl << sigma << endl << endl; 
     /* multivariate /normal distribution generator */
     normal_random_variable sample{mu, sigma};
@@ -163,6 +166,7 @@ int main(int argc, char **argv)
     cout << "kEst1 0.1 * rand(0,1) away:" << endl << kEst1.transpose() << endl;
     cout << "kCost for a set of k estimates between 0 and 1s: " << kCost(kTrue, kEst) << endl;
     cout << "kCost for a set of k estimates 0.1 * rand(0,1) away from true: " << kCost(kTrue, kEst1) << endl << endl;
+    cout << "kCost for a set of k estimates 0.1 * rand(0,1) away from true: " << kCostMat(kTrue, kEst1) << endl << endl;
     /* Print statement for the moments */
     oFileMAV << "2nd moment matrix:" << endl;
     oFileMAV << m2 << endl << endl;
