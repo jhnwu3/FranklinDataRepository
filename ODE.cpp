@@ -76,7 +76,7 @@ int main(int argc, char **argv)
     auto t1 = std::chrono::high_resolution_clock::now(); // start time
     /* rate constants vectors */
     VectorXd kTrue(nMoments);
-    kTrue << k1, k2, k3, k4, k5;
+    kTrue << k1, k2, k3, k4, k5, 0, 0, 0, 0;
     cout << "kTrue:" << kTrue.transpose() << endl;
     VectorXd kEst(nMoments);
     VectorXd kEst1(nMoments);
