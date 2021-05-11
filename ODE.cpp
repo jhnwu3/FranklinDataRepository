@@ -134,7 +134,7 @@ int main(int argc, char **argv)
     close_files();
     auto t2 = std::chrono::high_resolution_clock::now();
 	auto duration = std::chrono::duration_cast<std::chrono::seconds>(t2 - t1).count();
-    cout << " Code Finished Running in " << duration << "time!"<< endl;
+    cout << " Code Finished Running in " << duration << " seconds time!" << endl;
 }
 
 // examples of integrate functions:
