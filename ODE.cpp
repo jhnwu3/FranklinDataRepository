@@ -128,7 +128,7 @@ int main(int argc, char **argv)
             c0[a] = exp(initCon(a)); // assign vector for use in ODE solns.
         }
         //c0 = { exp(initCon(0)), exp(initCon(1)), exp(initCon(2))}; // assign vector for use in ODE solns.
-        integrate_const(controlled_stepper, nonlinearODE6, c0, t0, tf, dt, sample_const);
+        integrate_const(controlled_stepper, nonlinearODE6, c0, t0, tf, dt, write_file_const);
    }
     
     /* Divide the sums at the end to reduce number of needed division ops */
