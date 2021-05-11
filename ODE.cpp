@@ -158,8 +158,8 @@ int main(int argc, char **argv)
     /***** printf statements ******/
     /* Print statement for the rates */
     cout << "kTrue:" << endl << kTrue.transpose() << endl;
-    cout << "kEst between 0 and 1s:" << endl << kTrue.transpose() << endl;
-    cout << "kEst1 0.1 * rand(0,1) away:" << endl << kTrue.transpose() << endl;
+    cout << "kEst between 0 and 1s:" << endl << kEst.transpose() << endl;
+    cout << "kEst1 0.1 * rand(0,1) away:" << endl << kEst1.transpose() << endl;
     cout << "kCost for a set of k estimates between 0 and 1s: " << kCost(kTrue, kEst) << endl;
     cout << "kCost for a set of k estimates 0.1 * rand(0,1) away from true: " << kCost(kTrue, kEst1) << endl << endl;
     /* Print statement for the moments */
