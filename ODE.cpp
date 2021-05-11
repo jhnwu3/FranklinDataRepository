@@ -43,11 +43,9 @@ void sample_const( const state_type &c , const double t){
 
     /* We will have some number of time steps */
     if(t == tn){
-        mVec(0) += c[0]; // store all first moments in the first part of the moment vec
-        mVec(1) += c[1];
-        mVec(2) += c[2];
         /* form second moment symmetric matrix*/
         for(int row = 0; row < NPROTEINS; row++){
+            mVec(row) += c[row]; // store all first moments in the first part of the moment vec
             for(int col = 0; col < NPROTEINS; col++){
                 m2(row,col) += (c[row] * c[col]);    
             }
@@ -60,7 +58,8 @@ void sample_adapt( const state_type &c , const double t){}
 /* Temporary Location for Calculation Functions */
 double kCost (const VectorXd& kTrueVec, const VectorXd& kEstVec){
     double cost = 0;
-    for(int i = 0; i <NPROTEINS; i++){
+    int nMoments = (NPROTEINS * (NPROTEINS + 3)) / 2;
+    for(int i = 0; i < nMoments; i++){
         cost += (kEstVec(i) - kTrueVec(i)) * (kEstVec(i) - kTrueVec(i));
     }
     return cost;
@@ -68,7 +67,8 @@ double kCost (const VectorXd& kTrueVec, const VectorXd& kEstVec){
 
 double kCostMat(const VectorXd& kTrueVec, const VectorXd& kEstVec){
     double cost = 0;
-    for(int i = 0; i <NPROTEINS; i++){
+    int nMoments = (NPROTEINS * (NPROTEINS + 3)) / 2;
+    for(int i = 0; i < nMoments; i++){
         cost += (kEstVec(i) - kTrueVec(i)) * (kEstVec(i) - kTrueVec(i));
     }
     return cost;
