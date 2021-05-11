@@ -62,6 +62,15 @@ double kCost (const VectorXd& kTrueVec, const VectorXd& kEstVec){
     double cost = 0;
     for(int i = 0; i <nProt; i++){
         cost += (kEstVec(i) - kTrueVec(i)) * (kEstVec(i) - kTrueVec(i));
+        cout << "cost:" << cost << endl;
+    }
+    return cost;
+}
+
+double kCostMat(const VectorXd& kTrueVec, const VectorXd& kEstVec){
+    double cost = 0;
+    for(int i = 0; i <nProt; i++){
+        cost += (kEstVec(i) - kTrueVec(i)) * (kEstVec(i) - kTrueVec(i));
     }
     return cost;
 }
@@ -139,8 +148,8 @@ int main(int argc, char **argv)
     }
 
     /* Print statement for the rates */
-    cout << "kCost for a set of k estimates between 0 and 1s:" << kCost(kTrue, kEst) << endl;
-    cout << "kCost for a set of k estimates 0.1 * rand(0,1) away from true:" << kCost(kTrue, kEst1) << endl;
+    cout << "kCost for a set of k estimates between 0 and 1s: " << kCost(kTrue, kEst) << endl;
+    cout << "kCost for a set of k estimates 0.1 * rand(0,1) away from true: " << kCost(kTrue, kEst1) << endl << endl;
     /* Print statement for the moments */
     oFileMAV << "2nd moment matrix:" << endl;
     oFileMAV << m2 << endl << endl;

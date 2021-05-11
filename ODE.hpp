@@ -35,7 +35,7 @@ void tripleLinearODE( const state_type &c , state_type &dcdt , double t );
 
 /* Calculation Functions */
 double kCost(const VectorXd& kTrueVec, const VectorXd& kEstVec);
-
+double kCostMat(const VectorXd& kTrueVec, const VectorXd& kEstVec);
 /* model global diff eq. constants */
 double extern ke, kme, kf, kmf, kd, kmd, ka2, ka3, C1T, C2T, C3T;
 /* Bill's K */
