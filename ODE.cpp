@@ -41,7 +41,7 @@ void close_files(){
 void sample_const( const state_type &c , const double t){
 
     /* We will have some number of time steps */
-    if(t == 3){
+    if(t == 10){
         mVec(0) += c[0]; // store all first moments in the first part of the moment vec
         mVec(1) += c[1];
         mVec(2) += c[2];
@@ -90,7 +90,7 @@ int main(int argc, char **argv)
        }
         initCon = sample();
         c0 = { exp(initCon(0)), exp(initCon(1)), exp(initCon(2))}; // assign vector for use in ODE solns.
-        integrate_const(controlled_stepper, tripleLinearODE, c0, t0, tf, dt, sample_const);
+        integrate_const(controlled_stepper, tripleNonlinearODE, c0, t0, tf, dt, sample_const);
    }
     
     /* Divide the sums at the end to reduce number of needed division ops */
