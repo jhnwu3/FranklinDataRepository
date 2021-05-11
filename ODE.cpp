@@ -85,7 +85,6 @@ int main(int argc, char **argv)
     /* rate constants vectors */
     VectorXd kTrue(nMoments);
    // kTrue << k1, k2, k3, k4, k5, 0, 0, 0, 0;
-
     VectorXd kEst(nMoments);
     VectorXd kEst1(nMoments);
     
@@ -113,7 +112,7 @@ int main(int argc, char **argv)
              sigma(row,col) = unifDist(generator);
          }
      }
-
+    cout << "mu:" << mu.transpose() << endl << endl << "sigma:" << endl << sigma << endl << endl; 
     /* multivariate /normal distribution generator */
     normal_random_variable sample{mu, sigma};
 
