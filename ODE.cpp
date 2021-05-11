@@ -86,7 +86,7 @@ int main(int argc, char **argv)
     for(int i = 0; i < N; i++){
         tesMeanVec += sample() / N;
     }
-    cout << "test avg vector"  << tesMeanVec << endl << endl;
+    cout << "test avg vector"  << endl << tesMeanVec << endl << endl;
 
 
     /* average randomized sample/initial conditions from unif dist, N=10,000, CALL ODE SOLVER HERE! */
@@ -124,10 +124,10 @@ int main(int argc, char **argv)
         }
     }
 
-    oFileMAV << "2nd moment vector:" << endl;
+    oFileMAV << "2nd moment matrix:" << endl;
     oFileMAV << m2 << endl << endl;
 
-    cout << "2nd moment vector:" << endl;
+    cout << "2nd moment matrix:" << endl;
     cout << m2 << endl << endl;
 
     oFileMAV << "Full " << nProt << " moment vector" << endl;
