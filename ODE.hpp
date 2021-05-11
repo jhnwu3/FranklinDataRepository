@@ -7,7 +7,7 @@
 #include <random>
 #include <cmath>
 #include <chrono>
-#define NPROTEINS 6
+#define NPROTEINS 3
 /* namespaces for ease of use */
 using namespace std;
 using namespace boost::numeric::odeint;
