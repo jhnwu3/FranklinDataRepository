@@ -109,7 +109,7 @@ int main(int argc, char **argv)
      for(int row = 0; row < NPROTEINS; row++){
          mu(row) = 1 + unifDist(generator);
          for(int col = 0; col < NPROTEINS; col++){
-             sigma(row,col) = unifDist(generator);
+             sigma(row,col) = exp(unifDist(generator));
          }
      }
     cout << "mu:" << mu.transpose() << endl << endl << "sigma:" << endl << sigma << endl << endl; 
