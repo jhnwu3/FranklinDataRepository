@@ -166,7 +166,8 @@ int main(int argc, char **argv)
     cout << "kEst1 0.1 * rand(0,1) away:" << endl << kEst1.transpose() << endl;
     cout << "kCost for a set of k estimates between 0 and 1s: " << kCost(kTrue, kEst) << endl;
     cout << "kCost for a set of k estimates 0.1 * rand(0,1) away from true: " << kCost(kTrue, kEst1) << endl << endl;
-    cout << "kCost for a set of k estimates 0.1 * rand(0,1) away from true: " << kCostMat(kTrue, kEst1) << endl << endl;
+    cout << "kCostMat for a set of k estimates between 0 and 1s: " << kCostMat(kTrue, kEst) << endl;
+    cout << "kCostMat for a set of k estimates 0.1 * rand(0,1) away from true: " << kCostMat(kTrue, kEst1) << endl << endl;
     /* Print statement for the moments */
     oFileMAV << "2nd moment matrix:" << endl;
     oFileMAV << m2 << endl << endl;
