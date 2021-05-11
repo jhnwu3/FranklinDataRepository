@@ -72,6 +72,7 @@ int main(int argc, char **argv)
     VectorXd initCon(3); // temp vector to be used for initiation conditions
     state_type c0 = {10.0 , 0.0 , 0.0 };
     controlled_stepper_type controlled_stepper;
+
     /* assign mu vector and sigma matrix values */
     mu << mu_x, mu_y, mu_z;
     sigma << 0.77, 0.0873098, 0.046225, 
@@ -81,6 +82,7 @@ int main(int argc, char **argv)
     /* multivariate /normal distribution generator */
     normal_random_variable sample{mu, sigma};
     open_files();
+
     /* average randomized sample/initial conditions from unif dist, N=10,000, CALL ODE SOLVER HERE! */
    for(int i = 0; i < N; i++){
        if(i % 1000 == 0){
@@ -98,7 +100,7 @@ int main(int argc, char **argv)
             m2(row, col) /= N;
         }
     }
-    cout << "Before filling" << endl << mVec.transpose() << endl;
+
     /* Fill moment vector with diagonals and unique values of the matrix */
     for(int i = 0; i < nProt; i++){
         mVec(nProt + i) = m2.diagonal()(i);
