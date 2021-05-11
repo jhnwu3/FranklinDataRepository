@@ -6,7 +6,7 @@ ofstream oFileMAV;
 
 /* Specify Variables here before needing to define them into the var.cpp file, especially for Matrix math */
 /* Variables for RNG */
-VectorXd mu(3);
+VectorXd mu(NPROTEINS);
 MatrixXd sigma  = MatrixXd::Zero(NPROTEINS, NPROTEINS);
 /* moment vector */
 VectorXd mVec = VectorXd::Zero(NPROTEINS*(NPROTEINS + 3) / 2); // for some t
