@@ -59,11 +59,17 @@ void sample_adapt( const state_type &c , const double t){}
 
 int main(int argc, char **argv)
 {   
+    /* Testing Vars */
+    VectorXd tesMeanVec (nProt);
     /* Random Number Generator */
     random_device rand_dev;
     mt19937 generator(rand_dev());
     uniform_real_distribution<double> unifDist(0.0, 1.0);
+
+    /* ODE solver variables! */
     VectorXd initCon(3); // temp vector to be used for initiation conditions
+    state_type c0 = {10.0 , 0.0 , 0.0 };
+    controlled_stepper_type controlled_stepper;
     /* assign mu vector and sigma matrix values */
     mu << mu_x, mu_y, mu_z;
     sigma << 0.77, 0.0873098, 0.046225, 
@@ -71,10 +77,17 @@ int main(int argc, char **argv)
              0.046225, 0.104828, 1.11;
     /* multivariate /normal distribution generator */
     normal_random_variable sample{mu, sigma};
-    
+    cout << "mu:" << endl << mu << endl;
+    cout << "sigma: " << endl << sigma << endl; 
     open_files();
-    state_type c0 = {10.0 , 0.0 , 0.0 };
-    controlled_stepper_type controlled_stepper;
+
+   
+    cout << sample() << endl;
+    for(int i = 0; i < N; i++){
+        tesMeanVec += sample() / N;
+    }
+    cout << "test avg vector"  << tesMeanVec << endl << endl;
+
 
     /* average randomized sample/initial conditions from unif dist, N=10,000, CALL ODE SOLVER HERE! */
    for(int i = 0; i < N; i++){
@@ -110,13 +123,17 @@ int main(int argc, char **argv)
             cov(row, col) = m2(row,col) - mVec(row)*mVec(col);
         }
     }
-    oFileMAV << "Matrices:" << endl;
+
+    oFileMAV << "2nd moment vector:" << endl;
     oFileMAV << m2 << endl << endl;
-    
-    oFileMAV << "Full " << nProt << " moment(s) vector(s)" << endl;
+
+    cout << "2nd moment vector:" << endl;
+    cout << m2 << endl << endl;
+
+    oFileMAV << "Full " << nProt << " moment vector" << endl;
     oFileMAV << mVec.transpose() << endl;
 
-    cout << "Full " << nProt << " moment(s) vector(s)" << endl;
+    cout << "Full " << nProt << " protein moment vector" << endl;
     cout << mVec.transpose() << endl;
 
     oFileMAV << "Cov Matrix" << endl << cov << endl;
