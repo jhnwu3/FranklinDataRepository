@@ -7,7 +7,7 @@
 #include <random>
 #include <cmath>
 #include <chrono>
-#define nProteins 3
+#define NPROTEINS 3
 /* namespaces for ease of use */
 using namespace std;
 using namespace boost::numeric::odeint;
@@ -32,6 +32,10 @@ void sample_adapt( const state_type &c , const double t);
 /* ODE Systems Functions */
 void tripleNonlinearODE( const state_type &c , state_type &dcdt , double t );
 void tripleLinearODE( const state_type &c , state_type &dcdt , double t );
+
+/* Calculation Functions */
+double kCost(const VectorXd& kTrueVec, const VectorXd& kEstVec);
+
 /* model global diff eq. constants */
 double extern ke, kme, kf, kmf, kd, kmd, ka2, ka3, C1T, C2T, C3T;
 /* Bill's K */

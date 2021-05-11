@@ -57,12 +57,25 @@ void sample_const( const state_type &c , const double t){
 void sample_adapt( const state_type &c , const double t){}
 
 
+/* Temporary Location for Calculation Functions */
+double kCost (const VectorXd& kTrueVec, const VectorXd& kEstVec){
+    double cost = 0;
+    for(int i = 0; i <nProt; i++){
+        cost += (kEstVec(i) - kTrueVec(i)) * (kEstVec(i) - kTrueVec(i));
+    }
+    return cost;
+}
+
 int main(int argc, char **argv)
 {   
-    auto t1 = std::chrono::high_resolution_clock::now();
-
-    /* Testing Vars */
-    VectorXd tesMeanVec (nProt);
+    int nMoments = (nProt * (nProt + 3)) / 2;
+    auto t1 = std::chrono::high_resolution_clock::now(); // start time
+    /* rate constants vectors */
+    VectorXd kTrue(nMoments);
+    kTrue << k1, k2, k3, k4, k5;
+    cout << "kTrue:" << kTrue.transpose() << endl;
+    VectorXd kEst(nMoments);
+    VectorXd kEst1(nMoments);
     /* Random Number Generator */
     random_device rand_dev;
     mt19937 generator(rand_dev());
@@ -81,7 +94,8 @@ int main(int argc, char **argv)
 
     /* multivariate /normal distribution generator */
     normal_random_variable sample{mu, sigma};
-    open_files();
+
+    open_files(); // open file for writing
 
     /* average randomized sample/initial conditions from unif dist, N=10,000, CALL ODE SOLVER HERE! */
    for(int i = 0; i < N; i++){
