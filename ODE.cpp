@@ -84,12 +84,14 @@ int main(int argc, char **argv)
     auto t1 = std::chrono::high_resolution_clock::now(); // start time
     /* rate constants vectors */
     VectorXd kTrue(nMoments);
-    kTrue << k1, k2, k3, k4, k5, 0, 0, 0, 0;
+   // kTrue << k1, k2, k3, k4, k5, 0, 0, 0, 0;
+
     VectorXd kEst(nMoments);
     VectorXd kEst1(nMoments);
     
     /* Fill with temporary random vals */
     for(int i = 0; i < nMoments; i++){
+        kTrue(i) = unifDist(generator); // generate a random Ktrue even tho will be given
         kEst(i) = unifDist(generator); // one random between 0 and 1
         kEst1(i) = kTrue(i) + 0.1 * unifDist(generator); // another that differs from exact one by 0.1
     }
@@ -99,18 +101,18 @@ int main(int argc, char **argv)
     state_type c0;
     controlled_stepper_type controlled_stepper;
 
-    /* assign mu vector and sigma matrix values */
+    /* assign mu vector and sigma matrix values 
     mu << mu_x, mu_y, mu_z;
     sigma << 0.77, 0.0873098, 0.046225, 
              0.0873098, 0.99, 0.104828, 
-             0.046225, 0.104828, 1.11; 
-    /*
+             0.046225, 0.104828, 1.11; */
+    
      for(int row = 0; row < NPROTEINS; row++){
          mu(row) = 1 + unifDist(generator);
          for(int col = 0; col < NPROTEINS; col++){
              sigma(row,col) = unifDist(generator);
          }
-     }*/
+     }
 
     /* multivariate /normal distribution generator */
     normal_random_variable sample{mu, sigma};
