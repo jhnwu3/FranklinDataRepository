@@ -8,7 +8,7 @@ double k1 = 0.276782, k2 = 0.8370806, k3 = 0.443217, k4 = 0.04244124, k5 = 0.304
 /* Number of proteins & columns/diff eq solutions for ODEs */
 int N = 1000; 
 /* time conditions, t0 = start time, tf = final time, dt = time step*/
-double t0 = 0.0, tf = 500, dt = 10.0, tn = 0.0;
+double t0 = 0.0, tf = 20, dt = 1.0, tn = 3.0;
 
 /* Given avgs and vars about the distributions of vals being given from PSO Stewart */
 double mu_x = 1.47, mu_y = 1.74, mu_z = 1.99; // true means for MVN(theta)
