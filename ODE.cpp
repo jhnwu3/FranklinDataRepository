@@ -81,13 +81,10 @@ int main(int argc, char **argv)
     cout << "sigma: " << endl << sigma << endl; 
     open_files();
 
-   
-    cout << sample() << endl;
     for(int i = 0; i < N; i++){
         tesMeanVec += sample() / N;
     }
-    cout << "test avg vector"  << endl << tesMeanVec << endl << endl;
-
+    cout << "test avg vector"  << endl << tesMeanVec.transpose() << endl << endl;
 
     /* average randomized sample/initial conditions from unif dist, N=10,000, CALL ODE SOLVER HERE! */
    for(int i = 0; i < N; i++){
