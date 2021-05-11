@@ -165,7 +165,7 @@ int main(int argc, char **argv)
     oFileMAV << "Cov Matrix" << endl << cov << endl;
     cout << "Cov Matrix:" << endl << cov << endl;
 
-    close_files();
+    close_files(); //hey
     auto t2 = std::chrono::high_resolution_clock::now();
 	auto duration = std::chrono::duration_cast<std::chrono::seconds>(t2 - t1).count();
     cout << " Code Finished Running in " << duration << " seconds time!" << endl;
