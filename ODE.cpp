@@ -7,15 +7,15 @@ ofstream oFileMAV;
 /* Specify Variables here before needing to define them into the var.cpp file, especially for Matrix math */
 /* Variables for RNG */
 VectorXd mu(3);
-MatrixXd sigma  = MatrixXd::Zero(nProt, nProt);
+MatrixXd sigma  = MatrixXd::Zero(NPROTEINS, NPROTEINS);
 /* moment vector */
-VectorXd mVec = VectorXd::Zero(nProt*(nProt + 3) / 2); // for some t
+VectorXd mVec = VectorXd::Zero(NPROTEINS*(NPROTEINS + 3) / 2); // for some t
 
 /* Second moment matrix. */
-MatrixXd m2 = MatrixXd::Zero(nProt, nProt); // for some t
+MatrixXd m2 = MatrixXd::Zero(NPROTEINS, NPROTEINS); // for some t
 
 /* Covariance Matrix */
-MatrixXd cov(nProt, nProt);
+MatrixXd cov(NPROTEINS, NPROTEINS);
 
 /********** File IO **********/
 
@@ -47,8 +47,8 @@ void sample_const( const state_type &c , const double t){
         mVec(1) += c[1];
         mVec(2) += c[2];
         /* form second moment symmetric matrix*/
-        for(int row = 0; row < nProt; row++){
-            for(int col = 0; col < nProt; col++){
+        for(int row = 0; row < NPROTEINS; row++){
+            for(int col = 0; col < NPROTEINS; col++){
                 m2(row,col) += (c[row] * c[col]);    
             }
         }
@@ -60,7 +60,7 @@ void sample_adapt( const state_type &c , const double t){}
 /* Temporary Location for Calculation Functions */
 double kCost (const VectorXd& kTrueVec, const VectorXd& kEstVec){
     double cost = 0;
-    for(int i = 0; i <nProt; i++){
+    for(int i = 0; i <NPROTEINS; i++){
         cost += (kEstVec(i) - kTrueVec(i)) * (kEstVec(i) - kTrueVec(i));
     }
     return cost;
@@ -68,7 +68,7 @@ double kCost (const VectorXd& kTrueVec, const VectorXd& kEstVec){
 
 double kCostMat(const VectorXd& kTrueVec, const VectorXd& kEstVec){
     double cost = 0;
-    for(int i = 0; i <nProt; i++){
+    for(int i = 0; i <NPROTEINS; i++){
         cost += (kEstVec(i) - kTrueVec(i)) * (kEstVec(i) - kTrueVec(i));
     }
     return cost;
@@ -80,7 +80,7 @@ int main(int argc, char **argv)
     random_device rand_dev;
     mt19937 generator(rand_dev());
     uniform_real_distribution<double> unifDist(0.0, 1.0);
-    int nMoments = (nProt * (nProt + 3)) / 2;
+    int nMoments = (NPROTEINS * (NPROTEINS + 3)) / 2;
     auto t1 = std::chrono::high_resolution_clock::now(); // start time
     /* rate constants vectors */
     VectorXd kTrue(nMoments);
@@ -96,7 +96,7 @@ int main(int argc, char **argv)
     }
     
     /* ODE solver variables! */
-    VectorXd initCon(3); // temp vector to be used for initiation conditions
+    VectorXd initCon(NPROTEINS); // temp vector to be used for initiation conditions
     state_type c0;
     controlled_stepper_type controlled_stepper;
 
@@ -117,7 +117,7 @@ int main(int argc, char **argv)
            cout << i << endl; 
        }
         initCon = sample(); // sample from multilognormal dist
-        for(int a = 0; a < nProt; a++){
+        for(int a = 0; a < NPROTEINS; a++){
             c0[a] = exp(initCon(a)); // assign vector for use in ODE solns.
         }
         //c0 = { exp(initCon(0)), exp(initCon(1)), exp(initCon(2))}; // assign vector for use in ODE solns.
@@ -125,26 +125,26 @@ int main(int argc, char **argv)
    }
     
     /* Divide the sums at the end to reduce number of needed division ops */
-    for(int row = 0; row  < nProt; row++){
+    for(int row = 0; row  < NPROTEINS; row++){
         mVec(row) /= N;  
-        for(int col = 0; col < nProt; col++){
+        for(int col = 0; col < NPROTEINS; col++){
             m2(row, col) /= N;
         }
     }
 
     /* Fill moment vector with diagonals and unique values of the matrix */
-    for(int i = 0; i < nProt; i++){
-        mVec(nProt + i) = m2.diagonal()(i);
+    for(int i = 0; i < NPROTEINS; i++){
+        mVec(NPROTEINS + i) = m2.diagonal()(i);
     }
-    for(int row = 0; row < nProt - 1; row++){
-        for(int col = row + 1; col < nProt; col++){
-            mVec(2*nProt + (row + col - 1)) = m2(row, col);
+    for(int row = 0; row < NPROTEINS - 1; row++){
+        for(int col = row + 1; col < NPROTEINS; col++){
+            mVec(2*NPROTEINS + (row + col - 1)) = m2(row, col);
         }
     }
 
     /* calculate covariance matrix */
-    for(int row = 0; row < nProt; row++){
-        for(int col = 0; col < nProt; col++){
+    for(int row = 0; row < NPROTEINS; row++){
+        for(int col = 0; col < NPROTEINS; col++){
             cov(row, col) = m2(row,col) - mVec(row)*mVec(col);
         }
     }
@@ -163,10 +163,10 @@ int main(int argc, char **argv)
     cout << "2nd moment matrix:" << endl;
     cout << m2 << endl << endl;
 
-    oFileMAV << "Full " << nProt << " moment vector" << endl;
+    oFileMAV << "Full " << NPROTEINS << " moment vector" << endl;
     oFileMAV << mVec.transpose() << endl;
 
-    cout << "Full " << nProt << " protein moment vector" << endl;
+    cout << "Full " << NPROTEINS << " protein moment vector" << endl;
     cout << mVec.transpose() << endl;
 
     oFileMAV << "Cov Matrix" << endl << cov << endl;
