@@ -29,13 +29,7 @@ void linearODE3( const state_type &c , state_type &dcdt , double t )
 }
 void linearODEn_1( const state_type &c , state_type &dcdt , double t )
 {
-    MatrixXd kr(N_SPECIES, N_SPECIES); 
-    kr << 0, k2, k4,
-            k3, 0, k1,
-            0, k5, 0;
-   
-   // double kr[nProteins][nProteins] = {{0, k2, k4}, {k3, 0, k1}, {0, k5, 0}};
-
+    
     for(int i = 0; i < N_SPECIES; i++){
         dcdt[i] = c[i];
     }
