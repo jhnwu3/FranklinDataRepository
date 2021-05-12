@@ -9,7 +9,7 @@ void nonlinearODE3( const state_type &c , state_type &dcdt , double t )
 /* Try something new */
 void linearODE3( const state_type &c , state_type &dcdt , double t )
 {
-    MatrixXd kr(NPROTEINS, NPROTEINS); 
+    MatrixXd kr(N_PROTEINS, N_PROTEINS); 
     kr << 0, k2, k4,
             k3, 0, k1,
             0, k5, 0;

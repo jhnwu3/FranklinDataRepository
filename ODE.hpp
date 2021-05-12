@@ -7,19 +7,22 @@
 #include <random>
 #include <cmath>
 #include <chrono>
-#define NPROTEINS 6
+#define N_PROTEINS 6 // 
+
+
 /* namespaces for ease of use */
 using namespace std;
+using namespace Eigen;
 using namespace boost::numeric::odeint;
-using Eigen::MatrixXd;
-using Eigen::VectorXd;
+
 /* typedefs for boost ODE-ints*/
 typedef boost::numeric::ublas::vector< double > vector_type;
 typedef boost::numeric::ublas::matrix< double > matrix_type;
-typedef boost::array< double , NPROTEINS > state_type;
+typedef boost::array< double , N_PROTEINS > state_type;
 typedef runge_kutta_cash_karp54< state_type > error_stepper_type;
 typedef controlled_runge_kutta< error_stepper_type > controlled_stepper_type;
 
+/* FILE IO */
 void open_files();
 void close_files();
 void write_file( const state_type &c , const double t );
@@ -34,16 +37,17 @@ void nonlinearODE3( const state_type &c , state_type &dcdt , double t );
 void linearODE3( const state_type &c , state_type &dcdt , double t );
 void nonlinearODE6( const state_type &c , state_type &dcdt , double t);
 /* Calculation Functions */
-double kCost(const VectorXd& kTrueVec, const VectorXd& kEstVec);
-double kCostMat(const VectorXd& kTrueVec, const VectorXd& kEstVec);
+double kCost(const Ref<const VectorXd >& kTrueVec, const Ref<const VectorXd>& kEstVec, int n);
+double kCostMat(const Ref<const VectorXd >& kTrueVec, const Ref<const VectorXd>& kEstVec, const Ref<const MatrixXd>& w, int n);
+
+/* Note: We have global variables in this case for ease of access by ODEINT solvers:*/
 /* model global diff eq. constants */
 double extern ke, kme, kf, kmf, kd, kmd, ka2, ka3, C1T, C2T, C3T;
 /* Bill's K */
 double extern k1, k2, k3, k4, k5;
-
 /* vars */
-int extern N, nProt;
-/* time conditions */
+int extern N;
+/* global time conditions */
 double extern t0, tf, dt, tn;
 /* Normal Dist Vars */
 double extern mu_x, mu_y, mu_z; // true means for MVN(theta)
