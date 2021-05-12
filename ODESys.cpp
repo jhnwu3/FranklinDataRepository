@@ -28,10 +28,10 @@ void linearODE3( const state_type &c , state_type &dcdt , double t )
               (kr(2,2) * c[2] - kr(2,2) * c[2]);
 }
 void linearODEn_1( const state_type &c , state_type &dcdt , double t )
-{
-    dcdt[0] = log10(c[0]);
+{ 
+    dcdt[0] = 1 / (c[0]);
     for(int i = 1; i < N_SPECIES; i++){
-        dcdt[i] = log10(c[i] - c[i - 1]);
+        dcdt[i] = 1 / (c[i] - c[i - 1]);
     }
 }
 /* Test for 6 systems */
