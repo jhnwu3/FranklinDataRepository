@@ -35,7 +35,9 @@ void sample_adapt( const state_type &c , const double t);
 /* ODE Systems Functions */
 void nonlinearODE3( const state_type &c , state_type &dcdt , double t );
 void linearODE3( const state_type &c , state_type &dcdt , double t );
+void linearODEn_1( const state_type &c , state_type &dcdt , double t );
 void nonlinearODE6( const state_type &c , state_type &dcdt , double t);
+
 /* Calculation Functions */
 double kCost(const VectorXd& kTrueVec, const VectorXd& kEstVec, int n);
 double kCostMat(const VectorXd& kTrueVec, const VectorXd& kEstVec, const MatrixXd& w, int n);
