@@ -7,7 +7,7 @@
 #include <random>
 #include <cmath>
 #include <chrono>
-#define N_PROTEINS 6 // 
+#define N_PROTEINS 3 // 
 
 
 /* namespaces for ease of use */
