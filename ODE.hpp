@@ -37,8 +37,8 @@ void nonlinearODE3( const state_type &c , state_type &dcdt , double t );
 void linearODE3( const state_type &c , state_type &dcdt , double t );
 void nonlinearODE6( const state_type &c , state_type &dcdt , double t);
 /* Calculation Functions */
-double kCost(const Ref<const VectorXd >& kTrueVec, const Ref<const VectorXd>& kEstVec, int n);
-double kCostMat(const Ref<const VectorXd >& kTrueVec, const Ref<const VectorXd>& kEstVec, const Ref<const MatrixXd>& w, int n);
+double kCost(const VectorXd& kTrueVec, const VectorXd& kEstVec, int n);
+double kCostMat(const VectorXd& kTrueVec, const VectorXd& kEstVec, const MatrixXd& w, int n);
 
 /* Note: We have global variables in this case for ease of access by ODEINT solvers:*/
 /* model global diff eq. constants */

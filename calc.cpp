@@ -9,7 +9,7 @@ double kCost (const VectorXd& kTrueVec, const VectorXd& kEstVec, int n){
     return cost;
 }
 
-double kCostMat(const Ref<const VectorXd >& kTrueVec, const Ref<const VectorXd>& kEstVec, const Ref<const MatrixXd>& w, int n){
+double kCostMat(const VectorXd& kTrueVec, const  VectorXd& kEstVec, const MatrixXd& w, int n){
     double cost = 0;
     for(int i = 0; i < n; i++){
         for(int j = 0; j < n; j++){
