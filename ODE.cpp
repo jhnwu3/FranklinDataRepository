@@ -7,11 +7,11 @@ ofstream oFileMAV;
 
 /* Global Vectors/Matrices to be accessible by ODEINT solvers */
 /* moment vector */
-VectorXd mVec = VectorXd::Zero(N_PROTEINS*(N_PROTEINS + 3) / 2); // for some t
+VectorXd mVec = VectorXd::Zero(N_SPECIES*(N_SPECIES + 3) / 2); // for some t
 /* Second moment matrix. */
-MatrixXd m2Mat = MatrixXd::Zero(N_PROTEINS, N_PROTEINS); // secomd moment vector
+MatrixXd m2Mat = MatrixXd::Zero(N_SPECIES, N_SPECIES); // secomd moment vector
 /* Weight/Identity Matrix */
-MatrixXd w = MatrixXd::Identity( (N_PROTEINS * (N_PROTEINS + 3)) / 2,  (N_PROTEINS * (N_PROTEINS + 3)) / 2);
+MatrixXd w = MatrixXd::Identity( (N_SPECIES * (N_SPECIES + 3)) / 2,  (N_SPECIES * (N_SPECIES + 3)) / 2);
 
 
 
@@ -22,9 +22,9 @@ void sample_const( const state_type &c , const double t){
 
     /* We will have some time we are sampling for */
     if(t == tn){
-        for(int row = 0; row < N_PROTEINS; row++){
+        for(int row = 0; row < N_SPECIES; row++){
             mVec(row) += c[row]; // store all first moments in the first part of the moment vec
-            for(int col = 0; col < N_PROTEINS; col++){
+            for(int col = 0; col < N_SPECIES; col++){
                 m2Mat(row,col) += (c[row] * c[col]);   // store in 
             }
         }
@@ -36,17 +36,17 @@ void sample_adapt( const state_type &c , const double t){}
 int main(int argc, char **argv)
 {   
     auto t1 = std::chrono::high_resolution_clock::now(); // start time
-    int nMom = (N_PROTEINS * (N_PROTEINS + 3)) / 2; // number of moments
+    int nMom = (N_SPECIES * (N_SPECIES + 3)) / 2; // number of moments
 
     /* Random Number Generator */
     random_device rand_dev;
     mt19937 generator(rand_dev());
     uniform_real_distribution<double> unifDist(0.0, 1.0);
     /* Variables used for multivariate log normal distribution */
-    VectorXd mu(N_PROTEINS);
-    MatrixXd sigma  = MatrixXd::Zero(N_PROTEINS, N_PROTEINS);
+    VectorXd mu(N_SPECIES);
+    MatrixXd sigma  = MatrixXd::Zero(N_SPECIES, N_SPECIES);
     /* Covariance Matrix to be Calculated from Moments! */
-    MatrixXd cov(N_PROTEINS, N_PROTEINS);
+    MatrixXd cov(N_SPECIES, N_SPECIES);
     /* weight matrix */
     MatrixXd w = MatrixXd::Identity(nMom, nMom);
     /* rate constants vectors */
@@ -69,19 +69,19 @@ int main(int argc, char **argv)
     }
     
     /* ODE solver variables! */
-    VectorXd initCon(N_PROTEINS); // temp vector to be used for initiation conditions
+    VectorXd initCon(N_SPECIES); // temp vector to be used for initiation conditions
     state_type c0;
     controlled_stepper_type controlled_stepper;
 
     /* assign mu vector and sigma matrix values */
-    mu << mu_x, mu_y, mu_z;
+    /*mu << mu_x, mu_y, mu_z;
     sigma << 0.77, 0.0873098, 0.046225, 
              0.0873098, 0.99, 0.104828, 
-             0.046225, 0.104828, 1.11; 
+             0.046225, 0.104828, 1.11; */
     
-    /*for(int row = 0; row < N_PROTEINS; row++){
+    /*for(int row = 0; row < N_SPECIES; row++){
          mu(row) = 1 + unifDist(generator);
-         for(int col = 0; col < N_PROTEINS; col++){
+         for(int col = 0; col < N_SPECIES; col++){
              sigma(row,col) = exp(unifDist(generator));
          }
     }*/
@@ -96,30 +96,30 @@ int main(int argc, char **argv)
        if(i % 1000 == 0){ cout << i << endl;  }
 
         initCon = sample(); // sample from multilognormal dist
-        for(int a = 0; a < N_PROTEINS; a++){
+        for(int a = 0; a < N_SPECIES; a++){
             c0[a] = exp(initCon(a)); // assign vector for use in ODE solns.
         }
-        integrate_const(controlled_stepper, linearODE3, c0, t0, tf, dt, sample_const);
+        integrate_const(controlled_stepper, linearODEn_1, c0, t0, tf, dt, sample_const);
    }
     
     /* Divide the sums at the end to reduce number of needed division ops */
-    for(int row = 0; row  < N_PROTEINS; row++){
+    for(int row = 0; row  < N_SPECIES; row++){
         mVec(row) /= N;  
-        for(int col = 0; col < N_PROTEINS; col++){
+        for(int col = 0; col < N_SPECIES; col++){
             m2Mat(row, col) /= N;
         }
     }
 
     /* Fill moment vector with diagonals and unique values of the matrix */
-    for(int i = 0; i < N_PROTEINS; i++){
-        mVec(N_PROTEINS + i) = m2Mat.diagonal()(i);
+    for(int i = 0; i < N_SPECIES; i++){
+        mVec(N_SPECIES + i) = m2Mat.diagonal()(i);
     }
-    for(int row = 0; row < N_PROTEINS - 1; row++){
-        for(int col = row + 1; col < N_PROTEINS; col++){
-            mVec(2*N_PROTEINS + (row + col - 1)) = m2Mat(row, col);
+    for(int row = 0; row < N_SPECIES - 1; row++){
+        for(int col = row + 1; col < N_SPECIES; col++){
+            mVec(2*N_SPECIES + (row + col - 1)) = m2Mat(row, col);
         }
     }
-    cov = calculate_covariance_matrix(m2Mat, mVec, N_PROTEINS);
+    cov = calculate_covariance_matrix(m2Mat, mVec, N_SPECIES);
 
     /***** printf statements ******/
     /* Print statement for the rates */
@@ -127,18 +127,18 @@ int main(int argc, char **argv)
     cout << "kEst between 0 and 1s:" << endl << kEst.transpose() << endl;
     cout << "kEst1 0.1 * rand(0,1) away:" << endl << kEst1.transpose() << endl;
     cout << "kCost for a set of k estimates between 0 and 1s: " << kCost(kTrue, kEst, nMom) << endl;
-    cout << "kCost for a set of k estimates 0.1 * rand(0,1) away from true: " << kCost(kTrue, kEst1, N_PROTEINS) << endl << endl;
-    cout << "kCostMat for a set of k estimates between 0 and 1s: " << kCostMat(kTrue, kEst, w, N_PROTEINS) << endl;
-    cout << "kCostMat for a set of k estimates 0.1 * rand(0,1) away from true: " << kCostMat(kTrue, kEst1, w, N_PROTEINS) << endl << endl;
+    cout << "kCost for a set of k estimates 0.1 * rand(0,1) away from true: " << kCost(kTrue, kEst1, N_SPECIES) << endl << endl;
+    cout << "kCostMat for a set of k estimates between 0 and 1s: " << kCostMat(kTrue, kEst, w, N_SPECIES) << endl;
+    cout << "kCostMat for a set of k estimates 0.1 * rand(0,1) away from true: " << kCostMat(kTrue, kEst1, w, N_SPECIES) << endl << endl;
     /* Print statement for the moments */
     oFileMAV << "2nd moment matrix:" << endl;
     oFileMAV << m2Mat << endl << endl;
     cout << "2nd moment matrix:" << endl;
     cout << m2Mat << endl << endl;
 
-    oFileMAV << "Full " << N_PROTEINS << "protein moment vector" << endl;
+    oFileMAV << "Full " << N_SPECIES << "protein moment vector" << endl;
     oFileMAV << mVec.transpose() << endl;
-    cout << "Full " << N_PROTEINS << " protein moment vector" << endl;
+    cout << "Full " << N_SPECIES << " protein moment vector" << endl;
     cout << mVec.transpose() << endl;
 
     oFileMAV << "Cov Matrix" << endl << cov << endl;

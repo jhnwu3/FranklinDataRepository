@@ -7,7 +7,7 @@
 #include <random>
 #include <cmath>
 #include <chrono>
-#define N_PROTEINS 3 // 
+#define N_SPECIES 3 // 
 
 
 /* namespaces for ease of use */
@@ -18,7 +18,7 @@ using namespace boost::numeric::odeint;
 /* typedefs for boost ODE-ints*/
 typedef boost::numeric::ublas::vector< double > vector_type;
 typedef boost::numeric::ublas::matrix< double > matrix_type;
-typedef boost::array< double , N_PROTEINS > state_type;
+typedef boost::array< double , N_SPECIES > state_type;
 typedef runge_kutta_cash_karp54< state_type > error_stepper_type;
 typedef controlled_runge_kutta< error_stepper_type > controlled_stepper_type;
 

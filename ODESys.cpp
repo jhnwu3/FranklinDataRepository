@@ -9,7 +9,7 @@ void nonlinearODE3( const state_type &c , state_type &dcdt , double t )
 /* Try something new */
 void linearODE3( const state_type &c , state_type &dcdt , double t )
 {
-    MatrixXd kr(N_PROTEINS, N_PROTEINS); 
+    MatrixXd kr(N_SPECIES, N_SPECIES); 
     kr << 0, k2, k4,
             k3, 0, k1,
             0, k5, 0;
@@ -27,7 +27,25 @@ void linearODE3( const state_type &c , state_type &dcdt , double t )
               (kr(2,1) * c[1] - kr(1,2) * c[2]) + 
               (kr(2,2) * c[2] - kr(2,2) * c[2]);
 }
+void linearODEn_1( const state_type &c , state_type &dcdt , double t )
+{
+    MatrixXd kr(N_SPECIES, N_SPECIES); 
+    kr << 0, k2, k4,
+            k3, 0, k1,
+            0, k5, 0;
+    for(int row = 0; row < N_SPECIES; row++){
+        for(int col = 0; col < N_SPECIES; col++){
+            
+        }
+    }
+   // double kr[nProteins][nProteins] = {{0, k2, k4}, {k3, 0, k1}, {0, k5, 0}};
 
+    for(int i = 0; i < N_SPECIES; i++){
+        for( int j = 0; j < N_SPECIES; j++){
+            dcdt[i] += (kr(i,j) * c[j] - kr(j,i) * c[i]);
+        }
+    }
+}
 /* Test for 6 systems */
 void nonlinearODE6( const state_type &c , state_type &dcdt , double t){
     dcdt[0] =  ((ke*(C1T - c[0])) / (kme + (C1T - c[0]))) + 
