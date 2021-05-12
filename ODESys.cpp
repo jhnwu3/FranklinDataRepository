@@ -33,17 +33,11 @@ void linearODEn_1( const state_type &c , state_type &dcdt , double t )
     kr << 0, k2, k4,
             k3, 0, k1,
             0, k5, 0;
-    for(int row = 0; row < N_SPECIES; row++){
-        for(int col = 0; col < N_SPECIES; col++){
-            
-        }
-    }
+   
    // double kr[nProteins][nProteins] = {{0, k2, k4}, {k3, 0, k1}, {0, k5, 0}};
 
     for(int i = 0; i < N_SPECIES; i++){
-        for( int j = 0; j < N_SPECIES; j++){
-            dcdt[i] += (kr(i,j) * c[j] - kr(j,i) * c[i]);
-        }
+        dcdt[i] = c[i];
     }
 }
 /* Test for 6 systems */
