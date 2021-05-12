@@ -50,6 +50,26 @@ void sample_const( const state_type &c , const double t){
 /* Only to be used with integrate/integrate_adaptive - @TODO */
 void sample_adapt( const state_type &c , const double t){}
 
+
+/* Calculation Functions */
+double kCost (const VectorXd& kTrueVec, const VectorXd& kEstVec, int n){
+    double cost = 0;
+    for(int i = 0; i < n; i++){
+        cost += (kEstVec(i) - kTrueVec(i)) * (kEstVec(i) - kTrueVec(i));
+    }
+    return cost;
+}
+
+double kCostMat(const VectorXd& kTrueVec, const  VectorXd& kEstVec, const MatrixXd& w, int n){
+    double cost = 0;
+    for(int i = 0; i < n; i++){
+        for(int j = 0; j < n; j++){
+           cost += (kEstVec(i) - kTrueVec(i)) * w(i,j) *(kEstVec(j) - kTrueVec(j));
+        }
+    }
+    return cost;
+}
+
 int main(int argc, char **argv)
 {   
     auto t1 = std::chrono::high_resolution_clock::now(); // start time
