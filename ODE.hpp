@@ -7,7 +7,7 @@
 #include <random>
 #include <cmath>
 #include <chrono>
-#define N_SPECIES 3 // 
+#define N_SPECIES 6 // 
 
 
 /* namespaces for ease of use */
