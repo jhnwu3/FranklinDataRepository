@@ -9,7 +9,7 @@ ofstream oFileMAV;
 /* moment vector */
 VectorXd mVec = VectorXd::Zero(N_PROTEINS*(N_PROTEINS + 3) / 2); // for some t
 /* Second moment matrix. */
-MatrixXd mVec2 = MatrixXd::Zero(N_PROTEINS, N_PROTEINS); // secomd moment vector
+MatrixXd m2Mat = MatrixXd::Zero(N_PROTEINS, N_PROTEINS); // secomd moment vector
 /* Weight/Identity Matrix */
 MatrixXd w = MatrixXd::Identity( (N_PROTEINS * (N_PROTEINS + 3)) / 2,  (N_PROTEINS * (N_PROTEINS + 3)) / 2);
 
@@ -36,13 +36,12 @@ void close_files(){
 /* Only to be used with integrate_const(), solves the ODE's defined in ODESys.cpp*/
 void sample_const( const state_type &c , const double t){
 
-    /* We will have some number of time steps */
+    /* We will have some time we are sampling for */
     if(t == tn){
-        /* form second moment symmetric matrix*/
         for(int row = 0; row < N_PROTEINS; row++){
             mVec(row) += c[row]; // store all first moments in the first part of the moment vec
             for(int col = 0; col < N_PROTEINS; col++){
-                mVec2(row,col) += (c[row] * c[col]);    
+                m2Mat(row,col) += (c[row] * c[col]);   // store in 
             }
         }
     }
@@ -123,27 +122,20 @@ int main(int argc, char **argv)
     for(int row = 0; row  < N_PROTEINS; row++){
         mVec(row) /= N;  
         for(int col = 0; col < N_PROTEINS; col++){
-            mVec2(row, col) /= N;
+            m2Mat(row, col) /= N;
         }
     }
 
     /* Fill moment vector with diagonals and unique values of the matrix */
     for(int i = 0; i < N_PROTEINS; i++){
-        mVec(N_PROTEINS + i) = mVec2.diagonal()(i);
+        mVec(N_PROTEINS + i) = m2Mat.diagonal()(i);
     }
     for(int row = 0; row < N_PROTEINS - 1; row++){
         for(int col = row + 1; col < N_PROTEINS; col++){
-            mVec(2*N_PROTEINS + (row + col - 1)) = mVec2(row, col);
+            mVec(2*N_PROTEINS + (row + col - 1)) = m2Mat(row, col);
         }
     }
-
-    /* calculate covariance matrix */
-    for(int row = 0; row < N_PROTEINS; row++){
-        for(int col = 0; col < N_PROTEINS; col++){
-            cov(row, col) = mVec2(row,col) - mVec(row)*mVec(col);
-        }
-    }
-
+    cov = calculate_covariance_matrix(m2Mat, mVec, N_PROTEINS);
     /***** printf statements ******/
     /* Print statement for the rates */
     cout << "kTrue:" << endl << kTrue.transpose() << endl;
@@ -154,15 +146,14 @@ int main(int argc, char **argv)
     cout << "kCostMat for a set of k estimates between 0 and 1s: " << kCostMat(kTrue, kEst, w, N_PROTEINS) << endl;
     cout << "kCostMat for a set of k estimates 0.1 * rand(0,1) away from true: " << kCostMat(kTrue, kEst1, w, N_PROTEINS) << endl << endl;
     /* Print statement for the moments */
-    oFileMAV << "2nd moment matrix:" << endl;
-    oFileMAV << mVec2 << endl << endl;
 
+    oFileMAV << "2nd moment matrix:" << endl;
+    oFileMAV << m2Mat << endl << endl;
     cout << "2nd moment matrix:" << endl;
-    cout << mVec2 << endl << endl;
+    cout << m2Mat << endl << endl;
 
     oFileMAV << "Full " << N_PROTEINS << "protein moment vector" << endl;
     oFileMAV << mVec.transpose() << endl;
-
     cout << "Full " << N_PROTEINS << " protein moment vector" << endl;
     cout << mVec.transpose() << endl;
 
