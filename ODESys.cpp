@@ -29,7 +29,6 @@ void linearODE3( const state_type &c , state_type &dcdt , double t )
 }
 void linearODEn_1( const state_type &c , state_type &dcdt , double t )
 {
-    
     for(int i = 0; i < N_SPECIES; i++){
         dcdt[i] = c[i];
     }
