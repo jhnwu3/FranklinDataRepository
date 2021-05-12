@@ -14,23 +14,7 @@ MatrixXd m2Mat = MatrixXd::Zero(N_PROTEINS, N_PROTEINS); // secomd moment vector
 MatrixXd w = MatrixXd::Identity( (N_PROTEINS * (N_PROTEINS + 3)) / 2,  (N_PROTEINS * (N_PROTEINS + 3)) / 2);
 
 
-/********** File IO **********/
 
-/* open files for writing */
-void open_files(){
-    oFile.open("ODE_Soln.csv");
-    oFile1.open("ODE_Const_Soln.csv"); 
-    oFileMAV.open("mAv.csv");
-}
-/* write data to specific csv functions */
-void write_file( const state_type &c , const double t ){ oFile << t << ',' << c[0] << ',' << c[1] << ',' << c[2] << endl; }
-void write_file_const( const state_type &c , const double t ){ oFile1 << t << ',' << c[0] << ',' << c[1] << ',' << c[2] << endl; }
-/* close files */
-void close_files(){
-    oFile.close();
-    oFile1.close();
-    oFileMAV.close();
-}
 
 /**** ODE-INT OBSERVER FUNCTIONS ****/
 /* Only to be used with integrate_const(), solves the ODE's defined in ODESys.cpp*/
@@ -136,6 +120,7 @@ int main(int argc, char **argv)
         }
     }
     cov = calculate_covariance_matrix(m2Mat, mVec, N_PROTEINS);
+
     /***** printf statements ******/
     /* Print statement for the rates */
     cout << "kTrue:" << endl << kTrue.transpose() << endl;
@@ -146,7 +131,6 @@ int main(int argc, char **argv)
     cout << "kCostMat for a set of k estimates between 0 and 1s: " << kCostMat(kTrue, kEst, w, N_PROTEINS) << endl;
     cout << "kCostMat for a set of k estimates 0.1 * rand(0,1) away from true: " << kCostMat(kTrue, kEst1, w, N_PROTEINS) << endl << endl;
     /* Print statement for the moments */
-
     oFileMAV << "2nd moment matrix:" << endl;
     oFileMAV << m2Mat << endl << endl;
     cout << "2nd moment matrix:" << endl;
@@ -172,3 +156,21 @@ int main(int argc, char **argv)
 // examples of integrate functions:
 // integrate(tripleNonlinearODE, c0, 0.0, 500.0, 10.0, write_file);
 // integrate_adaptive(controlled_stepper, tripleNonlinearODE, c0, 0.0, 500.0, 10.0, write_file);
+
+/********** File IO **********/
+
+/* open files for writing */
+void open_files(){
+    oFile.open("ODE_Soln.csv");
+    oFile1.open("ODE_Const_Soln.csv"); 
+    oFileMAV.open("mAv.csv");
+}
+/* write data to specific csv functions */
+void write_file( const state_type &c , const double t ){ oFile << t << ',' << c[0] << ',' << c[1] << ',' << c[2] << endl; }
+void write_file_const( const state_type &c , const double t ){ oFile1 << t << ',' << c[0] << ',' << c[1] << ',' << c[2] << endl; }
+/* close files */
+void close_files(){
+    oFile.close();
+    oFile1.close();
+    oFileMAV.close();
+}
