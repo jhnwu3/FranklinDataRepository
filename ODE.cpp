@@ -23,6 +23,7 @@ void sample_const( const state_type &c , const double t){
     /* We will have some time we are sampling for */
     if(t == tn){
         for(int row = 0; row < N_SPECIES; row++){
+            cout << c[row] << endl;
             mVec(row) += c[row]; // store all first moments in the first part of the moment vec
             for(int col = 0; col < N_SPECIES; col++){
                 m2Mat(row,col) += (c[row] * c[col]);   // store in 
