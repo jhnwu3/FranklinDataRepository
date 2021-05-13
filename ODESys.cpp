@@ -51,7 +51,7 @@ void linearODEn_1( const state_type &c , state_type &dcdt , double t )
 
     for(int i = 0; i < N_SPECIES - 1; i++){
         for(int j = i + 1; j < N_SPECIES; j++){
-            kr(i,j) = unifDist(generator);
+            kr(i,j) = 0.1 * unifDist(generator);
             kr(j,i) = kr(i,j);
         }
     }
