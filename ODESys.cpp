@@ -29,12 +29,16 @@ void linearODE3( const state_type &c , state_type &dcdt , double t )
 }
 void linearODEn_1( const state_type &c , state_type &dcdt , double t )
 { 
+    MatrixXd kr(N_SPECIES, N_SPECIES); 
+    kr << 0, k2, k4,
+            k3, 0, k1,
+            0, k5, 0;
     dcdt[0] = 0.001*(c[0]);
-    
-
-    /*for(int i = 1; i < N_SPECIES; i++){
-        dcdt[i] =  0.001*(c[i] - c[i - 1]);
-    }*/
+    for(int i = 0; i < N_SPECIES; i++){
+        for(int j = 0; j < N_SPECIES; j++){
+            dcdt[i] += kr(i,j) * c[j] - kr(j,i) * c[i];  
+        }
+    }
 }
 /* Test for 6 systems */
 void nonlinearODE6( const state_type &c , state_type &dcdt , double t){
