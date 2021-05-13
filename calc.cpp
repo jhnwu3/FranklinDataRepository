@@ -49,11 +49,11 @@ MatrixXd create_covariance_matrix(const MatrixXd& sampleSpace, const VectorXd& m
     cov /= N;
     return cov;
 }
-MatrixXd generate_sample_space(int nProt){
+MatrixXd generate_sample_space(int nProt, int n){
      /* Random Number Generator */
     random_device rand_dev;
     mt19937 generator(rand_dev());
-    MatrixXd sampleSpace(nProt,nProt);
+    MatrixXd sampleSpace(n, nProt);
     std::normal_distribution<double> xNorm(mu_x, sigma_x);
     std::normal_distribution<double> yNorm(mu_y, sigma_y);
     std::normal_distribution<double> zNorm(mu_z, sigma_z);

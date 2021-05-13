@@ -7,7 +7,8 @@
 #include <random>
 #include <cmath>
 #include <chrono>
-#define N_SPECIES 3 // 
+#define N_SPECIES 3 // using #defines technically right now, but will eventually change it to a variable in main
+#define N 10000
 
 
 /* namespaces for ease of use */
@@ -43,14 +44,12 @@ double kCost(const VectorXd& kTrueVec, const VectorXd& kEstVec, int n);
 double kCostMat(const VectorXd& kTrueVec, const VectorXd& kEstVec, const MatrixXd& w, int n);
 MatrixXd calculate_covariance_matrix(const MatrixXd& m2, const VectorXd& mVec, int nProt);
 MatrixXd create_covariance_matrix(const MatrixXd& sampleSpace, const VectorXd& mu, int nProt);
-MatrixXd generate_sample_space(int nProt);
+MatrixXd generate_sample_space(int nProt, int n);
 /* Note: We have global variables in this case for ease of access by ODEINT solvers:*/
 /* model global diff eq. constants */
 double extern ke, kme, kf, kmf, kd, kmd, ka2, ka3, C1T, C2T, C3T;
 /* Bill's K */
 double extern k1, k2, k3, k4, k5;
-/* vars */
-int extern N;
 /* global time conditions */
 double extern t0, tf, dt, tn;
 /* Normal Dist Vars */

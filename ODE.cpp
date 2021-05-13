@@ -84,10 +84,10 @@ int main(int argc, char **argv)
              0.046225, 0.104828, 1.11; */
     
       /* Calculate averages */
-    sampleSpace = generate_sample_space(N_SPECIES);
+    sampleSpace = generate_sample_space(N_SPECIES, N);
     mu = sampleSpace.colwise().mean();
     /* Calculate covar matrix labeled sigma */
-    sigma = create_covariance_matrix(sampleSpace,mu, N_SPECIES);
+    sigma = create_covariance_matrix(sampleSpace, mu, N_SPECIES);
     cout << "mu:" << mu.transpose() << endl << endl << "sigma:" << endl << sigma << endl << endl; 
     /* multivariate /normal distribution generator */
     normal_random_variable sample{mu, sigma};
