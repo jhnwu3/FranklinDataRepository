@@ -102,6 +102,7 @@ int main(int argc, char **argv)
             c0[a] = exp(initCon(a)); // assign vector for use in ODE solns.
         }
         integrate_const(controlled_stepper, linearODEn_1, c0, t0, tf, dt, sample_const);
+        cout << "Hello I actually integrated once! at least!\n" << endl;
    }
     
     /* Divide the sums at the end to reduce number of needed division ops */
