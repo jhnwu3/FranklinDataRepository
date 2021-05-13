@@ -49,8 +49,8 @@ void linearODEn_1( const state_type &c , state_type &dcdt , double t )
     }
     cout << "test pt 1:" << endl;
     for(int i = 0; i < N_SPECIES; i++){
-        for(int j = 0; i < N_SPECIES; j++){
-            kr(i,j) = exp(mu(i) - mu(j));
+        for(int j = 0; j < N_SPECIES; j++){
+            kr(i,j) = (mu(i) - mu(j)) * (mu(i) - mu(j));
         }
     }
     cout << "test pt 2: " << endl;
