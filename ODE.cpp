@@ -99,9 +99,9 @@ int main(int argc, char **argv)
        if(i % 1000 == 0){ cout << i << endl;  }
 
         initCon = sample(); // sample from multilognormal dist
+        cout << initCon << endl;
         for(int a = 0; a < N_SPECIES; a++){
             c0[a] = exp(initCon(a)); // assign vector for use in ODE solns.
-            cout << c0[a] << endl;
         }
         integrate(linearODE3, c0, 0.0, 500.0, 10.0, sample_adapt);
         //integrate_const(controlled_stepper, linearODE3, c0, t0, tf, dt, sample_const);
