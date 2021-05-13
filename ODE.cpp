@@ -30,7 +30,11 @@ void sample_const( const state_type &c , const double t){
     }
 }
 /* Only to be used with integrate/integrate_adaptive - @TODO */
-void sample_adapt( const state_type &c , const double t){}
+void sample_adapt( const state_type &c , const double t){
+    if(t < tn){
+        oFileMAV << t << "," << c[0] << endl;
+    }
+}
 
 int main(int argc, char **argv)
 {   
