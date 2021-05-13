@@ -91,7 +91,7 @@ int main(int argc, char **argv)
     cout << "mu:" << mu.transpose() << endl << endl << "sigma:" << endl << sigma << endl << endl; 
     /* multivariate /normal distribution generator */
     normal_random_variable sample{mu, sigma};
-
+    cout << sample() << endl;
     open_files(); 
 
     /* average randomized sample/initial conditions from unif dist, N=10,000, CALL ODE SOLVER HERE! */
@@ -99,7 +99,6 @@ int main(int argc, char **argv)
        if(i % 1000 == 0){ cout << i << endl;  }
 
         initCon = sample(); // sample from multilognormal dist
-        cout << initCon << endl;
         for(int a = 0; a < N_SPECIES; a++){
             c0[a] = exp(initCon(a)); // assign vector for use in ODE solns.
         }
