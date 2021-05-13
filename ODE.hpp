@@ -7,7 +7,7 @@
 #include <random>
 #include <cmath>
 #include <chrono>
-#define N_SPECIES 2 // using #defines technically right now, but will eventually change it to a variable in main
+#define N_SPECIES 3 // using #defines technically right now, but will eventually change it to a variable in main
 #define N 10000
 
 

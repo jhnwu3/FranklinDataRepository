@@ -28,6 +28,9 @@ void sample_const( const state_type &c , const double t){
             }
         }
     }
+    if( c[0] - c[1] < 1e-10 || c[0] - c[1] > -1e-10){
+        cout << "found problem!" << endl;
+    }
 }
 /* Only to be used with integrate/integrate_adaptive - @TODO */
 void sample_adapt( const state_type &c , const double t){
