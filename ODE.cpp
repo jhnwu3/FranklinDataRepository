@@ -72,18 +72,18 @@ int main(int argc, char **argv)
     state_type c0;
     controlled_stepper_type controlled_stepper;
 
-    /* assign mu vector and sigma matrix values */
+    /* assign mu vector and sigma matrix values   
     mu << mu_x, mu_y, mu_z;
     sigma << 0.77, 0.0873098, 0.046225, 
              0.0873098, 0.99, 0.104828, 
-             0.046225, 0.104828, 1.11; 
+             0.046225, 0.104828, 1.11; */
     
-   /* for(int row = 0; row < N_SPECIES; row++){
+    for(int row = 0; row < N_SPECIES; row++){
          mu(row) = 1 + unifDist(generator);
          for(int col = 0; col < N_SPECIES; col++){
              sigma(row,col) = unifDist(generator);
          }
-    }*/
+    }
     cout << "mu:" << mu.transpose() << endl << endl << "sigma:" << endl << sigma << endl << endl; 
     /* multivariate /normal distribution generator */
     normal_random_variable sample{mu, sigma};
@@ -98,7 +98,8 @@ int main(int argc, char **argv)
         for(int a = 0; a < N_SPECIES; a++){
             c0[a] = exp(initCon(a)); // assign vector for use in ODE solns.
         }
-        integrate_const(controlled_stepper, linearODE3, c0, t0, tf, dt, sample_const);
+        integrate(linearODE3, c0, 0.0, 500.0, 10.0, write_file);
+        //integrate_const(controlled_stepper, linearODE3, c0, t0, tf, dt, sample_const);
    }
     
     /* Divide the sums at the end to reduce number of needed division ops */
