@@ -29,6 +29,7 @@ void linearODE3( const state_type &c , state_type &dcdt , double t )
 }
 void linearODEn_1( const state_type &c , state_type &dcdt , double t )
 { 
+    cout << "lol" << endl;
     MatrixXd kr(N_SPECIES, N_SPECIES); 
     VectorXd mu(N_SPECIES);
     random_device rand_dev;
@@ -51,7 +52,7 @@ void linearODEn_1( const state_type &c , state_type &dcdt , double t )
             kr(i,j) = exp(mu(i) - mu(j));
         }
     }
-    
+
     for(int i = 0; i < N_SPECIES; i++){
         for(int j = 0; j < N_SPECIES; j++){
             dcdt[i] += kr(i,j) * c[j] - kr(j,i) * c[i];  
