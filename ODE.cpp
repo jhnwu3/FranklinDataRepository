@@ -77,17 +77,17 @@ int main(int argc, char **argv)
     state_type c0;
     controlled_stepper_type controlled_stepper;
 
-    /* assign mu vector and sigma matrix values   
+    /* assign mu vector and sigma matrix values   */
     mu << mu_x, mu_y, mu_z;
     sigma << 0.77, 0.0873098, 0.046225, 
              0.0873098, 0.99, 0.104828, 
-             0.046225, 0.104828, 1.11; */
+             0.046225, 0.104828, 1.11; 
     
-      /* Calculate averages */
+      /* Calculate averages
     sampleSpace = generate_sample_space(N_SPECIES, N);
-    mu = sampleSpace.colwise().mean();
-    /* Calculate covar matrix labeled sigma */
-    sigma = create_covariance_matrix(sampleSpace, mu, N_SPECIES);
+    mu = sampleSpace.colwise().mean(); */
+    /* Calculate covar matrix labeled sigma 
+    sigma = create_covariance_matrix(sampleSpace, mu, N_SPECIES);*/
     cout << "mu:" << mu.transpose() << endl << endl << "sigma:" << endl << sigma << endl << endl; 
     /* multivariate /normal distribution generator */
     normal_random_variable sample{mu, sigma};
