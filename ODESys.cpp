@@ -30,10 +30,28 @@ void linearODE3( const state_type &c , state_type &dcdt , double t )
 void linearODEn_1( const state_type &c , state_type &dcdt , double t )
 { 
     MatrixXd kr(N_SPECIES, N_SPECIES); 
-    kr << 0, k2, k4,
-            k3, 0, k1,
-            0, k5, 0;
-    dcdt[0] = 0.001*(c[0]);
+    VectorXd mu(N_SPECIES);
+    random_device rand_dev;
+    mt19937 generator(rand_dev());
+    std::normal_distribution<double> xNorm(mu_x, sigma_x);
+    std::normal_distribution<double> yNorm(mu_y, sigma_y);
+    std::normal_distribution<double> zNorm(mu_z, sigma_z);
+    /* Form pseudo random k rate constants (note: need to figure out a way for a global rate vector)*/
+    for(int i = 0; i < N_SPECIES; i++){
+        if (i % 3 == 0 ) {
+            mu(i) = xNorm(generator);
+        }else if (i % 3 == 1) {
+            mu(i) = yNorm(generator);
+        }else {
+            mu(i) = zNorm(generator);
+        }
+    }
+    for(int i = 0; i < N_SPECIES; i++){
+        for(int j = 0; i < N_SPECIES; j++){
+            kr(i,j) = exp(mu(i) - mu(j));
+        }
+    }
+    
     for(int i = 0; i < N_SPECIES; i++){
         for(int j = 0; j < N_SPECIES; j++){
             dcdt[i] += kr(i,j) * c[j] - kr(j,i) * c[i];  
