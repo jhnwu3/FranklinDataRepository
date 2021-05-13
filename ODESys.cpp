@@ -31,24 +31,10 @@ void linearODEn_1( const state_type &c , state_type &dcdt , double t )
 { 
     
     MatrixXd kr(N_SPECIES, N_SPECIES); 
-    VectorXd mu(N_SPECIES);
     random_device rand_dev;
     mt19937 generator(rand_dev());
     uniform_real_distribution<double> unifDist(0.0, 1.0);
-    std::normal_distribution<double> xNorm(mu_x, sigma_x);
-    std::normal_distribution<double> yNorm(mu_y, sigma_y);
-    std::normal_distribution<double> zNorm(mu_z, sigma_z);
     /* Form pseudo random k rate constants (note: need to figure out a way for a global rate vector)*/
-    for(int i = 0; i < N_SPECIES; i++){
-        if (i % 3 == 0 ) {
-            mu(i) = xNorm(generator);
-        }else if (i % 3 == 1) {
-            mu(i) = yNorm(generator);
-        }else {
-            mu(i) = zNorm(generator);
-        }
-    }
-
     for(int i = 0; i < N_SPECIES - 1; i++){
         for(int j = i + 1; j < N_SPECIES; j++){
             kr(i,j) = 0.1 * unifDist(generator);
