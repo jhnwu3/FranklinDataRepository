@@ -102,7 +102,7 @@ int main(int argc, char **argv)
         for(int a = 0; a < N_SPECIES; a++){
             c0[a] = exp(initCon(a)); // assign vector for use in ODE solns.
         }
-        integrate(linearODE3, c0, 0.0, 500.0, 10.0, write_file);
+        integrate(linearODE3, c0, 0.0, 500.0, 10.0, sample_adapt);
         //integrate_const(controlled_stepper, linearODE3, c0, t0, tf, dt, sample_const);
    }
     
