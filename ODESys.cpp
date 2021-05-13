@@ -47,13 +47,13 @@ void linearODEn_1( const state_type &c , state_type &dcdt , double t )
             mu(i) = zNorm(generator);
         }
     }
-    
+    cout << "test pt 1:" << endl;
     for(int i = 0; i < N_SPECIES; i++){
         for(int j = 0; i < N_SPECIES; j++){
             kr(i,j) = exp(mu(i) - mu(j));
         }
     }
-    cout << "lol" << endl;
+    cout << "test pt 2: " << endl;
     for(int i = 0; i < N_SPECIES; i++){
         for(int j = 0; j < N_SPECIES; j++){
             dcdt[i] += kr(i,j) * c[j] - kr(j,i) * c[i];  
