@@ -35,3 +35,39 @@ MatrixXd calculate_covariance_matrix(const MatrixXd& m2, const VectorXd& mVec, i
 }
 
 
+/* Creation Functions for testing of ODEs and multinormal distributions! */
+MatrixXd create_covariance_matrix(const MatrixXd& sampleSpace, const VectorXd& mu, int nProt){
+    MatrixXd cov(nProt, nProt);
+    /* Calculate covar matrix labeled sigma */
+    for (int i = 0; i < N_SPECIES; i++) {
+        for (int j = 0; j < N_SPECIES; j++) {
+            for (int a = 0; a < N; a++) {
+                cov(i, j) += (sampleSpace(a, i) - mu(i)) * (sampleSpace(a, j) - mu(j));
+            }
+        }
+    }
+    cov /= N;
+    return cov;
+}
+MatrixXd generate_sample_space(int nProt){
+     /* Random Number Generator */
+    random_device rand_dev;
+    mt19937 generator(rand_dev());
+    MatrixXd sampleSpace(nProt,nProt);
+    std::normal_distribution<double> xNorm(mu_x, sigma_x);
+    std::normal_distribution<double> yNorm(mu_y, sigma_y);
+    std::normal_distribution<double> zNorm(mu_z, sigma_z);
+    /* Generate NPRotein mu vector and also NProtein Cov Matrix using the three MVN values */
+    for (int i = 0; i < N; i++) {
+        for (int j = 0; j < N_SPECIES; j++) {
+            if (i % 3 == 0 ) {
+                sampleSpace(i, j) = xNorm(generator);
+            }else if (i % 3 == 1) {
+                sampleSpace(i, j) = yNorm(generator);
+            }else {
+                sampleSpace(i,j) = zNorm(generator);
+            }
+        }
+    }
+    return sampleSpace;
+}

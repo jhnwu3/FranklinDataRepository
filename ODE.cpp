@@ -48,6 +48,7 @@ int main(int argc, char **argv)
     /* Variables used for multivariate log normal distribution */
     VectorXd mu(N_SPECIES);
     MatrixXd sigma  = MatrixXd::Zero(N_SPECIES, N_SPECIES);
+    MatrixXd sampleSpace(N, N_SPECIES);
     /* Covariance Matrix to be Calculated from Moments! */
     MatrixXd cov(N_SPECIES, N_SPECIES);
     /* weight matrix */
@@ -82,16 +83,14 @@ int main(int argc, char **argv)
              0.0873098, 0.99, 0.104828, 
              0.046225, 0.104828, 1.11; */
     
-    for(int row = 0; row < N_SPECIES; row++){
-         mu(row) = 1 + unifDist(generator);
-         for(int col = 0; col < N_SPECIES; col++){
-             sigma(row,col) = unifDist(generator);
-         }
-    }
+      /* Calculate averages */
+    sampleSpace = generate_sample_space(N_SPECIES);
+    mu = sampleSpace.colwise().mean();
+    /* Calculate covar matrix labeled sigma */
+    sigma = create_covariance_matrix(sampleSpace,mu, N_SPECIES);
     cout << "mu:" << mu.transpose() << endl << endl << "sigma:" << endl << sigma << endl << endl; 
     /* multivariate /normal distribution generator */
     normal_random_variable sample{mu, sigma};
-    cout << sample() << endl;
     open_files(); 
 
     /* average randomized sample/initial conditions from unif dist, N=10,000, CALL ODE SOLVER HERE! */

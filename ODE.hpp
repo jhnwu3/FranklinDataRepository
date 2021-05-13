@@ -42,7 +42,8 @@ void nonlinearODE6( const state_type &c , state_type &dcdt , double t);
 double kCost(const VectorXd& kTrueVec, const VectorXd& kEstVec, int n);
 double kCostMat(const VectorXd& kTrueVec, const VectorXd& kEstVec, const MatrixXd& w, int n);
 MatrixXd calculate_covariance_matrix(const MatrixXd& m2, const VectorXd& mVec, int nProt);
-
+MatrixXd create_covariance_matrix(const MatrixXd& sampleSpace, const VectorXd& mu, int nProt);
+MatrixXd generate_sample_space(int nProt);
 /* Note: We have global variables in this case for ease of access by ODEINT solvers:*/
 /* model global diff eq. constants */
 double extern ke, kme, kf, kmf, kd, kmd, ka2, ka3, C1T, C2T, C3T;
