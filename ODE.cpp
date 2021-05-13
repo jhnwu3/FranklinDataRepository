@@ -19,7 +19,6 @@ MatrixXd w = MatrixXd::Identity( (N_SPECIES * (N_SPECIES + 3)) / 2,  (N_SPECIES 
 /**** ODE-INT OBSERVER FUNCTIONS ****/
 /* Only to be used with integrate_const(), solves the ODE's defined in ODESys.cpp*/
 void sample_const( const state_type &c , const double t){
-    cout << c[0] << endl;
     /* We will have some time we are sampling for */
     if(t == tn){
         for(int row = 0; row < N_SPECIES; row++){
@@ -99,7 +98,7 @@ int main(int argc, char **argv)
         for(int a = 0; a < N_SPECIES; a++){
             c0[a] = exp(initCon(a)); // assign vector for use in ODE solns.
         }
-        integrate_const(controlled_stepper, linearODEn_1, c0, t0, tf, dt, sample_const);
+        integrate_const(controlled_stepper, linearODE3, c0, t0, tf, dt, sample_const);
    }
     
     /* Divide the sums at the end to reduce number of needed division ops */
