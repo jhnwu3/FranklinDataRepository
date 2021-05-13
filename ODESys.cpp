@@ -29,7 +29,7 @@ void linearODE3( const state_type &c , state_type &dcdt , double t )
 }
 void linearODEn_1( const state_type &c , state_type &dcdt , double t )
 { 
-    cout << "lol" << endl;
+    
     MatrixXd kr(N_SPECIES, N_SPECIES); 
     VectorXd mu(N_SPECIES);
     random_device rand_dev;
@@ -47,6 +47,7 @@ void linearODEn_1( const state_type &c , state_type &dcdt , double t )
             mu(i) = zNorm(generator);
         }
     }
+    cout << "lol" << endl;
     for(int i = 0; i < N_SPECIES; i++){
         for(int j = 0; i < N_SPECIES; j++){
             kr(i,j) = exp(mu(i) - mu(j));
