@@ -57,11 +57,14 @@ void linearODEn_1( const state_type &c , state_type &dcdt , double t )
 void nonlinearODE6( const state_type &c , state_type &dcdt , double t){
     dcdt[0] =  ((ke*(C1T - c[0])) / (kme + (C1T - c[0]))) + 
                ((kf * (C1T - c[0]) * c[0] * c[1]) / (kmf + (C1T - c[0]))) - 
-               ((kd*c[0]*c[2]) / (kmd + c[0])) + c[3] * c[4] * c[5]; // dc1dt = ke*(C1T-C1).... (in document)
+               ((kd*c[0]*c[2]) / (kmd + c[0])) +
+               ((kf * (C1T - c[0]) * c[0] * c[3]) / (kmf + (C1T - c[0])))- 
+               ((kd*c[0]*c[4]) / (kmd + c[0])) +
+               ((kf * (C1T - c[0]) * c[0] * c[5]) / (kmf + (C1T - c[0]))); // dc1dt = ke*(C1T-C1).... (in document)
 
     dcdt[1] =  ka2 *(C2T - c[1]); // dc2/dt = ka2 * (C2T - c2)
-    dcdt[2] =  ka3*(C3T - c[2]) * c[4]; // dc3/dt = ka3 * (C3t - c3)
-    dcdt[3] =  ka3*(C3T - c[3]) * c[2]; // dc3/dt = ka3 * (C3t - c3)
-    dcdt[4] =  ka3*(C3T - c[4]) * c[0]; // dc3/dt = ka3 * (C3t - c3)
-    dcdt[5] =  ka3*(C3T - c[5]) * c[1]; // dc3/dt = ka3 * (C3t - c3)
+    dcdt[2] =  ka3*(C3T - c[2]); // dc3/dt = ka3 * (C3t - c3)
+    dcdt[3] =  ka3*(C3T - c[3]); // dc3/dt = ka3 * (C3t - c3)
+    dcdt[4] =  ka3*(C3T - c[4]); // dc3/dt = ka3 * (C3t - c3)
+    dcdt[5] =  ka3*(C3T - c[5]); // dc3/dt = ka3 * (C3t - c3)
 }
