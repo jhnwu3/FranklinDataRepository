@@ -1,7 +1,7 @@
 # PSOLinux
 PSO - An Implementation of Particle Swarm Optimization.
 
-- <insert contextual info and function here later>
+- <insert more contextual info and function here >
 
 ODE.cpp - main file 
 ODESys.cpp - contains ode systems that are tested
