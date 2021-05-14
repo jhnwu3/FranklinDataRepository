@@ -45,10 +45,15 @@ void linearODEn_1( const state_type &c , state_type &dcdt , double t )
         }
     }*/
 
-    for(int i = 0; i < N_SPECIES; i++){
+    /*for(int i = 0; i < N_SPECIES; i++){
         for(int j = 0; j < N_SPECIES; j++){
             dcdt[i] += kr(i,j) * c[j] - kr(j,i) * c[i];  
         }
+    }*/
+    int j = 0;
+    for(int i = 0; i < N_SPECIES; i++){
+        dcdt[i] = kr(i,j) *c[j] - kr(j,i) * c[i];
+        j++; 
     }
 }
 /* Test for 6 systems */
