@@ -19,9 +19,10 @@ MatrixXd w = MatrixXd::Identity( (N_SPECIES * (N_SPECIES + 3)) / 2,  (N_SPECIES 
 /**** ODE-INT OBSERVER FUNCTIONS ****/
 /* Only to be used with integrate_const(), solves the ODE's defined in ODESys.cpp*/
 void sample_const( const state_type &c , const double t){
+    cout << "time? " << t << endl;
     /* We will have some time we are sampling for */
     if(t == tn){
-        cout << "time? " << t << endl;
+        
         for(int row = 0; row < N_SPECIES; row++){
             mVec(row) += c[row]; // store all first moments in the first part of the moment vec
             for(int col = 0; col < N_SPECIES; col++){
