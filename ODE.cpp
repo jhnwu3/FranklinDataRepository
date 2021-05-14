@@ -106,7 +106,7 @@ int main(int argc, char **argv)
         for(int a = 0; a < N_SPECIES; a++){
             c0[a] = exp(initCon(a)); // assign vector for use in ODE solns.
         }
-        integrate_const(controlled_stepper, nonlinearODE6, c0, t0, tf, dt, sample_const);
+        integrate_const(controlled_stepper, nonlinearODE3, c0, t0, tf, dt, sample_const);
    }
     
     /* Divide the sums at the end to reduce number of needed division ops */
