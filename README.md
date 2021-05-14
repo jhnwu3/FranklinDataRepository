@@ -1,5 +1,5 @@
 # PSOLinux
-PSO - Particle Swarm Optimization.
+PSO - An Implementation of Particle Swarm Optimization.
 
 - <insert contextual info and function here later>
 
