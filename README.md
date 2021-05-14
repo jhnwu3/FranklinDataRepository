@@ -1,5 +1,5 @@
 # PSOLinux
-Taking PSOCStewart and converting it to Linux form.
+PSO - Particle Swarm Optimization.
 
 - <insert contextual info and function here later>
 
