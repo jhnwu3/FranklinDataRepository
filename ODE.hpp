@@ -8,7 +8,7 @@
 #include <cmath>
 #include <chrono>
 #define N_SPECIES 3 // using #defines technically right now, but will eventually change it to a variable in main
-#define N 10000
+#define N 2000
 
 
 /* namespaces for ease of use */
