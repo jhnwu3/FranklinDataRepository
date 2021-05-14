@@ -31,19 +31,16 @@ void linearODEn_1( const state_type &c , state_type &dcdt , double t )
 { 
     
     MatrixXd kr(N_SPECIES, N_SPECIES); 
-    kr << 0, k2, k4,
-            k3, 0, k1,
-            0, k5, 0;
     random_device rand_dev;
     mt19937 generator(rand_dev());
     uniform_real_distribution<double> unifDist(0.0, 1.0);
-    /* Form pseudo random k rate constants (note: need to figure out a way for a global rate vector)
+    /* Form pseudo random k rate constants (note: need to figure out a way for a global rate vector)*/
     for(int i = 0; i < N_SPECIES - 1; i++){
         for(int j = i + 1; j < N_SPECIES; j++){
             kr(i,j) = 0.1 * unifDist(generator);
             kr(j,i) = kr(i,j);
         }
-    }*/
+    }
 
     /*for(int i = 0; i < N_SPECIES; i++){
         for(int j = 0; j < N_SPECIES; j++){
