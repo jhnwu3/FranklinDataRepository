@@ -84,3 +84,17 @@ struct normal_random_variable
     }
 };
 
+template <typename Derived>
+void cov(MatrixBase<Derived> const & vec , MatrixBase<Derived> const & mat)
+{
+  typedef typename Derived::Scalar Scalar;
+  typedef typename internal::plain_row_type<Derived>::type RowVectorType;
+ 
+  const Scalar num_observations = static_cast<Scalar>(x.rows());
+ 
+  const RowVectorType x_mean = x.colwise().sum() / num_observations;
+  const RowVectorType y_mean = y.colwise().sum() / num_observations;
+ 
+  const_cast< MatrixBase<OtherDerived>& >(C) =
+    (x.rowwise() - x_mean).transpose() * (y.rowwise() - y_mean) / num_observations;
+}

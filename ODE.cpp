@@ -108,15 +108,10 @@ int main(int argc, char **argv)
         }
         integrate_const(controlled_stepper, nonlinearODE6, c0, t0, tf, dt, sample_const);
    }
-    
-    /* Divide the sums at the end to reduce number of needed division ops */
-    for(int row = 0; row  < N_SPECIES; row++){
-        mVec(row) /= N;  
-        for(int col = 0; col < N_SPECIES; col++){
-            m2Mat(row, col) /= N;
-        }
-    }
-
+     /* Divide the sums at the end to reduce number of needed division ops */
+    mVec /= N;
+    m2Mat /=N;
+  
     /* Fill moment vector with diagonals and unique values of the matrix */
     for(int i = 0; i < N_SPECIES; i++){
         mVec(N_SPECIES + i) = m2Mat.diagonal()(i);
