@@ -26,7 +26,7 @@ calc.o: calc.cpp ODE.hpp
 para: para.o
 	g++ para.o -o para -fopenmp
 para.o: para.cpp
-	g++ -c para.cpp -o test.o -fopenmp
+	g++ -c para.cpp -o para.o -fopenmp
 # this target deletes all files produced from the Makefile
 # so that a completely new compile of all items is required
 clean:
