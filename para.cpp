@@ -34,12 +34,11 @@ int main (){
     cout << "Before par. for " << endl;
     int sum = 0;
 #pragma omp parallel for
-{
     for(int i = 0; i < N; i++){
         cout << "Printing from thread:" << omp_get_thread_num() << "index:" << i << endl; 
         sum += i;
     }
-}
+
     cout << endl << endl << "final sum: " << sum;
     return EXIT_SUCCESS;
 }
