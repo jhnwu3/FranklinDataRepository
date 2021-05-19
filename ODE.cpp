@@ -131,7 +131,6 @@ int main(int argc, char **argv)
     /* average randomized sample/initial conditions from unif dist, N=10,000, CALL ODE SOLVER HERE! */
    for(int i = 0; i < N; i++){
        if(i % 1000 == 0){ cout << i << endl;  }
-
         initCon = sample(); // sample from multilognormal dist
         for(int a = 0; a < N_SPECIES; a++){
             c0[a] = exp(initCon(a)); // assign vector for use in ODE solns.

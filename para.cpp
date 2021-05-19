@@ -25,7 +25,7 @@ typedef boost::array< double , N_SPECIES > state_type;
 typedef runge_kutta_cash_karp54< state_type > error_stepper_type;
 typedef controlled_runge_kutta< error_stepper_type > controlled_stepper_type;
 
-
+int i = 0;
 
 
 
@@ -34,7 +34,7 @@ int main (){
     cout << "Before par. for " << endl;
     int sum = 0;
 #pragma omp parallel for
-    for(int i = 0; i < N; i++){
+    for(i = 0; i < N; i++){
         cout << "Printing from thread:" << omp_get_thread_num() << "index:" << i << endl; 
         sum += i;
     }
