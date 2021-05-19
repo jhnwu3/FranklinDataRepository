@@ -6,6 +6,7 @@
         "iosfwd": "cpp",
         "random": "cpp",
         "cmath": "cpp",
-        "chrono": "cpp"
+        "chrono": "cpp",
+        "array": "cpp"
     }
 }

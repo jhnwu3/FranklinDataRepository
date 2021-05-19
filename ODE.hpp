@@ -87,37 +87,39 @@ struct normal_random_variable
     }
 };
 
-/* Will come back to this later, but for now will use global variables, because I have no idea how to actually pass in variables
-struct ode
+/* The rhs of x' = f(x) defined as a class */
+// define structure
+struct T
 {
-    double param;
-    ode( double param ) : m_param( param ) {}
+    array<double, N_DIM> k;
+};
 
-    void operator()( state_type const& x , state_type& dxdt , double t ) const 
+// force model
+class particle
+{
+    struct T T1;
+
+public:
+    particle(struct T G) : T1(G) {}
+
+    void operator() (  const state_type &c , state_type &dcdt , double t)
     {
-        // your ode
-    }
-}; */
+        MatrixXd kr(N_SPECIES, N_SPECIES); 
+        kr << 0, T1.k[1], T1.k[3],
+            T1.k[2], 0, T1.k[0],
+            0, T1.k[4], 0;
+        dcdt[0] = (kr(0,0) * c[0] - kr(0,0) * c[0]) +
+              (kr(0,1) * c[1] - kr(1,0) * c[0]) + 
+              (kr(0,2) * c[2] - kr(2,0) * c[0]);
 
-struct sys_func {
-    const vector<double> &R;
-    sys_func( vector<double> &R ) : R(R) {}
+        dcdt[1] = (kr(1,0) * c[0] - kr(0,1) * c[1]) +
+                (kr(1,1) * c[1] - kr(1,1) * c[1]) + 
+                (kr(1,2) * c[2] - kr(2,1) * c[1]);
 
-    void operator()( const state_type &x , state_type &dxdt , double t ) const {
-#       pragma omp parallel for
-        for(size_t j = 0 ; j < x.size() ; j++) {
-            size_t offset = 0;
-            for(size_t i = 0 ; i < j ; i++)
-                offset += x[i].size();
-
-            for(size_t i = 0 ; i < x[j].size() ; i++) {
-                const point_type &xi = x[j][i];
-                point_type &dxdti = dxdt[j][i];
-                dxdti[0] = -sigma * (xi[0] - xi[1]);
-                dxdti[1] = R[offset + i] * xi[0] - xi[1] - xi[0] * xi[2];
-                dxdti[2] = -b * xi[2] + xi[0] * xi[1];
-            }
-        }
+        dcdt[2] = (kr(2,0) * c[0] - kr(0,2) * c[2]) + 
+                (kr(2,1) * c[1] - kr(1,2) * c[2]) + 
+                (kr(2,2) * c[2] - kr(2,2) * c[2]);
     }
 };
+
 
