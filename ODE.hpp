@@ -11,7 +11,7 @@
 #define N_SPECIES 3 // using #defines technically right now, but will eventually change it to a variable in main
 #define N 10000
 #define N_DIM 5
-
+#define N_PARTICLES 5
 
 /* namespaces for ease of use */
 using namespace std;
@@ -84,6 +84,17 @@ struct normal_random_variable
         static std::normal_distribution<> dist;
 
         return mean + transform * Eigen::VectorXd{ mean.size() }.unaryExpr([&](auto x) { return dist(gen); });
+    }
+};
+
+struct ode
+{
+    double param;
+    ode( double param ) : m_param( param ) {}
+
+    void operator()( state_type const& x , state_type& dxdt , time_type t ) const 
+    {
+        // your ode
     }
 };
 

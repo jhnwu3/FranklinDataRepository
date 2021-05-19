@@ -154,7 +154,8 @@ int main(int argc, char **argv)
     cov = calculate_covariance_matrix(m2Mat, mVec, N_SPECIES);
 
     /*******************************************************/
-
+    VectorXd kFinal(5);
+    
     /* for one particle */
     /* variables */
     int nIter = 2;
@@ -167,7 +168,7 @@ int main(int argc, char **argv)
             }
             /* solve ODEs for fixed number of samples using ODEs, use linearODE3 sys for now & compute moments. */
             for(int i = 0; i < N; i++){
-
+                
             }
             /* Calculate CF1 for moments*/ 
         }else{
