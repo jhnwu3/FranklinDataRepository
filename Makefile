@@ -23,7 +23,10 @@ var.o: var.cpp ODE.hpp
 	g++ -c var.cpp
 calc.o: calc.cpp ODE.hpp
 	g++ -c calc.cpp
-
+para: para.o
+	g++ para.o -o para -fopenmp
+para.o: 
+	g++ -c test.cpp -o test.o -fopenmp
 # this target deletes all files produced from the Makefile
 # so that a completely new compile of all items is required
 clean:

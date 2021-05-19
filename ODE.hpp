@@ -7,8 +7,10 @@
 #include <random>
 #include <cmath>
 #include <chrono>
+#include <omp.h>
 #define N_SPECIES 3 // using #defines technically right now, but will eventually change it to a variable in main
 #define N 10000
+#define N_DIM 5
 
 
 /* namespaces for ease of use */
@@ -32,16 +34,17 @@ void write_file_const( const state_type &c , const double t );
 /* Collect data functions */
 void sample_const( const state_type &c , const double t);
 void sample_adapt( const state_type &c , const double t);
+void sample_adapt_linear( const state_type &c , const double t);
 
 /* ODE Systems Functions */
 void nonlinearODE3( const state_type &c , state_type &dcdt , double t );
-void linearODE3( const state_type &c , state_type &dcdt , double t );
+void linearODE3_true( const state_type &c , state_type &dcdt , double t );
 void linearODEn_1( const state_type &c , state_type &dcdt , double t );
 void nonlinearODE6( const state_type &c , state_type &dcdt , double t);
 
 /* Calculation Functions */
-double kCost(const VectorXd& kTrueVec, const VectorXd& kEstVec, int n);
-double kCostMat(const VectorXd& kTrueVec, const VectorXd& kEstVec, const MatrixXd& w, int n);
+double CF1(const VectorXd& trueVec, const VectorXd& estVec, int n);
+double CF2(const VectorXd& trueVec, const VectorXd& estVec, const MatrixXd& w, int n);
 MatrixXd calculate_covariance_matrix(const MatrixXd& m2, const VectorXd& mVec, int nProt);
 MatrixXd create_covariance_matrix(const MatrixXd& sampleSpace, const VectorXd& mu, int nProt);
 MatrixXd generate_sample_space(int nProt, int n);

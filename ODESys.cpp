@@ -6,8 +6,8 @@ void nonlinearODE3( const state_type &c , state_type &dcdt , double t )
     dcdt[1] =  ka2 *(C2T - c[1]); // dc2/dt = ka2 * (C2T - c2)
     dcdt[2] =  ka3*(C3T - c[2]); // dc3/dt = ka3 * (C3t - c3)
 }
-/* Try something new */
-void linearODE3( const state_type &c , state_type &dcdt , double t )
+/* linear ODE3 system using true k rates*/
+void linearODE3_true( const state_type &c , state_type &dcdt , double t )
 {
     MatrixXd kr(N_SPECIES, N_SPECIES); 
     kr << 0, k2, k4,
@@ -27,6 +27,7 @@ void linearODE3( const state_type &c , state_type &dcdt , double t )
               (kr(2,1) * c[1] - kr(1,2) * c[2]) + 
               (kr(2,2) * c[2] - kr(2,2) * c[2]);
 }
+/* Test ODE function for dynamic number of ODE's, unsure how to get proper linear one.*/
 void linearODEn_1( const state_type &c , state_type &dcdt , double t )
 { 
     

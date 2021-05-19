@@ -13,36 +13,66 @@ MatrixXd m2Mat = MatrixXd::Zero(N_SPECIES, N_SPECIES); // secomd moment vector
 /* Weight/Identity Matrix */
 MatrixXd w = MatrixXd::Identity( (N_SPECIES * (N_SPECIES + 3)) / 2,  (N_SPECIES * (N_SPECIES + 3)) / 2);
 
-
+VectorXd kPart(N_DIM); // the rate constants for one particle
 
 
 /**** ODE-INT OBSERVER FUNCTIONS ****/
 /* Only to be used with integrate_const(), solves the ODE's defined in ODESys.cpp*/
 void sample_const( const state_type &c , const double t){
     /* We will have some time we are sampling for */
-    if(t == tn){
-        
+    if(t == tn){       
         for(int row = 0; row < N_SPECIES; row++){
             mVec(row) += c[row]; // store all first moments in the first part of the moment vec
-            for(int col = 0; col < N_SPECIES; col++){
-                m2Mat(row,col) += (c[row] * c[col]);   // store in 
+            for(int col = row; col < N_SPECIES; col++){
+                m2Mat(row,col) += (c[row] * c[col]);   // store in a 2nd moment matrix
             }
         }
     }
     if( c[0] - c[1] < 1e-10 && c[0] - c[1] > -1e-10){
-        cout << "found problem!" << endl;
-        return;
+        cout << "Out of bounds!" << endl;
+        return; // break out for loop
     }
 }
-/* Only to be used with integrate/integrate_adaptive - @TODO */
+/* Only to be used with integrate/integrate_adaptive - nonlinear */
 void sample_adapt( const state_type &c , const double t){
-    if(t < tn){
-        oFileMAV << t << "," << c[0] << endl;
+    /* We will have some time we are sampling towards */
+    if(t == tf){
+        
+        for(int row = 0; row < N_SPECIES; row++){
+            mVec(row) += c[row]; // store all first moments in the first part of the moment vec
+            for(int col = row; col < N_SPECIES; col++){
+                m2Mat(row,col) += (c[row] * c[col]);   // store in a 2nd moment matrix
+            }
+        }
+    }
+    if( c[0] - c[1] < 1e-10 && c[0] - c[1] > -1e-10){
+        cout << "Out of bounds!" << endl;
+        return; // break out for loop
+    }
+}
+
+/* Only to be used with integrate/integrate_adaptive - linear */
+void sample_adapt_linear( const state_type &c , const double t){
+    /* We will have some time we are sampling towards */
+    if(t == tf){
+        
+        for(int row = 0; row < N_SPECIES - 1; row++){
+            mVec(row) += c[row]; // store all first moments in the first part of the moment vec
+            for(int col = row; col < N_SPECIES - 1; col++){
+                m2Mat(row,col) += (c[row] * c[col]);   // store in a 2nd moment matrix
+            }
+        }
+    }
+    if( c[0] - c[1] < 1e-10 && c[0] - c[1] > -1e-10){
+        cout << "Out of bounds!" << endl;
+        return; // break out for loop
     }
 }
 
 int main(int argc, char **argv)
 {   
+
+    /************ FIRST PART DATA MODULE INITIALLY *********/
     auto t1 = std::chrono::high_resolution_clock::now(); // start time
     int nMom = (N_SPECIES * (N_SPECIES + 3)) / 2; // number of moments
 
@@ -106,11 +136,12 @@ int main(int argc, char **argv)
         for(int a = 0; a < N_SPECIES; a++){
             c0[a] = exp(initCon(a)); // assign vector for use in ODE solns.
         }
-        integrate_const(controlled_stepper, linearODE3, c0, t0, tf, dt, sample_const);
+        integrate_adaptive(controlled_stepper, linearODE3_true, c0, t0, tf, dt, sample_adapt);
    }
+
      /* Divide the sums at the end to reduce number of needed division ops */
     mVec /= N;
-    m2Mat /=N;
+    m2Mat /= N;
   
     /* Fill moment vector with diagonals and unique values of the matrix */
     for(int i = 0; i < N_SPECIES; i++){
@@ -123,15 +154,37 @@ int main(int argc, char **argv)
     }
     cov = calculate_covariance_matrix(m2Mat, mVec, N_SPECIES);
 
+    /*******************************************************/
+
+    /* for one particle */
+    /* variables */
+    int nIter = 2;
+    for(int iter = 1; iter <= nIter; iter++){
+        /* 2 iterations for each particle module */
+        if(iter == 1){ 
+             /* Generate rate constants from uniform dist (0,1) for 5-dim hypercube */
+            for(int i = 0; i < N_DIM; i++){
+                kPart(i) = unifDist(generator);
+            }
+            /* solve ODEs for fixed number of samples using ODEs, use linearODE3 sys for now & compute moments. */
+            for(int i = 0; i < N; i++){
+
+            }
+            /* Calculate CF1 for moments*/ 
+        }else{
+            /* using CF2 compute next cost function and recompute weight */
+        }
+    }
+   
     /***** printf statements ******/
     /* Print statement for the rates */
     cout << "kTrue:" << endl << kTrue.transpose() << endl;
     cout << "kEst between 0 and 1s:" << endl << kEst.transpose() << endl;
     cout << "kEst1 0.1 * rand(0,1) away:" << endl << kEst1.transpose() << endl;
-    cout << "kCost for a set of k estimates between 0 and 1s: " << kCost(kTrue, kEst, nMom) << endl;
-    cout << "kCost for a set of k estimates 0.1 * rand(0,1) away from true: " << kCost(kTrue, kEst1, N_SPECIES) << endl << endl;
-    cout << "kCostMat for a set of k estimates between 0 and 1s: " << kCostMat(kTrue, kEst, w, N_SPECIES) << endl;
-    cout << "kCostMat for a set of k estimates 0.1 * rand(0,1) away from true: " << kCostMat(kTrue, kEst1, w, N_SPECIES) << endl << endl;
+    cout << "kCost for a set of k estimates between 0 and 1s: " << CF1(kTrue, kEst, nMom) << endl;
+    cout << "kCost for a set of k estimates 0.1 * rand(0,1) away from true: " << CF1(kTrue, kEst1, N_SPECIES) << endl << endl;
+    cout << "kCostMat for a set of k estimates between 0 and 1s: " << CF2(kTrue, kEst, w, N_SPECIES) << endl;
+    cout << "kCostMat for a set of k estimates 0.1 * rand(0,1) away from true: " << CF2(kTrue, kEst1, w, N_SPECIES) << endl << endl;
     /* Print statement for the moments */
     oFileMAV << "2nd moment matrix:" << endl;
     oFileMAV << m2Mat << endl << endl;

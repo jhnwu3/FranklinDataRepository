@@ -5,7 +5,7 @@ double ke = 0.0001, kme = 20, kf = 0.01, kmf = 18, kd = 0.03, kmd = 1,
 ka2 = 0.01, ka3 = 0.01, C1T = 20, C2T = 5, C3T = 4;
 double k1 = 0.276782, k2 = 0.8370806, k3 = 0.443217, k4 = 0.04244124, k5 = 0.304645; // Bill's true k
 /* time conditions, t0 = start time, tf = final time, dt = time step*/
-double t0 = 0.0, tf = 4.0, dt = 1.0, tn = 3.0;
+double t0 = 0.0, tf = 3.0, dt = 0.2, tn = 3.0;
 
 /* Given avgs and vars about the distributions of vals being given from PSO Stewart */
 double mu_x = 1.47, mu_y = 1.74, mu_z = 1.99; // true means for MVN(theta)
