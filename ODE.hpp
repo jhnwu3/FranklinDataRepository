@@ -87,14 +87,37 @@ struct normal_random_variable
     }
 };
 
+/* Will come back to this later, but for now will use global variables, because I have no idea how to actually pass in variables
 struct ode
 {
     double param;
     ode( double param ) : m_param( param ) {}
 
-    void operator()( state_type const& x , state_type& dxdt , time_type t ) const 
+    void operator()( state_type const& x , state_type& dxdt , double t ) const 
     {
         // your ode
+    }
+}; */
+
+struct sys_func {
+    const vector<double> &R;
+    sys_func( vector<double> &R ) : R(R) {}
+
+    void operator()( const state_type &x , state_type &dxdt , double t ) const {
+#       pragma omp parallel for
+        for(size_t j = 0 ; j < x.size() ; j++) {
+            size_t offset = 0;
+            for(size_t i = 0 ; i < j ; i++)
+                offset += x[i].size();
+
+            for(size_t i = 0 ; i < x[j].size() ; i++) {
+                const point_type &xi = x[j][i];
+                point_type &dxdti = dxdt[j][i];
+                dxdti[0] = -sigma * (xi[0] - xi[1]);
+                dxdti[1] = R[offset + i] * xi[0] - xi[1] - xi[0] * xi[2];
+                dxdti[2] = -b * xi[2] + xi[0] * xi[1];
+            }
+        }
     }
 };
 
