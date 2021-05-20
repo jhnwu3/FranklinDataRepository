@@ -35,7 +35,7 @@ void doStuff(){
 /* Test finding min function */
 int main (){
     cout << "Before par. for, max_threads: " << omp_get_max_threads << endl;
-    int costs [N] = {1,2,4,5,6,7,8,9,10};  
+    int costs[N] = {1,2,4,5,6,7,8,9,10};  
 /*#pragma omp parallel for
     for(i = 0; i < N; i++){
         doStuff();
@@ -49,7 +49,7 @@ int main (){
     }*/
     #pragma omp parallel
     {
-        cout << "hello world from:" << omp_get_thread_num << endl; 
+        cout << "hello world from:" << endl; 
     }
 
     cout << "min:" << minimum << endl;
