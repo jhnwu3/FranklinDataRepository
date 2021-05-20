@@ -145,16 +145,16 @@ int main(int argc, char **argv)
     mVecTrue /= N;
     m2Mat /= N;
   
-    /* Fill moment vector with diagonals and unique values of the matrix */
-    for(int i = 0; i < N_SPECIES; i++){
-        mVecTrue(N_SPECIES + i) = m2Mat.diagonal()(i);
-    }
-    for(int row = 0; row < N_SPECIES - 1; row++){
-        for(int col = row + 1; col < N_SPECIES; col++){
-            mVecTrue(2*N_SPECIES + (row + col - 1)) = m2Mat(row, col);
-        }
-    }
-    cov = calculate_covariance_matrix(m2Mat, mVecTrue, N_SPECIES);
+    // /* Fill moment vector with diagonals and unique values of the matrix */
+    // for(int i = 0; i < N_SPECIES; i++){
+    //     mVecTrue(N_SPECIES + i) = m2Mat.diagonal()(i);
+    // }
+    // for(int row = 0; row < N_SPECIES - 1; row++){
+    //     for(int col = row + 1; col < N_SPECIES; col++){
+    //         mVecTrue(2*N_SPECIES + (row + col - 1)) = m2Mat(row, col);
+    //     }
+    // }
+    // cov = calculate_covariance_matrix(m2Mat, mVecTrue, N_SPECIES);
 
     /*******************************************************/
     VectorXd kFinal(5);
