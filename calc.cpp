@@ -17,9 +17,7 @@ double CF2(const VectorXd& trueVec, const  VectorXd& estVec, const MatrixXd& w, 
            cost += (estVec(i) - trueVec(i)) * w(i,j) *(estVec(j) - trueVec(j));
         }
     }*/
-    for(int i = 0; i < n; i++){
-        diff(i) = estVec(i) - trueVec(i);
-    }
+    diff = trueVec - estVec;
     cost = diff.transpose() * w * (diff.transpose()).transpose();
     return cost;
 }
