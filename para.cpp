@@ -26,21 +26,26 @@ typedef runge_kutta_cash_karp54< state_type > error_stepper_type;
 typedef controlled_runge_kutta< error_stepper_type > controlled_stepper_type;
 
 int i = 0;
-
-
+int minimum = 100;
+void doStuff(){
+    cout << "This is where your first iteration of particle computing happens!" << endl;
+}
 /* Test finding min function */
 int main (){
-    int min = 100;
     cout << "Before par. for, max_threads: " << omp_get_max_threads << endl;
     int costs [N] = {1,2,4,5,6,7,8,9,10};  
 #pragma omp parallel for
     for(i = 0; i < N; i++){
-        if(costs[i] < min){
-            min = costs[i];
-            cout << "From thread: " << omp_get_thread_num() << "cost:" << costs[i] << endl; 
-        }
+        doStuff();
+        #pragma omp critical
+            {
+                if(costs[i] < minimum ){
+                    minimum = costs[i];
+                    cout << "From thread: " << omp_get_thread_num() << "cost:" << costs[i] << endl; 
+                }
+            }
     }
 
-    cout << "min:" << min << endl;
+    cout << "min:" << minimum << endl;
     return EXIT_SUCCESS;
 }
