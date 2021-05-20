@@ -159,41 +159,41 @@ int main(int argc, char **argv)
     /*******************************************************/
     VectorXd kFinal(5);
     
-    /* for one particle */
+    /* parallel computing */
     
-    #pragma omp parallel for
-    {
-        for(particleIterator = 0; particleIterator < N_PARTICLES; particleIterator++){
-            /* variables */
-            int nIter = 2;
-            struct K kParticle; // structure for particle rate constants
-            VectorXd initConditions(N_SPECIES);
-            for(int iter = 1; iter <= nIter; iter++){
-                /* 2 iterations for each particle module */
-                if(iter == 1){ 
-                    /* Generate rate constants from uniform dist (0,1) for 5-dim hypercube */
-                    for(int i = 0; i < N_DIM; i++){
-                        kParticle.k[i] = unifDist(generator);                        
-                    }
+    // #pragma omp parallel for
+    // {
+    //     for(particleIterator = 0; particleIterator < N_PARTICLES; particleIterator++){
+    //         /* variables */
+    //         int nIter = 2;
+    //         struct K kParticle; // structure for particle rate constants
+    //         VectorXd initConditions(N_SPECIES);
+    //         for(int iter = 1; iter <= nIter; iter++){
+    //             /* 2 iterations for each particle module */
+    //             if(iter == 1){ 
+    //                 /* Generate rate constants from uniform dist (0,1) for 5-dim hypercube */
+    //                 for(int i = 0; i < N_DIM; i++){
+    //                     kParticle.k[i] = unifDist(generator);                        
+    //                 }
                     
-                    Particle_Linear sys(kParticle); // plug rate constants into ode sys to solve
-                    /* solve ODEs for fixed number of samples using ODEs, use linearODE3 sys for now & compute moments. */
-                    for(int i = 0; i < N; i++){
-                        initConditions = sample(); // sample from multilognormal dist
-                        for(int a = 0; a < N_SPECIES; a++){
-                            c0[a] = exp(initConditions(a)); // assign vector for use in ODE solns.
-                        }
-                        integrate_adaptive(controlled_stepper, sys, c0, t0, tf, dt, sample_adapt_linear);
-                    }
-                    /* Calculate CF1 for moments */ 
+    //                 Particle_Linear sys(kParticle); // plug rate constants into ode sys to solve
+    //                 /* solve ODEs for fixed number of samples using ODEs, use linearODE3 sys for now & compute moments. */
+    //                 for(int i = 0; i < N; i++){
+    //                     initConditions = sample(); // sample from multilognormal dist
+    //                     for(int a = 0; a < N_SPECIES; a++){
+    //                         c0[a] = exp(initConditions(a)); // assign vector for use in ODE solns.
+    //                     }
+    //                     integrate_adaptive(controlled_stepper, sys, c0, t0, tf, dt, sample_adapt_linear);
+    //                 }
+    //                 /* Calculate CF1 for moments */ 
 
-                    /* Calculate inverse weight matrix */
-                }else{
-                    /* using CF2 compute next cost function and recompute weight */
-                }
-            }
-        }
-    }
+    //                 /* Calculate inverse weight matrix */
+    //             }else{
+    //                 /* using CF2 compute next cost function and recompute weight */
+    //             }
+    //         }
+    //     }
+    // }
    
     /***** printf statements ******/
     /* Print statement for the rates */
