@@ -14,7 +14,7 @@ MatrixXd m2Mat = MatrixXd::Zero(N_SPECIES, N_SPECIES); // secomd moment vector
 
 
 /* Variables to be used for parallel computing*/
-VectorXd bestMomentVector = VectorXd::Zero(N_PARTICLES, N_SPECIES*(N_SPECIES + 3) / 2); // secomd moment vector 
+VectorXd bestMomentVector = VectorXd::Zero( N_SPECIES*(N_SPECIES + 3) / 2); // secomd moment vector 
 MatrixXd w = MatrixXd::Identity( (N_SPECIES * (N_SPECIES + 3)) / 2,  (N_SPECIES * (N_SPECIES + 3)) / 2); // Global Weight/Identity Matrix, nMoments x nMoments
 double globalLeastCost = 10000000; // some outrageous starting value
 int particleIterator = 0;
@@ -145,16 +145,16 @@ int main(int argc, char **argv)
     mVecTrue /= N;
     m2Mat /= N;
   
-    // /* Fill moment vector with diagonals and unique values of the matrix */
-    // for(int i = 0; i < N_SPECIES; i++){
-    //     mVecTrue(N_SPECIES + i) = m2Mat.diagonal()(i);
-    // }
-    // for(int row = 0; row < N_SPECIES - 1; row++){
-    //     for(int col = row + 1; col < N_SPECIES; col++){
-    //         mVecTrue(2*N_SPECIES + (row + col - 1)) = m2Mat(row, col);
-    //     }
-    // }
-    // cov = calculate_covariance_matrix(m2Mat, mVecTrue, N_SPECIES);
+    /* Fill moment vector with diagonals and unique values of the matrix */
+    for(int i = 0; i < N_SPECIES; i++){
+        mVecTrue(N_SPECIES + i) = m2Mat.diagonal()(i);
+    }
+    for(int row = 0; row < N_SPECIES - 1; row++){
+        for(int col = row + 1; col < N_SPECIES; col++){
+            mVecTrue(2*N_SPECIES + (row + col - 1)) = m2Mat(row, col);
+        }
+    }
+    cov = calculate_covariance_matrix(m2Mat, mVecTrue, N_SPECIES);
 
     /*******************************************************/
     VectorXd kFinal(5);
