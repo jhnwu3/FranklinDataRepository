@@ -61,6 +61,8 @@ double extern var_x, var_y, var_z; // true variances for MVN(theta);
 double extern rho_xy, rho_xz, rho_yz; // true correlations for MVN
 double extern sigma_x, sigma_y, sigma_z;
 
+/* Need to figure out how to clean up this code below later */
+
 /* Struct for multi-variate normal distribution */
 struct normal_random_variable
 {
@@ -89,18 +91,18 @@ struct normal_random_variable
 
 /* The rhs of x' = f(x) defined as a class */
 // define structure
-struct T
+struct K
 {
     array<double, N_DIM> k;
 };
 
-// force model
-class particle
+/* ODE- System to be used for parallel computing for particles */
+class Particle_Linear
 {
-    struct T T1;
+    struct K T1;
 
 public:
-    particle(struct T G) : T1(G) {}
+    Particle_Linear(struct K G) : T1(G) {}
 
     void operator() (  const state_type &c , state_type &dcdt , double t)
     {
@@ -122,4 +124,36 @@ public:
     }
 };
 
+/* Example Streaming Observer Format */
+struct streaming_observer
+{
+    std::ostream& m_out;
 
+    streaming_observer( std::ostream &out ) : m_out( out ) { }
+
+    template< class State >
+    void operator()( const State &x , double t ) const
+    {
+        container_type &q = x.first;
+        m_out << t;
+        for( size_t i=0 ; i<q.size() ; ++i ) m_out << "\t" << q[i];
+        m_out << "\n";
+    }
+};
+
+/* Example Streaming Observer Format */
+struct particle_observer
+{
+    std::ostream& m_out;
+
+    particle_observer( std::ostream &out ) : m_out( out ) { }
+
+    template< class State >
+    void operator()( const State &x , double t ) const
+    {
+        container_type &q = x.first;
+        m_out << t;
+        for( size_t i=0 ; i<q.size() ; ++i ) m_out << "\t" << q[i];
+        m_out << "\n";
+    }
+};

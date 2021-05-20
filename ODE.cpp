@@ -6,15 +6,18 @@ ofstream oFile1;
 ofstream oFileMAV; 
 
 /* Global Vectors/Matrices to be accessible by ODEINT solvers */
+/* data module */
 /* moment vector */
-VectorXd mVec = VectorXd::Zero(N_SPECIES*(N_SPECIES + 3) / 2); // for some t
+VectorXd mVecTrue = VectorXd::Zero(N_SPECIES*(N_SPECIES + 3) / 2); // for some t
 /* Second moment matrix. */
 MatrixXd m2Mat = MatrixXd::Zero(N_SPECIES, N_SPECIES); // secomd moment vector
-/* Weight/Identity Matrix */
-MatrixXd w = MatrixXd::Identity( (N_SPECIES * (N_SPECIES + 3)) / 2,  (N_SPECIES * (N_SPECIES + 3)) / 2);
 
-VectorXd kPart(N_DIM); // the rate constants for one particle
 
+/* Variables to be used for parallel computing*/
+VectorXd bestMomentVector = VectorXd::Zero(N_PARTICLES, N_SPECIES*(N_SPECIES + 3) / 2); // secomd moment vector 
+MatrixXd w = MatrixXd::Identity( (N_SPECIES * (N_SPECIES + 3)) / 2,  (N_SPECIES * (N_SPECIES + 3)) / 2); // Global Weight/Identity Matrix, nMoments x nMoments
+double globalLeastCost = 10000000; // some outrageous starting value
+int particleIterator = 0;
 
 /**** ODE-INT OBSERVER FUNCTIONS ****/
 /* Only to be used with integrate_const(), solves the ODE's defined in ODESys.cpp*/
@@ -22,7 +25,7 @@ void sample_const( const state_type &c , const double t){
     /* We will have some time we are sampling for */
     if(t == tn){       
         for(int row = 0; row < N_SPECIES; row++){
-            mVec(row) += c[row]; // store all first moments in the first part of the moment vec
+            mVecTrue(row) += c[row]; // store all first moments in the first part of the moment vec
             for(int col = row; col < N_SPECIES; col++){
                 m2Mat(row,col) += (c[row] * c[col]);   // store in a 2nd moment matrix
             }
@@ -39,7 +42,7 @@ void sample_adapt( const state_type &c , const double t){
     if(t == tf){
         
         for(int row = 0; row < N_SPECIES; row++){
-            mVec(row) += c[row]; // store all first moments in the first part of the moment vec
+            mVecTrue(row) += c[row]; // store all first moments in the first part of the moment vec
             for(int col = row; col < N_SPECIES; col++){
                 m2Mat(row,col) += (c[row] * c[col]);   // store in a 2nd moment matrix
             }
@@ -57,7 +60,7 @@ void sample_adapt_linear( const state_type &c , const double t){
     if(t == tf){
         
         for(int row = 0; row < N_SPECIES - 1; row++){
-            mVec(row) += c[row]; // store all first moments in the first part of the moment vec
+            mVecTrue(row) += c[row]; // store all first moments in the first part of the moment vec
             for(int col = row; col < N_SPECIES - 1; col++){
                 m2Mat(row,col) += (c[row] * c[col]);   // store in a 2nd moment matrix
             }
@@ -139,40 +142,56 @@ int main(int argc, char **argv)
    }
 
      /* Divide the sums at the end to reduce number of needed division ops */
-    mVec /= N;
+    mVecTrue /= N;
     m2Mat /= N;
   
     /* Fill moment vector with diagonals and unique values of the matrix */
     for(int i = 0; i < N_SPECIES; i++){
-        mVec(N_SPECIES + i) = m2Mat.diagonal()(i);
+        mVecTrue(N_SPECIES + i) = m2Mat.diagonal()(i);
     }
     for(int row = 0; row < N_SPECIES - 1; row++){
         for(int col = row + 1; col < N_SPECIES; col++){
-            mVec(2*N_SPECIES + (row + col - 1)) = m2Mat(row, col);
+            mVecTrue(2*N_SPECIES + (row + col - 1)) = m2Mat(row, col);
         }
     }
-    cov = calculate_covariance_matrix(m2Mat, mVec, N_SPECIES);
+    cov = calculate_covariance_matrix(m2Mat, mVecTrue, N_SPECIES);
 
     /*******************************************************/
     VectorXd kFinal(5);
     
     /* for one particle */
-    /* variables */
-    int nIter = 2;
-    for(int iter = 1; iter <= nIter; iter++){
-        /* 2 iterations for each particle module */
-        if(iter == 1){ 
-             /* Generate rate constants from uniform dist (0,1) for 5-dim hypercube */
-            for(int i = 0; i < N_DIM; i++){
-                kPart(i) = unifDist(generator);
+    
+    #pragma omp parallel for
+    {
+        for(particleIterator = 0; particleIterator < N_PARTICLES; particleIterator++){
+            /* variables */
+            int nIter = 2;
+            struct K kParticle; // structure for particle rate constants
+            VectorXd initConditions(N_SPECIES);
+            for(int iter = 1; iter <= nIter; iter++){
+                /* 2 iterations for each particle module */
+                if(iter == 1){ 
+                    /* Generate rate constants from uniform dist (0,1) for 5-dim hypercube */
+                    for(int i = 0; i < N_DIM; i++){
+                        kParticle.k[i] = unifDist(generator);                        
+                    }
+                    
+                    Particle_Linear sys(kParticle); // plug rate constants into ode sys to solve
+                    /* solve ODEs for fixed number of samples using ODEs, use linearODE3 sys for now & compute moments. */
+                    for(int i = 0; i < N; i++){
+                        initConditions = sample(); // sample from multilognormal dist
+                        for(int a = 0; a < N_SPECIES; a++){
+                            c0[a] = exp(initConditions(a)); // assign vector for use in ODE solns.
+                        }
+                        integrate_adaptive(controlled_stepper, sys, c0, t0, tf, dt, sample_adapt_linear);
+                    }
+                    /* Calculate CF1 for moments */ 
+
+                    /* Calculate inverse weight matrix */
+                }else{
+                    /* using CF2 compute next cost function and recompute weight */
+                }
             }
-            /* solve ODEs for fixed number of samples using ODEs, use linearODE3 sys for now & compute moments. */
-            for(int i = 0; i < N; i++){
-                
-            }
-            /* Calculate CF1 for moments*/ 
-        }else{
-            /* using CF2 compute next cost function and recompute weight */
         }
     }
    
@@ -192,9 +211,9 @@ int main(int argc, char **argv)
     cout << m2Mat << endl << endl;
 
     oFileMAV << "Full " << N_SPECIES << "protein moment vector" << endl;
-    oFileMAV << mVec.transpose() << endl;
+    oFileMAV << mVecTrue.transpose() << endl;
     cout << "Full " << N_SPECIES << " protein moment vector" << endl;
-    cout << mVec.transpose() << endl;
+    cout << mVecTrue.transpose() << endl;
 
     oFileMAV << "Cov Matrix" << endl << cov << endl;
     cout << "Cov Matrix:" << endl << cov << endl;
