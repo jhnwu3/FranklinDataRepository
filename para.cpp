@@ -26,14 +26,13 @@ typedef runge_kutta_cash_karp54< state_type > error_stepper_type;
 typedef controlled_runge_kutta< error_stepper_type > controlled_stepper_type;
 
 int i = 0;
-
+int min = 100;
 
 /* Test finding min function */
 int main (){
 
     cout << "Before par. for, max_threads: " << omp_get_max_threads << endl;
-    int costs [N] = {1,2,4,5,6,7,8,9,10};
-    int min = 100;
+    int costs [N] = {1,2,4,5,6,7,8,9,10};  
 #pragma omp parallel for
     for(i = 0; i < N; i++){
         if(costs[i] < min){
