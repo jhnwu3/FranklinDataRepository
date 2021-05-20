@@ -124,7 +124,7 @@ public:
     }
 };
 
-/* Example Streaming Observer Format */
+/* Example Streaming Observer Format 
 struct streaming_observer
 {
     std::ostream& m_out;
@@ -139,9 +139,9 @@ struct streaming_observer
         for( size_t i=0 ; i<q.size() ; ++i ) m_out << "\t" << q[i];
         m_out << "\n";
     }
-};
+}; */
 
-/* Example Streaming Observer Format */
+/* Example Streaming Observer Format 
 struct particle_observer
 {
     std::ostream& m_out;
@@ -156,4 +156,4 @@ struct particle_observer
         for( size_t i=0 ; i<q.size() ; ++i ) m_out << "\t" << q[i];
         m_out << "\n";
     }
-};
+}; */
