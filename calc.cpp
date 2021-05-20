@@ -20,7 +20,7 @@ double CF2(const VectorXd& trueVec, const  VectorXd& estVec, const MatrixXd& w, 
     for(int i = 0; i < n; i++){
         diff(i) = estVec(i) - trueVec(i);
     }
-    cost = diff.transpose() * w * diff.transpose().transpose();
+    cost = diff.transpose() * w * diff;
     return cost;
 }
 
