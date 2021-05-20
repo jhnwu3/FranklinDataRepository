@@ -141,19 +141,15 @@ struct streaming_observer
     }
 }; */
 
-/* Example Streaming Observer Format 
+/* Example Streaming Observer Format */
 struct particle_observer
 {
-    std::ostream& m_out;
-
-    particle_observer( std::ostream &out ) : m_out( out ) { }
-
-    template< class State >
-    void operator()( const State &x , double t ) const
+    vector<double>& momentVector; // note: Unfortunately, VectorXd from Eigen is far more complicated?
+    particle_observer( vector<double> &vec) : momentVector( vec ){}
+    void operator()( const state_type &c , const double t ) 
     {
-        container_type &q = x.first;
-        m_out << t;
-        for( size_t i=0 ; i<q.size() ; ++i ) m_out << "\t" << q[i];
-        m_out << "\n";
+        for(int i = 0; i < N_SPECIES; i++){
+            
+        }
     }
-}; */
+}; 

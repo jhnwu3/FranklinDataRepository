@@ -16,7 +16,7 @@ MatrixXd m2Mat = MatrixXd::Zero(N_SPECIES, N_SPECIES); // secomd moment vector
 /* Variables to be used for parallel computing*/
 VectorXd bestMomentVector = VectorXd::Zero( N_SPECIES*(N_SPECIES + 3) / 2); // secomd moment vector 
 MatrixXd w = MatrixXd::Identity( (N_SPECIES * (N_SPECIES + 3)) / 2,  (N_SPECIES * (N_SPECIES + 3)) / 2); // Global Weight/Identity Matrix, nMoments x nMoments
-double globalLeastCost = 10000000; // some outrageous starting value
+double globalCost = 10000000; // some outrageous starting value
 int particleIterator = 0;
 
 /**** ODE-INT OBSERVER FUNCTIONS ****/
@@ -161,40 +161,47 @@ int main(int argc, char **argv)
     
     /* parallel computing */
     
-    // #pragma omp parallel for
-    // {
-    //     for(particleIterator = 0; particleIterator < N_PARTICLES; particleIterator++){
-    //         /* variables */
-    //         int nIter = 2;
-    //         struct K kParticle; // structure for particle rate constants
-    //         VectorXd initConditions(N_SPECIES);
-    //         for(int iter = 1; iter <= nIter; iter++){
-    //             /* 2 iterations for each particle module */
-    //             if(iter == 1){ 
-    //                 /* Generate rate constants from uniform dist (0,1) for 5-dim hypercube */
-    //                 for(int i = 0; i < N_DIM; i++){
-    //                     kParticle.k[i] = unifDist(generator);                        
-    //                 }
-                    
-    //                 Particle_Linear sys(kParticle); // plug rate constants into ode sys to solve
-    //                 /* solve ODEs for fixed number of samples using ODEs, use linearODE3 sys for now & compute moments. */
-    //                 for(int i = 0; i < N; i++){
-    //                     initConditions = sample(); // sample from multilognormal dist
-    //                     for(int a = 0; a < N_SPECIES; a++){
-    //                         c0[a] = exp(initConditions(a)); // assign vector for use in ODE solns.
-    //                     }
-    //                     integrate_adaptive(controlled_stepper, sys, c0, t0, tf, dt, sample_adapt_linear);
-    //                 }
-    //                 /* Calculate CF1 for moments */ 
+    #pragma omp parallel for
+    {
+        for(particleIterator = 0; particleIterator < N_PARTICLES; particleIterator++){
+            /* variables */
+            int nIter = 2;
+            double cost;
+            struct K kParticle; // structure for particle rate constants
+            VectorXd initConditions(N_SPECIES);
+           
+                /* 2 iterations for each particle module */
+                
+            /* Generate rate constants from uniform dist (0,1) for 5-dim hypercube */
+            for(int i = 0; i < N_DIM; i++){
+                kParticle.k[i] = unifDist(generator);                        
+            }
+            
+            Particle_Linear sys(kParticle); // plug rate constants into ode sys to solve
+            /* solve ODEs for fixed number of samples using ODEs, use linearODE3 sys for now & compute moments. */
+            for(int i = 0; i < N; i++){
+                initConditions = sample(); // sample from multilognormal dist
+                for(int a = 0; a < N_SPECIES; a++){
+                    c0[a] = exp(initConditions(a)); // assign vector for use in ODE solns.
+                }
+                integrate_adaptive(controlled_stepper, sys, c0, t0, tf, dt, sample_adapt_linear);
+            }
+            
+            /* do cost comparisons with global cost using a 1 thread at a time to make sure to properly update global values*/
+            #pragma omp critical
+            {
 
-    //                 /* Calculate inverse weight matrix */
-    //             }else{
-    //                 /* using CF2 compute next cost function and recompute weight */
-    //             }
-    //         }
-    //     }
-    // }
-   
+            }
+            /* Calculate CF1 for moments */ 
+
+            /* Calculate inverse weight matrix */
+                
+        }
+    }
+    /* 2nd iteration */
+    /* using CF2 compute next cost function and recompute weight */
+
+
     /***** printf statements ******/
     /* Print statement for the rates */
     cout << "kTrue:" << endl << kTrue.transpose() << endl;
