@@ -31,7 +31,7 @@ int i = 0;
 /* Test finding min function */
 int main (){
 
-    cout << "Before par. for " << endl;
+    cout << "Before par. for, max_threads: " << omp_get_max_threads << endl;
     int costs [N] = {1,2,4,5,6,7,8,9,10};
     int min = 100;
 #pragma omp parallel for
@@ -41,6 +41,7 @@ int main (){
             cout << "From thread: " << omp_get_thread_num() << "cost:" << costs[i] << endl; 
         }
     }
+
     cout << "min:" << min << endl;
     return EXIT_SUCCESS;
 }
