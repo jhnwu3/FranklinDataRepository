@@ -36,6 +36,7 @@ void doStuff(){
 int main (){
     cout << "Before par. for, max_threads: " << omp_get_max_threads << endl;
     int costs[N] = {1,2,4,5,6,7,8,9,10};  
+    cout << costs;
     for(int j = 0; j< 20000; j++){}
 #pragma omp parallel for
     for(i = 0; i < N; i++){
@@ -44,7 +45,7 @@ int main (){
             {
                 if(costs[i] < minimum ){
                     minimum = costs[i];
-                    cout << "From thread: " << omp_get_thread_num() << "cost:" << costs[i] << endl; 
+                    cout << "From thread:" << omp_get_thread_num() << " cost:" << costs[i] << endl; 
                 }
             }
     }
