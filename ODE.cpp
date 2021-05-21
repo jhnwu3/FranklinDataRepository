@@ -192,7 +192,7 @@ int main(int argc, char **argv)
             /* do cost comparisons with global cost using a 1 thread at a time to make sure to properly update global values*/
             #pragma omp critical
             {   
-                cout << "protein moment vector: "<< pMVec.transpose() << "from thread" << omp_get_thread_num() << endl;
+                cout << "protein moment vector: "<< pMVec.transpose() << "from thread" << omp_get_thread_num << endl;
                 if(pCost < globalCost){
                     globalCost = pCost;
                 }
