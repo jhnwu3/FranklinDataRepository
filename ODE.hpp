@@ -142,14 +142,23 @@ struct streaming_observer
 }; */
 
 /* Example Streaming Observer Format */
-struct particle_observer
+struct Particle_Observer
 {
-    vector<double>& momentVector; // note: Unfortunately, VectorXd from Eigen is far more complicated?
-    particle_observer( vector<double> &vec) : momentVector( vec ){}
+    VectorXd& momentVector; // note: Unfortunately, VectorXd from Eigen is far more complicated?
+    Particle_Observer( VectorXd& vec) : momentVector( vec ){}
     void operator()( const state_type &c , const double t ) 
     {
-        for(int i = 0; i < N_SPECIES; i++){
-            
+        if(t == tf){
+            for(int row = 0; row < N_SPECIES; row++){
+                momentVector(row) += c[row]; 
+                for(int col = row; col < N_SPECIES; col++){
+                    if( row == col){
+                        momentVector(N_SPECIES + row) += c[row] * c[col];
+                    }else{
+                        momentVector(2*N_SPECIES + (row + col - 1)) += c[row] *c[col];
+                    }
+                }
+            }
         }
     }
 }; 

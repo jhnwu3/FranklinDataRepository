@@ -166,12 +166,12 @@ int main(int argc, char **argv)
         for(particleIterator = 0; particleIterator < N_PARTICLES; particleIterator++){
             /* variables */
             int nIter = 2;
-            double cost;
+            double pCost;
             struct K kParticle; // structure for particle rate constants
             VectorXd initConditions(N_SPECIES);
-           
-                /* 2 iterations for each particle module */
-                
+            VectorXd pMVec = VectorXd::Zero(nMom);
+            normal_random_variable sampleParticle{mu, sigma}; // placed input
+            /* 2 iterations for each particle module */
             /* Generate rate constants from uniform dist (0,1) for 5-dim hypercube */
             for(int i = 0; i < N_DIM; i++){
                 kParticle.k[i] = unifDist(generator);                        
@@ -180,17 +180,21 @@ int main(int argc, char **argv)
             Particle_Linear sys(kParticle); // plug rate constants into ode sys to solve
             /* solve ODEs for fixed number of samples using ODEs, use linearODE3 sys for now & compute moments. */
             for(int i = 0; i < N; i++){
-                initConditions = sample(); // sample from multilognormal dist
+                initConditions = sampleParticle(); // sample from multilognormal dist
                 for(int a = 0; a < N_SPECIES; a++){
                     c0[a] = exp(initConditions(a)); // assign vector for use in ODE solns.
                 }
-                integrate_adaptive(controlled_stepper, sys, c0, t0, tf, dt, sample_adapt_linear);
+                integrate_adaptive(controlled_stepper, sys, c0, t0, tf, dt, Particle_Observer(pMVec));
             }
             
+            pCost = CF1(mVecTrue, pMVec, nMom);
+
             /* do cost comparisons with global cost using a 1 thread at a time to make sure to properly update global values*/
             #pragma omp critical
             {
-
+                if(pCost < globalCost){
+                    globalCost = pCost;
+                }
             }
             /* Calculate CF1 for moments */ 
 
@@ -201,7 +205,7 @@ int main(int argc, char **argv)
     /* 2nd iteration */
     /* using CF2 compute next cost function and recompute weight */
 
-
+    
     /***** printf statements ******/
     /* Print statement for the rates */
     cout << "kTrue:" << endl << kTrue.transpose() << endl;
