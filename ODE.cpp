@@ -45,6 +45,7 @@ void sample_adapt( const state_type &c , const double t){
             mVecTrue(row) += c[row]; // store all first moments in the first part of the moment vec
             for(int col = row; col < N_SPECIES; col++){
                 m2Mat(row,col) += (c[row] * c[col]);   // store in a 2nd moment matrix
+                m2Mat(col,row) += (c[row] * c[col]);   // store in a 2nd moment matrix
             }
         }
     }
@@ -63,6 +64,7 @@ void sample_adapt_linear( const state_type &c , const double t){
             mVecTrue(row) += c[row]; // store all first moments in the first part of the moment vec
             for(int col = row; col < N_SPECIES - 1; col++){
                 m2Mat(row,col) += (c[row] * c[col]);   // store in a 2nd moment matrix
+                m2Mat(col,row) += (c[row] * c[col]);   // store in a 2nd moment matrix
             }
         }
     }
