@@ -176,7 +176,7 @@ int main(int argc, char **argv)
             for(int i = 0; i < N_DIM; i++){
                 kParticle.k[i] = unifDist(generator);                        
             }
-            cout << "k rate vector generated: " << kParticle.k << endl;
+           // cout << "k rate vector generated: " << kParticle.k << endl;
             Particle_Linear sys(kParticle); // plug rate constants into ode sys to solve
             /* solve ODEs for fixed number of samples using ODEs, use linearODE3 sys for now & compute moments. */
             for(int i = 0; i < N; i++){
