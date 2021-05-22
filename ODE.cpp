@@ -163,7 +163,7 @@ int main(int argc, char **argv)
     cout << "Parallel Computing starts here!" << endl << endl;
      #pragma omp parallel for
      {
-    //     for(particleIterator = 0; particleIterator < N_PARTICLES; particleIterator++){
+        for(particleIterator = 0; particleIterator < N_PARTICLES; particleIterator++){
     //         /* variables */
     //         int nIter = 2;
     //         double pCost;
@@ -197,11 +197,11 @@ int main(int argc, char **argv)
     //                 globalCost = pCost;
     //             }
     //         }
-    //         /* Calculate CF1 for moments */ 
+            /* Calculate CF1 for moments */ 
 
-    //         /* Calculate inverse weight matrix */
+            /* Calculate inverse weight matrix */
                 
-    //     }
+        }
      }
     cout << "Global Best Cost: " << globalCost << endl;
     /* 2nd iteration */
