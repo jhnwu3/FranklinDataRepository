@@ -179,27 +179,27 @@ int main(int argc, char **argv)
             for(int i = 0; i < N_DIM; i++){
                 kParticle.k(i) = unifDist(generator);                        
             }
-    //         cout << "k rate vector generated: " << kParticle.k << endl;
-    //         Particle_Linear sys(kParticle); // plug rate constants into ode sys to solve
-    //         /* solve ODEs for fixed number of samples using ODEs, use linearODE3 sys for now & compute moments. */
-    //         for(int i = 0; i < N; i++){
-    //             initConditions = sampleParticle(); // sample from multilognormal dist
-    //             for(int a = 0; a < N_SPECIES; a++){
-    //                 c0[a] = exp(initConditions(a)); // assign vector for use in ODE solns.
-    //             }
-    //             integrate_adaptive(controlled_stepper, sys, c0, t0, tf, dt, Particle_Observer(pMVec));
-    //         }
+            cout << "k rate vector generated: " << kParticle.k << endl;
+            Particle_Linear sys(kParticle); // plug rate constants into ode sys to solve
+            /* solve ODEs for fixed number of samples using ODEs, use linearODE3 sys for now & compute moments. */
+            for(int i = 0; i < N; i++){
+                initConditions = sampleParticle(); // sample from multilognormal dist
+                for(int a = 0; a < N_SPECIES; a++){
+                    c0[a] = exp(initConditions(a)); // assign vector for use in ODE solns.
+                }
+                integrate_adaptive(controlled_stepper, sys, c0, t0, tf, dt, Particle_Observer(pMVec));
+            }
             
-    //         pCost = CF1(mVecTrue, pMVec, nMom);
+            pCost = CF1(mVecTrue, pMVec, nMom);
             
-    //         /* do cost comparisons with global cost using a 1 thread at a time to make sure to properly update global values*/
-    //         #pragma omp critical
-    //         {   
-    //             cout << "protein moment vector: "<< pMVec.transpose() << "from thread: " << omp_get_thread_num << endl;
-    //             if(pCost < globalCost){
-    //                 globalCost = pCost;
-    //             }
-    //         }
+            /* do cost comparisons with global cost using a 1 thread at a time to make sure to properly update global values*/
+            #pragma omp critical
+            {   
+                cout << "protein moment vector: "<< pMVec.transpose() << "from thread: " << omp_get_thread_num << endl;
+                if(pCost < globalCost){
+                    globalCost = pCost;
+                }
+            }
             /* Calculate CF1 for moments */ 
 
             /* Calculate inverse weight matrix */
