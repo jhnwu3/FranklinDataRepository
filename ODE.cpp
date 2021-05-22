@@ -170,7 +170,7 @@ int main(int argc, char **argv)
             struct K kParticle; // structure for particle rate constants
             VectorXd initConditions(N_SPECIES);
             VectorXd pMVec = VectorXd::Zero(nMom);
-            normal_random_variable sampleParticle{mu, sigma}; // placed input
+          //  normal_random_variable sampleParticle{mu, sigma}; // placed input
             /* 2 iterations for each particle module */
             /* Generate rate constants from uniform dist (0,1) for 5-dim hypercube */
             for(int i = 0; i < N_DIM; i++){
@@ -179,13 +179,13 @@ int main(int argc, char **argv)
             cout << "k rate vector generated: " << kParticle.k << endl;
             Particle_Linear sys(kParticle); // plug rate constants into ode sys to solve
             /* solve ODEs for fixed number of samples using ODEs, use linearODE3 sys for now & compute moments. */
-            for(int i = 0; i < N; i++){
-                initConditions = sampleParticle(); // sample from multilognormal dist
-                for(int a = 0; a < N_SPECIES; a++){
-                    c0[a] = exp(initConditions(a)); // assign vector for use in ODE solns.
-                }
-                integrate_adaptive(controlled_stepper, sys, c0, t0, tf, dt, Particle_Observer(pMVec));
-            }
+            // for(int i = 0; i < N; i++){
+            //     initConditions = sampleParticle(); // sample from multilognormal dist
+            //     for(int a = 0; a < N_SPECIES; a++){
+            //         c0[a] = exp(initConditions(a)); // assign vector for use in ODE solns.
+            //     }
+            //     integrate_adaptive(controlled_stepper, sys, c0, t0, tf, dt, Particle_Observer(pMVec));
+            // }
             
             //pCost = CF1(mVecTrue, pMVec, nMom);
             
