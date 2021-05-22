@@ -161,8 +161,8 @@ int main(int argc, char **argv)
     
     /* parallel computing */
     cout << "Parallel Computing starts here!" << endl << endl;
-    // #pragma omp parallel for
-    // {
+     #pragma omp parallel for
+     {
     //     for(particleIterator = 0; particleIterator < N_PARTICLES; particleIterator++){
     //         /* variables */
     //         int nIter = 2;
@@ -202,7 +202,7 @@ int main(int argc, char **argv)
     //         /* Calculate inverse weight matrix */
                 
     //     }
-    // }
+     }
     cout << "Global Best Cost: " << globalCost << endl;
     /* 2nd iteration */
     /* using CF2 compute next cost function and recompute weight */
