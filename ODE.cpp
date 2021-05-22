@@ -172,12 +172,12 @@ int main(int argc, char **argv)
             struct K kParticle; // structure for particle rate constants
             VectorXd initConditions(N_SPECIES);
             VectorXd pMVec = VectorXd::Zero(nMom);
-    //         normal_random_variable sampleParticle{mu, sigma}; // placed input
-    //         /* 2 iterations for each particle module */
-    //         /* Generate rate constants from uniform dist (0,1) for 5-dim hypercube */
-    //         for(int i = 0; i < N_DIM; i++){
-    //             kParticle.k[i] = unifDist(generator);                        
-    //         }
+            normal_random_variable sampleParticle{mu, sigma}; // placed input
+            /* 2 iterations for each particle module */
+            /* Generate rate constants from uniform dist (0,1) for 5-dim hypercube */
+            for(int i = 0; i < N_DIM; i++){
+                kParticle.k[i] = unifDist(generator);                        
+            }
     //         cout << "k rate vector generated: " << kParticle.k << endl;
     //         Particle_Linear sys(kParticle); // plug rate constants into ode sys to solve
     //         /* solve ODEs for fixed number of samples using ODEs, use linearODE3 sys for now & compute moments. */
