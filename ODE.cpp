@@ -172,7 +172,7 @@ int main(int argc, char **argv)
             struct K kParticle; // structure for particle rate constants
             VectorXd initConditions(N_SPECIES);
             VectorXd pMVec = VectorXd::Zero(nMom);
-            normal_random_variable sampleParticle{mu, sigma}; // placed input
+            //normal_random_variable sampleParticle{mu, sigma}; // placed input
             /* 2 iterations for each particle module */
             /* Generate rate constants from uniform dist (0,1) for 5-dim hypercube */
             for(int i = 0; i < N_DIM; i++){
