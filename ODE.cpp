@@ -210,13 +210,13 @@ int main(int argc, char **argv)
 
     /***** printf statements ******/
     /* Print statement for the rates */
-    cout << "kTrue:" << endl << kTrue.transpose() << endl;
-    cout << "kEst between 0 and 1s:" << endl << kEst.transpose() << endl;
-    cout << "kEst1 0.1 * rand(0,1) away:" << endl << kEst1.transpose() << endl;
-    cout << "kCost for a set of k estimates between 0 and 1s: " << CF1(kTrue, kEst, nMom) << endl;
-    cout << "kCost for a set of k estimates 0.1 * rand(0,1) away from true: " << CF1(kTrue, kEst1, N_SPECIES) << endl << endl;
-    cout << "kCostMat for a set of k estimates between 0 and 1s: " << CF2(kTrue, kEst, w, N_SPECIES) << endl;
-    cout << "kCostMat for a set of k estimates 0.1 * rand(0,1) away from true: " << CF2(kTrue, kEst1, w, N_SPECIES) << endl << endl;
+    // cout << "kTrue:" << endl << kTrue.transpose() << endl;
+    // cout << "kEst between 0 and 1s:" << endl << kEst.transpose() << endl;
+    // cout << "kEst1 0.1 * rand(0,1) away:" << endl << kEst1.transpose() << endl;
+    // cout << "kCost for a set of k estimates between 0 and 1s: " << CF1(kTrue, kEst, nMom) << endl;
+    // cout << "kCost for a set of k estimates 0.1 * rand(0,1) away from true: " << CF1(kTrue, kEst1, N_SPECIES) << endl << endl;
+    // cout << "kCostMat for a set of k estimates between 0 and 1s: " << CF2(kTrue, kEst, w, N_SPECIES) << endl;
+    // cout << "kCostMat for a set of k estimates 0.1 * rand(0,1) away from true: " << CF2(kTrue, kEst1, w, N_SPECIES) << endl << endl;
     /* Print statement for the moments */
     oFileMAV << "2nd moment matrix:" << endl;
     oFileMAV << m2Mat << endl << endl;
