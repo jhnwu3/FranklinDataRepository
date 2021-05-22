@@ -161,48 +161,48 @@ int main(int argc, char **argv)
     
     /* parallel computing */
     cout << "Parallel Computing starts here!" << endl << endl;
-    #pragma omp parallel for
-    {
-        for(particleIterator = 0; particleIterator < N_PARTICLES; particleIterator++){
-            /* variables */
-            int nIter = 2;
-            double pCost;
-            struct K kParticle; // structure for particle rate constants
-            VectorXd initConditions(N_SPECIES);
-            VectorXd pMVec = VectorXd::Zero(nMom);
-          //  normal_random_variable sampleParticle{mu, sigma}; // placed input
-            /* 2 iterations for each particle module */
-            /* Generate rate constants from uniform dist (0,1) for 5-dim hypercube */
-            for(int i = 0; i < N_DIM; i++){
-                kParticle.k[i] = unifDist(generator);                        
-            }
-            cout << "k rate vector generated: " << kParticle.k << endl;
-            Particle_Linear sys(kParticle); // plug rate constants into ode sys to solve
-            /* solve ODEs for fixed number of samples using ODEs, use linearODE3 sys for now & compute moments. */
-            // for(int i = 0; i < N; i++){
-            //     initConditions = sampleParticle(); // sample from multilognormal dist
-            //     for(int a = 0; a < N_SPECIES; a++){
-            //         c0[a] = exp(initConditions(a)); // assign vector for use in ODE solns.
-            //     }
-            //     integrate_adaptive(controlled_stepper, sys, c0, t0, tf, dt, Particle_Observer(pMVec));
-            // }
+    // #pragma omp parallel for
+    // {
+    //     for(particleIterator = 0; particleIterator < N_PARTICLES; particleIterator++){
+    //         /* variables */
+    //         int nIter = 2;
+    //         double pCost;
+    //         struct K kParticle; // structure for particle rate constants
+    //         VectorXd initConditions(N_SPECIES);
+    //         VectorXd pMVec = VectorXd::Zero(nMom);
+    //         normal_random_variable sampleParticle{mu, sigma}; // placed input
+    //         /* 2 iterations for each particle module */
+    //         /* Generate rate constants from uniform dist (0,1) for 5-dim hypercube */
+    //         for(int i = 0; i < N_DIM; i++){
+    //             kParticle.k[i] = unifDist(generator);                        
+    //         }
+    //         cout << "k rate vector generated: " << kParticle.k << endl;
+    //         Particle_Linear sys(kParticle); // plug rate constants into ode sys to solve
+    //         /* solve ODEs for fixed number of samples using ODEs, use linearODE3 sys for now & compute moments. */
+    //         for(int i = 0; i < N; i++){
+    //             initConditions = sampleParticle(); // sample from multilognormal dist
+    //             for(int a = 0; a < N_SPECIES; a++){
+    //                 c0[a] = exp(initConditions(a)); // assign vector for use in ODE solns.
+    //             }
+    //             integrate_adaptive(controlled_stepper, sys, c0, t0, tf, dt, Particle_Observer(pMVec));
+    //         }
             
-            //pCost = CF1(mVecTrue, pMVec, nMom);
+    //         pCost = CF1(mVecTrue, pMVec, nMom);
             
-            /* do cost comparisons with global cost using a 1 thread at a time to make sure to properly update global values*/
-            #pragma omp critical
-            {   
-                cout << "protein moment vector: "<< pMVec.transpose() << "from thread: " << omp_get_thread_num << endl;
-                if(pCost < globalCost){
-                    globalCost = pCost;
-                }
-            }
-            /* Calculate CF1 for moments */ 
+    //         /* do cost comparisons with global cost using a 1 thread at a time to make sure to properly update global values*/
+    //         #pragma omp critical
+    //         {   
+    //             cout << "protein moment vector: "<< pMVec.transpose() << "from thread: " << omp_get_thread_num << endl;
+    //             if(pCost < globalCost){
+    //                 globalCost = pCost;
+    //             }
+    //         }
+    //         /* Calculate CF1 for moments */ 
 
-            /* Calculate inverse weight matrix */
+    //         /* Calculate inverse weight matrix */
                 
-        }
-    }
+    //     }
+    // }
     cout << "Global Best Cost: " << globalCost << endl;
     /* 2nd iteration */
     /* using CF2 compute next cost function and recompute weight */
@@ -210,13 +210,13 @@ int main(int argc, char **argv)
 
     /***** printf statements ******/
     /* Print statement for the rates */
-    // cout << "kTrue:" << endl << kTrue.transpose() << endl;
-    // cout << "kEst between 0 and 1s:" << endl << kEst.transpose() << endl;
-    // cout << "kEst1 0.1 * rand(0,1) away:" << endl << kEst1.transpose() << endl;
-    // cout << "kCost for a set of k estimates between 0 and 1s: " << CF1(kTrue, kEst, nMom) << endl;
-    // cout << "kCost for a set of k estimates 0.1 * rand(0,1) away from true: " << CF1(kTrue, kEst1, N_SPECIES) << endl << endl;
-    // cout << "kCostMat for a set of k estimates between 0 and 1s: " << CF2(kTrue, kEst, w, N_SPECIES) << endl;
-    // cout << "kCostMat for a set of k estimates 0.1 * rand(0,1) away from true: " << CF2(kTrue, kEst1, w, N_SPECIES) << endl << endl;
+    cout << "kTrue:" << endl << kTrue.transpose() << endl;
+    cout << "kEst between 0 and 1s:" << endl << kEst.transpose() << endl;
+    cout << "kEst1 0.1 * rand(0,1) away:" << endl << kEst1.transpose() << endl;
+    cout << "kCost for a set of k estimates between 0 and 1s: " << CF1(kTrue, kEst, nMom) << endl;
+    cout << "kCost for a set of k estimates 0.1 * rand(0,1) away from true: " << CF1(kTrue, kEst1, N_SPECIES) << endl << endl;
+    cout << "kCostMat for a set of k estimates between 0 and 1s: " << CF2(kTrue, kEst, w, N_SPECIES) << endl;
+    cout << "kCostMat for a set of k estimates 0.1 * rand(0,1) away from true: " << CF2(kTrue, kEst1, w, N_SPECIES) << endl << endl;
     /* Print statement for the moments */
     oFileMAV << "2nd moment matrix:" << endl;
     oFileMAV << m2Mat << endl << endl;
