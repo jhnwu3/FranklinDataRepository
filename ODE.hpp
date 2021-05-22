@@ -93,7 +93,7 @@ struct normal_random_variable
 // define structure
 struct K
 {
-    array<double, N_DIM> k;
+    VectorXd k;
 };
 
 /* ODE- System to be used for parallel computing for particles */
@@ -107,9 +107,9 @@ public:
     void operator() (  const state_type &c , state_type &dcdt , double t)
     {
         MatrixXd kr(N_SPECIES, N_SPECIES); 
-        kr << 0, T1.k[1], T1.k[3],
-            T1.k[2], 0, T1.k[0],
-            0, T1.k[4], 0;
+        kr << 0, T1.k(1), T1.k(3),
+            T1.k(2), 0, T1.k(0),
+            0, T1.k(4), 0;
         dcdt[0] = (kr(0,0) * c[0] - kr(0,0) * c[0]) +
               (kr(0,1) * c[1] - kr(1,0) * c[0]) + 
               (kr(0,2) * c[2] - kr(2,0) * c[0]);
