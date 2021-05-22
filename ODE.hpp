@@ -93,7 +93,7 @@ struct normal_random_variable
 // define structure
 struct K
 {
-    VectorXd k;
+    VectorXd k(N_DIM);
 };
 
 /* ODE- System to be used for parallel computing for particles */
