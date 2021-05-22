@@ -170,6 +170,7 @@ int main(int argc, char **argv)
             int nIter = 2;
             double pCost;
             struct K kParticle; // structure for particle rate constants
+            kParticle.k = VectorXd::Zero(N_DIM);
             VectorXd initConditions(N_SPECIES);
             VectorXd pMVec = VectorXd::Zero(nMom);
             normal_random_variable sampleParticle{mu, sigma}; // placed input
