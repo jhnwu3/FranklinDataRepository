@@ -166,12 +166,12 @@ int main(int argc, char **argv)
      #pragma omp parallel for
      {
         for(particleIterator = 0; particleIterator < N_PARTICLES; particleIterator++){
-    //         /* variables */
-    //         int nIter = 2;
-    //         double pCost;
-    //         struct K kParticle; // structure for particle rate constants
-    //         VectorXd initConditions(N_SPECIES);
-    //         VectorXd pMVec = VectorXd::Zero(nMom);
+            /* variables */
+            int nIter = 2;
+            double pCost;
+            struct K kParticle; // structure for particle rate constants
+            VectorXd initConditions(N_SPECIES);
+            VectorXd pMVec = VectorXd::Zero(nMom);
     //         normal_random_variable sampleParticle{mu, sigma}; // placed input
     //         /* 2 iterations for each particle module */
     //         /* Generate rate constants from uniform dist (0,1) for 5-dim hypercube */
