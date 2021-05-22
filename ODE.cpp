@@ -169,6 +169,7 @@ int main(int argc, char **argv)
             /* variables */
             int nIter = 2;
             double pCost;
+            state_type particleC0;
             struct K kParticle; // structure for particle rate constants
             kParticle.k = VectorXd::Zero(N_DIM);
             VectorXd initConditions(N_SPECIES);
@@ -179,15 +180,15 @@ int main(int argc, char **argv)
             for(int i = 0; i < N_DIM; i++){
                 kParticle.k(i) = unifDist(generator);                        
             }
-            cout << "k rate vector generated: " << kParticle.k << endl;
+            cout << "k rate vector generated: " << kParticle.k.transpose() << endl;
             Particle_Linear sys(kParticle); // plug rate constants into ode sys to solve
             /* solve ODEs for fixed number of samples using ODEs, use linearODE3 sys for now & compute moments. */
             for(int i = 0; i < N; i++){
                 initConditions = sampleParticle(); // sample from multilognormal dist
                 for(int a = 0; a < N_SPECIES; a++){
-                    c0[a] = exp(initConditions(a)); // assign vector for use in ODE solns.
+                    particleC0[a] = exp(initConditions(a)); // assign vector for use in ODE solns.
                 }
-                integrate_adaptive(controlled_stepper, sys, c0, t0, tf, dt, Particle_Observer(pMVec));
+                integrate_adaptive(controlled_stepper, sys, particleC0, t0, tf, dt, Particle_Observer(pMVec));
             }
             
             pCost = CF1(mVecTrue, pMVec, nMom);
