@@ -191,6 +191,7 @@ int main(int argc, char **argv)
                 integrate_adaptive(controlled_stepper, sys, particleC0, t0, tf, dt, Particle_Observer(pMVec));
             }
             
+            pMVec /= N; 
             pCost = CF1(mVecTrue, pMVec, nMom);
             
             /* do cost comparisons with global cost using a 1 thread at a time to make sure to properly update global values*/
