@@ -141,21 +141,32 @@ struct streaming_observer
     }
 }; */
 
+struct Particle_Components
+{
+    VectorXd momentVector; // note: Unfortunately, VectorXd from Eigen is far more complicated?
+    MatrixXd sampleMat; 
+};
+
 /* Example Streaming Observer Format */
 struct Particle_Observer
 {
-    VectorXd& momentVector; // note: Unfortunately, VectorXd from Eigen is far more complicated?
-    Particle_Observer( VectorXd& vec) : momentVector( vec ){}
+    struct Particle_Components pComp;
+    Particle_Observer( struct Particle_Components pCom) : pComp( pCom ){}
     void operator()( const state_type &c , const double t ) 
     {
         if(t == tf){
+            for(int i; i < N_SPECIES; i++){
+                 pComp.sampleMat(pComp.sampleMat.rows() - 1, i) = c[i];
+            }
+            pComp.sampleMat.conservativeResize(pComp.sampleMat.rows() + 1 ,pComp.sampleMat.cols());
+
             for(int row = 0; row < N_SPECIES; row++){
-                momentVector(row) += c[row]; 
+                pComp.momentVector(row) += c[row]; 
                 for(int col = row; col < N_SPECIES; col++){
                     if( row == col){
-                        momentVector(N_SPECIES + row) += c[row] * c[col];
+                        pComp.momentVector(N_SPECIES + row) += c[row] * c[col];
                     }else{
-                        momentVector(2*N_SPECIES + (row + col - 1)) += c[row] *c[col];
+                        pComp.momentVector(2*N_SPECIES + (row + col - 1)) += c[row] *c[col];
                     }
                 }
             }

@@ -14,6 +14,7 @@ MatrixXd m2Mat = MatrixXd::Zero(N_SPECIES, N_SPECIES); // secomd moment vector
 
 
 /* Variables to be used for parallel computing*/
+MatrixXd xs = MatrixXd::Zero(N, N_SPECIES);// sample matrix
 VectorXd bestMomentVector = VectorXd::Zero( N_SPECIES*(N_SPECIES + 3) / 2); // secomd moment vector 
 MatrixXd w = MatrixXd::Identity( (N_SPECIES * (N_SPECIES + 3)) / 2,  (N_SPECIES * (N_SPECIES + 3)) / 2); // Global Weight/Identity Matrix, nMoments x nMoments
 double globalCost = 10000000; // some outrageous starting value
@@ -163,9 +164,9 @@ int main(int argc, char **argv)
     
     /* parallel computing */
     cout << "Parallel Computing starts here!" << endl << endl;
-     #pragma omp parallel for
-     {
-        for(particleIterator = 0; particleIterator < N_PARTICLES; particleIterator++){
+    //  #pragma omp parallel for
+    //  {
+    //     for(particleIterator = 0; particleIterator < N_PARTICLES; particleIterator++){
             /* variables */
             int nIter = 2;
             double pCost;
@@ -173,7 +174,9 @@ int main(int argc, char **argv)
             struct K kParticle; // structure for particle rate constants
             kParticle.k = VectorXd::Zero(N_DIM);
             VectorXd initConditions(N_SPECIES);
-            VectorXd pMVec = VectorXd::Zero(nMom);
+            Particle_Components pComp;
+            pComp.momentVector = VectorXd::Zero(nMom);
+            pComp.sampleMat = MatrixXd(1, N_SPECIES); // start off with 1 row for initial sample size
             normal_random_variable sampleParticle{mu, sigma}; // placed input
             /* 2 iterations for each particle module */
             /* Generate rate constants from uniform dist (0,1) for 5-dim hypercube */
@@ -188,26 +191,29 @@ int main(int argc, char **argv)
                 for(int a = 0; a < N_SPECIES; a++){
                     particleC0[a] = exp(initConditions(a)); // assign vector for use in ODE solns.
                 }
-                integrate_adaptive(controlled_stepper, sys, particleC0, t0, tf, dt, Particle_Observer(pMVec));
+                integrate_adaptive(controlled_stepper, sys, particleC0, t0, tf, dt, Particle_Observer(pComp));
             }
             
-            pMVec /= N; 
-            pCost = CF1(mVecTrue, pMVec, nMom);
+            pComp.momentVector /= N; 
+            cout <<"mvec: " << pComp.momentVector.transpose() << endl<<endl;
+            cout << "sampleMat: "<< endl << pComp.sampleMat << endl << endl;
+            pCost = CF1(mVecTrue, pComp.momentVector, nMom);
             
             /* do cost comparisons with global cost using a 1 thread at a time to make sure to properly update global values*/
-            #pragma omp critical
-            {   
-                cout << "protein moment vector: "<< pMVec.transpose() << "from thread: " << omp_get_thread_num << endl;
-                if(pCost < globalCost){
-                    globalCost = pCost;
-                }
-            }
+            // #pragma omp critical
+            // {   
+            //     cout << "protein moment vector: "<< pComp.momentVector.transpose() << "from thread: " << omp_get_thread_num << endl;
+            //     if(pCost < globalCost){
+            //         globalCost = pCost;
+
+            //     }
+            // }
             /* Calculate CF1 for moments */ 
 
             /* Calculate inverse weight matrix */
                 
-        }
-     }
+    //     }
+    //  }
     cout << "Global Best Cost: " << globalCost << endl;
     /* 2nd iteration */
     /* using CF2 compute next cost function and recompute weight */
