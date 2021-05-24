@@ -196,7 +196,6 @@ int main(int argc, char **argv)
             
             pComp.momentVector /= N; 
             cout <<"mvec: " << pComp.momentVector.transpose() << endl<<endl;
-            cout << "sampleMat: "<< endl << pComp.sampleMat << endl << endl;
             pCost = CF1(mVecTrue, pComp.momentVector, nMom);
             
             /* do cost comparisons with global cost using a 1 thread at a time to make sure to properly update global values*/
