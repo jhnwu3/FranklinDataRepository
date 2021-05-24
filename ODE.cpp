@@ -197,6 +197,7 @@ int main(int argc, char **argv)
             pComp.momentVector /= N; 
             cout <<"mvec: " << pComp.momentVector.transpose() << endl<<endl;
             pCost = CF1(mVecTrue, pComp.momentVector, nMom);
+            cout << "wt. matrix: " << endl << calculate_weight_matrix(pComp.sampleMat, mVecTrue, nMom, N);
             
             /* do cost comparisons with global cost using a 1 thread at a time to make sure to properly update global values*/
             // #pragma omp critical

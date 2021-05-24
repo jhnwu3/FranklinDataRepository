@@ -74,3 +74,27 @@ MatrixXd generate_sample_space(int nProt, int n){
     }
     return sampleSpace;
 }
+/* calculates weight matrix */
+MatrixXd calculate_weight_matrix(const MatrixXd &sample, const VectorXd &mu, int nMom, int n){
+    MatrixXd inv = MatrixXd::Zero(nMom, nMom);
+    VectorXd X = VectorXd::Zero(nMom);
+    for(int s = 0; s < n; s++){
+        for(int row = 0; row < N_SPECIES; row++){
+            X(row) = sample(s, row); 
+            for(int col = row; col < N_SPECIES; col++){
+                if( row == col){
+                    X(N_SPECIES + row) = sample(s, row) * sample(s, col);
+                }else{
+                    X(2*N_SPECIES + (row + col - 1)) = sample(s,row) * sample(s,col);
+                }
+            }
+        }
+        for(int i = 0; i < nMom; i++){
+            for(int j = 0; j < nMom; j++){
+                inv(i,j) += (X(i) - mu(i)) * (X(j) - mu(j));
+            }
+        }
+    }
+    inv /= n;
+    return inv.inverse();
+}

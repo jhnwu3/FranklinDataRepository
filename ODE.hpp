@@ -48,6 +48,7 @@ double CF2(const VectorXd& trueVec, const VectorXd& estVec, const MatrixXd& w, i
 MatrixXd calculate_covariance_matrix(const MatrixXd& m2, const VectorXd& mVec, int nProt);
 MatrixXd create_covariance_matrix(const MatrixXd& sampleSpace, const VectorXd& mu, int nProt);
 MatrixXd generate_sample_space(int nProt, int n);
+MatrixXd calculate_weight_matrix(const MatrixXd &sample, const VectorXd &mu, int nMom, int n);
 /* Note: We have global variables in this case for ease of access by ODEINT solvers:*/
 /* model global diff eq. constants */
 double extern ke, kme, kf, kmf, kd, kmd, ka2, ka3, C1T, C2T, C3T;
