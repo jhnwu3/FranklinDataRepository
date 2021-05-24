@@ -151,12 +151,12 @@ struct Particle_Components
 /* Example Streaming Observer Format */
 struct Particle_Observer
 {
-    struct Particle_Components pComp;
-    Particle_Observer( struct Particle_Components pCom) : pComp( pCom ){}
+    struct Particle_Components &pComp;
+    Particle_Observer( struct Particle_Components &pCom) : pComp( pCom ){}
     void operator()( const state_type &c , const double t ) 
     {
         if(t == tf){
-            cout << "confirmed" << endl;
+           // cout << "confirmed" << endl;
             for(int i; i < N_SPECIES; i++){
                  pComp.sampleMat(pComp.sampleMat.rows() - 1, i) = c[i];
             }
