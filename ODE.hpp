@@ -155,6 +155,7 @@ struct Particle_Observer
     void operator()( const state_type &c , const double t ) 
     {
         if(t == tf){
+            cout << "confirmed" << endl;
             for(int i; i < N_SPECIES; i++){
                  pComp.sampleMat(pComp.sampleMat.rows() - 1, i) = c[i];
             }
