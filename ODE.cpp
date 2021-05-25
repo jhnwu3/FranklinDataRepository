@@ -12,68 +12,12 @@ VectorXd mVecTrue = VectorXd::Zero(N_SPECIES*(N_SPECIES + 3) / 2); // for some t
 /* Second moment matrix. */
 MatrixXd m2Mat = MatrixXd::Zero(N_SPECIES, N_SPECIES); // secomd moment vector
 
-
 /* Variables to be used for parallel computing*/
 MatrixXd xs = MatrixXd::Zero(N, N_SPECIES);// sample matrix
 VectorXd bestMomentVector = VectorXd::Zero( N_SPECIES*(N_SPECIES + 3) / 2); // secomd moment vector 
 MatrixXd w = MatrixXd::Identity( (N_SPECIES * (N_SPECIES + 3)) / 2,  (N_SPECIES * (N_SPECIES + 3)) / 2); // Global Weight/Identity Matrix, nMoments x nMoments
 double globalCost = 10000000; // some outrageous starting value
 int particleIterator = 0;
-
-/**** ODE-INT OBSERVER FUNCTIONS ****/
-/* Only to be used with integrate_const(), solves the ODE's defined in ODESys.cpp*/
-void sample_const( const state_type &c , const double t){
-    /* We will have some time we are sampling for */
-    if(t == tn){       
-        for(int row = 0; row < N_SPECIES; row++){
-            mVecTrue(row) += c[row]; // store all first moments in the first part of the moment vec
-            for(int col = row; col < N_SPECIES; col++){
-                m2Mat(row,col) += (c[row] * c[col]);   // store in a 2nd moment matrix
-            }
-        }
-    }
-    if( c[0] - c[1] < 1e-10 && c[0] - c[1] > -1e-10){
-        cout << "Out of bounds!" << endl;
-        return; // break out for loop
-    }
-}
-/* Only to be used with integrate/integrate_adaptive - nonlinear */
-void sample_adapt( const state_type &c , const double t){
-    /* We will have some time we are sampling towards */
-    if(t == tf){
-        
-        for(int row = 0; row < N_SPECIES; row++){
-            mVecTrue(row) += c[row]; // store all first moments in the first part of the moment vec
-            for(int col = row; col < N_SPECIES; col++){
-                m2Mat(row,col) += (c[row] * c[col]);   // store in a 2nd moment matrix
-                m2Mat(col,row) = m2Mat(row,col);   // store in a 2nd moment matrix
-            }
-        }
-    }
-    if( c[0] - c[1] < 1e-10 && c[0] - c[1] > -1e-10){
-        cout << "Out of bounds!" << endl;
-        return; // break out for loop
-    }
-}
-
-/* Only to be used with integrate/integrate_adaptive - linear */
-void sample_adapt_linear( const state_type &c , const double t){
-    /* We will have some time we are sampling towards */
-    if(t == tf){
-        
-        for(int row = 0; row < N_SPECIES - 1; row++){
-            mVecTrue(row) += c[row]; // store all first moments in the first part of the moment vec
-            for(int col = row; col < N_SPECIES - 1; col++){
-                m2Mat(row,col) += (c[row] * c[col]);   // store in a 2nd moment matrix
-                m2Mat(col,row) = m2Mat(row,col);   // store in a 2nd moment matrix
-            }
-        }
-    }
-    if( c[0] - c[1] < 1e-10 && c[0] - c[1] > -1e-10){
-        cout << "Out of bounds!" << endl;
-        return; // break out for loop
-    }
-}
 
 int main(int argc, char **argv)
 {   
@@ -164,9 +108,9 @@ int main(int argc, char **argv)
     
     /* parallel computing */
     cout << "Parallel Computing starts here!" << endl << endl;
-    //  #pragma omp parallel for
-    //  {
-    //     for(particleIterator = 0; particleIterator < N_PARTICLES; particleIterator++){
+     #pragma omp parallel for
+     {
+        for(particleIterator = 0; particleIterator < N_PARTICLES; particleIterator++){
             /* variables */
             int nIter = 2;
             double pCost;
@@ -200,20 +144,20 @@ int main(int argc, char **argv)
             cout << "wt. matrix: " << endl << calculate_weight_matrix(pComp.sampleMat, mVecTrue, nMom, N);
             
             /* do cost comparisons with global cost using a 1 thread at a time to make sure to properly update global values*/
-            // #pragma omp critical
-            // {   
-            //     cout << "protein moment vector: "<< pComp.momentVector.transpose() << "from thread: " << omp_get_thread_num << endl;
-            //     if(pCost < globalCost){
-            //         globalCost = pCost;
+            #pragma omp critical
+            {   
+                cout << "protein moment vector: "<< pComp.momentVector.transpose() << "from thread: " << omp_get_thread_num << endl;
+                if(pCost < globalCost){
+                    globalCost = pCost;
 
-            //     }
-            // }
+                }
+            }
             /* Calculate CF1 for moments */ 
 
             /* Calculate inverse weight matrix */
                 
-    //     }
-    //  }
+        }
+     }
     cout << "Global Best Cost: " << globalCost << endl;
     /* 2nd iteration */
     /* using CF2 compute next cost function and recompute weight */
@@ -271,4 +215,59 @@ void close_files(){
     oFile.close();
     oFile1.close();
     oFileMAV.close();
+}
+
+/**** ODE-INT OBSERVER FUNCTIONS ****/
+/* Only to be used with integrate_const(), solves the ODE's defined in ODESys.cpp*/
+void sample_const( const state_type &c , const double t){
+    /* We will have some time we are sampling for */
+    if(t == tn){       
+        for(int row = 0; row < N_SPECIES; row++){
+            mVecTrue(row) += c[row]; // store all first moments in the first part of the moment vec
+            for(int col = row; col < N_SPECIES; col++){
+                m2Mat(row,col) += (c[row] * c[col]);   // store in a 2nd moment matrix
+            }
+        }
+    }
+    if( c[0] - c[1] < 1e-10 && c[0] - c[1] > -1e-10){
+        cout << "Out of bounds!" << endl;
+        return; // break out for loop
+    }
+}
+/* Only to be used with integrate/integrate_adaptive - nonlinear */
+void sample_adapt( const state_type &c , const double t){
+    /* We will have some time we are sampling towards */
+    if(t == tf){
+        
+        for(int row = 0; row < N_SPECIES; row++){
+            mVecTrue(row) += c[row]; // store all first moments in the first part of the moment vec
+            for(int col = row; col < N_SPECIES; col++){
+                m2Mat(row,col) += (c[row] * c[col]);   // store in a 2nd moment matrix
+                m2Mat(col,row) = m2Mat(row,col);   // store in a 2nd moment matrix
+            }
+        }
+    }
+    if( c[0] - c[1] < 1e-10 && c[0] - c[1] > -1e-10){
+        cout << "Out of bounds!" << endl;
+        return; // break out for loop
+    }
+}
+
+/* Only to be used with integrate/integrate_adaptive - linear */
+void sample_adapt_linear( const state_type &c , const double t){
+    /* We will have some time we are sampling towards */
+    if(t == tf){
+        
+        for(int row = 0; row < N_SPECIES - 1; row++){
+            mVecTrue(row) += c[row]; // store all first moments in the first part of the moment vec
+            for(int col = row; col < N_SPECIES - 1; col++){
+                m2Mat(row,col) += (c[row] * c[col]);   // store in a 2nd moment matrix
+                m2Mat(col,row) = m2Mat(row,col);   // store in a 2nd moment matrix
+            }
+        }
+    }
+    if( c[0] - c[1] < 1e-10 && c[0] - c[1] > -1e-10){
+        cout << "Out of bounds!" << endl;
+        return; // break out for loop
+    }
 }
