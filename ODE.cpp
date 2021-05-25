@@ -153,12 +153,12 @@ int main(int argc, char **argv)
                     bestMomentVector = pComp.momentVector;
                     globalSample = pComp.sampleMat;
                 }
-
             }
             /* Calculate inverse weight matrix */
                 
         }
      }
+    cout << "bestMomentVector: " << bestMomentVector.transpose() << endl << endl;
     cout << "Global Best Cost: " << globalCost << endl;
     /* 2nd iteration */
     /* using CF2 compute next cost function and recompute weight */
