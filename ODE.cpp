@@ -155,7 +155,8 @@ int main(int argc, char **argv)
                 }
             }
             /* Calculate inverse weight matrix */
-                
+            w = calculate_weight_matrix(pComp.sampleMat, mVecTrue, nMom, N);  
+            /* PSO */  
         }
      }
     cout << "bestMomentVector: " << bestMomentVector.transpose() << endl << endl;

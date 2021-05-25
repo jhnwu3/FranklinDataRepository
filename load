@@ -1,5 +1,2 @@
 # loads necessary modules on NCH cluster
-module load Eigen
-module load GCC/9.3.0
-module load OpenMPI/4.0.3
-module load Boost/1.72.0
+module load Eigen GCC/9.3.0 OpenMPI/4.0.3 Boost/1.72.0
