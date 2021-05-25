@@ -1,5 +1,5 @@
 #!/bin/bash
-#SBATCH −−cpus−per−task=2
+#SBATCH −−cpus−per−task=1
 set -e
 echo "Hello World"
 sleep 30
