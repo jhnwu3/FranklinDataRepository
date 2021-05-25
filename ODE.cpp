@@ -13,7 +13,7 @@ VectorXd mVecTrue = VectorXd::Zero(N_SPECIES*(N_SPECIES + 3) / 2); // for some t
 MatrixXd m2Mat = MatrixXd::Zero(N_SPECIES, N_SPECIES); // secomd moment vector
 
 /* Variables to be used for parallel computing*/
-MatrixXd xs = MatrixXd::Zero(N, N_SPECIES);// sample matrix
+MatrixXd globalSample = MatrixXd::Zero(N, N_SPECIES);// sample matrix
 VectorXd bestMomentVector = VectorXd::Zero( N_SPECIES*(N_SPECIES + 3) / 2); // secomd moment vector 
 MatrixXd w = MatrixXd::Identity( (N_SPECIES * (N_SPECIES + 3)) / 2,  (N_SPECIES * (N_SPECIES + 3)) / 2); // Global Weight/Identity Matrix, nMoments x nMoments
 double globalCost = 10000000; // some outrageous starting value
@@ -127,7 +127,7 @@ int main(int argc, char **argv)
             for(int i = 0; i < N_DIM; i++){
                 kParticle.k(i) = unifDist(generator);                        
             }
-            cout << "k rate vector generated: " << kParticle.k.transpose() << endl;
+           // cout << "k rate vector generated: " << kParticle.k.transpose() << endl;
             Particle_Linear sys(kParticle); // plug rate constants into ode sys to solve
             /* solve ODEs for fixed number of samples using ODEs, use linearODE3 sys for now & compute moments. */
             for(int i = 0; i < N; i++){
@@ -139,9 +139,10 @@ int main(int argc, char **argv)
             }
             
             pComp.momentVector /= N; 
-            cout <<"mvec: " << pComp.momentVector.transpose() << endl<<endl;
+           // cout <<"mvec: " << pComp.momentVector.transpose() << endl<<endl;
+            /* Calculate CF1 for moments */ 
             pCost = CF1(mVecTrue, pComp.momentVector, nMom);
-            cout << "wt. matrix: " << endl << calculate_weight_matrix(pComp.sampleMat, mVecTrue, nMom, N);
+            //cout << "wt. matrix: " << endl << calculate_weight_matrix(pComp.sampleMat, mVecTrue, nMom, N);
             
             /* do cost comparisons with global cost using a 1 thread at a time to make sure to properly update global values*/
             #pragma omp critical
@@ -149,11 +150,11 @@ int main(int argc, char **argv)
                 cout << "protein moment vector: "<< pComp.momentVector.transpose() << "from thread: " << omp_get_thread_num << endl;
                 if(pCost < globalCost){
                     globalCost = pCost;
-
+                    bestMomentVector = pComp.momentVector;
+                    globalSample = pComp.sampleMat;
                 }
-            }
-            /* Calculate CF1 for moments */ 
 
+            }
             /* Calculate inverse weight matrix */
                 
         }
