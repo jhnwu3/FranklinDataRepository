@@ -12,7 +12,7 @@ PSO.o: PSO.cpp
 	g++ -c PSO.cpp
 # target dependencies for ODE section
 ODE: main.o fileIO.o ODESys.o var.o calc.o
-	g++ main.o fileIO.o ODESys.o var.o calc.o -o ODE
+	g++ main.o fileIO.o ODESys.o var.o calc.o -o ODE -fopenmp
 main.o: main.cpp ODE.hpp
 	g++ -c main.cpp
 fileIO.o: fileIO.cpp ODE.hpp
