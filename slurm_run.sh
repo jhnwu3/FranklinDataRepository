@@ -1,4 +1,5 @@
 #!/bin/bash
+#SBATCH --time=1-00:00:00 
 #SBATCH --job-name=test
 #SBATCH --partition=general
 #SBATCH --cpus-per-task=2 

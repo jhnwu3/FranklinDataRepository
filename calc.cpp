@@ -40,7 +40,7 @@ MatrixXd calculate_covariance_matrix(const MatrixXd& m2, const VectorXd& mVec, i
 
 /* Creation Functions for testing of ODEs and multinormal distributions! */
 MatrixXd create_covariance_matrix(const MatrixXd& sampleSpace, const VectorXd& mu, int nProt){
-    MatrixXd cov(nProt, nProt);
+    MatrixXd cov = MatrixXd::Zero(nProt, nProt);
     /* Calculate covar matrix labeled sigma */
     for (int i = 0; i < N_SPECIES; i++) {
         for (int j = 0; j < N_SPECIES; j++) {

@@ -157,7 +157,7 @@ struct Particle_Observer
     {
         if(t == tf){
            // cout << "confirmed" << endl;
-            for(int i; i < N_SPECIES; i++){
+            for(int i = 0; i < N_SPECIES; i++){
                  pComp.sampleMat(pComp.sampleMat.rows() - 1, i) = c[i];
             }
             pComp.sampleMat.conservativeResize(pComp.sampleMat.rows() + 1 ,pComp.sampleMat.cols());
