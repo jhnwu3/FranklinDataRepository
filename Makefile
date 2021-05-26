@@ -11,10 +11,10 @@ PSO: PSO.o
 PSO.o: PSO.cpp
 	g++ -c PSO.cpp
 # target dependencies for ODE section
-ODE: ODE.o fileIO.o ODESys.o var.o calc.o
-	g++ ODE.o fileIO.o ODESys.o var.o calc.o -o ODE
-ODE.o: ODE.cpp ODE.hpp
-	g++ -c ODE.cpp
+ODE: main.o fileIO.o ODESys.o var.o calc.o
+	g++ main.o fileIO.o ODESys.o var.o calc.o -o ODE
+main.o: main.cpp ODE.hpp
+	g++ -c main.cpp
 fileIO.o: fileIO.cpp ODE.hpp
 	g++ -c fileIO.cpp
 ODESys.o: ODESys.cpp ODE.hpp
