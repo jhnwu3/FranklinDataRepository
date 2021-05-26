@@ -1,9 +1,9 @@
 #!/bin/bash
-#SBATCH --time=1-00:00:00 
+#SBATCH --time=1-00:01:00 
 #SBATCH --job-name=test
 #SBATCH --partition=general
 #SBATCH --cpus-per-task=2 
 set -e
 echo "This is a test run by John Wu"
-./ODE
+./ODE > output
 sleep 30
