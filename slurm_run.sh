@@ -1,5 +1,5 @@
 #!/bin/bash
-#SAATCH --job-name=test
+#SBATCH --job-name=test
 #SBATCH --partition=general
 #SBATCH --cpus-per-task=4 
 set -e
