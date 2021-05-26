@@ -108,7 +108,7 @@ int main(int argc, char **argv)
     
     /* parallel computing */
     cout << "Parallel Computing starts here!" << endl << endl;
-    #pragma omp parallel for
+#pragma omp parallel for
     for(particleIterator = 0; particleIterator < N_PARTICLES; particleIterator++){
         /* variables */
         int nIter = 2;
