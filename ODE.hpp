@@ -12,7 +12,7 @@
 #define N 10000
 #define N_DIM 5
 #define N_PARTICLES 5
-
+/* recompile comment */
 /* namespaces for ease of use */
 using namespace std;
 using namespace Eigen;
