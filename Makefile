@@ -14,7 +14,7 @@ PSO.o: PSO.cpp
 ODE: main.o fileIO.o ODESys.o var.o calc.o
 	g++ main.o fileIO.o ODESys.o var.o calc.o -o ODE -fopenmp
 main.o: main.cpp ODE.hpp
-	g++ -c main.cpp
+	g++ -c main.cpp -fopenmp
 fileIO.o: fileIO.cpp ODE.hpp
 	g++ -c fileIO.cpp
 ODESys.o: ODESys.cpp ODE.hpp
