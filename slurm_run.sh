@@ -6,5 +6,5 @@
 #SBATCH --output=slurm.out
 set -e
 echo "This is a test run by John Wu"
-export OMP_NUM_THREADS=5
+export OMP_NUM_THREADS=$SLURM_JOB_CPUS_PER_NODE
 ./ODE 
