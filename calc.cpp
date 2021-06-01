@@ -1,4 +1,5 @@
 #include "ODE.hpp"
+#include "calc.hpp"
 
 /* Calculation Functions */
 double CF1(const VectorXd& trueVec, const VectorXd& estVec, int n){

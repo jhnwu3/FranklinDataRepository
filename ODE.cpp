@@ -1,3 +1,4 @@
+#include "main.hpp"
 #include "ODE.hpp"
 
 void nonlinearODE3( const state_type &c , state_type &dcdt , double t )

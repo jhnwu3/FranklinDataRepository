@@ -1,5 +1,7 @@
+#include "main.hpp"
+#include "fileIO.hpp"
+#include "calc.hpp"
 #include "ODE.hpp"
-
 /* global file streams to be able to access all files */
 ofstream oFile; 
 ofstream oFile1; 
@@ -68,7 +70,7 @@ int main(int argc, char **argv)
              0.0873098, 0.99, 0.104828, 
              0.046225, 0.104828, 1.11; */
     
-      /* Calculate averages */
+    /* Calculate averages */
     sampleSpace = generate_sample_space(N_SPECIES, N);
     mu = sampleSpace.colwise().mean(); 
     /* Calculate covar matrix labeled sigma */
@@ -76,7 +78,7 @@ int main(int argc, char **argv)
     cout << "mu:" << mu.transpose() << endl << endl << "sigma:" << endl << sigma << endl << endl; 
     /* multivariate /normal distribution generator */
     normal_random_variable sample{mu, sigma};
-    open_files(); 
+    open_files(oFile, oFile1, oFileMAV); 
 
     /* average randomized sample/initial conditions from unif dist, N=10,000, CALL ODE SOLVER HERE! */
    for(int i = 0; i < N; i++){
@@ -88,7 +90,7 @@ int main(int argc, char **argv)
         integrate_adaptive(controlled_stepper, linearODE3_true, c0, t0, tf, dt, sample_adapt);
    }
 
-     /* Divide the sums at the end to reduce number of needed division ops */
+    /* Divide the sums at the end to reduce number of needed division ops */
     mVecTrue /= N;
     m2Mat /= N;
   
@@ -188,7 +190,7 @@ int main(int argc, char **argv)
     cout << "Cov Matrix:" << endl << cov << endl;
 
 
-    close_files(); 
+    close_files(oFile, oFile1, oFileMAV); 
 
     auto t2 = std::chrono::high_resolution_clock::now();
 	auto duration = std::chrono::duration_cast<std::chrono::seconds>(t2 - t1).count();
@@ -196,27 +198,16 @@ int main(int argc, char **argv)
 }
 
 
-// examples of integrate functions:
+/* examples of integrate functions: */
 // integrate(tripleNonlinearODE, c0, 0.0, 500.0, 10.0, write_file);
 // integrate_adaptive(controlled_stepper, tripleNonlinearODE, c0, 0.0, 500.0, 10.0, write_file);
 
 /********** File IO **********/
-
-/* open files for writing */
-void open_files(){
-    oFile.open("ODE_Soln.csv");
-    oFile1.open("ODE_Const_Soln.csv"); 
-    oFileMAV.open("mAv.csv");
-}
 /* write data to specific csv functions */
 void write_file( const state_type &c , const double t ){ oFile << t << ',' << c[0] << ',' << c[1] << ',' << c[2] << endl; }
 void write_file_const( const state_type &c , const double t ){ oFile1 << t << ',' << c[0] << ',' << c[1] << ',' << c[2] << endl; }
-/* close files */
-void close_files(){
-    oFile.close();
-    oFile1.close();
-    oFileMAV.close();
-}
+
+
 
 /**** ODE-INT OBSERVER FUNCTIONS ****/
 /* Only to be used with integrate_const(), solves the ODE's defined in ODESys.cpp*/
