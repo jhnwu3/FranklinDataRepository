@@ -127,6 +127,7 @@ int main(int argc, char **argv)
         #pragma omp critical
         {   
             if(particleIterator = 0){
+                cout << endl << endl <<"Writing First Particle data!" << endl << endl;
                 ofstream oParticle;
                 oParticle.open("First_Particle.csv");
                 write_particle_data(oParticle, kS.k, pInit, pComp.momVec, pCost);
