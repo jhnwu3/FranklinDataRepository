@@ -6,3 +6,5 @@ make
 ./PSO
 mv Moment.csv outputs
 mv First_Particle.txt outputs
+mv ODE_Soln.csv outputs
+mv ODE_Const_Soln.csv outputs
