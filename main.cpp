@@ -22,10 +22,8 @@ int main(int argc, char **argv)
     int nMom = (N_SPECIES * (N_SPECIES + 3)) / 2; // number of moments
 
     /* global file streams to be able to access all files */
-    ofstream oFile; 
-    ofstream oFile1; 
-    ofstream oFileMAV; 
-
+    ofstream oFile, oFile1, oFileMAV; 
+    open_files(oFile, oFile1, oFileMAV); 
     /* Random Number Generator */
     random_device rand_dev;
     mt19937 generator(rand_dev());
@@ -66,10 +64,6 @@ int main(int argc, char **argv)
 
     /* multivar norm gen */
     normal_random_variable sample{mu, sigma};
-
-    open_files(oFile, oFile1, oFileMAV); 
-    ofstream oParticle;
-    oParticle.open("First_Particle.csv");
 
     /* Solve for <Ci> using ODE system */
     for(int i = 0; i < N; i++){
@@ -126,14 +120,17 @@ int main(int argc, char **argv)
             }
             integrate_adaptive(controlled_stepper, sys, particleC0, t0, tf, dt, Particle_Observer(pComp));
         }    
-        pComp.momVEc /= N; 
-        pCost = CF1(mVecTrue, pComp.momVec, nMom); // cost function 1
+        pComp.momVec /= N; 
+        pCost = CF1(mVecTrue, pComp.momVec, nMom); // cost
 
         /* cost comparisons */
         #pragma omp critical
         {   
             if(particleIterator = 0){
+                ofstream oParticle;
+                oParticle.open("First_Particle.csv");
                 write_particle_data(oParticle, kS.k, pInit, pComp.momVec, pCost);
+                oParticle.close();
             }
             cout << "protein moment vector: "<< pComp.momVec.transpose() << "from thread: " << omp_get_thread_num << endl;
             if(pCost < globalCost){
