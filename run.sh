@@ -4,4 +4,4 @@ source load.sh
 git pull
 make
 ./PSO
-mv Moment.csv /outputs
+mv /Moment.csv /outputs
