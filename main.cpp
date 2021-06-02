@@ -131,11 +131,8 @@ int main(int argc, char **argv)
         #pragma omp critical
         {     
             if(particleIterator == 0){
-                cout << endl << endl <<"Writing First Particle data!" << endl << endl;
-                ofstream oParticle;
-                oParticle.open("First_Particle.txt");
-                write_particle_data(oParticle, kS.k, pInit, pComp.momVec, mVecTrue ,pCost);
-                oParticle.close();
+                cout << endl << endl << "Writing First Particle data!" << endl << endl;
+                write_particle_data(kS.k, pInit, pComp.momVec, mVecTrue ,pCost);
             }
             cout << "protein moment vector: "<< pComp.momVec.transpose() << "from thread: " << omp_get_thread_num << endl;
             if(pCost < globalCost){
