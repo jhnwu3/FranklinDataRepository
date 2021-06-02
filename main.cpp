@@ -54,12 +54,16 @@ int main(int argc, char **argv)
     VectorXd initCon(N_SPECIES); // temp vector to be used for initiation conditions
     state_type c0;
     controlled_stepper_type controlled_stepper;
-    
-    /* Calculate averages */
+    /* mu vector and covariance (sigma) original values */
+    mu << mu_x, mu_y, mu_z;
+    sigma << 0.77, 0.0873098, 0.046225, 
+                0.0873098, 0.99, 0.104828, 
+                0.046225, 0.104828, 1.11; 
+    /* Compute mu and covar matrix required for multivar norm dist 
     sampleSpace = generate_sample_space(N_SPECIES, N);
     mu = sampleSpace.colwise().mean(); 
-    /* sigma = covar matrix */
-    sigma = create_covariance_matrix(sampleSpace, mu, N_SPECIES);
+    sigma = create_covariance_matrix(sampleSpace, mu, N_SPECIES);*/
+    
     cout << "mu:" << mu.transpose() << endl << endl << "sigma:" << endl << sigma << endl << endl; 
 
     /* multivar norm gen */
