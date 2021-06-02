@@ -5,7 +5,7 @@
 /* FILE IO */
 void open_files(ofstream& file0, ofstream& file1, ofstream& file2);
 void close_files(ofstream& file0, ofstream& file1, ofstream& file2);
-void write_particle_data(ofstream& file, const VectorXd& k , const VectorXd &initCon, const VectorXd& mom, double cost);
+void write_particle_data(ofstream& file, const VectorXd& k , const VectorXd &initCon, const VectorXd& mom, const VectorXd& mu, double cost);
 
 /* more FILE IO @TODO write classes for ease of file IO */
 /* Example Streaming Observer Format 

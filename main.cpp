@@ -63,7 +63,7 @@ int main(int argc, char **argv)
     sampleSpace = generate_sample_space(N_SPECIES, N);
     mu = sampleSpace.colwise().mean(); 
     sigma = create_covariance_matrix(sampleSpace, mu, N_SPECIES);*/
-    
+
     cout << "mu:" << mu.transpose() << endl << endl << "sigma:" << endl << sigma << endl << endl; 
 
     /* multivar norm gen */
@@ -134,7 +134,7 @@ int main(int argc, char **argv)
                 cout << endl << endl <<"Writing First Particle data!" << endl << endl;
                 ofstream oParticle;
                 oParticle.open("First_Particle.txt");
-                write_particle_data(oParticle, kS.k, pInit, pComp.momVec, pCost);
+                write_particle_data(oParticle, kS.k, pInit, pComp.momVec, mVecTrue ,pCost);
                 oParticle.close();
             }
             cout << "protein moment vector: "<< pComp.momVec.transpose() << "from thread: " << omp_get_thread_num << endl;
