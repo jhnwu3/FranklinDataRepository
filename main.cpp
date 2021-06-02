@@ -125,7 +125,7 @@ int main(int argc, char **argv)
 
         /* cost comparisons */
         #pragma omp critical
-        {   
+        {     
             if(particleIterator = 1){
                 cout << endl << endl <<"Writing First Particle data!" << endl << endl;
                 ofstream oParticle;
