@@ -1,3 +1,4 @@
+source load.sh
 git pull
 make
-./ODE
+./PSO
