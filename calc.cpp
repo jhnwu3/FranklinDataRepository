@@ -25,7 +25,7 @@ double CF2(const VectorXd& trueVec, const  VectorXd& estVec, const MatrixXd& w, 
 
 /* mVec = first moment vector (may or may not have other vector components
    m2 = second moment vector
-    cov = value returned after calculating cov matrix
+   cov = value returned after calculating cov matrix
 */
 MatrixXd calculate_covariance_matrix(const MatrixXd& m2, const VectorXd& mVec, int nProt){
     MatrixXd cov(nProt, nProt);

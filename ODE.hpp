@@ -62,7 +62,7 @@ struct streaming_observer
 
 struct Particle_Components
 {
-    VectorXd momentVector; // note: Unfortunately, VectorXd from Eigen is far more complicated?
+    VectorXd momVec; // moment vector
     MatrixXd sampleMat; 
 };
 
@@ -81,12 +81,12 @@ struct Particle_Observer
             pComp.sampleMat.conservativeResize(pComp.sampleMat.rows() + 1 ,pComp.sampleMat.cols());
 
             for(int row = 0; row < N_SPECIES; row++){
-                pComp.momentVector(row) += c[row]; 
+                pComp.momVec(row) += c[row]; 
                 for(int col = row; col < N_SPECIES; col++){
                     if( row == col){
-                        pComp.momentVector(N_SPECIES + row) += c[row] * c[col];
+                        pComp.momVec(N_SPECIES + row) += c[row] * c[col];
                     }else{
-                        pComp.momentVector(2*N_SPECIES + (row + col - 1)) += c[row] *c[col];
+                        pComp.momVec(2*N_SPECIES + (row + col - 1)) += c[row] *c[col];
                     }
                 }
             }

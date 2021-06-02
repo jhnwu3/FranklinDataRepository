@@ -10,8 +10,6 @@ MatrixXd create_covariance_matrix(const MatrixXd& sampleSpace, const VectorXd& m
 MatrixXd generate_sample_space(int nProt, int n);
 MatrixXd calculate_weight_matrix(const MatrixXd &sample, const VectorXd &mu, int nMom, int n);
 
-
-
 /* Struct for multi-variate normal distribution */
 struct normal_random_variable
 {

@@ -11,11 +11,11 @@
 #include <cmath>
 #include <chrono>
 #include <omp.h>
-#define N_SPECIES 3 // using #defines technically right now, but will eventually change it to a variable in main
-#define N 10000
-#define N_DIM 5
-#define N_PARTICLES 5
-/* recompile comment */
+#define N_SPECIES 3 
+#define N 10000 // # of samples to sample over
+#define N_DIM 6 // dim of PSO hypercube
+#define N_PARTICLES 5 
+
 /* namespaces for ease of use */
 using namespace std;
 using namespace Eigen;
@@ -28,16 +28,12 @@ typedef boost::array< double , N_SPECIES > state_type;
 typedef runge_kutta_cash_karp54< state_type > error_stepper_type;
 typedef controlled_runge_kutta< error_stepper_type > controlled_stepper_type;
 
-/* more FILE IO @TODO write classes for ease of file IO */
-void write_file( const state_type &c , const double t );
-void write_file_const( const state_type &c , const double t );
-
 /* Collect data functions - in main for ease of access - @TODO clean up in other files! */
 void sample_const( const state_type &c , const double t);
 void sample_adapt( const state_type &c , const double t);
 void sample_adapt_linear( const state_type &c , const double t);
 
-/* Note: We have global variables in this case for ease of access by ODEINT solvers:*/
+/* Note: @TODO change global vars back into local vars later */
 /* model global diff eq. constants */
 double extern ke, kme, kf, kmf, kd, kmd, ka2, ka3, C1T, C2T, C3T;
 /* Bill's K */

@@ -15,3 +15,11 @@ void close_files(ofstream& file0, ofstream& file1, ofstream& file2){
     file1.close();
     file2.close();
 }
+
+
+void write_particle_data(ofstream& file, const VectorXd& k , const VectorXd &initCon, const VectorXd& mom, double cost){
+    file <<"k const" << k.transpose() << endl 
+    << "cond:" << initCon.transpose() << endl
+    << "moments:" << mom.transpose() << endl
+    << "cost:" << cost << endl;
+}
