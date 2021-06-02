@@ -96,7 +96,7 @@ int main(int argc, char **argv)
         double pCost;
         state_type particleC0; // initial conditions for part
         VectorXd pInit(N_SPECIES); 
-
+        
         Particle_Components pComp; // particle components
         pComp.momVec = VectorXd::Zero(nMom);
         pComp.sampleMat = MatrixXd(1, N_SPECIES); // start off with 1 row for initial sample size
@@ -126,10 +126,11 @@ int main(int argc, char **argv)
         /* cost comparisons */
         #pragma omp critical
         {     
+            cout << "Particle:" << particleIterator << endl;
             if(particleIterator = 1){
                 cout << endl << endl <<"Writing First Particle data!" << endl << endl;
                 ofstream oParticle;
-                oParticle.open("First_Particle.csv");
+                oParticle.open("First_Particle.txt");
                 write_particle_data(oParticle, kS.k, pInit, pComp.momVec, pCost);
                 oParticle.close();
             }
