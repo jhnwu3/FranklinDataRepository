@@ -63,7 +63,7 @@ struct Data_ODE_Observer
                 for(int col = row; col < dComp.subset.size(); col++){
                     int j = dComp.subset(col) - 1;
                     if (j >= 0){
-                        if( i == j){
+                        if( i == j ){
                             dComp.mVec(N_SPECIES + i) += c[i] * c[j];
                         }else{
                             dComp.mVec(2*N_SPECIES + (i + j - 1)) += c[i] *c[j];
