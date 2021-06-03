@@ -25,7 +25,7 @@ int main(int argc, char **argv)
     Data_Components mTrue;
     int sizeSubset = 3;
     mTrue.subset = VectorXd::Zero(sizeSubset);// subset of values we want to store.
-    mTrue.subset << 1,2,3;
+    mTrue.subset << 1,2,3; // store the indices in specific order.
     mTrue.mVec = VectorXd::Zero(nMom);
     mTrue.m2Mat = MatrixXd::Zero(N_SPECIES, N_SPECIES);
 
