@@ -67,6 +67,8 @@ struct Data_ODE_Observer
                     }else{
                         dComp.mVec(2*N_SPECIES + (i + j - 1)) += c[i] *c[j];
                     }
+                    dComp.m2Mat(i,j) += (c[i] * c[j]);   // store in a 2nd moment matrix
+                    dComp.m2Mat(j,i) = dComp.m2Mat(i,j);   // store in a 2nd moment matrix
                 }
             }
         }
