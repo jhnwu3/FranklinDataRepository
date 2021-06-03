@@ -60,7 +60,7 @@ struct Data_ODE_Observer
             for(int row = 0; row < dComp.subset.size(); row++){ // first moments of specified subset
                 int i = dComp.subset(row) - 1; // i.e subset = {1,2,3} = index = {0,1,2}
                 dComp.mVec(i) +=  c[i];
-                for(int col = 0; col < dComp.subset.size(); col++){
+                for(int col = row; col < dComp.subset.size(); col++){
                     int j = dComp.subset(col) - 1;
                     if( i == j){
                         dComp.mVec(N_SPECIES + i) += c[i] * c[j];
