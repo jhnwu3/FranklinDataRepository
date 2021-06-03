@@ -8,8 +8,7 @@ void linearODE3_true( const state_type &c , state_type &dcdt , double t );
 void linearODEn_1( const state_type &c , state_type &dcdt , double t );
 void nonlinearODE6( const state_type &c , state_type &dcdt , double t);
 
-/* The rhs of x' = f(x) defined as a class */
-// define structure
+/* 3-var linear ODE system */
 struct K
 {
     VectorXd k;
@@ -42,31 +41,46 @@ public:
                 (kr(2,2) * c[2] - kr(2,2) * c[2]);
     }
 };
+/* Observer Functions */
 
-/* Example Streaming Observer Format 
-struct streaming_observer
+struct Data_Components{
+    VectorXd subset;
+    VectorXd mVec;
+    MatrixXd m2Mat;
+};
+
+
+struct Data_ODE_Observer
 {
-    std::ostream& m_out;
-
-    streaming_observer( std::ostream &out ) : m_out( out ) { }
-
-    template< class State >
-    void operator()( const State &x , double t ) const
+    struct Data_Components &dComp;
+    Data_ODE_Observer( struct Data_Components &dCom) : dComp( dCom ) {}
+    void operator()( state_type const& c, const double t ) const 
     {
-        container_type &q = x.first;
-        m_out << t;
-        for( size_t i=0 ; i<q.size() ; ++i ) m_out << "\t" << q[i];
-        m_out << "\n";
+        if(t == tf){
+            for(int row = 0; row < dComp.subset.size(); row++){ // first moments of specified subset
+                int i = dComp.subset(row) - 1; // i.e subset = {1,2,3} = index = {0,1,2}
+                dComp.mVec(i) +=  c[i];
+                for(int col = 0; col < dComp.subset.size(); col++){
+                    int j = dComp.subset(col) - 1;
+                    if( i == j){
+                        dComp.mVec(N_SPECIES + i) += c[i] * c[j];
+                    }else{
+                        dComp.mVec(2*N_SPECIES + (i + j - 1)) += c[i] *c[j];
+                    }
+                }
+            }
+        }
     }
-}; */
+};
 
+
+/* Observer Function for filling up respective particle moment vectors and sample matrices */
 struct Particle_Components
 {
     VectorXd momVec; // moment vector
     MatrixXd sampleMat; 
 };
 
-/* Example Streaming Observer Format */
 struct Particle_Observer
 {
     struct Particle_Components &pComp;
@@ -78,7 +92,7 @@ struct Particle_Observer
             for(int i = 0; i < N_SPECIES; i++){
                  pComp.sampleMat(pComp.sampleMat.rows() - 1, i) = c[i];
             }
-            pComp.sampleMat.conservativeResize(pComp.sampleMat.rows() + 1 ,pComp.sampleMat.cols());
+            pComp.sampleMat.conservativeResize(pComp.sampleMat.rows() + 1 , pComp.sampleMat.cols());
 
             for(int row = 0; row < N_SPECIES; row++){
                 pComp.momVec(row) += c[row]; 
@@ -93,7 +107,4 @@ struct Particle_Observer
         }
     }
 }; 
-
-
-
 #endif

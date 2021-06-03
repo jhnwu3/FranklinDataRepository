@@ -5,8 +5,8 @@
 
 /* Global Vectors/Matrices to be accessible by ODEINT solvers */
 /* data module */
-VectorXd mVecTrue = VectorXd::Zero(N_SPECIES*(N_SPECIES + 3) / 2); // moment vector for some t
-MatrixXd m2Mat = MatrixXd::Zero(N_SPECIES, N_SPECIES); // second moment matrices
+// VectorXd mVecTrue = VectorXd::Zero(N_SPECIES*(N_SPECIES + 3) / 2); // moment vector for some t
+// MatrixXd m2Mat = MatrixXd::Zero(N_SPECIES, N_SPECIES); // second moment matrices
 
 /* Global Variables to be used for parallel computing */
 MatrixXd globalSample = MatrixXd::Zero(N, N_SPECIES);// sample matrix
@@ -20,6 +20,13 @@ int main(int argc, char **argv)
     /**** PART ONE ****/
     auto t1 = std::chrono::high_resolution_clock::now(); // start time
     int nMom = (N_SPECIES * (N_SPECIES + 3)) / 2; // number of moments
+
+    /* instantiate data module / true values class */
+    Data_Components mTrue;
+    int sizeSubset = 3;
+    mTrue.subset = VectorXd::Zero(sizeSubset);// subset of values we want to store.
+    mTrue.mVec = VectorXd::Zero(nMom);
+    mTrue.m2Mat = MatrixXd::Zero(N_SPECIES, N_SPECIES);
 
     /* global file streams to be able to access all files */
     ofstream oFile, oFile1, oFileMAV; 
@@ -40,6 +47,7 @@ int main(int argc, char **argv)
     VectorXd kTrue(nMom);
     VectorXd kEst(nMom);
     VectorXd kEst1(nMom);
+
     /* Bill's initial k - values in var.cpp*/
     kTrue(0) = k1; kTrue(1) = k2; kTrue(2) = k3; kTrue(3) = k4; kTrue(4) = k5;
 
@@ -68,7 +76,7 @@ int main(int argc, char **argv)
 
     /* multivar norm gen */
     normal_random_variable sample{mu, sigma};
-
+    Data_ODE_Observer dataObs(mTrue); // data observer class to fill values in mTrue.
     /* Solve for <Ci> using ODE system */
     for(int i = 0; i < N; i++){
        if(i % 1000 == 0){ cout << i << endl;  }
@@ -76,20 +84,12 @@ int main(int argc, char **argv)
         for(int a = 0; a < N_SPECIES; a++){
             c0[a] = exp(initCon(a)); // assign vector for use in ODE solns.
         }
-        integrate_adaptive(controlled_stepper, linearODE3_true, c0, t0, tf, dt, sample_adapt);
+        integrate_adaptive(controlled_stepper, linearODE3_true, c0, t0, tf, dt, dataObs);
     }
     /* avg for moments */
-    mVecTrue /= N;
-    m2Mat /= N;
-  
-    /* Fill moment vector with diagonals and unique values of the matrix */
-    for(int i = 0; i < N_SPECIES; i++){ mVecTrue(N_SPECIES + i) = m2Mat.diagonal()(i); }
-    for(int row = 0; row < N_SPECIES - 1; row++){
-        for(int col = row + 1; col < N_SPECIES; col++){
-            mVecTrue(2*N_SPECIES + (row + col - 1)) = m2Mat(row, col);
-        }
-    }
-    cov = calculate_covariance_matrix(m2Mat, mVecTrue, N_SPECIES);
+    mTrue.mVec /= N;
+    mTrue.m2Mat /= N;
+    cov = calculate_covariance_matrix(mTrue.m2Mat, mTrue.mVec, N_SPECIES);
     
 
     /**** parallel computing ****/
@@ -125,14 +125,14 @@ int main(int argc, char **argv)
             integrate_adaptive(controlled_stepper, sys, particleC0, t0, tf, dt, Particle_Observer(pComp));
         }    
         pComp.momVec /= N; 
-        pCost = CF1(mVecTrue, pComp.momVec, nMom); // cost
+        pCost = CF1(mTrue.mVec, pComp.momVec, nMom); // cost
 
         /* cost comparisons */
         #pragma omp critical
         {     
             if(particleIterator == 0){
                 cout << endl << endl << "Writing First Particle data!" << endl << endl;
-                write_particle_data(kS.k, pInit, pComp.momVec, mVecTrue ,pCost);
+                write_particle_data(kS.k, pInit, pComp.momVec, mTrue.mVec ,pCost);
             }
             cout << "protein moment vector: "<< pComp.momVec.transpose() << "from thread: " << omp_get_thread_num << endl;
             if(pCost < globalCost){
@@ -142,7 +142,7 @@ int main(int argc, char **argv)
             }
         }
  
-        w = calculate_weight_matrix(pComp.sampleMat, mVecTrue, nMom, N);  // calc inverse wt. matrix
+        w = calculate_weight_matrix(pComp.sampleMat, mTrue.mVec, nMom, N);  // calc inverse wt. matrix
         /* 2nd iteration - PSO*/
         /* using CF2 compute next cost function and recompute weight */
     }
@@ -162,14 +162,14 @@ int main(int argc, char **argv)
     cout << "kCostMat for a set of k estimates 0.1 * rand(0,1) away from true: " << CF2(kTrue, kEst1, w, N_SPECIES) << endl << endl;
     /* Print statement for the moments */
     oFileMAV << "2nd moment matrix:" << endl;
-    oFileMAV << m2Mat << endl << endl;
+    oFileMAV << mTrue.m2Mat << endl << endl;
     cout << "2nd moment matrix:" << endl;
-    cout << m2Mat << endl << endl;
+    cout << mTrue.m2Mat << endl << endl;
 
     oFileMAV << "Full " << N_SPECIES << "protein moment vector" << endl;
-    oFileMAV << mVecTrue.transpose() << endl;
+    oFileMAV << mTrue.mVec.transpose() << endl;
     cout << "Full " << N_SPECIES << " protein moment vector" << endl;
-    cout << mVecTrue.transpose() << endl;
+    cout << mTrue.mVec.transpose() << endl;
 
     oFileMAV << "Cov Matrix" << endl << cov << endl;
     cout << "Cov Matrix:" << endl << cov << endl;
@@ -179,59 +179,6 @@ int main(int argc, char **argv)
     auto t2 = std::chrono::high_resolution_clock::now();
 	auto duration = std::chrono::duration_cast<std::chrono::seconds>(t2 - t1).count();
     cout << " Code Finished Running in " << duration << " seconds time!" << endl;
-}
-
-
-
-/**** ODE-INT OBSERVER FUNCTIONS ****/
-/* const integrations observer funcs */
-void sample_const( const state_type &c , const double t){
-    if(t == tn){       // sample for some time
-        for(int row = 0; row < N_SPECIES; row++){
-            mVecTrue(row) += c[row]; // store all first moments in the first part of the moment vec
-            for(int col = row; col < N_SPECIES; col++){
-                m2Mat(row,col) += (c[row] * c[col]);   // store in a 2nd moment matrix
-            }
-        }
-    }
-    if( c[0] - c[1] < 1e-10 && c[0] - c[1] > -1e-10){
-        cout << "Out of bounds!" << endl;
-        return; // break out for loop
-    }
-}
-/* adaptive observer func */
-void sample_adapt( const state_type &c , const double t){
-    /* We will have some time we are sampling towards */
-    if(t == tf){
-        for(int row = 0; row < N_SPECIES; row++){
-            mVecTrue(row) += c[row]; // store all first moments in the first part of the moment vec
-            for(int col = row; col < N_SPECIES; col++){
-                m2Mat(row,col) += (c[row] * c[col]);   // store in a 2nd moment matrix
-                m2Mat(col,row) = m2Mat(row,col);   // store in a 2nd moment matrix
-            }
-        }
-    }
-    if( c[0] - c[1] < 1e-10 && c[0] - c[1] > -1e-10){
-        cout << "Out of bounds!" << endl;
-        return; // break out for loop
-    }
-}
-/* Only to be used with integrate/integrate_adaptive - linear */
-void sample_adapt_linear( const state_type &c , const double t){
-    /* We will have some time we are sampling towards */
-    if(t == tf){
-        for(int row = 0; row < N_SPECIES - 1; row++){
-            mVecTrue(row) += c[row]; // store all first moments in the first part of the moment vec
-            for(int col = row; col < N_SPECIES - 1; col++){
-                m2Mat(row,col) += (c[row] * c[col]);   // store in a 2nd moment matrix
-                m2Mat(col,row) = m2Mat(row,col);   // store in a 2nd moment matrix
-            }
-        }
-    }
-    if( c[0] - c[1] < 1e-10 && c[0] - c[1] > -1e-10){
-        cout << "Out of bounds!" << endl;
-        return; // break out for loop
-    }
 }
 
 /* examples of integrate functions: */

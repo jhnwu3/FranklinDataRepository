@@ -7,6 +7,16 @@ void open_files(ofstream& file0, ofstream& file1, ofstream& file2);
 void close_files(ofstream& file0, ofstream& file1, ofstream& file2);
 void write_particle_data( const VectorXd& k , const VectorXd &initCon, const VectorXd& mom, const VectorXd& mu, double cost);
 
+struct Write_File
+{
+    ostream& fOut;
+    Write_File (ostream& out) : fOut( out ) {} 
+    void operator()(const state_type &c, const double t){
+         fOut << t << ',' << c[0] << ',' << c[1] << ',' << c[2] << endl;
+    }
+};
+#endif
+
 /* more FILE IO @TODO write classes for ease of file IO */
 /* Example Streaming Observer Format 
 struct streaming_observer
@@ -24,13 +34,3 @@ struct streaming_observer
         m_out << "\n";
     }
 }; */
-
-struct Write_File
-{
-    ostream& fOut;
-    Write_File (ostream& out) : fOut( out ) {} 
-    void operator()(const state_type &c, const double t){
-         fOut << t << ',' << c[0] << ',' << c[1] << ',' << c[2] << endl;
-    }
-};
-#endif
