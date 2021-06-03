@@ -35,14 +35,14 @@ void sample_adapt_linear( const state_type &c , const double t);
 
 /* Note: @TODO change global vars back into local vars later */
 /* model global diff eq. constants */
-double extern ke, kme, kf, kmf, kd, kmd, ka2, ka3, C1T, C2T, C3T;
+const double extern ke, kme, kf, kmf, kd, kmd, ka2, ka3, C1T, C2T, C3T;
 /* Bill's K */
-double extern k1, k2, k3, k4, k5;
+const double extern k1, k2, k3, k4, k5;
 /* global time conditions */
-double extern t0, tf, dt, tn;
+const double extern t0, tf, dt, tn;
 /* Normal Dist Vars */
-double extern mu_x, mu_y, mu_z; // true means for MVN(theta)
-double extern var_x, var_y, var_z; // true variances for MVN(theta);
-double extern rho_xy, rho_xz, rho_yz; // true correlations for MVN
-double extern sigma_x, sigma_y, sigma_z;
+const double extern mu_x, mu_y, mu_z; // true means for MVN(theta)
+const double extern var_x, var_y, var_z; // true variances for MVN(theta);
+const double extern rho_xy, rho_xz, rho_yz; // true correlations for MVN
+const double extern sigma_x, sigma_y, sigma_z;
 #endif
