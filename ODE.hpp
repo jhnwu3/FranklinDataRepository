@@ -59,16 +59,18 @@ struct Data_ODE_Observer
         if(t == tf){
             for(int row = 0; row < dComp.subset.size(); row++){ // first moments of specified subset
                 int i = dComp.subset(row) - 1; // i.e subset = {1,2,3} = index = {0,1,2}
-                dComp.mVec(i) +=  c[i];
+                if(i >= 0){ dComp.mVec(i) +=  c[i]; }
                 for(int col = row; col < dComp.subset.size(); col++){
                     int j = dComp.subset(col) - 1;
-                    if( i == j){
-                        dComp.mVec(N_SPECIES + i) += c[i] * c[j];
-                    }else{
-                        dComp.mVec(2*N_SPECIES + (i + j - 1)) += c[i] *c[j];
+                    if (j >= 0){
+                        if( i == j){
+                            dComp.mVec(N_SPECIES + i) += c[i] * c[j];
+                        }else{
+                            dComp.mVec(2*N_SPECIES + (i + j - 1)) += c[i] *c[j];
+                        }
+                        dComp.m2Mat(i,j) += (c[i] * c[j]);   // store in a 2nd moment matrix
+                        dComp.m2Mat(j,i) = dComp.m2Mat(i,j);   // store in a 2nd moment matrix
                     }
-                    dComp.m2Mat(i,j) += (c[i] * c[j]);   // store in a 2nd moment matrix
-                    dComp.m2Mat(j,i) = dComp.m2Mat(i,j);   // store in a 2nd moment matrix
                 }
             }
         }
@@ -92,22 +94,19 @@ struct Particle_Observer
     {
         if(t == tf){
            // cout << "confirmed" << endl;
-            for(int col = 0; col < N_SPECIES; col++){
-                if(pComp.subset(col) > 0){
-                    int i = pComp.subset(col) - 1;
-                    pComp.sampleMat(pComp.sampleMat.rows() - 1, i) = c[i];
-                }
+            for(int col = 0; col < N_SPECIES; col++){    
+                int i = pComp.subset(col) - 1;
+                if(i >= 0){ pComp.sampleMat(pComp.sampleMat.rows() - 1, i) = c[i]; }   
             }
             pComp.sampleMat.conservativeResize(pComp.sampleMat.rows() + 1 , pComp.sampleMat.cols());
 
             for(int row = 0; row < pComp.subset.size(); row++){ // first moments of specified subset
                 int i = pComp.subset(row) - 1; // i.e subset = {1,2,3} = index = {0,1,2}
-                if(pComp.subset(row) > 0){
-                    pComp.momVec(i) +=  c[i]; 
-                }
+                if(i >= 0){ pComp.momVec(i) +=  c[i]; }
+
                 for(int col = row; col < pComp.subset.size(); col++){
                     int j = pComp.subset(col) - 1;
-                    if(pComp.subset(col) > 0){
+                    if(j >= 0){
                         if(i == j){
                             pComp.momVec(N_SPECIES + i) += c[i] * c[j];
                         }else{
