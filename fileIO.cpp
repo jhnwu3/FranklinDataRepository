@@ -17,7 +17,9 @@ void close_files(ofstream& file0, ofstream& file1, ofstream& file2){
 }
 
 
-void write_particle_data( ofstream &file, const VectorXd& k , const VectorXd &initCon, const VectorXd& mom, const VectorXd& mu, double cost){
+void write_particle_data( const VectorXd& k , const VectorXd &initCon, const VectorXd& mom, const VectorXd& mu, double cost){
+    ofstream file;
+    file.open("First_Particle.txt");
     file <<"k const:" << k.transpose() << endl 
     << "cond:" << initCon.transpose() << endl
     << "mu:" << mu.transpose() << endl

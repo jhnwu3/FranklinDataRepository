@@ -25,6 +25,7 @@ int main(int argc, char **argv)
     Data_Components mTrue;
     int sizeSubset = 3;
     mTrue.subset = VectorXd::Zero(sizeSubset);// subset of values we want to store.
+    mTrue.subset << 1,2,3;
     mTrue.mVec = VectorXd::Zero(nMom);
     mTrue.m2Mat = MatrixXd::Zero(N_SPECIES, N_SPECIES);
 
@@ -132,9 +133,7 @@ int main(int argc, char **argv)
         {     
             if(particleIterator == 0){
                 cout << endl << endl << "Writing First Particle data!" << endl << endl;
-                ofstream file;
-                file.open("First_Particle.txt");
-                write_particle_data(file, kS.k, pInit, pComp.momVec, mTrue.mVec, pCost);
+                write_particle_data(kS.k, pInit, pComp.momVec, mTrue.mVec ,pCost);
             }
             cout << "protein moment vector: "<< pComp.momVec.transpose() << "from thread: " << omp_get_thread_num << endl;
             if(pCost < globalCost){
