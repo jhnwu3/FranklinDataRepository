@@ -15,6 +15,7 @@
 #define N 10000 // # of samples to sample over
 #define N_DIM 6 // dim of PSO hypercube
 #define N_PARTICLES 5 
+#define SUBSET_SIZE 3
 
 /* namespaces for ease of use */
 using namespace std;

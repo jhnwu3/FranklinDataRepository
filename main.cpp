@@ -23,8 +23,7 @@ int main(int argc, char **argv)
 
     /* instantiate data module / true values class */
     Data_Components mTrue;
-    int sizeSubset = 3;
-    mTrue.subset = VectorXd::Zero(sizeSubset);// subset of values we want to store.
+    mTrue.subset = VectorXd::Zero(SUBSET_SIZE);// subset of values we want to store.
     mTrue.subset << 1,2,3; // store the indices in specific order.
     mTrue.mVec = VectorXd::Zero(nMom);
     mTrue.m2Mat = MatrixXd::Zero(N_SPECIES, N_SPECIES);
@@ -103,6 +102,7 @@ int main(int argc, char **argv)
         VectorXd pInit(N_SPECIES); 
         
         Particle_Components pComp; // particle components
+        pComp.subset = VectorXd::Zero(SUBSET_SIZE);
         pComp.momVec = VectorXd::Zero(nMom);
         pComp.sampleMat = MatrixXd(1, N_SPECIES); // start off with 1 row for initial sample size
 
