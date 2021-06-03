@@ -102,7 +102,7 @@ int main(int argc, char **argv)
         VectorXd pInit(N_SPECIES); 
         
         Particle_Components pComp; // particle components
-        pComp.subset = VectorXd::Zero(SUBSET_SIZE);
+        pComp.subset = mTrue.subset;
         pComp.momVec = VectorXd::Zero(nMom);
         pComp.sampleMat = MatrixXd(1, N_SPECIES); // start off with 1 row for initial sample size
 
