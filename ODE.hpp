@@ -3,11 +3,11 @@
 
 #include "main.hpp"
 /* ODE Systems Functions */
-void nonlinearODE3( const state_N_type &c , state_N_type &dcdt , double t );
-void linearODE3_true( const state_N_type &c , state_N_type &dcdt , double t );
-void linearODEn_1( const state_N_type &c , state_N_type &dcdt , double t );
-void nonlinearODE6( const state_N_type &c , state_N_type &dcdt , double t);
-
+void nonlinearODE3( const State_N &c , State_N &dcdt , double t );
+void linearODE3_true( const State_N &c , State_N &dcdt , double t );
+void linearODEn_1( const State_N &c , State_N &dcdt , double t );
+void nonlinearODE6( const State_N &c , State_N &dcdt , double t);
+State_N multivarNormDist(const VectorXd& normVar);
 
 struct K
 {
@@ -22,7 +22,7 @@ class Particle_Linear
 public:
     Particle_Linear(struct K G) : bill(G) {}
 
-    void operator() (  const state_N_type &c , state_N_type &dcdt , double t)
+    void operator() (  const State_N &c , State_N &dcdt , double t)
     {
         MatrixXd kr(3, 3); 
         kr << 0, bill.k(1), bill.k(3),
@@ -51,7 +51,7 @@ class Nonlinear6ODE
 public:
     Nonlinear6ODE(struct K G) : jay(G) {}
 
-    void operator() (  const state_6_type &c , state_6_type &dcdt , double t)
+    void operator() (  const State_N &c , State_N &dcdt , double t)
     {
         
         dcdt[0] = - (jay.k(0) * c[0] * c[1])  // Syk
@@ -90,7 +90,7 @@ struct Data_ODE_Observer
 {
     struct Data_Components &dComp;
     Data_ODE_Observer( struct Data_Components &dCom) : dComp( dCom ) {}
-    void operator()( state_N_type const& c, const double t ) const 
+    void operator()( State_N const& c, const double t ) const 
     {
         if(t == tf){
             for(int row = 0; row < dComp.subset.size(); row++){ // first moments of specified subset
@@ -125,7 +125,7 @@ struct Particle_Observer
 {
     struct Particle_Components &pComp;
     Particle_Observer( struct Particle_Components &pCom) : pComp( pCom ){}
-    void operator()( const state_N_type &c , const double t ) 
+    void operator()( const State_N &c , const double t ) 
     {
         if(t == tf){
            // cout << "confirmed" << endl;

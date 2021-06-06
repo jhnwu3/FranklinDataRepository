@@ -32,8 +32,8 @@ int main(int argc, char **argv)
     ofstream oFile, oFile1, oFileMAV; 
     open_files(oFile, oFile1, oFileMAV); 
     /* Random Number Generator */
-    random_device rand_dev;
-    mt19937 generator(rand_dev());
+    random_device ranDev;
+    mt19937 generator(ranDev());
     uniform_real_distribution<double> unifDist(0.0, 1.0);
     /* Variables used for multivariate log normal distribution */
     VectorXd mu(N_SPECIES);
@@ -60,8 +60,8 @@ int main(int argc, char **argv)
     
     /* ODE solver variables! */
     VectorXd initCon(N_SPECIES); // temp vector to be used for initiation conditions
-    state_N_type c0;
-    controlledRK_stepper_N_type controlled_stepper;
+
+    Controlled_RK_Stepper_N controlled_stepper;
     /* mu vector and covariance (sigma) original values */
     mu << mu_x, mu_y, mu_z;
     sigma << 0.77, 0.0873098, 0.046225, 
@@ -74,7 +74,7 @@ int main(int argc, char **argv)
     cout << "mu:" << mu.transpose() << endl << endl << "sigma:" << endl << sigma << endl << endl; 
 
     /* For Checking Purposes - Graph Vav, p-Vav .., SHP1 */
-    controlledRK_stepper_6_type controlled_6stepper;
+    Controlled_RK_Stepper_N controlled_6stepper;
     struct K jayK;
     jayK.k = VectorXd::Zero(N_DIM);
     jayK.k << 5.0, 0.10, 1.00, 8.69, 0.05, 0.07; // write 6 values.
@@ -82,15 +82,19 @@ int main(int argc, char **argv)
     ofstream gnu;
     gnu.open("NonlinODE_Data.txt"); 
     Write_File_Plot writeFile(gnu);
-    state_6_type jc0 = {120.0, 41.33, 0, 0, 80.0, 0};
+    State_N jc0 = {120.0, 41.33, 0, 0, 80.0, 0};
     integrate_adaptive(controlled_6stepper, ODE6System, jc0, t0, tf, dt, writeFile);
-    normal_distribution<double> muC1{120.0, 120.0};
-    normal_distribution<double> muC2{41.33, 5.0};
-    normal_distribution<double> muC5{80.0, 6.0};
     
+    /* Now do it for several thousand samples */
+    normal_distribution<double> normC1{120.0, 120.0};
+    normal_distribution<double> normC2{41.33, 5.0};
+    normal_distribution<double> normC5{80.0, 6.0};  
+  
+    //@TODO - need to fix code ODEsystem code to better fit in for different values required! ~ need to write cleaner observer func code
     /* multivar norm gen */
-    normal_random_variable sample{mu, sigma};
+    Multi_Normal_Random_Variable sample{mu, sigma};
     Data_ODE_Observer dataObs(mTrue); // data observer class to fill values in mTrue.
+    State_N c0;
     /* Solve for <Ci> using ODE system */
     for(int i = 0; i < N; i++){
        if(i % 1000 == 0){ cout << i << endl;  }
@@ -98,7 +102,7 @@ int main(int argc, char **argv)
         for(int a = 0; a < N_SPECIES; a++){
             c0[a] = exp(initCon(a)); // assign vector for use in ODE solns.
         }
-        integrate_adaptive(controlled_stepper, linearODE3_true, c0, t0, tf, dt, dataObs);
+        integrate_adaptive(controlled_stepper, ODE6System, c0, t0, tf, dt, dataObs);
     }
     /* avg for moments */
     mTrue.mVec /= N;
@@ -112,7 +116,7 @@ int main(int argc, char **argv)
     for(particleIterator = 0; particleIterator < N_PARTICLES; particleIterator++){
         /* first iteration */
         double pCost;
-        state_N_type particleC0; // initial conditions for part
+        State_N particleC0; // initial conditions for part
         VectorXd pInit(N_SPECIES); 
         
         Particle_Components pComp; // particle components
@@ -120,7 +124,7 @@ int main(int argc, char **argv)
         pComp.momVec = VectorXd::Zero(nMom);
         pComp.sampleMat = MatrixXd(1, N_SPECIES); // start off with 1 row for initial sample size
 
-        normal_random_variable sampleParticle{mu, sigma}; 
+        Multi_Normal_Random_Variable sampleParticle{mu, sigma}; 
 
         /* Generate rate constants from uniform dist (0,1) for 6-dim hypercube */
         struct K pK; // structure for particle rate constants
@@ -128,7 +132,7 @@ int main(int argc, char **argv)
         for(int i = 0; i < N_DIM; i++){
             pK.k(i) = unifDist(generator);                        
         }
-        Particle_Linear sys(pK); // instantiate ODE System
+        Particle_Linear pSys(pK); // instantiate ODE System
 
         /* solve N-samples of ODEs */
         for(int i = 0; i < N; i++){
@@ -137,10 +141,10 @@ int main(int argc, char **argv)
                 particleC0[a] = exp(pInit(a)); // convert to lognorm
                 pInit(a) = particleC0[a];
             }
-            integrate_adaptive(controlled_stepper, sys, particleC0, t0, tf, dt, Particle_Observer(pComp));
+            integrate_adaptive(controlled_stepper, pSys, particleC0, t0, tf, dt, Particle_Observer(pComp));
         }    
         pComp.momVec /= N; 
-        pCost = CF1(mTrue.mVec, pComp.momVec, nMom); // cost
+        pCost = calculate_cf1(mTrue.mVec, pComp.momVec, nMom); // cost
 
         /* cost comparisons */
         #pragma omp critical
@@ -170,11 +174,11 @@ int main(int argc, char **argv)
     cout << "kEst between 0 and 1s:" << endl << kEst.transpose() << endl;
     cout << "kEst1 0.1 * rand(0,1) away:" << endl << kEst1.transpose() << endl;
    
-    cout << "kCost for a set of k estimates between 0 and 1s: " << CF1(kTrue, kEst, nMom) << endl;
-    cout << "kCost for a set of k estimates 0.1 * rand(0,1) away from true: " << CF1(kTrue, kEst1, N_SPECIES) << endl << endl;
+    cout << "kCost for a set of k estimates between 0 and 1s: " << calculate_cf1(kTrue, kEst, nMom) << endl;
+    cout << "kCost for a set of k estimates 0.1 * rand(0,1) away from true: " << calculate_cf1(kTrue, kEst1, N_SPECIES) << endl << endl;
    
-    cout << "kCostMat for a set of k estimates between 0 and 1s: " << CF2(kTrue, kEst, w, N_SPECIES) << endl;
-    cout << "kCostMat for a set of k estimates 0.1 * rand(0,1) away from true: " << CF2(kTrue, kEst1, w, N_SPECIES) << endl << endl;
+    cout << "kCostMat for a set of k estimates between 0 and 1s: " << calculate_cf2(kTrue, kEst, w, N_SPECIES) << endl;
+    cout << "kCostMat for a set of k estimates 0.1 * rand(0,1) away from true: " << calculate_cf2(kTrue, kEst1, w, N_SPECIES) << endl << endl;
     /* Print statement for the moments */
     oFileMAV << "2nd moment matrix:" << endl;
     oFileMAV << mTrue.m2Mat << endl << endl;

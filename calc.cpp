@@ -1,8 +1,8 @@
 #include "ODE.hpp"
 #include "calc.hpp"
 
-/* Calculation Functions */
-double CF1(const VectorXd& trueVec, const VectorXd& estVec, int n){
+/* abbreviation: cf1 = cost function 1 */
+double calculate_cf1(const VectorXd& trueVec, const VectorXd& estVec, int n){
     double cost = 0;
     for(int i = 0; i < n; i++){
         cost += (estVec(i) - trueVec(i)) * (estVec(i) - trueVec(i));
@@ -10,7 +10,7 @@ double CF1(const VectorXd& trueVec, const VectorXd& estVec, int n){
     return cost;
 }
 
-double CF2(const VectorXd& trueVec, const  VectorXd& estVec, const MatrixXd& w, int n){
+double calculate_cf2(const VectorXd& trueVec, const  VectorXd& estVec, const MatrixXd& w, int n){
     double cost = 0;
     VectorXd diff(n);
     /*for(int i = 0; i < n; i++){
@@ -55,12 +55,12 @@ MatrixXd create_covariance_matrix(const MatrixXd& sampleSpace, const VectorXd& m
 }
 MatrixXd generate_sample_space(int nProt, int n){
      /* Random Number Generator */
-    random_device rand_dev;
-    mt19937 generator(rand_dev());
+    random_device ranDev;
+    mt19937 generator(ranDev());
     MatrixXd sampleSpace(n, nProt);
-    std::normal_distribution<double> xNorm(mu_x, sigma_x);
-    std::normal_distribution<double> yNorm(mu_y, sigma_y);
-    std::normal_distribution<double> zNorm(mu_z, sigma_z);
+    normal_distribution<double> xNorm(mu_x, sigma_x);
+    normal_distribution<double> yNorm(mu_y, sigma_y);
+    normal_distribution<double> zNorm(mu_z, sigma_z);
     /* Generate NPRotein mu vector and also NProtein Cov Matrix using the three MVN values */
     for (int i = 0; i < N; i++) {
         for (int j = 0; j < N_SPECIES; j++) {
