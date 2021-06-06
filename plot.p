@@ -1,5 +1,5 @@
 # Set the output to a png file
-set terminal png size 500,500
+set terminal png size 600,600
 # The file we'll write to
 set output 'nonlinearODE.png'
 # The graphic title
@@ -7,7 +7,7 @@ set title 'Nonlinear ODE System'
 
 # labels
 set xlabel "Time (s)"
-set ylabel "Concentrations"
+set ylabel "Concentrations (mM)"
 set grid
 
 #plot the graphic
