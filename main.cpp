@@ -74,7 +74,7 @@ int main(int argc, char **argv)
     cout << "mu:" << mu.transpose() << endl << endl << "sigma:" << endl << sigma << endl << endl; 
 
     /* For Checking Purposes - Graph Vav, p-Vav .., SHP1 */
-    Controlled_RK_Stepper_N controlled_6stepper;
+    Controlled_RK_Stepper_6 controlled_6stepper;
     struct K jayK;
     jayK.k = VectorXd::Zero(N_DIM);
     jayK.k << 5.0, 0.10, 1.00, 8.69, 0.05, 0.07; // write 6 values.
