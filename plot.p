@@ -11,4 +11,4 @@ set ylabel "Concentrations"
 set grid
 
 #plot the graphic
-plot "NonlinODE_Data.txt" using 1:2 title "Syk" using 1:3 title "Vav" using 1:5 title "pVav" using 1:6 title "SHP1"
+plot "NonlinODE_Data.txt" using 1:2 title "Syk", "NonlinODE_Data.txt" using 1:3 title "Vav", "NonlinODE_Data.txt" using 1:5 title "pVav", "NonlinODE_Data.txt" using 1:6 title "SHP1"
