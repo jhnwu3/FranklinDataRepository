@@ -25,15 +25,17 @@ using namespace boost::numeric::odeint;
 /* typedefs for boost ODE-ints*/
 typedef boost::numeric::ublas::vector< double > vector_type;
 typedef boost::numeric::ublas::matrix< double > matrix_type;
-typedef boost::array< double , N_SPECIES > state_type;
-typedef boost::array< double , 6 > state_type1;
-typedef runge_kutta_cash_karp54< state_type > error_stepper_type;
-typedef controlled_runge_kutta< error_stepper_type > controlled_stepper_type;
+typedef boost::array< double , N_SPECIES > state_N_type;
+typedef boost::array< double , 6 > state_6_type;
+typedef runge_kutta_cash_karp54< state_N_type > errorRK_stepper_N_type;
+typedef runge_kutta_cash_karp54< state_6_type > errorRK_stepper_6_type;
+typedef controlled_runge_kutta< errorRK_stepper_N_type > controlledRK_stepper_N_type;
+typedef controlled_runge_kutta< errorRK_stepper_6_type > controlledRK_stepper_6_type;
 
 /* Collect data functions - in main for ease of access - @TODO clean up in other files! */
-void sample_const( const state_type &c , const double t);
-void sample_adapt( const state_type &c , const double t);
-void sample_adapt_linear( const state_type &c , const double t);
+void sample_const( const state_N_type &c , const double t);
+void sample_adapt( const state_N_type &c , const double t);
+void sample_adapt_linear( const state_N_type &c , const double t);
 
 /* Note: @TODO change global vars back into local vars later */
 /* model global diff eq. constants */

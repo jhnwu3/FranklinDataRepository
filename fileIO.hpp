@@ -11,7 +11,7 @@ struct Write_File_CSV // csv storing for 3 var only
 {
     ostream& fOut;
     Write_File_CSV (ostream& out) : fOut( out ) {} 
-    void operator()(const state_type &c, const double t){
+    void operator()(const state_N_type &c, const double t){
         fOut << t << endl;
         for(int i = 0; i < N_SPECIES; i++){
         fOut << "," << c[i];
@@ -23,7 +23,7 @@ struct Write_File_Plot // for gnu plot file stream write out solved values for a
 {
     ostream& fOut;
     Write_File_Plot (ostream& out) : fOut( out ) {} 
-    void operator()(const state_type &c, const double t){
+    void operator()(const state_6_type &c, const double t){
         fOut << t;
         for(int i = 0; i < N_SPECIES; i++){
         fOut << " " << c[i];
@@ -42,7 +42,7 @@ struct Data_ODE_Observer_IO
 {
     struct Data_Components_IO &dComp;
     Data_ODE_Observer_IO( struct Data_Components_IO &dCom) : dComp( dCom ) {}
-    void operator()( state_type const& c, const double t ) const 
+    void operator()( state_N_type const& c, const double t ) const 
     {   
         dComp.out << t;
         for(int i = 0; i < N_SPECIES; i++){

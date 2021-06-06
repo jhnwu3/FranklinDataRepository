@@ -60,8 +60,8 @@ int main(int argc, char **argv)
     
     /* ODE solver variables! */
     VectorXd initCon(N_SPECIES); // temp vector to be used for initiation conditions
-    state_type c0;
-    controlled_stepper_type controlled_stepper;
+    state_N_type c0;
+    controlledRK_stepper_N_type controlled_stepper;
     /* mu vector and covariance (sigma) original values */
     mu << mu_x, mu_y, mu_z;
     sigma << 0.77, 0.0873098, 0.046225, 
@@ -81,7 +81,7 @@ int main(int argc, char **argv)
     ofstream gnu;
     gnu.open("NonlinODE_Data.txt"); 
     Write_File_Plot writeFile(gnu);
-    state_type1 jc0 = {72000, 25000, 0, 0, 48000, 0};
+    state_6_type jc0 = {72000, 25000, 0, 0, 48000, 0};
     integrate_adaptive(controlled_stepper, ODE6System, jc0, t0, tf, dt, writeFile);
     normal_distribution<double> muC1{120.0, 120.0};
     normal_distribution<double> muC2{41.33, 5.0};
@@ -111,7 +111,7 @@ int main(int argc, char **argv)
     for(particleIterator = 0; particleIterator < N_PARTICLES; particleIterator++){
         /* first iteration */
         double pCost;
-        state_type particleC0; // initial conditions for part
+        state_N_type particleC0; // initial conditions for part
         VectorXd pInit(N_SPECIES); 
         
         Particle_Components pComp; // particle components
