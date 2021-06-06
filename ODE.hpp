@@ -51,7 +51,7 @@ class Nonlinear6ODE
 public:
     Nonlinear6ODE(struct K G) : jay(G) {}
 
-    void operator() (  const State_N &c , State_N &dcdt , double t)
+    void operator() (  const State_6 &c , State_6 &dcdt , double t)
     {
         
         dcdt[0] = - (jay.k(0) * c[0] * c[1])  // Syk
