@@ -74,6 +74,7 @@ int main(int argc, char **argv)
     cout << "mu:" << mu.transpose() << endl << endl << "sigma:" << endl << sigma << endl << endl; 
 
     /* For Checking Purposes - Graph Vav, p-Vav .., SHP1 */
+    controlledRK_stepper_6_type controlled_6stepper;
     struct K jayK;
     jayK.k = VectorXd::Zero(N_DIM);
     jayK.k << 5.0, 0.10, 1.00, 8.69, 0.05, 0.07; // write 6 values.
@@ -82,7 +83,7 @@ int main(int argc, char **argv)
     gnu.open("NonlinODE_Data.txt"); 
     Write_File_Plot writeFile(gnu);
     state_6_type jc0 = {72000, 25000, 0, 0, 48000, 0};
-    integrate_adaptive(controlled_stepper, ODE6System, jc0, t0, tf, dt, writeFile);
+    integrate_adaptive(controlled_6stepper, ODE6System, jc0, t0, tf, dt, writeFile);
     normal_distribution<double> muC1{120.0, 120.0};
     normal_distribution<double> muC2{41.33, 5.0};
     normal_distribution<double> muC5{80.0, 6.0};
