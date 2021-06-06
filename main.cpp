@@ -82,7 +82,7 @@ int main(int argc, char **argv)
     ofstream gnu;
     gnu.open("NonlinODE_Data.txt"); 
     Write_File_Plot writeFile(gnu);
-    state_6_type jc0 = {72000, 25000, 0, 0, 48000, 0};
+    state_6_type jc0 = {120.0, 41.33, 0, 0, 80.0, 0};
     integrate_adaptive(controlled_6stepper, ODE6System, jc0, t0, tf, dt, writeFile);
     normal_distribution<double> muC1{120.0, 120.0};
     normal_distribution<double> muC2{41.33, 5.0};
