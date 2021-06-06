@@ -11,7 +11,7 @@
 #include <cmath>
 #include <chrono>
 #include <omp.h>
-#define N_SPECIES 6 
+#define N_SPECIES 3 
 #define N 10000 // # of samples to sample over
 #define N_DIM 6 // dim of PSO hypercube
 #define N_PARTICLES 5 
@@ -26,6 +26,9 @@ using namespace boost::numeric::odeint;
 typedef boost::array< double , N_SPECIES > State_N;
 typedef runge_kutta_cash_karp54< State_N > Error_RK_Stepper_N;
 typedef controlled_runge_kutta< Error_RK_Stepper_N > Controlled_RK_Stepper_N;
+typedef boost::array< double , 6 > State_6;
+typedef runge_kutta_cash_karp54< State_6 > Error_RK_Stepper_6;
+typedef controlled_runge_kutta< Error_RK_Stepper_6 > Controlled_RK_Stepper_6;
 
 /* Collect data functions - in main for ease of access - @TODO clean up in other files! */
 void sample_const( const State_N &c , const double t);
@@ -45,6 +48,4 @@ const double extern var_x, var_y, var_z; // true variances for MVN(theta);
 const double extern rho_xy, rho_xz, rho_yz; // true correlations for MVN
 const double extern sigma_x, sigma_y, sigma_z;
 #endif
-// typedef boost::array< double , 6 > state_6_type;
-// typedef runge_kutta_cash_karp54< state_6_type > errorRK_stepper_6_type;
-// typedef controlled_runge_kutta< errorRK_stepper_6_type > controlledRK_stepper_6_type;
+

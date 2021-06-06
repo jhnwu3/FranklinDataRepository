@@ -82,7 +82,7 @@ int main(int argc, char **argv)
     ofstream gnu;
     gnu.open("NonlinODE_Data.txt"); 
     Write_File_Plot writeFile(gnu);
-    State_N jc0 = {120.0, 41.33, 0, 0, 80.0, 0};
+    State_6 jc0 = {120.0, 41.33, 0, 0, 80.0, 0};
     integrate_adaptive(controlled_6stepper, ODE6System, jc0, t0, tf, dt, writeFile);
     
     /* Now do it for several thousand samples */
@@ -102,7 +102,7 @@ int main(int argc, char **argv)
         for(int a = 0; a < N_SPECIES; a++){
             c0[a] = exp(initCon(a)); // assign vector for use in ODE solns.
         }
-        integrate_adaptive(controlled_stepper, ODE6System, c0, t0, tf, dt, dataObs);
+        integrate_adaptive(controlled_stepper, linearODE3_true, c0, t0, tf, dt, dataObs);
     }
     /* avg for moments */
     mTrue.mVec /= N;
