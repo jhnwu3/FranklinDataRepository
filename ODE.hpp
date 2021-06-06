@@ -17,17 +17,17 @@ struct K
 /* ODE- System to be used for parallel computing for particles */
 class Particle_Linear
 {
-    struct K T1;
+    struct K bill;
 
 public:
-    Particle_Linear(struct K G) : T1(G) {}
+    Particle_Linear(struct K G) : bill(G) {}
 
     void operator() (  const state_type &c , state_type &dcdt , double t)
     {
         MatrixXd kr(N_SPECIES, N_SPECIES); 
-        kr << 0, T1.k(1), T1.k(3),
-            T1.k(2), 0, T1.k(0),
-            0, T1.k(4), 0;
+        kr << 0, bill.k(1), bill.k(3),
+            bill.k(2), 0, bill.k(0),
+            0, bill.k(4), 0;
         dcdt[0] = (kr(0,0) * c[0] - kr(0,0) * c[0]) +
               (kr(0,1) * c[1] - kr(1,0) * c[0]) + 
               (kr(0,2) * c[2] - kr(2,0) * c[0]);
@@ -41,16 +41,52 @@ public:
                 (kr(2,2) * c[2] - kr(2,2) * c[2]);
     }
 };
-/* Observer Functions */
 
+/* 6-variable nonlinear ODE system - G has no meaning, just a simple placeholder var */
+
+class Nonlinear6ODE
+{
+    struct K jay;
+
+public:
+    Nonlinear6ODE(struct K G) : jay(G) {}
+
+    void operator() (  const state_type &c , state_type &dcdt , double t)
+    {
+        
+        dcdt[0] = - (jay.k(0) * c[0] * c[1]) 
+                  + jay.k(1) * c[2] 
+                  + jay.k(2) * c[2];
+           
+        dcdt[1] = - (jay.k(0) * c[0] * c[1]) 
+                + jay.k(1) * c[2] 
+                + jay.k(5) * c[5];
+
+        dcdt[2] = jay.k(0) * c[0] * c[1] 
+                - jay.k(1) * c[2]
+                - jay.k(2) * c[2];
+
+        dcdt[3] = jay.k(2) * c[2]
+                - jay.k(3) * c[3] * c[4] 
+                + jay.k(4) * c[5];
+
+        dcdt[4] = -(jay.k(3) * c[3] * c[4]) 
+                + jay.k(4) * c[5] 
+                + jay.k(5) * c[5];
+
+        dcdt[5] = jay.k(3) * c[3] * c[4] 
+                - jay.k(4) * c[5] 
+                - jay.k(5) * c[5];
+    }
+};
+
+/* Observer Functions */
 struct Data_Components{
     VectorXd subset;
     VectorXd mVec;
     MatrixXd m2Mat;
 };
-
-
-struct Data_ODE_Observer
+struct Data_ODE_Observer 
 {
     struct Data_Components &dComp;
     Data_ODE_Observer( struct Data_Components &dCom) : dComp( dCom ) {}
@@ -85,7 +121,6 @@ struct Particle_Components
     VectorXd momVec; // moment vector
     MatrixXd sampleMat; 
 };
-
 struct Particle_Observer
 {
     struct Particle_Components &pComp;

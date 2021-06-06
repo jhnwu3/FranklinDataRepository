@@ -1,8 +1,14 @@
 # Set the output to a png file
 set terminal png size 500,500
 # The file we'll write to
-set output 'sinx.png'
+set output 'nonlinearODE.png'
 # The graphic title
-set title 'Sin(x)'
+set title 'Nonlinear ODE System'
+
+# labels
+set xlabel "Time (s)"
+set ylabel "Concentrations"
+set grid
+
 #plot the graphic
-plot sin(x)
+plot "NonlinODE_Data.txt" using 1:2 title "Syk" using 1:3 title "Vav" using 1:5 title "pVav" using 1:6 title "SHP1"

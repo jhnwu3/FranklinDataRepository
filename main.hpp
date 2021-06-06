@@ -26,6 +26,7 @@ using namespace boost::numeric::odeint;
 typedef boost::numeric::ublas::vector< double > vector_type;
 typedef boost::numeric::ublas::matrix< double > matrix_type;
 typedef boost::array< double , N_SPECIES > state_type;
+typedef boost::array< double , 6 > state_type1;
 typedef runge_kutta_cash_karp54< state_type > error_stepper_type;
 typedef controlled_runge_kutta< error_stepper_type > controlled_stepper_type;
 

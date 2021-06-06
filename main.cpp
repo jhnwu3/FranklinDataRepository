@@ -71,9 +71,22 @@ int main(int argc, char **argv)
     sampleSpace = generate_sample_space(N_SPECIES, N);
     mu = sampleSpace.colwise().mean(); 
     sigma = create_covariance_matrix(sampleSpace, mu, N_SPECIES);*/
-
     cout << "mu:" << mu.transpose() << endl << endl << "sigma:" << endl << sigma << endl << endl; 
 
+    /* For Checking Purposes - Graph Vav, p-Vav .., SHP1 */
+    struct K jayK;
+    jayK.k = VectorXd::Zero(N_DIM);
+    jayK.k << 5.0, 0.10, 1.00, 8.69, 0.05, 0.07; // write 6 values.
+    Nonlinear6ODE ODE6System(jayK);
+    ofstream gnu;
+    gnu.open("NonlinODE_Data.txt"); 
+    Write_File_Plot writeFile(gnu);
+    state_type1 jc0 = {72000, 25000, 0, 0, 48000, 0};
+    integrate_adaptive(controlled_stepper, ODE6System, jc0, t0, tf, dt, writeFile);
+    normal_distribution muC1{120.0, 120.0};
+    normal_distribution muC2{41.33, 5.0};
+    normal_distribution muC5{80.0, 6.0};
+    
     /* multivar norm gen */
     normal_random_variable sample{mu, sigma};
     Data_ODE_Observer dataObs(mTrue); // data observer class to fill values in mTrue.
@@ -109,12 +122,12 @@ int main(int argc, char **argv)
         normal_random_variable sampleParticle{mu, sigma}; 
 
         /* Generate rate constants from uniform dist (0,1) for 6-dim hypercube */
-        struct K kS; // structure for particle rate constants
-        kS.k = VectorXd::Zero(N_DIM);
+        struct K pK; // structure for particle rate constants
+        pK.k = VectorXd::Zero(N_DIM);
         for(int i = 0; i < N_DIM; i++){
-            kS.k(i) = unifDist(generator);                        
+            pK.k(i) = unifDist(generator);                        
         }
-        Particle_Linear sys(kS); // instantiate ODE System
+        Particle_Linear sys(pK); // instantiate ODE System
 
         /* solve N-samples of ODEs */
         for(int i = 0; i < N; i++){
@@ -133,7 +146,7 @@ int main(int argc, char **argv)
         {     
             if(particleIterator == 0){
                 cout << endl << endl << "Writing First Particle data!" << endl << endl;
-                write_particle_data(kS.k, pInit, pComp.momVec, mTrue.mVec ,pCost);
+                write_particle_data(pK.k, pInit, pComp.momVec, mTrue.mVec ,pCost);
             }
             cout << "protein moment vector: "<< pComp.momVec.transpose() << "from thread: " << omp_get_thread_num << endl;
             if(pCost < globalCost){
