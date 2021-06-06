@@ -23,7 +23,7 @@ struct Write_File_Plot
 {
     ostream& fOut;
     Write_File_Plot (ostream& out) : fOut( out ) {} 
-    void operator()(const state_6_type &c, const double t){ // write all solved ODE values in GNU plot vals
+    void operator()(const State_N &c, const double t){ // write all solved ODE values in GNU plot vals
         fOut << t;
         for(int i = 0; i < 6; i++){
         fOut << " " << c[i];
@@ -42,7 +42,7 @@ struct Data_ODE_Observer_IO
 {
     struct Data_Components_IO &dComp;
     Data_ODE_Observer_IO( struct Data_Components_IO &dCom) : dComp( dCom ) {}
-    void operator()( state_N_type const& c, const double t ) const 
+    void operator()( State_N const& c, const double t ) const 
     {   
         dComp.out << t;
         for(int i = 0; i < N_SPECIES; i++){
