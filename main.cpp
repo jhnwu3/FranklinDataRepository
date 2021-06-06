@@ -83,9 +83,9 @@ int main(int argc, char **argv)
     Write_File_Plot writeFile(gnu);
     state_type1 jc0 = {72000, 25000, 0, 0, 48000, 0};
     integrate_adaptive(controlled_stepper, ODE6System, jc0, t0, tf, dt, writeFile);
-    normal_distribution muC1{120.0, 120.0};
-    normal_distribution muC2{41.33, 5.0};
-    normal_distribution muC5{80.0, 6.0};
+    normal_distribution<double> muC1{120.0, 120.0};
+    normal_distribution<double> muC2{41.33, 5.0};
+    normal_distribution<double> muC5{80.0, 6.0};
     
     /* multivar norm gen */
     normal_random_variable sample{mu, sigma};
