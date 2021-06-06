@@ -24,7 +24,6 @@ struct Write_File_Plot // for gnu plot file stream write out solved values for a
     ostream& fOut;
     Write_File_Plot (ostream& out) : fOut( out ) {} 
     void operator()(const state_6_type &c, const double t){
-        cout << "in here!"<< endl;
         fOut << t;
         for(int i = 0; i < N_SPECIES; i++){
         fOut << " " << c[i];
