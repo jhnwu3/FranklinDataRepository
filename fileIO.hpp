@@ -23,7 +23,7 @@ struct Write_File_Plot
 {
     ostream& fOut;
     Write_File_Plot (ostream& out) : fOut( out ) {} 
-    void operator()(const State_N &c, const double t){ // write all solved ODE values in GNU plot vals
+    void operator()(const State_6 &c, const double t){ // write all solved ODE values in GNU plot vals
         fOut << t;
         for(int i = 0; i < 6; i++){
         fOut << " " << c[i];
