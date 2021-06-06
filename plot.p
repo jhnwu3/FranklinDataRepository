@@ -1,5 +1,5 @@
 # Set the output to a png file
-set terminal png size 600,600
+set terminal png size 800,800
 # The file we'll write to
 set output 'nonlinearODE.png'
 # The graphic title
