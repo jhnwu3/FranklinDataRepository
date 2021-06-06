@@ -11,7 +11,7 @@ struct Write_File_CSV
 {
     ostream& fOut;
     Write_File_CSV (ostream& out) : fOut( out ) {} 
-    void operator()(const state_N_type &c, const double t){
+    void operator()(const State_N &c, const double t){
         fOut << t << endl;
         for(int i = 0; i < N_SPECIES; i++){
         fOut << "," << c[i];
