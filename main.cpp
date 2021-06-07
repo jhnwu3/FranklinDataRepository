@@ -167,6 +167,7 @@ int main(int argc, char **argv)
         }else{
             for(int i = 0; i < N; i++){
                 particleC0 = {120.0, 41.33, 0, 0, 80.0, 0};
+                pInit << 120.0, 41.33, 0, 0, 80.0, 0;
                 integrate_adaptive(controlled_stepper, pSys, particleC0, t0, tf, dt, Particle_Observer(pComp));
             } 
         }
