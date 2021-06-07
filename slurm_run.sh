@@ -8,4 +8,4 @@
 set -e
 echo "This is a test run by John Wu"
 export OMP_NUM_THREADS=5
-./ODE 
+./PSO

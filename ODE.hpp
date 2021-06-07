@@ -51,7 +51,7 @@ class Nonlinear_ODE6
 public:
     Nonlinear_ODE6(struct K G) : jay(G) {}
 
-    void operator() (  const State_6 &c , State_6 &dcdt , double t)
+    void operator() (  const State_N &c , State_N &dcdt , double t)
     {   
         dcdt[0] = - (jay.k(0) * c[0] * c[1])  // Syk
                   + jay.k(1) * c[2] 
@@ -94,14 +94,15 @@ struct Data_ODE_Observer
         if(t == tf){
             for(int row = 0; row < dComp.subset.size(); row++){ // first moments of specified subset
                 int i = dComp.subset(row) - 1; // i.e subset = {1,2,3} = index = {0,1,2}
-                if(i >= 0){ dComp.moments(i) +=  c[i]; 
+                if(i >= 0){ 
+                    dComp.moments(i) +=  c[i]; 
                     for(int col = row; col < dComp.subset.size(); col++){
                         int j = dComp.subset(col) - 1;
                         if ( j >= 0 ){
-                            if( i == j ){
-                                dComp.moments(N_SPECIES + i) += c[i] * c[j];
+                            if( i == j ){ // diagonal elements
+                                dComp.moments(dComp.secondMoments.rows() + i) += c[i] * c[j];
                             }else{
-                                dComp.moments(2*N_SPECIES + (i + j - 1)) += c[i] *c[j];
+                                dComp.moments(2*dComp.secondMoments.rows() + (i + j - 1)) += c[i] *c[j];
                             }
                             dComp.secondMoments(i,j) += (c[i] * c[j]);   // store in a 2nd moment matrix
                             dComp.secondMoments(j,i) = dComp.secondMoments(i,j);   // store in a 2nd moment matrix
@@ -112,7 +113,7 @@ struct Data_ODE_Observer
         }
     }
 };
-struct Data_ODE_Observer6 
+struct Data_ODE_Observer6 // note:  when you need to solve multiple systems at the same time!
 {
     struct Data_Components &dComp;
     Data_ODE_Observer6( struct Data_Components &dCom) : dComp( dCom ) {}
@@ -165,15 +166,15 @@ struct Particle_Observer
 
             for(int row = 0; row < pComp.subset.size(); row++){ // first moments of specified subset
                 int i = pComp.subset(row) - 1; // i.e subset = {1,2,3} = index = {0,1,2}
-                if(i >= 0){ pComp.momVec(i) +=  c[i]; }
-
-                for(int col = row; col < pComp.subset.size(); col++){
-                    int j = pComp.subset(col) - 1;
-                    if(j >= 0){
-                        if(i == j){
-                            pComp.momVec(N_SPECIES + i) += c[i] * c[j];
-                        }else{
-                            pComp.momVec(2*N_SPECIES + (i + j - 1)) += c[i] *c[j];
+                if(i >= 0){ pComp.momVec(i) +=  c[i]; 
+                    for(int col = row; col < pComp.subset.size(); col++){
+                        int j = pComp.subset(col) - 1;
+                        if(j >= 0){
+                            if(i == j){
+                                pComp.momVec(N_SPECIES + i) += c[i] * c[j];
+                            }else{
+                                pComp.momVec(2*N_SPECIES + (i + j - 1)) += c[i] *c[j];
+                            }
                         }
                     }
                 }

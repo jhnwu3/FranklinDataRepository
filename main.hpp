@@ -11,11 +11,10 @@
 #include <cmath>
 #include <chrono>
 #include <omp.h>
-#define N_SPECIES 3 
+#define N_SPECIES 6
 #define N 10000 // # of samples to sample over
 #define N_DIM 6 // dim of PSO hypercube
 #define N_PARTICLES 5 
-#define SUBSET_SIZE 3
 
 /* namespaces for ease of use */
 using namespace std;
@@ -26,6 +25,7 @@ using namespace boost::numeric::odeint;
 typedef boost::array< double , N_SPECIES > State_N;
 typedef runge_kutta_cash_karp54< State_N > Error_RK_Stepper_N;
 typedef controlled_runge_kutta< Error_RK_Stepper_N > Controlled_RK_Stepper_N;
+
 typedef boost::array< double , 6 > State_6;
 typedef runge_kutta_cash_karp54< State_6 > Error_RK_Stepper_6;
 typedef controlled_runge_kutta< Error_RK_Stepper_6 > Controlled_RK_Stepper_6;
