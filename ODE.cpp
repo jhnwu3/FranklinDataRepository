@@ -57,4 +57,6 @@ State_6 generate_multivar_norm_init(const VectorXd& normVar){
     for(int i = 0; i < normVar.size(); i++){
         
     }
+
+    return c0;
 }
