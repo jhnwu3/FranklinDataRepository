@@ -4,7 +4,7 @@
 
 /* open files for writing */
 void open_files(ofstream& file0, ofstream& file1, ofstream& file2){
-    file0.open("ODE_Soln.csv");
+    file0.open("Nonlinear6_Cov_Corr_Mats.txt");
     file1.open("ODE_Const_Soln.csv"); 
     file2.open("Moment.csv");
 }

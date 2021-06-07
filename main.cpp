@@ -25,8 +25,8 @@ int main(int argc, char **argv)
     Data_Components mTrue;
     mTrue.subset = VectorXd::Zero(SUBSET_SIZE);// subset of values we want to store.
     mTrue.subset << 1,2,3; // store the indices in specific order.
-    mTrue.mVec = VectorXd::Zero(nMom);
-    mTrue.m2Mat = MatrixXd::Zero(N_SPECIES, N_SPECIES);
+    mTrue.moments = VectorXd::Zero(nMom);
+    mTrue.secondMoments = MatrixXd::Zero(N_SPECIES, N_SPECIES);
 
     /* global file streams to be able to access all files */
     ofstream oFile, oFile1, oFileMAV; 
@@ -78,9 +78,9 @@ int main(int argc, char **argv)
     struct K jayK;
     jayK.k = VectorXd::Zero(N_DIM);
     jayK.k << 5.0, 0.10, 1.00, 8.69, 0.05, 0.07; // write 6 values.
-    Nonlinear6ODE ODE6System(jayK);
+    Nonlinear_ODE6 ODE6System(jayK);
     ofstream gnu;
-    gnu.open("NonlinODE_Data.txt"); 
+    gnu.open("NonlinODE6_Syk_Vav_pVav_SHP1.txt"); 
     Write_File_Plot writeFile(gnu);
     State_6 jc0 = {120.0, 41.33, 0, 0, 80.0, 0};
     integrate_adaptive(controlled_6stepper, ODE6System, jc0, t0, tf, dt, writeFile);
@@ -89,10 +89,25 @@ int main(int argc, char **argv)
     normal_distribution<double> normC1{120.0, 120.0};
     normal_distribution<double> normC2{41.33, 5.0};
     normal_distribution<double> normC5{80.0, 6.0};  
-  
-    //@TODO - need to fix code ODEsystem code to better fit in for different values required! ~ need to write cleaner observer func code
+    Data_Components data6;
+    data6.subset = VectorXd::Zero(6); data6.subset << 1,2,0,0,5,0;
+    data6.moments = VectorXd::Zero(6);
+    data6.secondMoments = MatrixXd::Zero(6,6);
+
+    Data_ODE_Observer6 dataOBS6(data6);
+    for(int i = 0; i < 3000; i++){
+        State_6 nC0 = {normC1(generator), normC2(generator), 0, 0, normC5(generator), 0};
+        integrate_adaptive(controlled_6stepper, ODE6System, nC0, t0, tf, dt, dataOBS6); 
+    }
+    oFile <<"Correlation matrix i.e <ci(t)cj(t)> :"<< endl <<data6.secondMoments << endl;
+    oFile <<"Cov mat :" << endl << calculate_covariance_matrix(data6.secondMoments, data6.moments, 6) << endl; 
+    //@TODO - need to find a better way to fit multiple eqs
     /* multivar norm gen */
     Multi_Normal_Random_Variable sample{mu, sigma};
+    K dataK;
+    dataK.k = VectorXd::Zero(N_SPECIES);
+    dataK.k << k1, k2, k3, k4, k5, 0;
+    Linear_ODE3 linSys3(dataK); 
     Data_ODE_Observer dataObs(mTrue); // data observer class to fill values in mTrue.
     State_N c0;
     /* Solve for <Ci> using ODE system */
@@ -102,12 +117,12 @@ int main(int argc, char **argv)
         for(int a = 0; a < N_SPECIES; a++){
             c0[a] = exp(initCon(a)); // assign vector for use in ODE solns.
         }
-        integrate_adaptive(controlled_stepper, linearODE3_true, c0, t0, tf, dt, dataObs);
+        integrate_adaptive(controlled_stepper, linSys3, c0, t0, tf, dt, dataObs);
     }
     /* avg for moments */
-    mTrue.mVec /= N;
-    mTrue.m2Mat /= N;
-    cov = calculate_covariance_matrix(mTrue.m2Mat, mTrue.mVec, N_SPECIES);
+    mTrue.moments /= N;
+    mTrue.secondMoments /= N;
+    cov = calculate_covariance_matrix(mTrue.secondMoments, mTrue.moments, N_SPECIES);
     
 
     /**** parallel computing ****/
@@ -132,7 +147,7 @@ int main(int argc, char **argv)
         for(int i = 0; i < N_DIM; i++){
             pK.k(i) = unifDist(generator);                        
         }
-        Particle_Linear pSys(pK); // instantiate ODE System
+        Linear_ODE3 pSys(pK); // instantiate ODE System
 
         /* solve N-samples of ODEs */
         for(int i = 0; i < N; i++){
@@ -144,14 +159,14 @@ int main(int argc, char **argv)
             integrate_adaptive(controlled_stepper, pSys, particleC0, t0, tf, dt, Particle_Observer(pComp));
         }    
         pComp.momVec /= N; 
-        pCost = calculate_cf1(mTrue.mVec, pComp.momVec, nMom); // cost
+        pCost = calculate_cf1(mTrue.moments, pComp.momVec, nMom); // cost
 
         /* cost comparisons */
         #pragma omp critical
         {     
             if(particleIterator == 0){
                 cout << endl << endl << "Writing First Particle data!" << endl << endl;
-                write_particle_data(pK.k, pInit, pComp.momVec, mTrue.mVec ,pCost);
+                write_particle_data(pK.k, pInit, pComp.momVec, mTrue.moments ,pCost);
             }
             cout << "protein moment vector: "<< pComp.momVec.transpose() << "from thread: " << omp_get_thread_num << endl;
             if(pCost < globalCost){
@@ -161,7 +176,7 @@ int main(int argc, char **argv)
             }
         }
  
-        w = calculate_weight_matrix(pComp.sampleMat, mTrue.mVec, nMom, N);  // calc inverse wt. matrix
+        w = calculate_weight_matrix(pComp.sampleMat, mTrue.moments, nMom, N);  // calc inverse wt. matrix
         /* 2nd iteration - PSO*/
         /* using CF2 compute next cost function and recompute weight */
     }
@@ -181,14 +196,14 @@ int main(int argc, char **argv)
     cout << "kCostMat for a set of k estimates 0.1 * rand(0,1) away from true: " << calculate_cf2(kTrue, kEst1, w, N_SPECIES) << endl << endl;
     /* Print statement for the moments */
     oFileMAV << "2nd moment matrix:" << endl;
-    oFileMAV << mTrue.m2Mat << endl << endl;
+    oFileMAV << mTrue.secondMoments << endl << endl;
     cout << "2nd moment matrix:" << endl;
-    cout << mTrue.m2Mat << endl << endl;
+    cout << mTrue.secondMoments << endl << endl;
 
     oFileMAV << "Full " << N_SPECIES << "protein moment vector" << endl;
-    oFileMAV << mTrue.mVec.transpose() << endl;
+    oFileMAV << mTrue.moments.transpose() << endl;
     cout << "Full " << N_SPECIES << " protein moment vector" << endl;
-    cout << mTrue.mVec.transpose() << endl;
+    cout << mTrue.moments.transpose() << endl;
 
     oFileMAV << "Cov Matrix" << endl << cov << endl;
     cout << "Cov Matrix:" << endl << cov << endl;
