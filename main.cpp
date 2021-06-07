@@ -105,7 +105,7 @@ int main(int argc, char **argv)
     /* multivar norm gen */
     Multi_Normal_Random_Variable sample{mu, sigma};
     K dataK;
-    dataK.k = VectorXd::Zero(N_SPECIES);
+    dataK.k = VectorXd::Zero(N_DIM);
     dataK.k << k1, k2, k3, k4, k5, 0;
     Linear_ODE3 linSys3(dataK); 
     Data_ODE_Observer dataObs(mTrue); // data observer class to fill values in mTrue.
