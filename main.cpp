@@ -176,7 +176,8 @@ int main(int argc, char **argv)
                 cout << endl << endl << "Writing First Particle data!" << endl << endl;
                 write_particle_data(pK.k, pInit, pComp.momVec, data6.moments ,pCost);
             }
-            cout << "protein moment vector: "<< pComp.momVec.transpose() << "from thread: " << omp_get_thread_num << endl;
+            cout << "protein moment vector: "<< pComp.momVec.transpose() << endl << "given mu: " << data6.moments.transpose() << endl;
+            cout << "with cost:" << pCost << endl;
             if(pCost < globalCost){
                 globalCost = pCost;
                 bestMomentVector = pComp.momVec;
