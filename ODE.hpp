@@ -92,7 +92,7 @@ struct Data_ODE_Observer
     Data_ODE_Observer( struct Data_Components &dCom) : dComp( dCom ) {}
     void operator()( State_N const& c, const double t ) const 
     {
-        if(t == tf){
+        if(t == dComp.timeToRecord){
             for(int row = 0; row < dComp.subset.size(); row++){ // first moments of specified subset
                 int i = dComp.subset(row) - 1; // i.e subset = {1,2,3} = index = {0,1,2}
                 if(i >= 0){ 
@@ -120,7 +120,7 @@ struct Data_ODE_Observer6 // note:  when you need to solve multiple systems at t
     Data_ODE_Observer6( struct Data_Components &dCom) : dComp( dCom ) {}
     void operator()( State_6 const& c, const double t ) const 
     {
-        if(t == tf){
+        if(t == dComp.timeToRecord){
             for(int row = 0; row < dComp.subset.size(); row++){ // first moments of specified subset
                 int i = dComp.subset(row) - 1; // i.e subset = {1,2,3} = index = {0,1,2}
                 if(i >= 0){ 
@@ -158,7 +158,7 @@ struct Particle_Observer
     Particle_Observer( struct Particle_Components &pCom) : pComp( pCom ){}
     void operator()( const State_N &c , const double t ) 
     {
-        if(t == tf){
+        if(t == pComp.timeToRecord){
            // cout << "confirmed" << endl;
             for(int col = 0; col < N_SPECIES; col++){    
                 int i = pComp.subset(col) - 1;

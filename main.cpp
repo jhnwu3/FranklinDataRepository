@@ -84,8 +84,12 @@ int main(int argc, char **argv)
     data6.subset = VectorXd::Zero(N_DIM); data6.subset << 1,2,0,0,5,0;
     data6.moments = VectorXd::Zero(nMom);
     data6.secondMoments = MatrixXd::Zero(N_SPECIES, N_SPECIES);
+    
     data6T2 = data6;
     data6T3 = data6;
+    data6.timeToRecord = tf; 
+    data6T2.timeToRecord = 1.0;
+    data6T3.timeToRecord = 5.0;
     Data_ODE_Observer dataOBS6(data6);
     Data_ODE_Observer dataOBS6T2(data6T2);
     Data_ODE_Observer dataOBS6T3(data6T3);
@@ -132,7 +136,7 @@ int main(int argc, char **argv)
         pComp.subset = data6.subset;
         pComp.momVec = VectorXd::Zero(nMom);
         pComp.sampleMat = MatrixXd(1, N_SPECIES); // start off with 1 row for initial sample size
-
+        pComp.timeToRecord = tf;
         Multi_Normal_Random_Variable sampleParticle{mu, sigma}; 
 
         /* Generate rate constants from uniform dist (0,1) for 6-dim hypercube */
