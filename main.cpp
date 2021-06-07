@@ -123,6 +123,8 @@ int main(int argc, char **argv)
     oFile2 <<"Correlation matrix i.e <ci(t)cj(t)> tf = 5.0:"<< endl << data6T3.secondMoments << endl;
     oFile2 <<"Cov Mat :"<< endl << calculate_covariance_matrix(data6T3.secondMoments, data6T3.moments, N_SPECIES) << endl;
 
+    ofstream pFile;
+    pFile.open("proteinDist.txt");
     /**** parallel computing ****/
     cout << "Parallel Computing Has Started!" << endl << endl;
 #pragma omp parallel for
@@ -168,7 +170,7 @@ int main(int argc, char **argv)
         
         pComp.momVec /= N; 
         pCost = calculate_cf1(data6.moments, pComp.momVec, nMom); // cost
-
+        pFile << pCost << endl;
         /* cost comparisons */
         #pragma omp critical
         {     
@@ -178,6 +180,7 @@ int main(int argc, char **argv)
             }
             cout << "protein moment vector: "<< pComp.momVec.transpose() << endl << "given mu: " << data6.moments.transpose() << endl;
             cout << "with cost:" << pCost << endl;
+            
             if(pCost < globalCost){
                 globalCost = pCost;
                 bestMomentVector = pComp.momVec;
@@ -189,7 +192,7 @@ int main(int argc, char **argv)
         /* 2nd iteration - PSO*/
         /* using CF2 compute next cost function and recompute weight */
     }
-
+    pFile.close();
     cout << "bestMomentVector: " << bestMomentVector.transpose() << endl << endl;
     cout << "Global Best Cost: " << globalCost << endl;
 

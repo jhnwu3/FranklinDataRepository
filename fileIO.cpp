@@ -24,6 +24,7 @@ void write_particle_data( const VectorXd& k , const VectorXd &initCon, const Vec
     << "cond:" << initCon.transpose() << endl
     << "mu:" << mu.transpose() << endl
     << "moments:" << mom.transpose() << endl
+    << "<c1-u1>:" << mom(0) - mu(1) << endl
     << "cost:" << cost << endl;
     file.close();
 }
