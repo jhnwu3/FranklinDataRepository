@@ -124,7 +124,9 @@ int main(int argc, char **argv)
     oFile2 <<"Cov Mat :"<< endl << calculate_covariance_matrix(data6T3.secondMoments, data6T3.moments, N_SPECIES) << endl;
 
     ofstream pFile;
-    pFile.open("proteinDist.txt");
+    pFile.open("Protein_Cost_Dist.txt");
+    ofstream pCostLabelledFile;
+    pCostLabelledFile.open("Protein_Cost_Labeled.txt");
     /**** parallel computing ****/
     cout << "Parallel Computing Has Started!" << endl << endl;
 #pragma omp parallel for
@@ -166,11 +168,33 @@ int main(int argc, char **argv)
             particleC0 = {normC1(generator), normC2(generator), 0, 0, normC5(generator), 0};
             integrate_adaptive(controlled_stepper, pSys, particleC0, t0, tf, dt, Particle_Observer(pComp));
         } 
-       
-        
         pComp.momVec /= N; 
         pCost = calculate_cf1(data6.moments, pComp.momVec, nMom); // cost
         pFile << pCost << endl;
+        pCostLabelledFile << "pCost:" << pCost << endl;
+        /* check by doing another set of costs 1% off */
+        Particle_Components pComp1;
+        pComp1.subset = data6.subset;
+        pComp1.momVec = VectorXd::Zero(nMom);
+        pComp1.sampleMat = MatrixXd(1, N_SPECIES); // start off with 1 row for initial sample size
+        pComp1.timeToRecord = tf;
+        struct K pK1; // structure for particle rate constants
+        pK1.k = VectorXd::Zero(N_DIM);
+        for(int i = 0; i < N_DIM; i++){
+            pK1.k = pK.k * 1.01;                    
+        }
+        if(particleIterator == 0){
+            pK1.k = jayK.k; // @Check, for first module, use exact rates constants specified for n=6
+        }
+        Nonlinear_ODE6 pSys1(pK1); // instantiate ODE System
+        for(int i = 0; i < N; i++){
+            particleC0 = {normC1(generator), normC2(generator), 0, 0, normC5(generator), 0};
+            integrate_adaptive(controlled_stepper, pSys1, particleC0, t0, tf, dt, Particle_Observer(pComp1));
+        } 
+        double pCost1 = calculate_cf1(data6.moments, pComp1.momVec, nMom);
+        pFile << pCost1 << endl;
+        pCostLabelledFile << "pCost1:" << pCost1 << endl;
+        
         /* cost comparisons */
         #pragma omp critical
         {     
@@ -193,6 +217,7 @@ int main(int argc, char **argv)
         /* using CF2 compute next cost function and recompute weight */
     }
     pFile.close();
+    pCostLabelledFile.close();
     cout << "bestMomentVector: " << bestMomentVector.transpose() << endl << endl;
     cout << "Global Best Cost: " << globalCost << endl;
 
