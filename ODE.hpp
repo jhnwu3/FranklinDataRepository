@@ -121,7 +121,8 @@ struct Data_ODE_Observer6
         if(t == tf){
             for(int row = 0; row < dComp.subset.size(); row++){ // first moments of specified subset
                 int i = dComp.subset(row) - 1; // i.e subset = {1,2,3} = index = {0,1,2}
-                if(i >= 0){ dComp.moments(i) +=  c[i]; 
+                if(i >= 0){ 
+                    dComp.moments(i) +=  c[i]; 
                     for(int col = row; col < dComp.subset.size(); col++){
                         int j = dComp.subset(col) - 1;
                         if ( j >= 0 ){

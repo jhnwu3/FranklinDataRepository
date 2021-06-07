@@ -86,7 +86,7 @@ int main(int argc, char **argv)
     State_6 jc0 = {120.0, 41.33, 0, 0, 80.0, 0};
     integrate_adaptive(controlled_6stepper, ODE6System, jc0, t0, tf, dt, writeFile);
     
-    cout << "Beginning to do nonlinear6 for 3000 samples!" << endl;
+    
     /* Now do it for several thousand samples */
     normal_distribution<double> normC1{120.0, 120.0};
     normal_distribution<double> normC2{41.33, 5.0};
@@ -96,6 +96,7 @@ int main(int argc, char **argv)
     data6.moments = VectorXd::Zero(6);
     data6.secondMoments = MatrixXd::Zero(6,6);
     Data_ODE_Observer6 dataOBS6(data6);
+    cout << "Beginning to solve nonlinear6 for 3000 samples!" << endl;
     for(int i = 0; i < 3000; i++){
         State_6 nC0 = {normC1(generator), normC2(generator), 0, 0, normC5(generator), 0};
         integrate_adaptive(controlled_6stepper, ODE6System, nC0, t0, tf, dt, dataOBS6); 
