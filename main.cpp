@@ -159,10 +159,18 @@ int main(int argc, char **argv)
         //     }
         //     integrate_adaptive(controlled_stepper, pSys, particleC0, t0, tf, dt, Particle_Observer(pComp));
         // }  
-        for(int i = 0; i < N; i++){
-            particleC0 = {normC1(generator), normC2(generator), 0, 0, normC5(generator), 0};
-            integrate_adaptive(controlled_stepper, pSys, particleC0, t0, tf, dt, Particle_Observer(pComp));
-        }  
+        if(particleIterator != 0){
+            for(int i = 0; i < N; i++){
+                particleC0 = {normC1(generator), normC2(generator), 0, 0, normC5(generator), 0};
+                integrate_adaptive(controlled_stepper, pSys, particleC0, t0, tf, dt, Particle_Observer(pComp));
+            } 
+        }else{
+            for(int i = 0; i < N; i++){
+                particleC0 = {120.0, 41.33, 0, 0, 80.0, 0};
+                integrate_adaptive(controlled_stepper, pSys, particleC0, t0, tf, dt, Particle_Observer(pComp));
+            } 
+        }
+        
         pComp.momVec /= N; 
         pCost = calculate_cf1(data6.moments, pComp.momVec, nMom); // cost
 
