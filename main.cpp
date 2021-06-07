@@ -94,8 +94,8 @@ int main(int argc, char **argv)
     for(int i = 0; i < N; i++){
         State_N nC0 = {normC1(generator), normC2(generator), 0, 0, normC5(generator), 0};
         integrate_adaptive(controlled_6stepper, ODE6System, nC0, t0, tf, dt, dataOBS6); 
-        integrate_adaptive(controlled_6stepper, ODE6System, nC0, t0, 5.0, dt, dataOBS6T2); 
-        integrate_adaptive(controlled_6stepper, ODE6System, nC0, t0, 10.0, dt, dataOBS6T3); 
+        integrate_adaptive(controlled_6stepper, ODE6System, nC0, t0, 1.0, dt, dataOBS6T2); 
+        integrate_adaptive(controlled_6stepper, ODE6System, nC0, t0, 5.0, dt, dataOBS6T3); 
     }
     data6.moments /= N;
     data6.secondMoments /= N;
