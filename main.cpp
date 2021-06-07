@@ -118,9 +118,9 @@ int main(int argc, char **argv)
     oFile <<"Cov mat :" << endl << cov << endl; 
     cout << "tf Cov Mat:" << endl << cov << endl;
     cout << endl << "Test:" << endl << data6T2.secondMoments << endl << endl;
-    oFile1 <<"Correlation matrix i.e <ci(t)cj(t)> :"<< endl << data6T2.secondMoments << endl;
+    oFile1 <<"Correlation matrix i.e <ci(t)cj(t)> tf = 1.0:"<< endl << data6T2.secondMoments << endl;
     oFile1 <<"Cov Mat :"<< endl << calculate_covariance_matrix(data6T2.secondMoments, data6T2.moments, N_SPECIES) << endl;
-    oFile2 <<"Correlation matrix i.e <ci(t)cj(t)> :"<< endl << data6T3.secondMoments << endl;
+    oFile2 <<"Correlation matrix i.e <ci(t)cj(t)> tf = 5.0:"<< endl << data6T3.secondMoments << endl;
     oFile2 <<"Cov Mat :"<< endl << calculate_covariance_matrix(data6T3.secondMoments, data6T3.moments, N_SPECIES) << endl;
 
     /**** parallel computing ****/
@@ -146,19 +146,23 @@ int main(int argc, char **argv)
             pK.k(i) = unifDist(generator);                        
         }
         if(particleIterator == 0){
-            pK.k << k1, k2, k3, k4, k5, 0; // @Check, for first module, use exact rates constants specified
+            pK.k = jayK.k; // @Check, for first module, use exact rates constants specified for n=6
         }
-        Linear_ODE3 pSys(pK); // instantiate ODE System
+        Nonlinear_ODE6 pSys(pK); // instantiate ODE System
 
         /* solve N-samples of ODEs */
+        // for(int i = 0; i < N; i++){
+        //     pInit = sampleParticle(); // sample from normal dist
+        //     for(int a = 0; a < N_SPECIES; a++){
+        //         particleC0[a] = exp(pInit(a)); // convert to lognorm
+        //         pInit(a) = particleC0[a];
+        //     }
+        //     integrate_adaptive(controlled_stepper, pSys, particleC0, t0, tf, dt, Particle_Observer(pComp));
+        // }  
         for(int i = 0; i < N; i++){
-            pInit = sampleParticle(); // sample from normal dist
-            for(int a = 0; a < N_SPECIES; a++){
-                particleC0[a] = exp(pInit(a)); // convert to lognorm
-                pInit(a) = particleC0[a];
-            }
+            particleC0 = {normC1(generator), normC2(generator), 0, 0, normC5(generator), 0};
             integrate_adaptive(controlled_stepper, pSys, particleC0, t0, tf, dt, Particle_Observer(pComp));
-        }    
+        }  
         pComp.momVec /= N; 
         pCost = calculate_cf1(data6.moments, pComp.momVec, nMom); // cost
 
