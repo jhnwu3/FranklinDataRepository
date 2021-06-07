@@ -160,7 +160,7 @@ int main(int argc, char **argv)
     } 
     pComp1.momVec /= 5000; // now find cost for 0.1% difference for first part
     pCostLabelledFile << "pCost1 with exact k * 1.01's:" << calculate_cf1(data6.moments, pComp1.momVec, nMom) << endl;
-    
+
     /**** parallel computing ****/
     cout << "Parallel Computing Has Started!" << endl << endl;
 #pragma omp parallel for
@@ -215,7 +215,7 @@ int main(int argc, char **argv)
             }
         }
  
-        w = calculate_weight_matrix(pComp.sampleMat, data6.moments, nMom, N);  // calc inverse wt. matrix
+        w = calculate_weight_matrix(pComp.sampleMat, data6.moments, nMom, 5000);  // calc inverse wt. matrix
         /* 2nd iteration - PSO*/
         /* using CF2 compute next cost function and recompute weight */
     }
