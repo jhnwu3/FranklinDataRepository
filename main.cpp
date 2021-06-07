@@ -127,6 +127,40 @@ int main(int argc, char **argv)
     pFile.open("Protein_Cost_Dist.txt");
     ofstream pCostLabelledFile;
     pCostLabelledFile.open("Protein_Cost_Labeled.txt");
+
+    /* check by doing another set of costs 1% off for one particle */
+    VectorXd pInit(N_SPECIES);  
+    Particle_Components pComp1;
+    pComp1.subset = data6.subset;
+    pComp1.momVec = VectorXd::Zero(nMom);
+    pComp1.sampleMat = MatrixXd(1, N_SPECIES); // start off with 1 row for initial sample size
+    pComp1.timeToRecord = tf;
+    struct K pK1; // structure for particle rate constants
+    pK1.k = VectorXd::Zero(N_DIM);
+    pK1.k = jayK.k;        
+    Nonlinear_ODE6 pSys1(pK1); // instantiate ODE System
+    for(int i = 0; i < 5000; i++){
+        State_N pTestC0 = {normC1(generator), normC2(generator), 0, 0, normC5(generator), 0};
+        integrate_adaptive(controlled_stepper, pSys1, pTestC0, t0, tf, dt, Particle_Observer(pComp1));
+    } 
+    pComp1.momVec /= 5000;
+    double pCost1 = calculate_cf1(data6.moments, pComp1.momVec, nMom);
+    pCostLabelledFile << "pCost1 with exact k's:" << pCost1 << endl;
+    cout << endl << endl << "Writing First Particle data!" << endl << endl;
+    write_particle_data(pK1.k, pInit, pComp1.momVec, data6.moments ,pCost1);
+
+    pComp1.momVec = VectorXd::Zero(nMom);
+    pComp1.sampleMat = MatrixXd(1, N_SPECIES); // start off with 1 row for initial sample size
+    pComp1.timeToRecord = tf;
+    pK1.k = jayK.k * 1.01; 
+    Nonlinear_ODE6 pSys2(pK1);
+    for(int i = 0; i < 5000; i++){
+        State_N pTestC0 = {normC1(generator), normC2(generator), 0, 0, normC5(generator), 0};
+        integrate_adaptive(controlled_stepper, pSys2, pTestC0, t0, tf, dt, Particle_Observer(pComp1));
+    } 
+    pComp1.momVec /= 5000; // now find cost for 0.1% difference for first part
+    pCostLabelledFile << "pCost1 with exact k * 1.01's:" << calculate_cf1(data6.moments, pComp1.momVec, nMom) << endl;
+    
     /**** parallel computing ****/
     cout << "Parallel Computing Has Started!" << endl << endl;
 #pragma omp parallel for
@@ -134,8 +168,6 @@ int main(int argc, char **argv)
         /* first iteration */
         double pCost;
         State_N particleC0; // initial conditions for part
-        VectorXd pInit(N_SPECIES); 
-        
         Particle_Components pComp; // particle components
         pComp.subset = data6.subset;
         pComp.momVec = VectorXd::Zero(nMom);
@@ -147,11 +179,9 @@ int main(int argc, char **argv)
         struct K pK; // structure for particle rate constants
         pK.k = VectorXd::Zero(N_DIM);
         for(int i = 0; i < N_DIM; i++){
-            pK.k(i) = unifDist(generator);                        
+            pK.k(i) = jayK.k(i) + 0.1*unifDist(generator); // new rate constants within 10%                   
         }
-        if(particleIterator == 0){
-            pK.k = jayK.k; // @Check, for first module, use exact rates constants specified for n=6
-        }
+         
         Nonlinear_ODE6 pSys(pK); // instantiate ODE System
 
         /* solve N-samples of ODEs */
@@ -164,44 +194,17 @@ int main(int argc, char **argv)
         //     integrate_adaptive(controlled_stepper, pSys, particleC0, t0, tf, dt, Particle_Observer(pComp));
         // }  
         
-        for(int i = 0; i < N; i++){
+        for(int i = 0; i < 5000; i++){
             particleC0 = {normC1(generator), normC2(generator), 0, 0, normC5(generator), 0};
             integrate_adaptive(controlled_stepper, pSys, particleC0, t0, tf, dt, Particle_Observer(pComp));
         } 
-        pComp.momVec /= N; 
+        pComp.momVec /= 5000; 
         pCost = calculate_cf1(data6.moments, pComp.momVec, nMom); // cost
-        pFile << pCost << endl;
-        pCostLabelledFile << "pCost:" << pCost << endl;
-        /* check by doing another set of costs 1% off */
-        Particle_Components pComp1;
-        pComp1.subset = data6.subset;
-        pComp1.momVec = VectorXd::Zero(nMom);
-        pComp1.sampleMat = MatrixXd(1, N_SPECIES); // start off with 1 row for initial sample size
-        pComp1.timeToRecord = tf;
-        struct K pK1; // structure for particle rate constants
-        pK1.k = VectorXd::Zero(N_DIM);
-        for(int i = 0; i < N_DIM; i++){
-            pK1.k = pK.k * 1.01;                    
-        }
-        if(particleIterator == 0){
-            pK1.k = jayK.k; // @Check, for first module, use exact rates constants specified for n=6
-        }
-        Nonlinear_ODE6 pSys1(pK1); // instantiate ODE System
-        for(int i = 0; i < N; i++){
-            particleC0 = {normC1(generator), normC2(generator), 0, 0, normC5(generator), 0};
-            integrate_adaptive(controlled_stepper, pSys1, particleC0, t0, tf, dt, Particle_Observer(pComp1));
-        } 
-        double pCost1 = calculate_cf1(data6.moments, pComp1.momVec, nMom);
-        pFile << pCost1 << endl;
-        pCostLabelledFile << "pCost1:" << pCost1 << endl;
+        pFile << pCost << endl; // for distribution of pCosts within 5-10% 
         
         /* cost comparisons */
         #pragma omp critical
         {     
-            if(particleIterator == 0){
-                cout << endl << endl << "Writing First Particle data!" << endl << endl;
-                write_particle_data(pK.k, pInit, pComp.momVec, data6.moments ,pCost);
-            }
             cout << "protein moment vector: "<< pComp.momVec.transpose() << endl << "given mu: " << data6.moments.transpose() << endl;
             cout << "with cost:" << pCost << endl;
             
