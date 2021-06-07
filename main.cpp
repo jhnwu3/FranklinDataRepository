@@ -113,7 +113,7 @@ int main(int argc, char **argv)
     cov = calculate_covariance_matrix(data6.secondMoments, data6.moments, N_SPECIES);
     oFile <<"Cov mat :" << endl << cov << endl; 
     cout << "tf Cov Mat:" << endl << cov << endl;
-
+    cout << endl << "Test:" << endl << data6T2.secondMoments << endl << endl;
     oFile1 <<"Correlation matrix i.e <ci(t)cj(t)> :"<< endl << data6T2.secondMoments << endl;
     oFile1 <<"Cov Mat :"<< endl << calculate_covariance_matrix(data6T2.secondMoments, data6T2.moments, N_SPECIES) << endl;
     oFile2 <<"Correlation matrix i.e <ci(t)cj(t)> :"<< endl << data6T3.secondMoments << endl;

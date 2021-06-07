@@ -84,6 +84,7 @@ struct Data_Components{
     VectorXd subset;
     VectorXd moments;
     MatrixXd secondMoments;
+    double timeToRecord;
 };
 struct Data_ODE_Observer 
 {
@@ -149,6 +150,7 @@ struct Particle_Components
     VectorXd subset;
     VectorXd momVec; // moment vector
     MatrixXd sampleMat; 
+    double timeToRecord;
 };
 struct Particle_Observer
 {
