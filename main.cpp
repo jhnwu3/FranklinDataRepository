@@ -93,9 +93,11 @@ int main(int argc, char **argv)
     cout << "Data Module: Beginning to solve nonlinear6 for 10000 samples at 3 times!" << endl;
     for(int i = 0; i < N; i++){
         State_N nC0 = {normC1(generator), normC2(generator), 0, 0, normC5(generator), 0};
+        State_N nC01 = {normC1(generator), normC2(generator), 0, 0, normC5(generator), 0};
+        State_N nC02 = {normC1(generator), normC2(generator), 0, 0, normC5(generator), 0};
         integrate_adaptive(controlled_6stepper, ODE6System, nC0, t0, tf, dt, dataOBS6); 
-        integrate_adaptive(controlled_6stepper, ODE6System, nC0, t0, 1.0, dt, dataOBS6T2); 
-        integrate_adaptive(controlled_6stepper, ODE6System, nC0, t0, 5.0, dt, dataOBS6T3); 
+        integrate_adaptive(controlled_6stepper, ODE6System, nC01, t0, 1.0, dt, dataOBS6T2); 
+        integrate_adaptive(controlled_6stepper, ODE6System, nC02, t0, 5.0, dt, dataOBS6T3); 
     }
     data6.moments /= N;
     data6.secondMoments /= N;
@@ -106,6 +108,7 @@ int main(int argc, char **argv)
     
     cout << "calculating cov matrices!" << endl;
     /* use for Cost Function below ~ tf */
+    cout <<"Correlation matrix i.e <ci(t)cj(t)> :"<< endl << data6.secondMoments << endl;
     oFile <<"Correlation matrix i.e <ci(t)cj(t)> :"<< endl << data6.secondMoments << endl;
     cov = calculate_covariance_matrix(data6.secondMoments, data6.moments, N_SPECIES);
     oFile <<"Cov mat :" << endl << cov << endl; 
