@@ -51,15 +51,15 @@ int main(int argc, char **argv)
 
     Controlled_RK_Stepper_N controlled_stepper;
     /* mu vector and covariance (sigma) original values */
-    mu << mu_x, mu_y, mu_z;
-    sigma << 0.77, 0.0873098, 0.046225, 
-                0.0873098, 0.99, 0.104828, 
-                0.046225, 0.104828, 1.11; 
+    // mu << mu_x, mu_y, mu_z;
+    // sigma << 0.77, 0.0873098, 0.046225, 
+    //             0.0873098, 0.99, 0.104828, 
+    //             0.046225, 0.104828, 1.11; 
     /* Compute mu and covar matrix required for multivar norm dist 
     sampleSpace = generate_sample_space(N_SPECIES, N);
     mu = sampleSpace.colwise().mean(); 
     sigma = create_covariance_matrix(sampleSpace, mu, N_SPECIES);*/
-    cout << "mu:" << mu.transpose() << endl << endl << "sigma:" << endl << sigma << endl << endl; 
+    //cout << "mu:" << mu.transpose() << endl << endl << "sigma:" << endl << sigma << endl << endl; 
 
     cout << "beginning to do nonlinear6 for given parameters!" << endl;
     /* For Checking Purposes - Graph Vav, p-Vav .., SHP1 */
