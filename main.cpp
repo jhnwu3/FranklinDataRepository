@@ -92,15 +92,18 @@ int main(int argc, char **argv)
     normal_distribution<double> normC2{41.33, 5.0};
     normal_distribution<double> normC5{80.0, 6.0};  
     Data_Components data6;
-    data6.subset = VectorXd::Zero(6); data6.subset << 1,2,0,0,5,0;
-    data6.moments = VectorXd::Zero(6);
-    data6.secondMoments = MatrixXd::Zero(6,6);
+    int n6 = 6;
+    data6.subset = VectorXd::Zero(N_DIM); data6.subset << 1,2,0,0,5,0;
+    data6.moments = VectorXd::Zero((n6* (n6 + 3)) / 2);
+    data6.secondMoments = MatrixXd::Zero(n6,n6);
     Data_ODE_Observer6 dataOBS6(data6);
     cout << "Beginning to solve nonlinear6 for 3000 samples!" << endl;
     for(int i = 0; i < 3000; i++){
         State_6 nC0 = {normC1(generator), normC2(generator), 0, 0, normC5(generator), 0};
         integrate_adaptive(controlled_6stepper, ODE6System, nC0, t0, tf, dt, dataOBS6); 
     }
+    data6.moments /= 3000;
+    data6.secondMoments /= 3000;
     cout << "calculating cov matrix!" << endl;
     oFile <<"Correlation matrix i.e <ci(t)cj(t)> :"<< endl <<data6.secondMoments << endl;
     oFile <<"Cov mat :" << endl << calculate_covariance_matrix(data6.secondMoments, data6.moments, 6) << endl; 

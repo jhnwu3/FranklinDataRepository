@@ -126,10 +126,10 @@ struct Data_ODE_Observer6
                     for(int col = row; col < dComp.subset.size(); col++){
                         int j = dComp.subset(col) - 1;
                         if ( j >= 0 ){
-                            if( i == j ){
-                                dComp.moments(N_SPECIES + i) += c[i] * c[j];
+                            if( i == j ){ // diagonal elements
+                                dComp.moments(dComp.secondMoments.rows() + i) += c[i] * c[j];
                             }else{
-                                dComp.moments(2*N_SPECIES + (i + j - 1)) += c[i] *c[j];
+                                dComp.moments(2*dComp.secondMoments.rows() + (i + j - 1)) += c[i] *c[j];
                             }
                             dComp.secondMoments(i,j) += (c[i] * c[j]);   // store in a 2nd moment matrix
                             dComp.secondMoments(j,i) = dComp.secondMoments(i,j);   // store in a 2nd moment matrix
