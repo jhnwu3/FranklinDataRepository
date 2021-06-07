@@ -73,6 +73,7 @@ int main(int argc, char **argv)
     sigma = create_covariance_matrix(sampleSpace, mu, N_SPECIES);*/
     cout << "mu:" << mu.transpose() << endl << endl << "sigma:" << endl << sigma << endl << endl; 
 
+    cout << "beginning to do nonlinear6 for given parameters!" << endl;
     /* For Checking Purposes - Graph Vav, p-Vav .., SHP1 */
     Controlled_RK_Stepper_6 controlled_6stepper;
     struct K jayK;
@@ -85,6 +86,7 @@ int main(int argc, char **argv)
     State_6 jc0 = {120.0, 41.33, 0, 0, 80.0, 0};
     integrate_adaptive(controlled_6stepper, ODE6System, jc0, t0, tf, dt, writeFile);
     
+    cout << "Beginning to do nonlinear6 for 3000 samples!" << endl;
     /* Now do it for several thousand samples */
     normal_distribution<double> normC1{120.0, 120.0};
     normal_distribution<double> normC2{41.33, 5.0};
@@ -93,14 +95,16 @@ int main(int argc, char **argv)
     data6.subset = VectorXd::Zero(6); data6.subset << 1,2,0,0,5,0;
     data6.moments = VectorXd::Zero(6);
     data6.secondMoments = MatrixXd::Zero(6,6);
-
     Data_ODE_Observer6 dataOBS6(data6);
     for(int i = 0; i < 3000; i++){
         State_6 nC0 = {normC1(generator), normC2(generator), 0, 0, normC5(generator), 0};
         integrate_adaptive(controlled_6stepper, ODE6System, nC0, t0, tf, dt, dataOBS6); 
     }
+    cout << "calculating cov matrix!" << endl;
     oFile <<"Correlation matrix i.e <ci(t)cj(t)> :"<< endl <<data6.secondMoments << endl;
     oFile <<"Cov mat :" << endl << calculate_covariance_matrix(data6.secondMoments, data6.moments, 6) << endl; 
+
+    cout << "beginning original data module!" << endl;
     //@TODO - need to find a better way to fit multiple eqs
     /* multivar norm gen */
     Multi_Normal_Random_Variable sample{mu, sigma};
