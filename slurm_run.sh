@@ -4,7 +4,7 @@
 #SBATCH --partition=general
 #SBATCH --nodes=1
 #SBATCH --output=slurm.out
-#SBATCH --ntasks-per-node=5
+#SBATCH --ntasks-per-node=20
 set -e
 echo "Testing Parallel Cost Functions"
 export OMP_NUM_THREADS=20
