@@ -7,5 +7,6 @@ mv First_Particle.txt outputs
 mv Nonlinear6_Cov_Corr_Mats.txt outputs
 mv Nonlinear6_Cov_Corr_Mats_t2.txt outputs
 mv Nonlinear6_Cov_Corr_Mats_t3.txt outputs
-gnuplot plot.p
+gnuplot plot_species.p
+gnuplot plot_cost.p
 mv nonlinearODE.png outputs
