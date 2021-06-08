@@ -235,7 +235,7 @@ int main(int argc, char **argv)
         #pragma omp critical
         {     
             cout << "protein moment vector: "<< pComp.momVec.transpose() << endl << "given mu: " << data6.moments.transpose() << endl;
-            cout << "with cost:" << pCost << endl;
+            cout << "with cost:" << pCost << endl << endl << endl;
             
             if(pCost < globalCost){
                 globalCost = pCost;
