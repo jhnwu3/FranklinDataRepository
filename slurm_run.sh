@@ -18,6 +18,7 @@ gnuplot plot_cost.p
 gnuplot plot_cost_rand.p
 mv nonlinearODE.png outputs
 mv costs_dist.png outputs
+mv costs_dist_rand.png outputs
 mv Protein_Cost_Dist.txt outputs
 mv Protein_Cost_Dist_Rand.txt outputs
 mv Protein_Cost_Labeled.txt outputs
