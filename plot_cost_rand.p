@@ -1,9 +1,9 @@
 # Set the output to a png file
 set terminal png size 800,800
 # The file we'll write to
-set output 'costs_dist.png'
+set output 'costs_dist_rand.png'
 # The graphic title
-set title 'Costs within 10% of exact k constants'
+set title 'Costs Based on HyperCube k'
 
 # labels
 set xlabel "Costs"
