@@ -10,3 +10,6 @@ mv Nonlinear6_Cov_Corr_Mats_t3.txt outputs
 gnuplot plot_species.p
 gnuplot plot_cost.p
 mv nonlinearODE.png outputs
+mv costs_dist.png outputs
+mv Protein_Cost_Dist.txt outputs
+mv Protein_cost_Labeled.txt outputs

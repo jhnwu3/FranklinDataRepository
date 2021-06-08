@@ -127,6 +127,8 @@ int main(int argc, char **argv)
     pFile.open("Protein_Cost_Dist.txt");
     ofstream pCostLabelledFile;
     pCostLabelledFile.open("Protein_Cost_Labeled.txt");
+    ofstream pFileRand;
+    pFileRand.open("Protein_Cost_Dist_Rand.txt");
 
     /* check by doing another set of costs 1% off for one particle */
     VectorXd pInit(N_SPECIES);  
@@ -175,6 +177,7 @@ int main(int argc, char **argv)
         pComp.timeToRecord = tf;
         Multi_Normal_Random_Variable sampleParticle{mu, sigma}; 
 
+        
         /* Generate rate constants from uniform dist (0,1) for 6-dim hypercube */
         struct K pK; // structure for particle rate constants
         pK.k = VectorXd::Zero(N_DIM);
@@ -184,6 +187,13 @@ int main(int argc, char **argv)
          
         Nonlinear_ODE6 pSys(pK); // instantiate ODE System
 
+        for(int i = 0; i < 5000; i++){
+            particleC0 = {normC1(generator), normC2(generator), 0, 0, normC5(generator), 0};
+            integrate_adaptive(controlled_stepper, pSys, particleC0, t0, tf, dt, Particle_Observer(pComp));
+        } 
+        pComp.momVec /= 5000; 
+        pCost = calculate_cf1(data6.moments, pComp.momVec, nMom); // cost
+        pFile << pCost << endl; // for distribution of pCosts within 5-10% 
         /* solve N-samples of ODEs */
         // for(int i = 0; i < N; i++){
         //     pInit = sampleParticle(); // sample from normal dist
@@ -194,14 +204,26 @@ int main(int argc, char **argv)
         //     integrate_adaptive(controlled_stepper, pSys, particleC0, t0, tf, dt, Particle_Observer(pComp));
         // }  
         
+        /* Random Case */
+        Particle_Components pCompRand;
+        pCompRand.subset = data6.subset;
+        pCompRand.momVec = VectorXd::Zero(nMom);
+        pCompRand.sampleMat = MatrixXd(1, N_SPECIES);
+        pCompRand.timeToRecord = tf;
+        struct K pKRand;
+        pKRand.k = VectorXd::Zero(N_DIM);
+        Nonlinear_ODE6 randSys(pKRand);
+        for(int i = 0; i < N_DIM; i++){
+            pKRand.k(i) = unifDist(i);
+        }
         for(int i = 0; i < 5000; i++){
             particleC0 = {normC1(generator), normC2(generator), 0, 0, normC5(generator), 0};
-            integrate_adaptive(controlled_stepper, pSys, particleC0, t0, tf, dt, Particle_Observer(pComp));
+            integrate_adaptive(controlled_stepper, randSys, particleC0, t0, tf, dt, Particle_Observer(pCompRand));
         } 
-        pComp.momVec /= 5000; 
-        pCost = calculate_cf1(data6.moments, pComp.momVec, nMom); // cost
-        pFile << pCost << endl; // for distribution of pCosts within 5-10% 
-        
+        pCompRand.momVec /= 5000; 
+        double pCostRan = calculate_cf1(data6.moments, pCompRand.momVec, nMom); // cost
+        pFileRand << pCostRan << endl;
+
         /* cost comparisons */
         #pragma omp critical
         {     
@@ -220,6 +242,7 @@ int main(int argc, char **argv)
         /* using CF2 compute next cost function and recompute weight */
     }
     pFile.close();
+    pFileRand.close();
     pCostLabelledFile.close();
     cout << "bestMomentVector: " << bestMomentVector.transpose() << endl << endl;
     cout << "Global Best Cost: " << globalCost << endl;
