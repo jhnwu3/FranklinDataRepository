@@ -167,6 +167,13 @@ int main(int argc, char **argv)
     cout << "Parallel Computing Has Started!" << endl << endl;
 #pragma omp parallel for
     for(particleIterator = 0; particleIterator < N_PARTICLES; particleIterator++){
+        /* RNG for individual particle elements */
+        random_device pRanDev;
+        mt19937 pGenerator(pRanDev());
+        uniform_real_distribution<double> pUnifDist(0.0, 1.0);
+        normal_distribution<double> pNormC1{120.0, 120.0};
+        normal_distribution<double> pNormC2{41.33, 5.0};
+        normal_distribution<double> pNormC5{80.0, 6.0};  
         /* first iteration */
         double pCost;
         State_N particleC0; // initial conditions for part
@@ -182,13 +189,13 @@ int main(int argc, char **argv)
         struct K pK; // structure for particle rate constants
         pK.k = VectorXd::Zero(N_DIM);
         for(int i = 0; i < N_DIM; i++){
-            pK.k(i) = jayK.k(i) + 0.1*unifDist(generator); // new rate constants within 10%                   
+            pK.k(i) = jayK.k(i) + 0.1*pUnifDist(pGenerator); // new rate constants within 10%                   
         }
          
         Nonlinear_ODE6 pSys(pK); // instantiate ODE System
 
         for(int i = 0; i < 5000; i++){
-            particleC0 = {normC1(generator), normC2(generator), 0, 0, normC5(generator), 0};
+            particleC0 = {pNormC1(pGenerator), pNormC2(pGenerator), 0, 0, pNormC5(pGenerator), 0};
             integrate_adaptive(controlled_stepper, pSys, particleC0, t0, tf, dt, Particle_Observer(pComp));
         } 
         pComp.momVec /= 5000; 
@@ -214,10 +221,10 @@ int main(int argc, char **argv)
         pKRand.k = VectorXd::Zero(N_DIM);
         Nonlinear_ODE6 randSys(pKRand);
         for(int i = 0; i < N_DIM; i++){
-            pKRand.k(i) = unifDist(i);
+            pKRand.k(i) = pUnifDist(pGenerator);
         }
         for(int i = 0; i < 5000; i++){
-            particleC0 = {normC1(generator), normC2(generator), 0, 0, normC5(generator), 0};
+            particleC0 = {pNormC1(pGenerator), pNormC2(pGenerator), 0, 0, pNormC5(pGenerator), 0};
             integrate_adaptive(controlled_stepper, randSys, particleC0, t0, tf, dt, Particle_Observer(pCompRand));
         } 
         pCompRand.momVec /= 5000; 
