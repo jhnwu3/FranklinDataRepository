@@ -4,9 +4,12 @@
 /* abbreviation: cf1 = cost function 1 */
 double calculate_cf1(const VectorXd& trueVec, const VectorXd& estVec, int n){
     double cost = 0;
-    for(int i = 0; i < n; i++){
-        cost += (estVec(i) - trueVec(i)) * (estVec(i) - trueVec(i));
-    }
+    VectorXd diff(n);
+    diff = trueVec - estVec;
+    cost = diff.transpose() * diff.transpose().transpose();
+    // for(int i = 0; i < n; i++){
+    //     cost += (estVec(i) - trueVec(i)) * (estVec(i) - trueVec(i));
+    // }
     return cost;
 }
 
