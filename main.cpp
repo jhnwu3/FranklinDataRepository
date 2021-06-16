@@ -97,7 +97,8 @@ int main(int argc, char **argv)
     trueKOnePercentOff.k = trueK.k;        
     Nonlinear_ODE6 pSys1(trueKOnePercentOff); // instantiate ODE System
     for(int i = 0; i < N/2; i++){
-        integrate_adaptive(controlled_stepper, pSys1, gen_multi_lognorm_init6(), t0, tf, dt, Particle_Observer(pComp1));
+        State_N c0 = gen_multi_lognorm_init6();
+        integrate_adaptive(controlled_stepper, pSys1, c0, t0, tf, dt, Particle_Observer(pComp1));
     } 
     pComp1.momVec /= (N/2);
     double pCost1 = calculate_cf1(data6.moments, pComp1.momVec, nMom);
@@ -111,7 +112,8 @@ int main(int argc, char **argv)
     trueKOnePercentOff.k = trueK.k * 1.01; 
     Nonlinear_ODE6 pSys2(trueKOnePercentOff);
     for(int i = 0; i < N/2; i++){
-        integrate_adaptive(controlled_stepper, pSys2, gen_multi_lognorm_init6(), t0, tf, dt, Particle_Observer(pComp1));
+        State_N c0 = gen_multi_lognorm_init6();
+        integrate_adaptive(controlled_stepper, pSys2, c0, t0, tf, dt, Particle_Observer(pComp1));
     } 
     pComp1.momVec /= (N/2); // now find cost for 0.1% difference for first part
     pCostLabelledFile << "pCost1 with exact k * 1.01's:" << calculate_cf1(data6.moments, pComp1.momVec, nMom) << endl;
