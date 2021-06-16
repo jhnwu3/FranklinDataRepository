@@ -1073,13 +1073,13 @@ int main() {
 
 				dCom.mat = MatrixXd::Zero(N, 3);
 				dCom.timeToRecord = tf;
-				Linear_ODE3 ode3LinSys(trueK);
+				Linear_ODE3 ode3LinSys1(trueK);
 				/********************************************************/
 				// RECALCULATE Q aka X_T
 				for(int i = 0; i < N; i++){
 					dCom.index = i;
 					for(int j = 0; j < 3; j++){ c0[j] = X_0(i, j); }
-					integrate_adaptive(controlledStepper, ode3LinSys, c0, t0, tf, dt, obs); 
+					integrate_adaptive(controlledStepper, ode3LinSys1, c0, t0, tf, dt, obs); 
 					Q.row(i) = dCom.mat.row(i);
 				}
 
