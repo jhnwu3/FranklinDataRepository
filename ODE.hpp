@@ -86,10 +86,10 @@ struct Data_Components{
     VectorXd moments;
     MatrixXd secondMoments;
     double timeToRecord;
-    Data_Components(const VectorXd& sub, double tf, int n){
+    Data_Components(const VectorXd& sub, double tf, int nMom){
         subset = sub;
-        moments = VectorXd::Zero(n);
-        secondMoments = MatrixXd::Zero(n,n);
+        moments = VectorXd::Zero(nMom);
+        secondMoments = MatrixXd::Zero(N_SPECIES,N_SPECIES);
         timeToRecord = tf;
     }
 };
@@ -136,9 +136,9 @@ struct Data_ODE_Observer6 // note:  when you need to solve multiple systems at t
                         int j = dComp.subset(col) - 1;
                         if ( j >= 0 ){
                             if( i == j ){ // diagonal elements
-                                dComp.moments(dComp.secondMoments.rows() + i) += c[i] * c[j];
+                                dComp.moments(N_SPECIES + i) += c[i] * c[j];
                             }else{
-                                dComp.moments(2*dComp.secondMoments.rows() + (i + j - 1)) += c[i] *c[j];
+                                dComp.moments(2*N_SPECIES + (i + j - 1)) += c[i] *c[j];
                             }
                             dComp.secondMoments(i,j) += (c[i] * c[j]);   // store in a 2nd moment matrix
                             dComp.secondMoments(j,i) = dComp.secondMoments(i,j);   // store in a 2nd moment matrix
