@@ -51,12 +51,3 @@ void nonlinearODE6( const State_N &c , State_N &dcdt , double t){
     dcdt[5] =  ka3*(C3T - c[5]); // dc3/dt = ka3 * (C3t - c3)
 }
 
-State_6 generate_multivar_norm_init(const VectorXd& normVar){
-    State_6 c0;
-
-    for(int i = 0; i < normVar.size(); i++){
-        
-    }
-
-    return c0;
-}

@@ -6,12 +6,13 @@
 void nonlinear_ODE3( const State_N &c , State_N &dcdt , double t );
 void linear_ODEn_1( const State_N &c , State_N &dcdt , double t ); // test function don't use unless needed!
 void nonlinear_ODE6( const State_N &c , State_N &dcdt , double t);
-State_N convert_to_state_type(const VectorXd& normVar);
-State_6 generate_multivar_norm_init(const VectorXd& normVar); // temporary function for N_SPECIES = 6
 
 struct K
 {
     VectorXd k;
+    K(){
+        k = VectorXd::Zero(N_DIM);
+    }
 };
 
 /* /* 3-var linear ODE system - need to rename! @TODO */
@@ -85,6 +86,12 @@ struct Data_Components{
     VectorXd moments;
     MatrixXd secondMoments;
     double timeToRecord;
+    Data_Components(const VectorXd& sub, double tf, int n){
+        subset = sub;
+        moments = VectorXd::Zero(n);
+        secondMoments = MatrixXd::Zero(n,n);
+        timeToRecord = tf;
+    }
 };
 struct Data_ODE_Observer 
 {
@@ -151,6 +158,12 @@ struct Particle_Components
     VectorXd momVec; // moment vector
     MatrixXd sampleMat; 
     double timeToRecord;
+    Particle_Components(const VectorXd& sub, double tf, int nMom){
+        subset = sub;
+        momVec = VectorXd::Zero(nMom);
+        sampleMat = MatrixXd::Zero(1, N_SPECIES);
+        timeToRecord = tf;
+    }
 };
 struct Particle_Observer
 {

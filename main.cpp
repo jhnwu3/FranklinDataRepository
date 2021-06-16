@@ -11,7 +11,6 @@
 /* Global Variables to be used for parallel computing */
 MatrixXd globalSample = MatrixXd::Zero(N, N_SPECIES);// sample matrix
 VectorXd bestMomentVector = VectorXd::Zero( N_SPECIES*(N_SPECIES + 3) / 2); // secomd moment vector 
-MatrixXd w = MatrixXd::Identity( (N_SPECIES * (N_SPECIES + 3)) / 2,  (N_SPECIES * (N_SPECIES + 3)) / 2); // Global Weight/Identity Matrix, nMoments x nMoments
 double globalCost = 10000000; // some outrageous starting value
 int particleIterator = 0;
 
@@ -19,6 +18,7 @@ int main(int argc, char **argv)
 {   
     /**** PART ONE ****/
     auto t1 = std::chrono::high_resolution_clock::now(); // start time
+    int sizeSubset = 3;
     int nMom = (N_SPECIES * (N_SPECIES + 3)) / 2; // number of moments
     
     /* RNG */
@@ -26,82 +26,40 @@ int main(int argc, char **argv)
     mt19937 generator(ranDev());
     uniform_real_distribution<double> unifDist(0.0, 1.0);
 
-    /* instantiate data module / true values class */
-    // Data_Components mTrue;
-    // mTrue.subset = VectorXd::Zero(N_SPECIES);// subset of values we want to store.
-    // mTrue.subset << 1,2,3; // store the indices in specific order.
-    // mTrue.moments = VectorXd::Zero(nMom);
-    // mTrue.secondMoments = MatrixXd::Zero(N_SPECIES, N_SPECIES);
-
     /* triple file streams for 3 times */
-    ofstream oFile, oFile1, oFile2; 
-    open_files(oFile, oFile1, oFile2); 
+    ofstream covCorMatTf, covCorMat1, covCorMat5; 
+    open_files(covCorMatTf, covCorMat1, covCorMat5); 
 
-    /* Variables used for multivariate log normal distribution */
-    VectorXd mu(N_SPECIES);
-    MatrixXd sigma  = MatrixXd::Zero(N_SPECIES, N_SPECIES);
-    MatrixXd sampleSpace(N, N_SPECIES);
-    /* Covariance Matrix to be Calculated from Moments! */
-    MatrixXd cov(N_SPECIES, N_SPECIES);
-    /* weight matrix */
-    MatrixXd w = MatrixXd::Identity(nMom, nMom);
-
-    /* ODE solver variables! */
-    VectorXd initCon(N_SPECIES); // temp vector to be used for initiation conditions
-
+    /* calculation variables*/
+    MatrixXd cov(N_SPECIES, N_SPECIES); // covar matrix   
+    MatrixXd w = MatrixXd::Identity(nMom, nMom); // wt. matrix
+    VectorXd sub = VectorXd::Zero(N_DIM); sub << 1,2,0,0,5,0;
+    /* ODE solver variables */
     Controlled_RK_Stepper_N controlled_stepper;
-    /* mu vector and covariance (sigma) original values */
-    // mu << mu_x, mu_y, mu_z;
-    // sigma << 0.77, 0.0873098, 0.046225, 
-    //             0.0873098, 0.99, 0.104828, 
-    //             0.046225, 0.104828, 1.11; 
-    /* Compute mu and covar matrix required for multivar norm dist 
-    sampleSpace = generate_sample_space(N_SPECIES, N);
-    mu = sampleSpace.colwise().mean(); 
-    sigma = create_covariance_matrix(sampleSpace, mu, N_SPECIES);*/
-    //cout << "mu:" << mu.transpose() << endl << endl << "sigma:" << endl << sigma << endl << endl; 
 
     cout << "beginning to do nonlinear6 for given parameters!" << endl;
     /* For Checking Purposes - Graph Vav, p-Vav .., SHP1 */
-    Controlled_RK_Stepper_6 controlled_6stepper;
-    struct K jayK;
-    jayK.k = VectorXd::Zero(N_DIM);
-    jayK.k << 5.0, 0.10, 1.00, 8.69, 0.05, 0.07; // given rate constants
-    Nonlinear_ODE6 ODE6System(jayK);
+    struct K trueK; 
+    trueK.k << 5.0, 0.10, 1.00, 8.69, 0.05, 0.70; // GRAPH
+    Nonlinear_ODE6 ODE6System(trueK);
     ofstream gnu;
     gnu.open("NonlinODE6_Syk_Vav_pVav_SHP1.txt"); 
-    Write_File_Plot writeFile(gnu);
+    Write_File_Plot graphFile(gnu);
     State_N jc0 = {120.0, 41.33, 0, 0, 80.0, 0};
-    integrate_adaptive(controlled_6stepper, ODE6System, jc0, t0, tf, dt, writeFile);
+    integrate_adaptive(controlled_stepper, ODE6System, jc0, t0, tf, dt, graphFile);
     
     /* Calculate cov and cor matrix for several thousand samples at 3 different times */
-    normal_distribution<double> normC1{120.0, 120.0};
-    normal_distribution<double> normC2{41.33, 5.0};
-    normal_distribution<double> normC5{80.0, 6.0};  
-    Data_Components data6;
-    Data_Components data6T2;
-    Data_Components data6T3;
-    data6.subset = VectorXd::Zero(N_DIM); data6.subset << 1,2,0,0,5,0;
-    data6.moments = VectorXd::Zero(nMom);
-    data6.secondMoments = MatrixXd::Zero(N_SPECIES, N_SPECIES);
-    
-    data6T2 = data6;
-    data6T3 = data6;
-    data6.timeToRecord = tf; 
-    data6T2.timeToRecord = 1.0;
-    data6T3.timeToRecord = 5.0;
+    Data_Components data6(sub, tf, nMom);
+    Data_Components data6T2(sub, 1.0, nMom);
+    Data_Components data6T3(sub, 5.0, nMom);
     Data_ODE_Observer dataOBS6(data6);
     Data_ODE_Observer dataOBS6T2(data6T2);
     Data_ODE_Observer dataOBS6T3(data6T3);
-
     cout << "Data Module: Beginning to solve nonlinear6 for 10000 samples at 3 times!" << endl;
     for(int i = 0; i < N; i++){
-        State_N nC0 = {normC1(generator), normC2(generator), 0, 0, normC5(generator), 0};
-        State_N nC01 = {normC1(generator), normC2(generator), 0, 0, normC5(generator), 0};
-        State_N nC02 = {normC1(generator), normC2(generator), 0, 0, normC5(generator), 0};
-        integrate_adaptive(controlled_6stepper, ODE6System, nC0, t0, tf, dt, dataOBS6); 
-        integrate_adaptive(controlled_6stepper, ODE6System, nC01, t0, 1.0, dt, dataOBS6T2); 
-        integrate_adaptive(controlled_6stepper, ODE6System, nC02, t0, 5.0, dt, dataOBS6T3); 
+        integrate_adaptive(controlled_stepper, ODE6System, gen_multi_lognorm_init6(), t0, tf, dt, dataOBS6); 
+        integrate_adaptive(controlled_stepper, ODE6System, gen_multi_lognorm_init6(), t0, 1.0, dt, dataOBS6T2); 
+        integrate_adaptive(controlled_stepper, ODE6System, gen_multi_lognorm_init6(), t0, 5.0, dt, dataOBS6T3); 
     }
     data6.moments /= N;
     data6.secondMoments /= N;
@@ -111,17 +69,18 @@ int main(int argc, char **argv)
     data6T3.secondMoments /= N;
     
     cout << "calculating cov matrices!" << endl;
-    /* use for Cost Function below ~ tf */
+
+    /*  */
     cout <<"Correlation matrix i.e <ci(t)cj(t)> :"<< endl << data6.secondMoments << endl;
-    oFile <<"Correlation matrix i.e <ci(t)cj(t)> :"<< endl << data6.secondMoments << endl;
+    covCorMatTf <<"Correlation matrix i.e <ci(t)cj(t)> :"<< endl << data6.secondMoments << endl;
     cov = calculate_covariance_matrix(data6.secondMoments, data6.moments, N_SPECIES);
-    oFile <<"Cov mat :" << endl << cov << endl; 
+    covCorMatTf <<"Cov mat :" << endl << cov << endl; 
     cout << "tf Cov Mat:" << endl << cov << endl;
     cout << endl << "Test:" << endl << data6T2.secondMoments << endl << endl;
-    oFile1 <<"Correlation matrix i.e <ci(t)cj(t)> tf = 1.0:"<< endl << data6T2.secondMoments << endl;
-    oFile1 <<"Cov Mat :"<< endl << calculate_covariance_matrix(data6T2.secondMoments, data6T2.moments, N_SPECIES) << endl;
-    oFile2 <<"Correlation matrix i.e <ci(t)cj(t)> tf = 5.0:"<< endl << data6T3.secondMoments << endl;
-    oFile2 <<"Cov Mat :"<< endl << calculate_covariance_matrix(data6T3.secondMoments, data6T3.moments, N_SPECIES) << endl;
+    covCorMat1 <<"Correlation matrix i.e <ci(t)cj(t)> tf = 1.0:"<< endl << data6T2.secondMoments << endl;
+    covCorMat1 <<"Cov Mat :"<< endl << calculate_covariance_matrix(data6T2.secondMoments, data6T2.moments, N_SPECIES) << endl;
+    covCorMat5 <<"Correlation matrix i.e <ci(t)cj(t)> tf = 5.0:"<< endl << data6T3.secondMoments << endl;
+    covCorMat5 <<"Cov Mat :"<< endl << calculate_covariance_matrix(data6T3.secondMoments, data6T3.moments, N_SPECIES) << endl;
 
     ofstream pFile;
     pFile.open("Protein_Cost_Dist.txt");
@@ -132,35 +91,28 @@ int main(int argc, char **argv)
 
     /* check by doing another set of costs 1% off for one particle */
     VectorXd pInit(N_SPECIES);  
-    Particle_Components pComp1;
-    pComp1.subset = data6.subset;
-    pComp1.momVec = VectorXd::Zero(nMom);
-    pComp1.sampleMat = MatrixXd(1, N_SPECIES); // start off with 1 row for initial sample size
-    pComp1.timeToRecord = tf;
-    struct K pK1; // structure for particle rate constants
-    pK1.k = VectorXd::Zero(N_DIM);
-    pK1.k = jayK.k;        
-    Nonlinear_ODE6 pSys1(pK1); // instantiate ODE System
-    for(int i = 0; i < 5000; i++){
-        State_N pTestC0 = {normC1(generator), normC2(generator), 0, 0, normC5(generator), 0};
-        integrate_adaptive(controlled_stepper, pSys1, pTestC0, t0, tf, dt, Particle_Observer(pComp1));
+    Particle_Components pComp1(sub, tf, nMom);
+    struct K trueKOnePercentOff; // structure for particle rate constants
+    trueKOnePercentOff.k = trueK.k;        
+    Nonlinear_ODE6 pSys1(trueKOnePercentOff); // instantiate ODE System
+    for(int i = 0; i < N/2; i++){
+        integrate_adaptive(controlled_stepper, pSys1, gen_multi_lognorm_init6(), t0, tf, dt, Particle_Observer(pComp1));
     } 
-    pComp1.momVec /= 5000;
+    pComp1.momVec /= (N/2);
     double pCost1 = calculate_cf1(data6.moments, pComp1.momVec, nMom);
     pCostLabelledFile << "pCost1 with exact k's:" << pCost1 << endl;
     cout << endl << endl << "Writing First Particle data!" << endl << endl;
-    write_particle_data(pK1.k, pInit, pComp1.momVec, data6.moments ,pCost1);
+    write_particle_data(trueKOnePercentOff.k, pInit, pComp1.momVec, data6.moments ,pCost1);
 
     pComp1.momVec = VectorXd::Zero(nMom);
     pComp1.sampleMat = MatrixXd(1, N_SPECIES); // start off with 1 row for initial sample size
     pComp1.timeToRecord = tf;
-    pK1.k = jayK.k * 1.01; 
-    Nonlinear_ODE6 pSys2(pK1);
-    for(int i = 0; i < 5000; i++){
-        State_N pTestC0 = {normC1(generator), normC2(generator), 0, 0, normC5(generator), 0};
-        integrate_adaptive(controlled_stepper, pSys2, pTestC0, t0, tf, dt, Particle_Observer(pComp1));
+    trueKOnePercentOff.k = trueK.k * 1.01; 
+    Nonlinear_ODE6 pSys2(trueKOnePercentOff);
+    for(int i = 0; i < N/2; i++){
+        integrate_adaptive(controlled_stepper, pSys2, gen_multi_lognorm_init6(), t0, tf, dt, Particle_Observer(pComp1));
     } 
-    pComp1.momVec /= 5000; // now find cost for 0.1% difference for first part
+    pComp1.momVec /= (N/2); // now find cost for 0.1% difference for first part
     pCostLabelledFile << "pCost1 with exact k * 1.01's:" << calculate_cf1(data6.moments, pComp1.momVec, nMom) << endl;
 
     /**** parallel computing ****/
@@ -171,63 +123,35 @@ int main(int argc, char **argv)
         random_device pRanDev;
         mt19937 pGenerator(pRanDev());
         uniform_real_distribution<double> pUnifDist(0.0, 1.0);
-        normal_distribution<double> pNormC1{120.0, 120.0};
-        normal_distribution<double> pNormC2{41.33, 5.0};
-        normal_distribution<double> pNormC5{80.0, 6.0};  
+
         /* first iteration */
         double pCost;
-        State_N particleC0; // initial conditions for part
-        Particle_Components pComp; // particle components
-        pComp.subset = data6.subset;
-        pComp.momVec = VectorXd::Zero(nMom);
-        pComp.sampleMat = MatrixXd(1, N_SPECIES); // start off with 1 row for initial sample size
-        pComp.timeToRecord = tf;
-        Multi_Normal_Random_Variable sampleParticle{mu, sigma}; 
+        Particle_Components pComp(sub, tf, nMom); // instantiate particle component values
 
-        
         /* Generate rate constants from uniform dist (0,1) for 6-dim hypercube */
         struct K pK; // structure for particle rate constants
-        pK.k = VectorXd::Zero(N_DIM);
-        for(int i = 0; i < N_DIM; i++){
-            pK.k(i) = jayK.k(i) + 0.1*pUnifDist(pGenerator); // new rate constants within 10%                   
-        }
-         
+        for(int i = 0; i < N_DIM; i++) {pK.k(i) = trueK.k(i) + 0.1*pUnifDist(pGenerator); } // new rate constants within 10%                  
         Nonlinear_ODE6 pSys(pK); // instantiate ODE System
 
-        for(int i = 0; i < 5000; i++){
-            particleC0 = {pNormC1(pGenerator), pNormC2(pGenerator), 0, 0, pNormC5(pGenerator), 0};
-            integrate_adaptive(controlled_stepper, pSys, particleC0, t0, tf, dt, Particle_Observer(pComp));
+        for(int i = 0; i < N/2; i++){
+            integrate_adaptive(controlled_stepper, pSys, gen_multi_lognorm_init6(), t0, tf, dt, Particle_Observer(pComp));
         } 
-        pComp.momVec /= 5000; 
+        pComp.momVec /= (N/2); 
         pCost = calculate_cf1(data6.moments, pComp.momVec, nMom); // cost
         pFile << pCost << endl; // for distribution of pCosts within 5-10% 
-        /* solve N-samples of ODEs */
-        // for(int i = 0; i < N; i++){
-        //     pInit = sampleParticle(); // sample from normal dist
-        //     for(int a = 0; a < N_SPECIES; a++){
-        //         particleC0[a] = exp(pInit(a)); // convert to lognorm
-        //         pInit(a) = particleC0[a];
-        //     }
-        //     integrate_adaptive(controlled_stepper, pSys, particleC0, t0, tf, dt, Particle_Observer(pComp));
-        // }  
         
         /* Random Case */
-        Particle_Components pCompRand;
-        pCompRand.subset = data6.subset;
-        pCompRand.momVec = VectorXd::Zero(nMom);
-        pCompRand.sampleMat = MatrixXd(1, N_SPECIES);
-        pCompRand.timeToRecord = tf;
+        Particle_Components pCompRand(sub, tf, nMom);
         struct K pKRand;
         pKRand.k = VectorXd::Zero(N_DIM);
         Nonlinear_ODE6 randSys(pKRand);
         for(int i = 0; i < N_DIM; i++){
             pKRand.k(i) = pUnifDist(pGenerator);
         }
-        for(int i = 0; i < 5000; i++){
-            particleC0 = {pNormC1(pGenerator), pNormC2(pGenerator), 0, 0, pNormC5(pGenerator), 0};
-            integrate_adaptive(controlled_stepper, randSys, particleC0, t0, tf, dt, Particle_Observer(pCompRand));
+        for(int i = 0; i < N/2; i++){
+            integrate_adaptive(controlled_stepper, randSys, gen_multi_lognorm_init6(), t0, tf, dt, Particle_Observer(pCompRand));
         } 
-        pCompRand.momVec /= 5000; 
+        pCompRand.momVec /= (N/2); 
         double pCostRan = calculate_cf1(data6.moments, pCompRand.momVec, nMom); // cost
         pFileRand << pCostRan << endl;
 
@@ -244,17 +168,18 @@ int main(int argc, char **argv)
             }
         }
  
-        w = calculate_weight_matrix(pComp.sampleMat, data6.moments, nMom, 5000);  // calc inverse wt. matrix
         /* 2nd iteration - PSO*/
         /* using CF2 compute next cost function and recompute weight */
     }
-    pFile.close();
-    pFileRand.close();
-    pCostLabelledFile.close();
+   
     cout << "bestMomentVector: " << bestMomentVector.transpose() << endl << endl;
     cout << "Global Best Cost: " << globalCost << endl;
 
-    close_files(oFile, oFile1, oFile2); 
+    pFile.close();
+    pFileRand.close();
+    pCostLabelledFile.close();
+    gnu.close();
+    close_files(covCorMatTf, covCorMat1, covCorMat5); 
 
     auto t2 = std::chrono::high_resolution_clock::now();
 	auto duration = std::chrono::duration_cast<std::chrono::seconds>(t2 - t1).count();
