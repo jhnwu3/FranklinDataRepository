@@ -1,9 +1,11 @@
-// PSO_S.cpp : Dr. Stewart's 3 variable linear system R script in C++ format.
+// PSO.cpp : Replacing Dr. Stewarts linear 3 ODE's with the nonlinear3 ODE system provided way earlier
 //
 
 #include <iostream>
 #include <fstream>
 #include <boost/math/distributions.hpp>
+#include <boost/array.hpp>
+#include <boost/numeric/odeint.hpp>
 #include <random>
 #include <vector>
 #include <Eigen/Dense>
@@ -11,12 +13,82 @@
 #include <cmath>
 #include <chrono>
 
+#define N_SPECIES 3
+#define N 10000 // # of samples to sample over
+#define N_DIM 6 // dim of PSO hypercube
+#define N_PARTICLES 20 
+
+
 using Eigen::MatrixXd;
 using Eigen::VectorXd;
 using namespace std;
 using namespace boost;
 using namespace boost::math;
+using namespace boost::numeric::odeint;
 
+/* typedefs for boost ODE-ints */
+typedef boost::array< double , N_SPECIES > State_N;
+typedef runge_kutta_cash_karp54< State_N > Error_RK_Stepper_N;
+typedef controlled_runge_kutta< Error_RK_Stepper_N > Controlled_RK_Stepper_N;
+
+const double ke = 0.0001, kme = 20, kf = 0.01, kmf = 18, kd = 0.03, kmd = 1, 
+ka2 = 0.01, ka3 = 0.01, C1T = 20, C2T = 5, C3T = 4;
+
+struct K
+{
+    VectorXd k;
+};
+
+/* /* 3-var linear ODE system - need to rename! @TODO */
+class Linear_ODE3
+{
+    struct K bill;
+
+public:
+    Linear_ODE3(struct K G) : bill(G) {}
+
+    void operator() (  const State_N &c , State_N &dcdt , double t)
+    {
+        MatrixXd kr(3, 3); 
+        kr << 0, bill.k(1), bill.k(3),
+            bill.k(2), 0, bill.k(0),
+            0, bill.k(4), 0;
+        dcdt[0] = (kr(0,0) * c[0] - kr(0,0) * c[0]) +
+              (kr(0,1) * c[1] - kr(1,0) * c[0]) + 
+              (kr(0,2) * c[2] - kr(2,0) * c[0]);
+
+        dcdt[1] = (kr(1,0) * c[0] - kr(0,1) * c[1]) +
+                (kr(1,1) * c[1] - kr(1,1) * c[1]) + 
+                (kr(1,2) * c[2] - kr(2,1) * c[1]);
+
+        dcdt[2] = (kr(2,0) * c[0] - kr(0,2) * c[2]) + 
+                (kr(2,1) * c[1] - kr(1,2) * c[2]) + 
+                (kr(2,2) * c[2] - kr(2,2) * c[2]);
+    }
+};
+
+struct Data_Components{
+    int index;
+    MatrixXd mat;
+    double timeToRecord;
+};
+struct Data_ODE_Observer 
+{
+    struct Data_Components &dComp;
+    Data_ODE_Observer( struct Data_Components &dCom) : dComp( dCom ) {}
+    void operator()( State_N const& c, const double t ) const 
+    {
+        if(t == dComp.timeToRecord){
+            for(int i = 0; i < dComp.mat.cols(); i++){ dComp.mat(dComp.index, i) = c[i]; }
+        }
+    }
+};
+void nonlinearODE3( const State_N &c , State_N &dcdt , double t )
+{
+    dcdt[0] =  ((ke*(C1T - c[0]))/(kme + (C1T - c[0]))) + ((kf * (C1T - c[0]) * c[0] * c[1]) / (kmf + (C1T - c[0]))) - ((kd*c[0]*c[2])/(kmd + c[0])); // dc1dt = ke*(C1T-C1).... (in document)
+    dcdt[1] =  ka2 *(C2T - c[1]); // dc2/dt = ka2 * (C2T - c2)
+    dcdt[2] =  ka3*(C3T - c[2]); // dc3/dt = ka3 * (C3t - c3)
+}
 int main() {
 	
 	auto t1 = std::chrono::high_resolution_clock::now();
@@ -24,7 +96,7 @@ int main() {
 	int bsi = 1, Nterms = 9, useEqual = 0, Niter = 1, Biter = 1; 
 
 	/* Variables (global) */
-	
+	double t0 = 0, tf = 3.0, dt = 0.1;
 	int wasflipped = 0, Nprots = 3, Npars = 5;
 	double squeeze = 0.96, sdbeta = 0.05;
 
@@ -33,8 +105,6 @@ int main() {
 	int sf1 = 1;
 	int sf2 = 1;
 	
-	int N = 10000;
-
 	int Nparts_1 = 5000;
 	int Nsteps_1 = 5;
 
@@ -50,17 +120,18 @@ int main() {
 
 	double dp = 1, sfp = 3, sfg = 1, sfe = 6;
 
-	vector<double> k;
-	k.push_back(0.27678200 / sf1);
-	k.push_back(0.83708059 / sf1);
-	k.push_back(0.44321700 / sf1);
-	k.push_back(0.04244124 / sf1);
-	k.push_back(0.30464502 / sf1);
+	K trueK;
+	trueK.k = VectorXd::Zero(Npars);
+	trueK.k(0) =  0.27678200 / sf1;
+	trueK.k(1) = 0.83708059 / sf1;
+	trueK.k(2) = 0.44321700 / sf1;
+	trueK.k(3) = 0.04244124 / sf1;
+	trueK.k(4) = 0.30464502 / sf1;
 
 	vector<double> truk; // make a copy of a vector/ array/list 
 
-	for (unsigned int i = 0; i < k.size(); i++) {
-		truk.push_back(k.at(i));
+	for (unsigned int i = 0; i < trueK.k.size(); i++) {
+		truk.push_back(trueK.k(i));
 	}
 
 	// print truk values to a .par file w/ 5 columns? 
@@ -101,19 +172,9 @@ int main() {
 
 	int t = 3; // num steps away from initial state
 
-	// first instantiate a matrix, then performance matrix math to form MT
-	MatrixXd M(3,3);
-	M << -k.at(2), k.at(2), 0,
-		k.at(1), -k.at(1) - k.at(4), k.at(4),
-		k.at(3), k.at(0), -k.at(0) - k.at(3);
-
-	MatrixXd MT(3, 3);
-	MT = t * M.transpose();
-   
-	MatrixXd EMT(3, 3);
-	EMT = MT.exp();
+	// Linear ODE3
 	
-	/* actually global variables that are being recalculated in PSO */
+	/* global variables that are being recalculated in PSO */
 	double omp_1, omp_2, omp_3, ovp_1 = 0, ovp_2 = 0, ovp_3 = 0, ocov_12, ocov_13, ocov_23;
 	double pmp_1, pmp_2, pmp_3, pvp_1 = 0, pvp_2 = 0, pvp_3 = 0, pcov_12, pcov_13, pcov_23;
 	double cost_seedk, cost_gbest, cost_sofar;
@@ -124,7 +185,7 @@ int main() {
 	VectorXd pmpV(3);
 
 	MatrixXd GBMAT;
-	MatrixXd w_mat(9, 9);
+	MatrixXd w_mat = MatrixXd::Identity(9,9);
 
 	VectorXd gbest(Npars), best_sofar(Npars);
 
@@ -143,6 +204,8 @@ int main() {
 	std::mt19937 generator(rand_dev());
 	uniform_real_distribution<double> unifDist(0.0, 1.0);
 
+	// take 
+
 	for (int q = 1; q <= Niter; q++) {
 
 		int dpFlag = 1;   // Unsure what this print statement does, will ask later.
@@ -153,7 +216,6 @@ int main() {
 		if (bsi == 0 || q == 1) {
 			/* Simulate Y(t) and X(0) */
 			
-			
 			std::normal_distribution<double> xNorm(mu_x, sigma_x);
 
 			for (int i = 0; i < N; i++) {
@@ -161,11 +223,10 @@ int main() {
 				pa_x(i) = (exp(x(i)));
 			}
 			
-			
 			for (int i = 0; i < x.size(); i++) {
 				std::normal_distribution<double> yNorm(mu_y + sigma_y * rho_xy * (x(i) - mu_x) / sigma_x, sqrt(cvar_ygx));
 				y(i) = (yNorm(generator));
-				pa_y(i) = (exp(y(i)));
+				pa_y(i) = (exp(y(i))); // convert to lognormal distribution!
 			}
 			
 			/* matrix math for the z random vals. */
@@ -198,8 +259,21 @@ int main() {
 			Y_0.col(1) = pa_y;
 			Y_0.col(2) = pa_z;
 			
-			Y_t = (EMT * Y_0.transpose()).transpose();
-			
+			/* COMPUTE ODES! */ // Y_t = (EMT * Y_0.transpose()).transpose(); - Convert to Y_t
+			Data_Components dCom;
+			Data_ODE_Observer obs(dCom);
+			dCom.mat = MatrixXd::Zero(N, 3);
+			dCom.timeToRecord = tf;
+			State_N c0 = {};
+			Controlled_RK_Stepper_N controlledStepper;
+			Linear_ODE3 ode3LinSys(trueK);
+			for(int i = 0; i < N; i++){
+				dCom.index = i;
+				for(int j = 0; j < 3; j++){ c0[j] = Y_0(i, j); }
+				integrate_adaptive(controlledStepper, ode3LinSys, c0, t0, tf, dt, obs); 
+				Y_t.row(i) = dCom.mat.row(i);
+			}
+
 			if (bsi == 1 && q == 1) {
 				Y_t_obs = Y_t;
 			}
@@ -211,7 +285,6 @@ int main() {
 				# Y.t < -Y.t + error */
 
 			/* means */
-			
 			VectorXd ompV = Y_t.colwise().mean();
 		
 			omp_1 = ompV(0);
@@ -237,12 +310,12 @@ int main() {
 			ocov_13 = sum13 / N_SUBTRACT_ONE;
 			ocov_23 = sum23 / N_SUBTRACT_ONE;
 			
+			// SIMULATE X(0) ~ F(theta)
 			for (int i = 0; i < N; i++) {
 				x(i) = (xNorm(generator));
 				pa_x(i) = (exp(x(i)));
 			}
 
-		    
 			for (int i = 0; i < N; i++) {
 				std::normal_distribution<double> yNorm(mu_y + sigma_y * rho_xy * (x(i) - mu_x) / sigma_x, sqrt(cvar_ygx));
 				y(i) = (yNorm(generator));
@@ -266,14 +339,6 @@ int main() {
 				z(i) = (zNorm(generator));
 				pa_z(i) = (exp(z(i)));
 			}
-
-			
-			/*for (int i = 0; i < N; i++) {
-				// fill it up from vectors
-				X_0(i, 0) = pa_x(i);
-				X_0(i, 1) = pa_y(i);
-				X_0(i, 2) = pa_z(i);
-			}*/
 			X_0.col(0) = pa_x;
 			X_0.col(1) = pa_y;
 			X_0.col(2) = pa_z;
@@ -288,13 +353,8 @@ int main() {
 
 			/* create shuffled indices based on uniform rand dist */
 			vector<int> bindices;
-			for (int i = 0; i < N; i++) {
-				bindices.push_back(i);
-			}
+			for (int i = 0; i < N; i++) { bindices.push_back(i);}
 			shuffle(bindices.begin(), bindices.end(), generator); // shuffle indices as well as possible. 
-
-			MatrixXd X_0(N, 3);
-			MatrixXd Y_t(N, 3);
 			/* shuffle all of the values in the observed matrices*/
 			for (int i = 0; i < N; i++) {
 				X_0(i , 0) = X_0_obs(bindices.at(i), 0);
@@ -307,19 +367,13 @@ int main() {
 			
 			/* re-calc new omp, ovp, and ocovs, which should be the same???*/
 			VectorXd ompV = Y_t.colwise().mean();
-			
 			omp_1 = ompV(0);
 			omp_2 = ompV(1);
 			omp_3 = ompV(2);
-
-			
 			/* variances - actually have to manually calculate it, no easy library  */
-		
 			ovp_1 = (Y_t.col(0).array() - Y_t.col(0).array().mean()).square().sum() / ((double)Y_t.col(0).array().size() - 1);
 			ovp_2 = (Y_t.col(1).array() - Y_t.col(1).array().mean()).square().sum() / ((double)Y_t.col(1).array().size() - 1);
 			ovp_3 = (Y_t.col(2).array() - Y_t.col(2).array().mean()).square().sum() / ((double)Y_t.col(2).array().size() - 1);
-
-	
 
 			/* covariances - also requires manual calculation*/
 			double sum12 = 0, sum13 = 0, sum23 = 0;
@@ -328,7 +382,6 @@ int main() {
 				sum12 += (Y_t(n, 0) - omp_1) * (Y_t(n, 1) - omp_2);
 				sum13 += (Y_t(n, 0) - omp_1) * (Y_t(n, 2) - omp_3);
 				sum23 += (Y_t(n, 1) - omp_2) * (Y_t(n, 2) - omp_3);
-
 			}
 			int N_SUBTRACT_ONE = N - 1;
 			ocov_12 = sum12 / N_SUBTRACT_ONE;
@@ -336,37 +389,44 @@ int main() {
 			ocov_23 = sum23 / N_SUBTRACT_ONE;
 
 		}
-		
 		// Initialize variables to start the layered particle swarms
 		int Nparts = Nparts_1;
 		int Nsteps = Nsteps_1;
 
-		VectorXd vectorOfOnes(9);		
-		for (int i = 0; i < 9; i++) {
-			vectorOfOnes(i) = 1;
-		}
-		w_mat = vectorOfOnes.asDiagonal(); //initialize weight matrix
+		w_mat = MatrixXd::Identity(9,9); //initialize weight matrix as identity matrix.
 		
 		VectorXd seedk(Npars); //initialize global best
 		for (int i = 0; i < Npars; i++) { seedk(i) = unifDist(generator) /sf2; }
 
 		/*Compute cost of seedk */
-		for (int i = 0; i < Npars; i++) { k.at(i) = seedk(i); }
+		trueK.k = seedk;
 
-		MatrixXd HM(3, 3);
-		HM << -k.at(2), k.at(2), 0,
-			k.at(1), -k.at(1) - k.at(4), k.at(4),
-			k.at(3), k.at(0), -k.at(0) - k.at(3);
+		// MatrixXd HM(3, 3);
+		// HM << -k.at(2), k.at(2), 0,
+		// 	k.at(1), -k.at(1) - k.at(4), k.at(4),
+		// 	k.at(3), k.at(0), -k.at(0) - k.at(3);
 
-		MatrixXd HMT(3, 3);
-		HMT = t * HM.transpose();
+		// MatrixXd HMT(3, 3);
+		// HMT = t * HM.transpose();
 		
-		MatrixXd EHMT;
-		EHMT = HMT.exp();
-		
-		MatrixXd Q(N,3);
-		Q = (EHMT * X_0.transpose()).transpose();
-		
+		/**** EXP() was here! ****/
+		MatrixXd Q(N,3); // Q = X_t
+		Data_Components dCom;
+		Data_ODE_Observer obs(dCom);
+		dCom.mat = MatrixXd::Zero(N, 3);
+		dCom.timeToRecord = tf;
+		State_N c0 = {};
+		Controlled_RK_Stepper_N controlledStepper;
+		Linear_ODE3 ode3LinSys(trueK);
+		/********************************************************/
+		// CALCULATE Q aka X_T
+		for(int i = 0; i < N; i++){
+			dCom.index = i;
+			for(int j = 0; j < 3; j++){ c0[j] = X_0(i, j); }
+			integrate_adaptive(controlledStepper, ode3LinSys, c0, t0, tf, dt, obs); 
+			Q.row(i) = dCom.mat.row(i);
+		}
+
 		//re-calc new omp, ovp, and ocovs, which should be the same???
 	    pmpV = Q.colwise().mean();
 
@@ -387,7 +447,6 @@ int main() {
 			sum12 += (Q(n, 0) - pmp_1) * (Q(n, 1) - pmp_2);	
 			sum13 += (Q(n, 0) - pmp_1) * (Q(n, 2) - pmp_3);
 			sum23 += (Q(n, 1) - pmp_2) * (Q(n, 2) - pmp_3);
-
 		}
 		double N_SUBTRACT_ONE = Q.rows() - 1.0;
 		
@@ -408,11 +467,9 @@ int main() {
 	
 		all_terms << term_1, term_2, term_3, term_4, term_5, term_6, term_7, term_8, term_9;
 	
-		
 		term_vec = all_terms;
 		
-		
-		cost_seedk = term_vec.transpose() * w_mat * (term_vec.transpose()).transpose();
+		cost_seedk = term_vec.transpose() * w_mat * (term_vec.transpose()).transpose(); // CF2!
 
 		// instantiate values 
 		gbest = seedk;
@@ -428,7 +485,6 @@ int main() {
 		cbind << gbest, cost_gbest;
 		GBMAT.row(GBMAT.rows() - 1) = cbind;
 	
-		
 		double nearby = sdbeta;
 		MatrixXd POSMAT(Nparts, Npars);
 		
@@ -439,7 +495,7 @@ int main() {
 				for (int i = 0; i < Nparts; i++) {
 					// row by row in matrix using uniform dist.
 					for (int n = 0; n < Npars; n++) {
-						POSMAT(i, n) = unifDist(generator) / sf2;
+						POSMAT(i, n) = unifDist(generator) / sf2; // for each particle
 					}
 				}
 				
@@ -499,16 +555,26 @@ int main() {
 			for (int i = 0; i < PBMAT.rows(); i++) { PBMAT(i, PBMAT.cols() - 1) = 0; } // add the 0's on far right column
 			
 			for (int h = 0; h < Nparts; h++) {
-				for (int init = 0; init < Npars; init++) { k.at(init) = PBMAT(h, init); }
+				for (int init = 0; init < Npars; init++) { trueK.k(init) = PBMAT(h, init); }
 
-				HM << -k.at(2), k.at(2), 0,
-					k.at(1), -k.at(1) - k.at(4), k.at(4),
-					k.at(3), k.at(0), -k.at(0) - k.at(3);
 
-				HMT = t * HM.transpose();
-				EHMT = HMT.exp(); // NOTE MATRIX EXPONENTIATION ACTUALLY TAKES A REALLY LONG TIME TO RUN
-				Q = (EHMT * X_0.transpose()).transpose();
-
+				/* EXP() WAS HERE! -------------------------- SOLVE ODES AGAIN FOR X_t!*/
+				Data_Components dCom;
+				Data_ODE_Observer obs(dCom);
+				dCom.mat = MatrixXd::Zero(N, 3);
+				dCom.timeToRecord = tf;
+				State_N c0 = {};
+				Controlled_RK_Stepper_N controlledStepper;
+				Linear_ODE3 ode3LinSys(trueK);
+				/********************************************************/
+				// CALCULATE Q aka X_T
+				for(int i = 0; i < N; i++){
+					dCom.index = i;
+					for(int j = 0; j < 3; j++){ c0[j] = X_0(i, j); }
+					integrate_adaptive(controlledStepper, ode3LinSys, c0, t0, tf, dt, obs); 
+					Q.row(i) = dCom.mat.row(i);
+				}
+				 
 				pmpV = Q.colwise().mean();
 				
 				pmp_1 = pmpV(0);
@@ -552,7 +618,7 @@ int main() {
 				PBMAT(h, Npars) = term_vec.transpose() * w_mat * (term_vec.transpose()).transpose();
 			}
 
-			
+///////////////////////////////////////////////////////////   PSO PART 2 of Particle Module    ////////////////////////////////////////////////////////////////////////////////////////////////////			
 			// ALL SWARMS BEGIN TO MOVE HERE 
 			double sfi = sfe;
 			double sfc = sfp;
@@ -571,17 +637,23 @@ int main() {
 					if (iii == chkpts.at(0) || iii == chkpts.at(1) || iii == chkpts.at(2) || iii == chkpts.at(3)) {
 						nearby = squeeze * nearby;
 
-						for (int i = 0; i < Npars; i++) { // best estimate of k to compute w.mat
-							k.at(i) = gbest(i);
+						
+						trueK.k = gbest; 
+						Data_Components dCom;
+						Data_ODE_Observer obs(dCom);
+						dCom.mat = MatrixXd::Zero(N, 3);
+						dCom.timeToRecord = tf;
+						State_N c0 = {};
+						Controlled_RK_Stepper_N controlledStepper;
+						Linear_ODE3 ode3LinSys(trueK);
+						/********************************************************/
+						// CALCULATE Q aka X_T
+						for(int i = 0; i < N; i++){
+							dCom.index = i;
+							for(int j = 0; j < 3; j++){ c0[j] = X_0(i, j); }
+							integrate_adaptive(controlledStepper, ode3LinSys, c0, t0, tf, dt, obs); 
+							Q.row(i) = dCom.mat.row(i);
 						}
-
-						HM << -k.at(2), k.at(2), 0,
-							k.at(1), -k.at(1) - k.at(4), k.at(4),
-							k.at(3), k.at(0), -k.at(0) - k.at(3);
-
-						HMT = t * HM.transpose();
-						EHMT = HMT.exp();
-						Q = (EHMT * X_0.transpose()).transpose();
 
 						MatrixXd fmdiffs(Q.rows(), 3);
 						fmdiffs = Y_t - Q;
@@ -591,7 +663,7 @@ int main() {
 				
 						VectorXd myt(3); 
 						myt = Y_t.colwise().mean();
-					
+						/* cost function computations! */
 						MatrixXd residxt(Q.rows(), Q.cols());
 						residxt.col(0) = mxt.row(0).replicate(N, 1);
 						residxt.col(1) = mxt.row(1).replicate(N, 1);
@@ -625,6 +697,7 @@ int main() {
 
 						MatrixXd g_mat(N, Nterms);
 						g_mat = Adiffs;
+						/* RECOMPUTE WEIGHT FUNCTION! */
 						for (int m = 0; m < N; m++) { w_mat = w_mat + g_mat.row(m).transpose() * g_mat.row(m); }
 						w_mat = w_mat / N;
 						w_mat = w_mat.inverse();
@@ -714,16 +787,21 @@ int main() {
 						cbindMat << POSMAT, VectorXd::Zero(POSMAT.rows());
 
 						for (int h = 0; h < Nparts; h++) {
-							for (int init = 0; init < Npars; init++) { k.at(init) = PBMAT(h, init); } 
-
-							HM << -k.at(2), k.at(2), 0,
-								k.at(1), -k.at(1) - k.at(4), k.at(4),
-								k.at(3), k.at(0), -k.at(0) - k.at(3);
-
-							HMT = t * HM.transpose();
-							EHMT = HMT.exp();
-							Q = (EHMT * X_0.transpose()).transpose();
-
+							//for (int init = 0; init < Npars; init++) { k.at(init) = PBMAT(h, init); } 
+							trueK.k = PBMAT.row(h);
+							
+							dCom.mat = MatrixXd::Zero(N, 3);
+							dCom.timeToRecord = tf;
+							Controlled_RK_Stepper_N controlledStepper;
+							Linear_ODE3 ode3LinSys(trueK);
+							/********************************************************/
+							// CALCULATE Q aka X_T
+							for(int i = 0; i < N; i++){
+								dCom.index = i;
+								for(int j = 0; j < 3; j++){ c0[j] = X_0(i, j); }
+								integrate_adaptive(controlledStepper, ode3LinSys, c0, t0, tf, dt, obs); 
+								Q.row(i) = dCom.mat.row(i);
+							}
 
 							// CALCULATE MEANS, VARIANCES, AND COVARIANCES
 							pmpV = Q.colwise().mean();
@@ -817,17 +895,21 @@ int main() {
 					POSMAT.row(jjj) = w1 * rpoint + w2 * PBMATV + w3 * gbest;
 
 
-					
-					for (int i = 0; i < Npars; i++) { k.at(i) = POSMAT(jjj, i); }
+					/* set k equal to next position of particle */
+					//for (int i = 0; i < Npars; i++) { k.at(i) = POSMAT(jjj, i); }
+					trueK.k = POSMAT.row(jjj);
 
-					HM << -k.at(2), k.at(2), 0,
-						k.at(1), -k.at(1) - k.at(4), k.at(4),
-						k.at(3), k.at(0), -k.at(0) - k.at(3);
-
-					HMT = t * HM.transpose();
-					EHMT = HMT.exp();
-					Q = (EHMT * X_0.transpose()).transpose();
-
+					dCom.mat = MatrixXd::Zero(N, 3);
+					dCom.timeToRecord = tf;
+					Linear_ODE3 ode3LinSys(trueK);
+					/********************************************************/
+					// RECALCULATE Q aka X_T
+					for(int i = 0; i < N; i++){
+						dCom.index = i;
+						for(int j = 0; j < 3; j++){ c0[j] = X_0(i, j); }
+						integrate_adaptive(controlledStepper, ode3LinSys, c0, t0, tf, dt, obs); 
+						Q.row(i) = dCom.mat.row(i);
+					}
 
 					// CALCULATE MEANS, VARIANCES, AND COVARIANCES
 					pmpV = Q.colwise().mean();
@@ -873,15 +955,8 @@ int main() {
 
 					// USE THE MOST RECENT ESTIMATE OF WMAT UNLESS USEEQUAL == 1
 					double cost_newpos;
-					if (useEqual == 0) {
-						
-						cost_newpos = term_vec.transpose() * w_mat * term_vec.transpose().transpose();
-						
-					}
-					if (useEqual == 1) {
-						cost_newpos = term_vec.transpose() * vectorOfOnes.asDiagonal() * term_vec.transpose().transpose();
-						
-					}
+					if (useEqual == 0) { cost_newpos = term_vec.transpose() * w_mat * term_vec.transpose().transpose(); }
+					if (useEqual == 1) { cost_newpos = term_vec.transpose() * MatrixXd::Identity(9,9) * term_vec.transpose().transpose(); }
 					if (cost_newpos < PBMAT(jjj, Npars)) {
 						//cout << "line 913" << endl;
 						VectorXd POSMAT_cost_newpos(POSMAT.cols());
@@ -928,18 +1003,20 @@ int main() {
 			}
 
 			if (pso < (Biter + 1)) {
-				for (int init = 0; init < Npars; init++) { // best estimate of k to compute w.mat
-					k.at(init) = gbest(init);
+				trueK.k = gbest;  // best estimate of k to compute w.mat
+				/* RECOMPUTE X_t */
+				dCom.mat = MatrixXd::Zero(N, 3);
+				dCom.timeToRecord = tf;
+				Linear_ODE3 ode3LinSys(trueK);
+				/********************************************************/
+				// RECALCULATE Q aka X_T
+				for(int i = 0; i < N; i++){
+					dCom.index = i;
+					for(int j = 0; j < 3; j++){ c0[j] = X_0(i, j); }
+					integrate_adaptive(controlledStepper, ode3LinSys, c0, t0, tf, dt, obs); 
+					Q.row(i) = dCom.mat.row(i);
 				}
 
-				HM << -k.at(2), k.at(2), 0,
-					k.at(1), -k.at(1) - k.at(4), k.at(4),
-					k.at(3), k.at(0), -k.at(0) - k.at(3);
-
-				HMT = t * HM.transpose();
-				EHMT = HMT.exp();
-				Q = (EHMT * X_0.transpose()).transpose();
-				
 				MatrixXd fmdiffs(N, 3);
 				fmdiffs = Y_t - Q;
 
@@ -992,18 +1069,19 @@ int main() {
 
 				// Update cost_gbest with w_mat
 
-				for (int init = 0; init < Npars; init++) { // recompute the cost for seedk using this w.mat
-					k.at(init) = gbest(init);
+				trueK.k = gbest; // recompute the cost for seedk using this w.mat
+
+				dCom.mat = MatrixXd::Zero(N, 3);
+				dCom.timeToRecord = tf;
+				Linear_ODE3 ode3LinSys(trueK);
+				/********************************************************/
+				// RECALCULATE Q aka X_T
+				for(int i = 0; i < N; i++){
+					dCom.index = i;
+					for(int j = 0; j < 3; j++){ c0[j] = X_0(i, j); }
+					integrate_adaptive(controlledStepper, ode3LinSys, c0, t0, tf, dt, obs); 
+					Q.row(i) = dCom.mat.row(i);
 				}
-
-				HM << -k.at(2), k.at(2), 0,
-					k.at(1), -k.at(1) - k.at(4), k.at(4),
-					k.at(3), k.at(0), -k.at(0) - k.at(3);
-
-				HMT = t * HM.transpose();
-				EHMT = HMT.exp();
-				Q = (EHMT * X_0.transpose()).transpose();
-
 
 				// CALCULATE MEANS, VARIANCES, AND COVARIANCES
 				pmpV = Q.colwise().mean();

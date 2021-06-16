@@ -3,9 +3,9 @@
 CXX = g++
 
 # target all means all targets currently defined in this file 
-all: PSO para PSO_S
+all: PSO para PSO_S PSO_S_ODE
 
-# target dependencies for main PSO program
+# target dependencies for main PSO program - also equally messy code inside!
 PSO: main.o fileIO.o ODE.o var.o calc.o
 	g++ main.o fileIO.o ODE.o var.o calc.o -o PSO -fopenmp
 main.o: main.cpp main.hpp fileIO.hpp ODE.hpp calc.hpp  
@@ -33,6 +33,12 @@ PSO_S: PSO_S.o
 PSO_S.o: PSO_S.cpp
 	g++ -c PSO_S.cpp
 
+# PSO_S_ODE but instead of mat exponentation, do nonlinear ODEs!
+PSO_S_ODE: PSO_S_ODE.o
+	g++ PSO_S.o -o PSO_S_ODE
+PSO_S_ODE.o:
+	g++ -c PSO_S_ODE.cpp
+	
 # this target deletes all files produced from the Makefile
 # so that a completely new compile of all items is required
 clean:
