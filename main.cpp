@@ -45,8 +45,8 @@ int main(int argc, char **argv)
     ofstream gnu;
     gnu.open("NonlinODE6_Syk_Vav_pVav_SHP1.txt"); 
     Write_File_Plot graphFile(gnu);
-    State_N jc0 = {120.0, 41.33, 0, 0, 80.0, 0};
-    integrate_adaptive(controlled_stepper, ODE6System, jc0, t0, tf, dt, graphFile);
+    State_N observedC0 = {120.0, 41.33, 0, 0, 80.0, 0}; // X_0, observed initial conditions!
+    integrate_adaptive(controlled_stepper, ODE6System, observedC0, t0, tf, dt, graphFile);
     
     /* Calculate cov and cor matrix for several thousand samples at 3 different times */
     Data_Components data6(sub, tf, nMom);
@@ -57,9 +57,10 @@ int main(int argc, char **argv)
     Data_ODE_Observer dataOBS6T3(data6T3);
     cout << "Data Module: Beginning to solve nonlinear6 for 10000 samples at 3 times!" << endl;
     for(int i = 0; i < N; i++){
-        integrate_adaptive(controlled_stepper, ODE6System, gen_multi_lognorm_init6(), t0, tf, dt, dataOBS6); 
-        integrate_adaptive(controlled_stepper, ODE6System, gen_multi_lognorm_init6(), t0, 1.0, dt, dataOBS6T2); 
-        integrate_adaptive(controlled_stepper, ODE6System, gen_multi_lognorm_init6(), t0, 5.0, dt, dataOBS6T3); 
+        State_N c0 = gen_multi_lognorm_init6(); 
+        integrate_adaptive(controlled_stepper, ODE6System, c0, t0, tf, dt, dataOBS6); 
+        integrate_adaptive(controlled_stepper, ODE6System, c0, t0, 1.0, dt, dataOBS6T2); 
+        integrate_adaptive(controlled_stepper, ODE6System, c0, t0, 5.0, dt, dataOBS6T3); 
     }
     data6.moments /= N;
     data6.secondMoments /= N;
@@ -134,7 +135,8 @@ int main(int argc, char **argv)
         Nonlinear_ODE6 pSys(pK); // instantiate ODE System
 
         for(int i = 0; i < N/2; i++){
-            integrate_adaptive(controlled_stepper, pSys, gen_multi_lognorm_init6(), t0, tf, dt, Particle_Observer(pComp));
+            State_N c0 = gen_multi_lognorm_init6();
+            integrate_adaptive(controlled_stepper, pSys, c0, t0, tf, dt, Particle_Observer(pComp));
         } 
         pComp.momVec /= (N/2); 
         pCost = calculate_cf1(data6.moments, pComp.momVec, nMom); // cost
@@ -149,7 +151,8 @@ int main(int argc, char **argv)
             pKRand.k(i) = pUnifDist(pGenerator);
         }
         for(int i = 0; i < N/2; i++){
-            integrate_adaptive(controlled_stepper, randSys, gen_multi_lognorm_init6(), t0, tf, dt, Particle_Observer(pCompRand));
+            State_N c0 = gen_multi_lognorm_init6();
+            integrate_adaptive(controlled_stepper, randSys, c0, t0, tf, dt, Particle_Observer(pCompRand));
         } 
         pCompRand.momVec /= (N/2); 
         double pCostRan = calculate_cf1(data6.moments, pCompRand.momVec, nMom); // cost
@@ -186,36 +189,3 @@ int main(int argc, char **argv)
     cout << " Code Finished Running in " << duration << " seconds time!" << endl;
 }
 
-/* examples of integrate functions: */
-// integrate(tripleNonlinearODE, c0, 0.0, 500.0, 10.0, write_file);
-// integrate_adaptive(controlled_stepper, tripleNonlinearODE, c0, 0.0, 500.0, 10.0, write_file);
-
-/* mu vector and covariance (sigma) original values
-mu << mu_x, mu_y, mu_z;
-sigma << 0.77, 0.0873098, 0.046225, 
-            0.0873098, 0.99, 0.104828, 
-            0.046225, 0.104828, 1.11; */
-
-/* Og method of pulling from multilognorm dist */
-// //@TODO - need to find a better way to fit multiple eqs
-// /* multivar norm gen */
-// Multi_Normal_Random_Variable sample{mu, sigma};
-// K dataK;
-// dataK.k = VectorXd::Zero(N_DIM);
-// dataK.k << k1, k2, k3, k4, k5, 0;
-// Linear_ODE3 linSys3(dataK); 
-// Data_ODE_Observer dataObs(mTrue); // data observer class to fill values in mTrue.
-// State_N c0;
-// /* Solve for moments using ODE system */
-// for(int i = 0; i < N; i++){
-//    if(i % 1000 == 0){ cout << i << endl;  }
-//     initCon = sample(); // sample from multilognormal dist
-//     for(int a = 0; a < N_SPECIES; a++){
-//         c0[a] = exp(initCon(a)); // assign vector for use in ODE solns.
-//     }
-//     integrate_adaptive(controlled_stepper, linSys3, c0, t0, tf, dt, dataObs);
-// }
-// /* avg for moments */
-// mTrue.moments /= N;
-// mTrue.secondMoments /= N;
-// cov = calculate_covariance_matrix(mTrue.secondMoments, mTrue.moments, N_SPECIES);
