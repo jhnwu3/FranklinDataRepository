@@ -71,7 +71,7 @@ int main(int argc, char **argv)
     
     cout << "calculating cov matrices!" << endl;
 
-    /*  */
+    /* record data */
     cout <<"Correlation matrix i.e <ci(t)cj(t)> :"<< endl << data6.secondMoments << endl;
     covCorMatTf <<"Correlation matrix i.e <ci(t)cj(t)> :"<< endl << data6.secondMoments << endl;
     cov = calculate_covariance_matrix(data6.secondMoments, data6.moments, N_SPECIES);
@@ -179,6 +179,7 @@ int main(int argc, char **argv)
    
     cout << "bestMomentVector: " << bestMomentVector.transpose() << endl << endl;
     cout << "Global Best Cost: " << globalCost << endl;
+    cout << "Subset of size 9 of best moment vector:" << gen_sub_mom_vec(bestMomentVector).transpose();
 
     pFile.close();
     pFileRand.close();

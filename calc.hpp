@@ -11,7 +11,7 @@ MatrixXd generate_covariance_matrix(const MatrixXd& sampleSpace, const VectorXd&
 MatrixXd generate_sample_space(int nProt, int n);
 State_N gen_multi_lognorm_init6(void); // temporary function for N_SPECIES = 6
 State_N gen_multi_norm_init6(void);
-
+VectorXd gen_sub_mom_vec(const VectorXd &momVec);
 /* Struct for multi-variate normal distribution */
 struct Multi_Normal_Random_Variable
 {
