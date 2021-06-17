@@ -42,4 +42,4 @@ PSO_S_ODE.o:
 # this target deletes all files produced from the Makefile
 # so that a completely new compile of all items is required
 clean:
-	rm -rf *.o PSO_S ODE
+	rm -rf *.o PSO_S PSO PSO_S_ODE
