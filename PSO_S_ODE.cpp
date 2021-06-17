@@ -13,7 +13,7 @@
 #include <cmath>
 #include <chrono>
 
-#define N_SPECIES 3
+#define N_SPECIES 6
 #define N 10000 // # of samples to sample over
 #define N_DIM 6 // dim of PSO hypercube
 #define N_PARTICLES 20 
@@ -119,6 +119,31 @@ struct Data_ODE_Observer
         }
     }
 };
+struct Data_Components6{
+    int index;
+    MatrixXd mat;
+	VectorXd sub;
+    double timeToRecord;
+};
+struct Data_ODE_Observer6 
+{
+    struct Data_Components6 &dComp;
+    Data_ODE_Observer6( struct Data_Components6 &dCom) : dComp( dCom ) {}
+    void operator()( State_N const& c, const double t ) const 
+    {
+        if(t == dComp.timeToRecord){
+			int i = 0, j = 0;
+			while( i < 6 && j < dComp.sub.size()){
+				if(i == dComp.sub(j)){
+					dComp.mat(dComp.index,j) = c[i];
+					j++;
+				}
+				i++;
+			}
+        }
+    }
+};
+
 void nonlinearODE3( const State_N &c , State_N &dcdt , double t )
 {
     dcdt[0] =  ((ke*(C1T - c[0]))/(kme + (C1T - c[0]))) + ((kf * (C1T - c[0]) * c[0] * c[1]) / (kmf + (C1T - c[0]))) - ((kd*c[0]*c[2])/(kmd + c[0])); // dc1dt = ke*(C1T-C1).... (in document)
@@ -133,7 +158,7 @@ int main() {
 
 	/* Variables (global) */
 	double t0 = 0, tf = 3.0, dt = 0.1;
-	int wasflipped = 0, Nprots = 3, Npars = 5;
+	int wasflipped = 0, Nprots = 3, Npars = 6;
 	double squeeze = 0.96, sdbeta = 0.05;
 
 	/* SETUP */
@@ -158,11 +183,12 @@ int main() {
 
 	K trueK;
 	trueK.k = VectorXd::Zero(Npars);
-	trueK.k(0) =  0.27678200 / sf1;
-	trueK.k(1) = 0.83708059 / sf1;
-	trueK.k(2) = 0.44321700 / sf1;
-	trueK.k(3) = 0.04244124 / sf1;
-	trueK.k(4) = 0.30464502 / sf1;
+	// trueK.k(0) =  0.27678200 / sf1;
+	// trueK.k(1) = 0.83708059 / sf1;
+	// trueK.k(2) = 0.44321700 / sf1;
+	// trueK.k(3) = 0.04244124 / sf1;
+	// trueK.k(4) = 0.30464502 / sf1;
+	trueK.k << 5.0, 0.1, 1.0, 8.69, 0.05, 0.70;
 
 	vector<double> truk; // make a copy of a vector/ array/list 
 
@@ -223,6 +249,7 @@ int main() {
 	MatrixXd GBMAT;
 	MatrixXd w_mat = MatrixXd::Identity(9,9);
 
+	VectorXd sub(3); sub << 0,1,4; //subset of protein indices we want to solve for!
 	VectorXd gbest(Npars), best_sofar(Npars);
 
 	VectorXd x(N); //note the data sample x is a list of 10000 RV from normal dist
@@ -296,17 +323,27 @@ int main() {
 			Y_0.col(2) = pa_z;
 			
 			/* COMPUTE ODES! */ // Y_t = (EMT * Y_0.transpose()).transpose(); - Convert to Y_t
-			Data_Components dCom;
-			Data_ODE_Observer obs(dCom);
+			Data_Components6 dCom;
+			Data_ODE_Observer6 obs(dCom);
+			dCom.sub = sub;
 			dCom.mat = MatrixXd::Zero(N, 3);
 			dCom.timeToRecord = tf;
 			State_N c0 = {};
 			Controlled_RK_Stepper_N controlledStepper;
-			Linear_ODE3 ode3LinSys(trueK);
+			// Linear_ODE3 ode3LinSys(trueK);
+			Nonlinear_ODE6 nonlinODE6(trueK);
 			for(int i = 0; i < N; i++){
 				dCom.index = i;
-				for(int j = 0; j < 3; j++){ c0[j] = Y_0(i, j); }
-				integrate_adaptive(controlledStepper, ode3LinSys, c0, t0, tf, dt, obs); 
+				int k = 0;
+				for(int j = 0; j < N_SPECIES; j++){ 
+					if(j == sub(j)){
+						c0[j] = Y_0(i, k);
+						k++; 
+					}else{
+						c0[j] = 0;
+					}
+				}
+				integrate_adaptive(controlledStepper, nonlinODE6, c0, t0, tf, dt, obs); 
 				Y_t.row(i) = dCom.mat.row(i);
 			}
 
@@ -423,7 +460,6 @@ int main() {
 			ocov_12 = sum12 / N_SUBTRACT_ONE;
 			ocov_13 = sum13 / N_SUBTRACT_ONE;
 			ocov_23 = sum23 / N_SUBTRACT_ONE;
-
 		}
 		// Initialize variables to start the layered particle swarms
 		int Nparts = Nparts_1;
@@ -447,19 +483,27 @@ int main() {
 		
 		/**** EXP() was here! ****/
 		MatrixXd Q(N,3); // Q = X_t
-		Data_Components dCom;
-		Data_ODE_Observer obs(dCom);
+		Data_Components6 dCom;
+		Data_ODE_Observer6 obs(dCom);
+		dCom.sub = sub;
 		dCom.mat = MatrixXd::Zero(N, 3);
 		dCom.timeToRecord = tf;
 		State_N c0 = {};
 		Controlled_RK_Stepper_N controlledStepper;
-		Linear_ODE3 ode3LinSys(trueK);
-		/********************************************************/
-		// CALCULATE Q aka X_T
+		// Linear_ODE3 ode3LinSys(trueK);
+		Nonlinear_ODE6 nonlinODE6(trueK);
 		for(int i = 0; i < N; i++){
 			dCom.index = i;
-			for(int j = 0; j < 3; j++){ c0[j] = X_0(i, j); }
-			integrate_adaptive(controlledStepper, ode3LinSys, c0, t0, tf, dt, obs); 
+			int k = 0;
+			for(int j = 0; j < N_SPECIES; j++){ 
+				if(j == sub(j)){
+					c0[j] = X_0(i, k);
+					k++; 
+				}else{
+					c0[j] = 0;
+				}
+			}
+			integrate_adaptive(controlledStepper, nonlinODE6, c0, t0, tf, dt, obs); 
 			Q.row(i) = dCom.mat.row(i);
 		}
 
@@ -595,19 +639,27 @@ int main() {
 
 
 				/* EXP() WAS HERE! -------------------------- SOLVE ODES AGAIN FOR X_t!*/
-				Data_Components dCom;
-				Data_ODE_Observer obs(dCom);
+				Data_Components6 dCom;
+				dCom.sub = sub;
 				dCom.mat = MatrixXd::Zero(N, 3);
 				dCom.timeToRecord = tf;
 				State_N c0 = {};
 				Controlled_RK_Stepper_N controlledStepper;
-				Linear_ODE3 ode3LinSys(trueK);
-				/********************************************************/
-				// CALCULATE Q aka X_T
+				// Linear_ODE3 ode3LinSys(trueK);
+				Data_ODE_Observer6 obs(dCom);
+				Nonlinear_ODE6 nonlinODE6(trueK);
 				for(int i = 0; i < N; i++){
 					dCom.index = i;
-					for(int j = 0; j < 3; j++){ c0[j] = X_0(i, j); }
-					integrate_adaptive(controlledStepper, ode3LinSys, c0, t0, tf, dt, obs); 
+					int k = 0;
+					for(int j = 0; j < N_SPECIES; j++){ 
+						if(j == sub(j)){
+							c0[j] = X_0(i, k);
+							k++; 
+						}else{
+							c0[j] = 0;
+						}
+					}
+					integrate_adaptive(controlledStepper, nonlinODE6, c0, t0, tf, dt, obs); 
 					Q.row(i) = dCom.mat.row(i);
 				}
 				 
@@ -673,21 +725,28 @@ int main() {
 					if (iii == chkpts.at(0) || iii == chkpts.at(1) || iii == chkpts.at(2) || iii == chkpts.at(3)) {
 						nearby = squeeze * nearby;
 
-						
 						trueK.k = gbest; 
-						Data_Components dCom;
-						Data_ODE_Observer obs(dCom);
+						Data_Components6 dCom;
+						dCom.sub = sub;
 						dCom.mat = MatrixXd::Zero(N, 3);
 						dCom.timeToRecord = tf;
 						State_N c0 = {};
 						Controlled_RK_Stepper_N controlledStepper;
-						Linear_ODE3 ode3LinSys(trueK);
-						/********************************************************/
-						// CALCULATE Q aka X_T
+						// Linear_ODE3 ode3LinSys(trueK);
+						Data_ODE_Observer6 obs(dCom);
+						Nonlinear_ODE6 nonlinODE6(trueK);
 						for(int i = 0; i < N; i++){
 							dCom.index = i;
-							for(int j = 0; j < 3; j++){ c0[j] = X_0(i, j); }
-							integrate_adaptive(controlledStepper, ode3LinSys, c0, t0, tf, dt, obs); 
+							int k = 0;
+							for(int j = 0; j < N_SPECIES; j++){ 
+								if(j == sub(j)){
+									c0[j] = X_0(i, k);
+									k++; 
+								}else{
+									c0[j] = 0;
+								}
+							}
+							integrate_adaptive(controlledStepper, nonlinODE6, c0, t0, tf, dt, obs); 
 							Q.row(i) = dCom.mat.row(i);
 						}
 
@@ -826,16 +885,26 @@ int main() {
 							//for (int init = 0; init < Npars; init++) { k.at(init) = PBMAT(h, init); } 
 							trueK.k = PBMAT.row(h);
 							
+							dCom.sub = sub;
 							dCom.mat = MatrixXd::Zero(N, 3);
 							dCom.timeToRecord = tf;
+							State_N c0 = {};
 							Controlled_RK_Stepper_N controlledStepper;
-							Linear_ODE3 ode3LinSys(trueK);
-							/********************************************************/
-							// CALCULATE Q aka X_T
+							// Linear_ODE3 ode3LinSys(trueK);
+							Data_ODE_Observer6 obs(dCom);
+							Nonlinear_ODE6 nonlinODE6(trueK);
 							for(int i = 0; i < N; i++){
 								dCom.index = i;
-								for(int j = 0; j < 3; j++){ c0[j] = X_0(i, j); }
-								integrate_adaptive(controlledStepper, ode3LinSys, c0, t0, tf, dt, obs); 
+								int k = 0;
+								for(int j = 0; j < N_SPECIES; j++){ 
+									if(j == sub(j)){
+										c0[j] = X_0(i, k);
+										k++; 
+									}else{
+										c0[j] = 0;
+									}
+								}
+								integrate_adaptive(controlledStepper, nonlinODE6, c0, t0, tf, dt, obs); 
 								Q.row(i) = dCom.mat.row(i);
 							}
 
@@ -1041,15 +1110,23 @@ int main() {
 			if (pso < (Biter + 1)) {
 				trueK.k = gbest;  // best estimate of k to compute w.mat
 				/* RECOMPUTE X_t */
+				dCom.sub = sub;
 				dCom.mat = MatrixXd::Zero(N, 3);
 				dCom.timeToRecord = tf;
-				Linear_ODE3 ode3LinSys(trueK);
-				/********************************************************/
-				// RECALCULATE Q aka X_T
+				// Linear_ODE3 ode3LinSys(trueK);
+				Nonlinear_ODE6 nonlinODE6(trueK);
 				for(int i = 0; i < N; i++){
 					dCom.index = i;
-					for(int j = 0; j < 3; j++){ c0[j] = X_0(i, j); }
-					integrate_adaptive(controlledStepper, ode3LinSys, c0, t0, tf, dt, obs); 
+					int k = 0;
+					for(int j = 0; j < N_SPECIES; j++){ 
+						if(j == sub(j)){
+							c0[j] = X_0(i, k);
+							k++; 
+						}else{
+							c0[j] = 0;
+						}
+					}
+					integrate_adaptive(controlledStepper, nonlinODE6, c0, t0, tf, dt, obs); 
 					Q.row(i) = dCom.mat.row(i);
 				}
 
@@ -1107,15 +1184,23 @@ int main() {
 
 				trueK.k = gbest; // recompute the cost for seedk using this w.mat
 
+				dCom.sub = sub;
 				dCom.mat = MatrixXd::Zero(N, 3);
 				dCom.timeToRecord = tf;
-				Linear_ODE3 ode3LinSys1(trueK);
-				/********************************************************/
-				// RECALCULATE Q aka X_T
+				// Linear_ODE3 ode3LinSys(trueK);
+				Nonlinear_ODE6 nonlinODE6(trueK);
 				for(int i = 0; i < N; i++){
 					dCom.index = i;
-					for(int j = 0; j < 3; j++){ c0[j] = X_0(i, j); }
-					integrate_adaptive(controlledStepper, ode3LinSys1, c0, t0, tf, dt, obs); 
+					int k = 0;
+					for(int j = 0; j < N_SPECIES; j++){ 
+						if(j == sub(j)){
+							c0[j] = X_0(i, k);
+							k++; 
+						}else{
+							c0[j] = 0;
+						}
+					}
+					integrate_adaptive(controlledStepper, nonlinODE6, c0, t0, tf, dt, obs); 
 					Q.row(i) = dCom.mat.row(i);
 				}
 
