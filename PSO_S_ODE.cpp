@@ -1188,7 +1188,7 @@ int main() {
 				dCom.mat = MatrixXd::Zero(N, 3);
 				dCom.timeToRecord = tf;
 				// Linear_ODE3 ode3LinSys(trueK);
-				Nonlinear_ODE6 nonlinODE6(trueK);
+				Nonlinear_ODE6 nonlinODE6Cp(trueK);
 				for(int i = 0; i < N; i++){
 					dCom.index = i;
 					int k = 0;
@@ -1200,7 +1200,7 @@ int main() {
 							c0[j] = 0;
 						}
 					}
-					integrate_adaptive(controlledStepper, nonlinODE6, c0, t0, tf, dt, obs); 
+					integrate_adaptive(controlledStepper, nonlinODE6Cp, c0, t0, tf, dt, obs); 
 					Q.row(i) = dCom.mat.row(i);
 				}
 
