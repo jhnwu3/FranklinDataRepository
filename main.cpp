@@ -179,8 +179,8 @@ int main(int argc, char **argv)
    
     cout << "bestMomentVector: " << bestMomentVector.transpose() << endl << endl;
     cout << "Global Best Cost: " << globalCost << endl;
-    cout << "Subset of size 9 of best moment vector:" << gen_sub_mom_vec(bestMomentVector).transpose();
-
+    cout << "Subset of best moment vector:" << gen_sub_mom_vec(bestMomentVector).transpose() << endl;
+    cout << "with size:" << gen_sub_mom_vec(bestMomentVector).size();
     pFile.close();
     pFileRand.close();
     pCostLabelledFile.close();
