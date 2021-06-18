@@ -157,11 +157,11 @@ State_N gen_multi_norm_init6(void){
 }
 // finds all non-zero elements in momVec and returns them in vector form
 VectorXd gen_sub_mom_vec(const VectorXd &momVec){
-    VectorXd sub = VectorXd::Zero(1);
+    VectorXd sub = VectorXd::Zero(0);
     for(int i = 0; i < momVec.size(); i++){
         if(momVec(i) != 0){
-            sub(sub.size() - 1) = momVec(i);
             sub.conservativeResize(sub.size() + 1);
+            sub(sub.size() - 1) = momVec(i);
         }
     }
     return sub;
