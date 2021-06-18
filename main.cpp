@@ -43,7 +43,7 @@ int main(int argc, char **argv)
     trueK.k << 5.0, 0.10, 1.00, 8.69, 0.05, 0.70; // GRAPH
     Nonlinear_ODE6 ODE6System(trueK);
     ofstream gnu;
-    gnu.open("NonlinODE6_Syk_Vav_pVav_SHP1.txt"); 
+    gnu.open("Nonlin_ODE_6_Plot.txt"); 
     Write_File_Plot graphFile(gnu);
     State_N observedC0 = {120.0, 41.33, 0, 0, 80.0, 0}; // X_0, observed initial conditions!
     integrate_adaptive(controlled_stepper, ODE6System, observedC0, t0, tf, dt, graphFile);
@@ -93,30 +93,23 @@ int main(int argc, char **argv)
     /* check by doing another set of costs 1% off for one particle */
     VectorXd pInit(N_SPECIES);  
     Particle_Components pComp1(sub, tf, nMom);
+    Particle_Components pComp2(sub, tf, nMom);
     struct K trueKOnePercentOff; // structure for particle rate constants
-    trueKOnePercentOff.k = trueK.k;        
+    trueKOnePercentOff.k = trueK.k * 1.01;        
     Nonlinear_ODE6 pSys1(trueKOnePercentOff); // instantiate ODE System
-    for(int i = 0; i < N/2; i++){
-        State_N c0 = gen_multi_lognorm_init6();
-        integrate_adaptive(controlled_stepper, pSys1, c0, t0, tf, dt, Particle_Observer(pComp1));
-    } 
-    pComp1.momVec /= (N/2);
-    double pCost1 = calculate_cf1(data6.moments, pComp1.momVec, nMom);
-    pCostLabelledFile << "pCost1 with exact k's:" << pCost1 << endl;
-    cout << endl << endl << "Writing First Particle data!" << endl << endl;
-    write_particle_data(trueKOnePercentOff.k, pInit, pComp1.momVec, data6.moments ,pCost1);
-
-    pComp1.momVec = VectorXd::Zero(nMom);
-    pComp1.sampleMat = MatrixXd(1, N_SPECIES); // start off with 1 row for initial sample size
-    pComp1.timeToRecord = tf;
-    trueKOnePercentOff.k = trueK.k * 1.01; 
     Nonlinear_ODE6 pSys2(trueKOnePercentOff);
     for(int i = 0; i < N/2; i++){
         State_N c0 = gen_multi_lognorm_init6();
-        integrate_adaptive(controlled_stepper, pSys2, c0, t0, tf, dt, Particle_Observer(pComp1));
+        integrate_adaptive(controlled_stepper, pSys1, c0, t0, tf, dt, Particle_Observer(pComp1));
+        integrate_adaptive(controlled_stepper, pSys2, c0, t0, tf, dt, Particle_Observer(pComp2));
     } 
-    pComp1.momVec /= (N/2); // now find cost for 0.1% difference for first part
-    pCostLabelledFile << "pCost1 with exact k * 1.01's:" << calculate_cf1(data6.moments, pComp1.momVec, nMom) << endl;
+    pComp1.momVec /= (N/2);
+    pComp2.momVec/= (N/2);
+    double pCostTrue = calculate_cf1(data6.moments, pComp1.momVec, nMom);
+    pCostLabelledFile << "pCost1 with exact k's:" << pCostTrue << endl;
+    cout << endl << endl << "Writing First Particle data!" << endl << endl;
+    write_particle_data(trueK.k, pInit, pComp1.momVec, data6.moments ,pCostTrue);
+    pCostLabelledFile << "pCost1 with exact k * 1.01's:" << calculate_cf1(data6.moments, pComp2.momVec, nMom) << endl;
 
     /**** parallel computing ****/
     cout << "Parallel Computing Has Started!" << endl << endl;
