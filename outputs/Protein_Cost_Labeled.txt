@@ -1,2 +1,2 @@
-pCost1 with exact k's:483081
-pCost1 with exact k * 1.01's:1.28027e+06
+pCost1 with exact k's:588.677
+pCost1 with exact k * 1.01's:240.639
