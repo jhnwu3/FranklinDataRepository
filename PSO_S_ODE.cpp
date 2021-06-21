@@ -380,7 +380,7 @@ int main() {
 				integrate_adaptive(controlledStepper, nonlinODE6, c0, t0, tf, dt, obs); 
 				Y_t.row(i) = dCom.mat.row(i);
 			}
-
+			cout << "line 383" << endl;
 			if (bsi == 1 && q == 1) {
 				Y_t_obs = Y_t;
 			}
@@ -428,7 +428,7 @@ int main() {
 				y(i) = (yNorm(generator));
 				pa_y(i) = (exp(y(i)));
 			}
-
+			cout << "line 431" << endl;
 			/* matrix math for the z random vals. */
 			MatrixXd r1bind(2, N); // first calculate a 2xN rbind matrix
 			for (int i = 0; i < N; i++) {
@@ -479,7 +479,7 @@ int main() {
 			X_0_cp.col(0) = pa_x;
 			X_0_cp.col(1) = pa_y;
 			X_0_cp.col(2) = pa_z;
-
+			cout << 482 << endl;
 			if (bsi == 1 && q == 1) {// save the simulated CYTOF data time 0
 				X_0_obs = X_0;
 			}
@@ -544,7 +544,7 @@ int main() {
 
 		// MatrixXd HMT(3, 3);
 		// HMT = t * HM.transpose();
-		
+		cout << "547" << endl;
 		/**** EXP() was here! ****/
 		MatrixXd Q(N,3); // Q = X_t
 		Data_Components6 dCom;
@@ -702,7 +702,7 @@ int main() {
 			for (int h = 0; h < Nparts; h++) {
 				for (int init = 0; init < Npars; init++) { trueK.k(init) = PBMAT(h, init); }
 
-
+				cout << "ln 705" << endl;
 				/* EXP() WAS HERE! -------------------------- SOLVE ODES AGAIN FOR X_t!*/
 				Data_Components6 dCom;
 				dCom.sub = sub;
@@ -801,6 +801,7 @@ int main() {
 						// Linear_ODE3 ode3LinSys(trueK);
 						Data_ODE_Observer6 obs(dCom);
 						Nonlinear_ODE6 nonlinODE6(trueK);
+						cout << "line 804" << endl;
 						for(int i = 0; i < N; i++){
 							dCom.index = i;
 							int k = 0;
@@ -957,6 +958,7 @@ int main() {
 							State_N c0 = {};
 							Controlled_RK_Stepper_N controlledStepper;
 							// Linear_ODE3 ode3LinSys(trueK);
+							cout << "ln 961" << endl;
 							Data_ODE_Observer6 obs(dCom);
 							Nonlinear_ODE6 nonlinODE6(trueK);
 							for(int i = 0; i < N; i++){
@@ -1071,6 +1073,7 @@ int main() {
 					//for (int i = 0; i < Npars; i++) { k.at(i) = POSMAT(jjj, i); }
 					trueK.k = POSMAT.row(jjj);
 
+					cout << "1076" << endl;
 					dCom.sub = sub;
 					dCom.mat = MatrixXd::Zero(N, 3);
 					dCom.timeToRecord = tf;
@@ -1188,6 +1191,7 @@ int main() {
 			if (pso < (Biter + 1)) {
 				trueK.k = gbest;  // best estimate of k to compute w.mat
 				/* RECOMPUTE X_t */
+				cout << "ln 1194" << endl;
 				dCom.sub = sub;
 				dCom.mat = MatrixXd::Zero(N, 3);
 				dCom.timeToRecord = tf;
@@ -1263,6 +1267,7 @@ int main() {
 
 				trueK.k = gbest; // recompute the cost for seedk using this w.mat
 
+				cout << "ln 1270" << endl;
 				dCom.sub = sub;
 				dCom.mat = MatrixXd::Zero(N, 3);
 				dCom.timeToRecord = tf;
