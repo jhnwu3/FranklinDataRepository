@@ -569,6 +569,7 @@ int main() {
 				// }
 				c0[j] = X_0_db(i,j);
 			}
+			cout << "ln 572" << endl;
 			integrate_adaptive(controlledStepper, nonlinODE6, c0, t0, tf, dt, obs); 
 			Q.row(i) = dCom.mat.row(i);
 		}
