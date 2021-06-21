@@ -3,7 +3,7 @@
 #SBATCH --job-name=PSO_ODE
 #SBATCH --partition=general
 #SBATCH --nodes=1
-#SBATCH --output=slurm.out
+#SBATCH --output=slurm_PSO_S_ODE.out
 #SBATCH --ntasks-per-node=1
 set -e
 echo "PSO_S_ODE"
