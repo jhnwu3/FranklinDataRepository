@@ -703,7 +703,7 @@ int main() {
 			for (int h = 0; h < Nparts; h++) {
 				for (int init = 0; init < Npars; init++) { trueK.k(init) = PBMAT(h, init); }
 
-				cout << "ln 705" << endl;
+		
 				/* EXP() WAS HERE! -------------------------- SOLVE ODES AGAIN FOR X_t!*/
 				Data_Components6 dCom;
 				dCom.sub = sub;
