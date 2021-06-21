@@ -1,5 +1,5 @@
 #!/bin/bash
-#SBATCH --time=0-01:10:00 
+#SBATCH --time=0-10:10:00 
 #SBATCH --job-name=PSO_ODE
 #SBATCH --partition=general
 #SBATCH --nodes=1
