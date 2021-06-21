@@ -36,7 +36,7 @@ PSO_S.o: PSO_S.cpp
 # PSO_S_ODE but instead of mat exponentation, do nonlinear ODEs!
 PSO_S_ODE: PSO_S_ODE.o
 	g++ PSO_S_ODE.o -o PSO_S_ODE
-PSO_S_ODE.o:
+PSO_S_ODE.o: PSO_S_ODE.cpp
 	g++ -c PSO_S_ODE.cpp
 	
 # this target deletes all files produced from the Makefile
