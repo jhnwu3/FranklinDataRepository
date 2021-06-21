@@ -311,7 +311,7 @@ int main() {
 				z(i) = (zNorm(generator));
 				pa_z(i) = (exp(z(i)));
 			}
-
+			cout << "line 314" << endl;
 			/* Create Y.0 */
 			MatrixXd Y_0(N, 3);
 			MatrixXd Y_0_cp(N, 3);
@@ -360,6 +360,7 @@ int main() {
 			dCom.sub = sub;
 			dCom.mat = MatrixXd::Zero(N, 3);
 			dCom.timeToRecord = tf;
+			cout << "line 363" << endl;
 			State_N c0 = {};
 			Controlled_RK_Stepper_N controlledStepper;
 			// Linear_ODE3 ode3LinSys(trueK);
