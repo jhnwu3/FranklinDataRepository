@@ -241,6 +241,8 @@ int main() {
 	double pmp_1, pmp_2, pmp_3, pvp_1 = 0, pvp_2 = 0, pvp_3 = 0, pcov_12, pcov_13, pcov_23;
 	double cost_seedk, cost_gbest, cost_sofar;
 	MatrixXd X_0(N, 3);
+	MatrixXd X_0_cp(N,3);
+	MatrixXd X_0_db(N,6);
 	MatrixXd X_0_obs(N, 3);
 	MatrixXd Y_t_obs(N, 3);
 	MatrixXd Y_t(N, 3);
@@ -312,6 +314,8 @@ int main() {
 
 			/* Create Y.0 */
 			MatrixXd Y_0(N, 3);
+			MatrixXd Y_0_cp(N, 3);
+			MatrixXd Y_0_db(N,6);
 			/*for (int i = 0; i < N; i++) {
 				// fill it up from vectors
 				Y_0(i, 0) = pa_x(i);
@@ -321,7 +325,35 @@ int main() {
 			Y_0.col(0) = pa_x;
 			Y_0.col(1) = pa_y;
 			Y_0.col(2) = pa_z;
+			for (int i = 0; i < N; i++) {
+				x(i) = (xNorm(generator));
+				pa_x(i) = (exp(x(i)));
+			}
+			for (int i = 0; i < x.size(); i++) {
+				std::normal_distribution<double> yNorm(mu_y + sigma_y * rho_xy * (x(i) - mu_x) / sigma_x, sqrt(cvar_ygx));
+				y(i) = (yNorm(generator));
+				pa_y(i) = (exp(y(i))); // convert to lognormal distribution!
+			}
 			
+			/* matrix math for the z random vals. */
+			for (int i = 0; i < x.size(); i++) {
+				rbind(0, i) = x(i) - mu_x;
+				rbind(1, i) = y(i) - mu_y;
+			}
+			zMean = sigma_12 * sigma_22.inverse() * rbind;
+			for (int i = 0; i < zMean.size(); i++) {
+				zMean(0, i) = zMean(0, i) + mu_z;
+			}
+			// finally actually calculate z and pa_z vectors
+			for (int i = 0; i < N; i++) {
+				std::normal_distribution<double> zNorm(zMean(0,i), sqrt(cvar_zgxy));
+				z(i) = (zNorm(generator));
+				pa_z(i) = (exp(z(i)));
+			}
+			Y_0_cp.col(0) = pa_x;
+			Y_0_cp.col(1) = pa_y;
+			Y_0_cp.col(2) = pa_z;
+			Y_0_db << Y_0, Y_0_cp;
 			/* COMPUTE ODES! */ // Y_t = (EMT * Y_0.transpose()).transpose(); - Convert to Y_t
 			Data_Components6 dCom;
 			Data_ODE_Observer6 obs(dCom);
@@ -336,12 +368,13 @@ int main() {
 				dCom.index = i;
 				int k = 0;
 				for(int j = 0; j < N_SPECIES; j++){ 
-					if(j == sub(j)){
-						c0[j] = Y_0(i, k);
-						k++; 
-					}else{
-						c0[j] = 0;
-					}
+					// if(j == sub(j)){
+					// 	c0[j] = Y_0(i, k);
+					// 	k++; 
+					// }else{
+					// 	c0[j] = 0;
+					// }
+					c0[j] = Y_0_db(i,j);
 				}
 				integrate_adaptive(controlledStepper, nonlinODE6, c0, t0, tf, dt, obs); 
 				Y_t.row(i) = dCom.mat.row(i);
@@ -415,11 +448,41 @@ int main() {
 			X_0.col(0) = pa_x;
 			X_0.col(1) = pa_y;
 			X_0.col(2) = pa_z;
-			
+
+			// SIMULATE X(0) ~ F(theta)
+			for (int i = 0; i < N; i++) {
+				x(i) = (xNorm(generator));
+				pa_x(i) = (exp(x(i)));
+			}
+
+			for (int i = 0; i < N; i++) {
+				std::normal_distribution<double> yNorm(mu_y + sigma_y * rho_xy * (x(i) - mu_x) / sigma_x, sqrt(cvar_ygx));
+				y(i) = (yNorm(generator));
+				pa_y(i) = (exp(y(i)));
+			}
+			/* matrix math for the z random vals. */
+			for (int i = 0; i < N; i++) {
+				r1bind(0, i) = x(i) - mu_x;
+				r1bind(1, i) = y(i) - mu_y;
+			}
+			z1Mean = sigma_12 * sigma_22.inverse() * r1bind;
+			for (int i = 0; i < z1Mean.size(); i++) {
+				z1Mean(0, i) = z1Mean(0, i) + mu_z;
+			}
+			// finally actually calculate z and pa_z vectors
+			for (int i = 0; i < N; i++) {
+				std::normal_distribution<double> zNorm(z1Mean(0, i), sqrt(cvar_zgxy));
+				z(i) = (zNorm(generator));
+				pa_z(i) = (exp(z(i)));
+			}
+			X_0_cp.col(0) = pa_x;
+			X_0_cp.col(1) = pa_y;
+			X_0_cp.col(2) = pa_z;
+
 			if (bsi == 1 && q == 1) {// save the simulated CYTOF data time 0
 				X_0_obs = X_0;
 			}
-
+			X_0_db << X_0, X_0_cp; // create the N x 6 matrix for init cond
 		}
 		
 		if (bsi == 1 && q > 1) {
@@ -496,12 +559,13 @@ int main() {
 			dCom.index = i;
 			int k = 0;
 			for(int j = 0; j < N_SPECIES; j++){ 
-				if(j == sub(j)){
-					c0[j] = X_0(i, k);
-					k++; 
-				}else{
-					c0[j] = 0;
-				}
+				// if(j == sub(j)){
+				// 	c0[j] = X_0(i, k);
+				// 	k++; 
+				// }else{
+				// 	c0[j] = 0;
+				// }
+				c0[j] = X_0_db(i,j);
 			}
 			integrate_adaptive(controlledStepper, nonlinODE6, c0, t0, tf, dt, obs); 
 			Q.row(i) = dCom.mat.row(i);
@@ -652,12 +716,13 @@ int main() {
 					dCom.index = i;
 					int k = 0;
 					for(int j = 0; j < N_SPECIES; j++){ 
-						if(j == sub(j)){
-							c0[j] = X_0(i, k);
-							k++; 
-						}else{
-							c0[j] = 0;
-						}
+						// if(j == sub(j)){
+						// 	c0[j] = X_0(i, k);
+						// 	k++; 
+						// }else{
+						// 	c0[j] = 0;
+						// }
+						c0[j] = X_0_db(i,j);
 					}
 					integrate_adaptive(controlledStepper, nonlinODE6, c0, t0, tf, dt, obs); 
 					Q.row(i) = dCom.mat.row(i);
@@ -739,12 +804,13 @@ int main() {
 							dCom.index = i;
 							int k = 0;
 							for(int j = 0; j < N_SPECIES; j++){ 
-								if(j == sub(j)){
-									c0[j] = X_0(i, k);
-									k++; 
-								}else{
-									c0[j] = 0;
-								}
+								// if(j == sub(j)){
+								// 	c0[j] = X_0(i, k);
+								// 	k++; 
+								// }else{
+								// 	c0[j] = 0;
+								// }
+								c0[j] = X_0_db(i,j);
 							}
 							integrate_adaptive(controlledStepper, nonlinODE6, c0, t0, tf, dt, obs); 
 							Q.row(i) = dCom.mat.row(i);
@@ -896,12 +962,13 @@ int main() {
 								dCom.index = i;
 								int k = 0;
 								for(int j = 0; j < N_SPECIES; j++){ 
-									if(j == sub(j)){
-										c0[j] = X_0(i, k);
-										k++; 
-									}else{
-										c0[j] = 0;
-									}
+									// if(j == sub(j)){
+									// 	c0[j] = X_0(i, k);
+									// 	k++; 
+									// }else{
+									// 	c0[j] = 0;
+									// }
+									c0[j] = X_0_db(i,j);
 								}
 								integrate_adaptive(controlledStepper, nonlinODE6, c0, t0, tf, dt, obs); 
 								Q.row(i) = dCom.mat.row(i);
@@ -1003,15 +1070,26 @@ int main() {
 					//for (int i = 0; i < Npars; i++) { k.at(i) = POSMAT(jjj, i); }
 					trueK.k = POSMAT.row(jjj);
 
+					dCom.sub = sub;
 					dCom.mat = MatrixXd::Zero(N, 3);
 					dCom.timeToRecord = tf;
-					Linear_ODE3 ode3LinSys(trueK);
-					/********************************************************/
-					// RECALCULATE Q aka X_T
+					State_N c0 = {};
+					// Linear_ODE3 ode3LinSys(trueK);
+					Data_ODE_Observer6 obs(dCom);
+					Nonlinear_ODE6 nonlinODE6(trueK);
 					for(int i = 0; i < N; i++){
 						dCom.index = i;
-						for(int j = 0; j < 3; j++){ c0[j] = X_0(i, j); }
-						integrate_adaptive(controlledStepper, ode3LinSys, c0, t0, tf, dt, obs); 
+						int k = 0;
+						for(int j = 0; j < N_SPECIES; j++){ 
+							// if(j == sub(j)){
+							// 	c0[j] = X_0(i, k);
+							// 	k++; 
+							// }else{
+							// 	c0[j] = 0;
+							// }
+							c0[j] = X_0_db(i,j);
+						}
+						integrate_adaptive(controlledStepper, nonlinODE6, c0, t0, tf, dt, obs); 
 						Q.row(i) = dCom.mat.row(i);
 					}
 
@@ -1118,12 +1196,13 @@ int main() {
 					dCom.index = i;
 					int k = 0;
 					for(int j = 0; j < N_SPECIES; j++){ 
-						if(j == sub(j)){
-							c0[j] = X_0(i, k);
-							k++; 
-						}else{
-							c0[j] = 0;
-						}
+						// if(j == sub(j)){
+						// 	c0[j] = X_0(i, k);
+						// 	k++; 
+						// }else{
+						// 	c0[j] = 0;
+						// }
+						c0[j] = X_0_db(i,j);
 					}
 					integrate_adaptive(controlledStepper, nonlinODE6, c0, t0, tf, dt, obs); 
 					Q.row(i) = dCom.mat.row(i);
@@ -1192,12 +1271,13 @@ int main() {
 					dCom.index = i;
 					int k = 0;
 					for(int j = 0; j < N_SPECIES; j++){ 
-						if(j == sub(j)){
-							c0[j] = X_0(i, k);
-							k++; 
-						}else{
-							c0[j] = 0;
-						}
+						// if(j == sub(j)){
+						// 	c0[j] = X_0(i, k);
+						// 	k++; 
+						// }else{
+						// 	c0[j] = 0;
+						// }
+						c0[j] = X_0_db(i,j);
 					}
 					integrate_adaptive(controlledStepper, nonlinODE6Cp, c0, t0, tf, dt, obs); 
 					Q.row(i) = dCom.mat.row(i);
