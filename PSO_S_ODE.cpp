@@ -169,7 +169,7 @@ int main() {
 	int Nparts_1 = 5000;
 	int Nsteps_1 = 5;
 
-	int Nparts_2 = 6;
+	int Nparts_2 = 5;
 	int Nsteps_2 = 5000;
 
 	// note for coder: wmatup is a list 
@@ -632,7 +632,7 @@ int main() {
 	
 		double nearby = sdbeta;
 		MatrixXd POSMAT(Nparts, Npars);
-		
+		cout << "ln 635" << endl;
 		for (int pso = 1; pso <= Biter + 1 ; pso++) {
 			cout << "PSO:" << pso << endl;
 
@@ -649,7 +649,7 @@ int main() {
 			if (pso == Biter + 1) {
 				Nparts = Nparts_2;
 				Nsteps = Nsteps_2;
-
+				cout << "ln 652" << endl;
 				GBMAT.conservativeResize(GBMAT.rows() + 1, Nparts + 1);
 				cbind << best_sofar, cost_sofar;
 				GBMAT.row(GBMAT.rows() - 1) = cbind;
@@ -692,7 +692,7 @@ int main() {
 				}
 				
 			} 
-			
+			cout << "ln 695" << endl;
 			// initialize PBMAT 
 			MatrixXd PBMAT = POSMAT; // keep track of ea.particle's best, and it's corresponding cost
 			
