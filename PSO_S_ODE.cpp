@@ -625,11 +625,12 @@ int main() {
 		cost_sofar = cost_seedk;
 		cout << "ln 626" << endl;
 		GBMAT.conservativeResize(1, Nparts + 1);
+		cout << "ln 628" << endl;
 		// will probably find a better method later, but will for now just create temp vec to assign values.
 		VectorXd cbind(gbest.size() + 1);
 		cbind << gbest, cost_gbest;
 		GBMAT.row(GBMAT.rows() - 1) = cbind;
-	
+		cout << "ln 633" << endl;
 		double nearby = sdbeta;
 		MatrixXd POSMAT(Nparts, Npars);
 		cout << "ln 635" << endl;
