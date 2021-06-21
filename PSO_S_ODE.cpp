@@ -623,7 +623,7 @@ int main() {
 		best_sofar = seedk;
 		cost_gbest = cost_seedk;
 		cost_sofar = cost_seedk;
-
+		cout << "ln 626" << endl;
 		GBMAT.conservativeResize(1, 6);
 		
 		// will probably find a better method later, but will for now just create temp vec to assign values.
