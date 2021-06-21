@@ -100,8 +100,9 @@ int main(int argc, char **argv)
     Nonlinear_ODE6 pSys2(trueKOnePercentOff);
     for(int i = 0; i < N/2; i++){
         State_N c0 = gen_multi_lognorm_init6();
+        State_N c0Cp = c0;
         integrate_adaptive(controlled_stepper, pSys1, c0, t0, tf, dt, Particle_Observer(pComp1));
-        integrate_adaptive(controlled_stepper, pSys2, c0, t0, tf, dt, Particle_Observer(pComp2));
+        integrate_adaptive(controlled_stepper, pSys2, c0Cp, t0, tf, dt, Particle_Observer(pComp2));
     } 
     pComp1.momVec /= (N/2);
     pComp2.momVec/= (N/2);
