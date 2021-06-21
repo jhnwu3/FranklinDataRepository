@@ -169,7 +169,7 @@ int main() {
 	int Nparts_1 = 5000;
 	int Nsteps_1 = 5;
 
-	int Nparts_2 = 5;
+	int Nparts_2 = 6;
 	int Nsteps_2 = 5000;
 
 	// note for coder: wmatup is a list 
@@ -626,7 +626,6 @@ int main() {
 		cout << "ln 626" << endl;
 		GBMAT.conservativeResize(1, 6);
 		// will probably find a better method later, but will for now just create temp vec to assign values.
-		cout << "breaks here" << endl;
 		VectorXd cbind(gbest.size() + 1);
 		cbind << gbest, cost_gbest;
 		GBMAT.row(GBMAT.rows() - 1) = cbind;
