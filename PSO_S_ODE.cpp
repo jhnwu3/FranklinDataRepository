@@ -624,7 +624,7 @@ int main() {
 		cost_gbest = cost_seedk;
 		cost_sofar = cost_seedk;
 		cout << "ln 626" << endl;
-		GBMAT.conservativeResize(1, 6);
+		GBMAT.conservativeResize(1, Nparts + 1);
 		// will probably find a better method later, but will for now just create temp vec to assign values.
 		VectorXd cbind(gbest.size() + 1);
 		cbind << gbest, cost_gbest;
@@ -650,7 +650,7 @@ int main() {
 				Nparts = Nparts_2;
 				Nsteps = Nsteps_2;
 
-				GBMAT.conservativeResize(GBMAT.rows() + 1, 6);
+				GBMAT.conservativeResize(GBMAT.rows() + 1, Nparts + 1);
 				cbind << best_sofar, cost_sofar;
 				GBMAT.row(GBMAT.rows() - 1) = cbind;
 
