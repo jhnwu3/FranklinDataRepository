@@ -479,7 +479,7 @@ int main() {
 			X_0_cp.col(0) = pa_x;
 			X_0_cp.col(1) = pa_y;
 			X_0_cp.col(2) = pa_z;
-			cout << 482 << endl;
+			cout << "ln 482" << endl;
 			if (bsi == 1 && q == 1) {// save the simulated CYTOF data time 0
 				X_0_obs = X_0;
 			}
@@ -544,7 +544,7 @@ int main() {
 
 		// MatrixXd HMT(3, 3);
 		// HMT = t * HM.transpose();
-		cout << "547" << endl;
+		cout << "ln 547" << endl;
 		/**** EXP() was here! ****/
 		MatrixXd Q(N,3); // Q = X_t
 		Data_Components6 dCom;
@@ -556,6 +556,7 @@ int main() {
 		Controlled_RK_Stepper_N controlledStepper;
 		// Linear_ODE3 ode3LinSys(trueK);
 		Nonlinear_ODE6 nonlinODE6(trueK);
+		cout << "ln 559" << endl;
 		for(int i = 0; i < N; i++){
 			dCom.index = i;
 			int k = 0;
