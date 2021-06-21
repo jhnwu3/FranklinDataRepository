@@ -624,7 +624,7 @@ int main() {
 		cost_gbest = cost_seedk;
 		cost_sofar = cost_seedk;
 		cout << "ln 626" << endl;
-		GBMAT.conservativeResize(1, Nparts + 1);
+		GBMAT.conservativeResize(1, Npars + 1);
 		cout << "ln 628" << endl;
 		// will probably find a better method later, but will for now just create temp vec to assign values.
 		VectorXd cbind(gbest.size() + 1);
