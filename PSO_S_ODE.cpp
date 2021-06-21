@@ -573,7 +573,7 @@ int main() {
 			integrate_adaptive(controlledStepper, nonlinODE6, c0, t0, tf, dt, obs); 
 			Q.row(i) = dCom.mat.row(i);
 		}
-
+		cout << "ln 576" << endl;
 		//re-calc new omp, ovp, and ocovs, which should be the same???
 	    pmpV = Q.colwise().mean();
 
