@@ -96,7 +96,7 @@ int main(int argc, char **argv)
     Particle_Components pComp2(sub, tf, nMom);
     struct K trueKOnePercentOff; // structure for particle rate constants
     trueKOnePercentOff.k = trueK.k * 1.01;        
-    Nonlinear_ODE6 pSys1(trueKOnePercentOff); // instantiate ODE System
+    Nonlinear_ODE6 pSys1(trueK); // instantiate ODE System
     Nonlinear_ODE6 pSys2(trueKOnePercentOff);
     for(int i = 0; i < N/2; i++){
         State_N c0 = gen_multi_lognorm_init6();

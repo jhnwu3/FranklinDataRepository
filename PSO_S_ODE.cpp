@@ -857,7 +857,6 @@ int main() {
 								if (gbest(edim) > 0.5) {
 									tmean = 1 - gbest(edim);
 									wasflipped = 1;
-									
 								}
 								double myc = (1 - tmean) / tmean;
 								double alpha = myc / ((1 + myc) * (1 + myc) * (1 + myc) * nearby * nearby);
