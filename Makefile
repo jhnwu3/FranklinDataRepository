@@ -3,7 +3,7 @@
 CXX = g++
 
 # target all means all targets currently defined in this file 
-all: PSO para PSO_S PSO_S_ODE
+all: PSO para PSO_S PSO_S_ODE_NL PSO_S_ODE_L
 
 # target dependencies for main PSO program - also equally messy code inside!
 PSO: main.o fileIO.o ODE.o var.o calc.o
@@ -38,7 +38,7 @@ PSO_S_ODE_NL: PSO_S_ODE_NL.o
 	g++ PSO_S_ODE_NL.o -o PSO_S_ODE_NL
 PSO_S_ODE_NL.o: PSO_S_ODE_Nonlinear.cpp
 	g++ -c PSO_S_ODE_Nonlinear.cpp
-	
+
 # PSO_S_ODE but instead of mat exponentation, do nonlinear ODEs!
 PSO_S_ODE_L: PSO_S_ODE_L.o
 	g++ PSO_S_ODE_L.o -o PSO_S_ODE_L
