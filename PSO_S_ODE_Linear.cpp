@@ -323,9 +323,8 @@ int main() {
 			Y_0.col(2) = pa_z;
 
 			/* COMPUTE ODES! */ // Y_t = (EMT * Y_0.transpose()).transpose(); - Convert to Y_t
-			Data_Components6 dCom;
-			Data_ODE_Observer6 obs(dCom);
-			dCom.sub = sub;
+			Data_Components dCom;
+			Data_ODE_Observer obs(dCom);
 			dCom.mat = MatrixXd::Zero(N, 3);
 			dCom.timeToRecord = tf;
 			cout << "line 363" << endl;
@@ -337,12 +336,6 @@ int main() {
 				dCom.index = i;
 				int k = 0;
 				for(int j = 0; j < N_SPECIES; j++){ 
-					// if(j == sub(j)){
-					// 	c0[j] = Y_0(i, k);
-					// 	k++; 
-					// }else{
-					// 	c0[j] = 0;
-					// }
 					c0[j] = Y_0(i,j);
 				}
 				integrate_adaptive(controlledStepper, ode3LinSys, c0, t0, tf, dt, obs); 
