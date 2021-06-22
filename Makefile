@@ -35,13 +35,13 @@ PSO_S.o: PSO_S.cpp
 
 # PSO_S_ODE but instead of mat exponentation, do nonlinear ODEs!
 PSO_S_ODE_NL: PSO_S_ODE_NL.o
-	g++ PSO_S_ODE_NL.o -o PSO_S_ODE_NL
+	g++ PSO_S_ODE_Nonlinear.o -o PSO_S_ODE_NL
 PSO_S_ODE_NL.o: PSO_S_ODE_Nonlinear.cpp
 	g++ -c PSO_S_ODE_Nonlinear.cpp
 
 # PSO_S_ODE but instead of mat exponentation, do nonlinear ODEs!
 PSO_S_ODE_L: PSO_S_ODE_L.o
-	g++ PSO_S_ODE_L.o -o PSO_S_ODE_L
+	g++ PSO_S_ODE_Linear.o -o PSO_S_ODE_L
 PSO_S_ODE_L.o: PSO_S_ODE_Linear.cpp
 	g++ -c PSO_S_ODE_Linear.cpp
 	
