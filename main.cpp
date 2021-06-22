@@ -145,7 +145,7 @@ int main(int argc, char **argv)
         Nonlinear_ODE6 randSys(pKRand);
         for(int i = 0; i < N_DIM; i++){
             pKRand.k(i) = pUnifDist(pGenerator);
-        }
+        }  
         for(int i = 0; i < N/2; i++){
             State_N c0 = gen_multi_lognorm_init6();
             integrate_adaptive(controlled_stepper, randSys, c0, t0, tf, dt, Particle_Observer(pCompRand));

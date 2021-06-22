@@ -26,7 +26,7 @@ para.o: para.cpp
 	g++ -c para.cpp -o para.o -fopenmp
 
 # this target is for the executable of Dr. Stewarts PSO alg converted to C++ 
-# warning! Very messy code inside!
+# mat exponentiation
 PSO_S: PSO_S.o 
 	g++ PSO_S.o -o PSO_S
 # this target is the dependency for PSO.o
@@ -34,10 +34,15 @@ PSO_S.o: PSO_S.cpp
 	g++ -c PSO_S.cpp
 
 # PSO_S_ODE but instead of mat exponentation, do nonlinear ODEs!
-PSO_S_ODE: PSO_S_ODE.o
-	g++ PSO_S_ODE.o -o PSO_S_ODE
-PSO_S_ODE.o: PSO_S_ODE.cpp
-	g++ -c PSO_S_ODE.cpp
+PSO_S_ODE_NL: PSO_S_ODE_NL.o
+	g++ PSO_S_ODE_NL.o -o PSO_S_ODE_NL
+PSO_S_ODE_NL.o: PSO_S_ODE_Nonlinear.cpp
+	g++ -c PSO_S_ODE_Nonlinear.cpp
+# PSO_S_ODE but instead of mat exponentation, do nonlinear ODEs!
+PSO_S_ODE_L: PSO_S_ODE_L.o
+	g++ PSO_S_ODE_L.o -o PSO_S_ODE_L
+PSO_S_ODE_L.o: PSO_S_ODE_Linear.cpp
+	g++ -c PSO_S_ODE_Linear.cpp
 	
 # this target deletes all files produced from the Makefile
 # so that a completely new compile of all items is required
