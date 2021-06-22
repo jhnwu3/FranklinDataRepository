@@ -977,8 +977,10 @@ int main() {
 					/* set k equal to next position of particle */
 					//for (int i = 0; i < Npars; i++) { k.at(i) = POSMAT(jjj, i); }
 					trueK.k = POSMAT.row(jjj);
+					if(jjj % 1000 == 0){
+						cout << "jjj:" << jjj << endl; 
+					}
 
-					cout << "1076" << endl;
 					dCom.mat = MatrixXd::Zero(N, 3);
 					dCom.timeToRecord = tf;
 					State_N c0 = {};
