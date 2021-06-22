@@ -627,6 +627,8 @@ int main() {
 				for (int init = 0; init < Npars; init++) { trueK.k(init) = PBMAT(h, init); }
 				if(Nparts % 500 == 0){
 					cout << "ln 705" << endl;
+					cout << "h:" << h << endl;
+					cout << "Nparts:" << Nparts << endl;
 				}
 				/* EXP() WAS HERE! -------------------------- SOLVE ODES AGAIN FOR X_t!*/
 				Data_Components dCom;
@@ -689,7 +691,7 @@ int main() {
 
 				PBMAT(h, Npars) = term_vec.transpose() * w_mat * (term_vec.transpose()).transpose();
 			}
-
+			cout << "ln 692" << endl;
 ///////////////////////////////////////////////////////////   PSO PART 2 of Particle Module    ////////////////////////////////////////////////////////////////////////////////////////////////////			
 			// ALL SWARMS BEGIN TO MOVE HERE 
 			double sfi = sfe;
