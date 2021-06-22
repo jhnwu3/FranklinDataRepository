@@ -14,7 +14,7 @@
 #include <chrono>
 
 #define N_SPECIES 3
-#define N 10000 // # of samples to sample over
+#define N 1000 // # of samples to sample over
 #define N_DIM 5 // dim of PSO hypercube
 #define N_PARTICLES 20 
 
