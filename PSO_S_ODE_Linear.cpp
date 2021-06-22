@@ -13,9 +13,9 @@
 #include <cmath>
 #include <chrono>
 
-#define N_SPECIES 6
+#define N_SPECIES 3
 #define N 10000 // # of samples to sample over
-#define N_DIM 6 // dim of PSO hypercube
+#define N_DIM 5 // dim of PSO hypercube
 #define N_PARTICLES 20 
 
 
@@ -329,7 +329,7 @@ int main() {
 			dCom.mat = MatrixXd::Zero(N, 3);
 			dCom.timeToRecord = tf;
 			cout << "line 363" << endl;
-			State_N c0 = {};
+			State_N c0;
 			Controlled_RK_Stepper_N controlledStepper;
 			Linear_ODE3 ode3LinSys(trueK);
 			//Nonlinear_ODE6 nonlinODE6(trueK);

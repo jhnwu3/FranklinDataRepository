@@ -32,7 +32,7 @@ PSO_S: PSO_S.o
 # this target is the dependency for PSO.o
 PSO_S.o: PSO_S.cpp
 	g++ -c PSO_S.cpp
-
+	
 # PSO_S_ODE but instead of mat exponentation, do nonlinear ODEs!
 PSO_S_ODE_NL: PSO_S_ODE_NL.o
 	g++ PSO_S_ODE_Nonlinear.o -o PSO_S_ODE_NL
