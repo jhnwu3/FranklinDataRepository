@@ -1074,7 +1074,9 @@ int main() {
 					//for (int i = 0; i < Npars; i++) { k.at(i) = POSMAT(jjj, i); }
 					trueK.k = POSMAT.row(jjj);
 
-					cout << "1076" << endl;
+					if(jjj % 1000 == 0){
+						cout << "jjj:" << jjj << endl; 
+					}
 					dCom.sub = sub;
 					dCom.mat = MatrixXd::Zero(N, 3);
 					dCom.timeToRecord = tf;
