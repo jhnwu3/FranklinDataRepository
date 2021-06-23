@@ -36,6 +36,7 @@ struct Data_Components_IO{
     VectorXd subset;
     VectorXd moments;
     MatrixXd secondMoments;
+    double tf;
     ofstream out;
 };
 struct Data_ODE_Observer_IO 
@@ -50,7 +51,7 @@ struct Data_ODE_Observer_IO
         }
         dComp.out << endl;
 
-        if(t == tf){
+        if(t == dComp.tf){
             for(int row = 0; row < dComp.subset.size(); row++){ // first moments of specified subset
                 int i = dComp.subset(row) - 1; // i.e subset = {1,2,3} = index = {0,1,2}
                 if(i >= 0){ dComp.moments(i) +=  c[i]; }
