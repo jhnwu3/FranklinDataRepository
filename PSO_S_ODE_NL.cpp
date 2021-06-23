@@ -945,7 +945,7 @@ int main() {
 								POSMAT(init, edim) = myg;
 							}
 						}
-						
+						cout << " ln 948 " << endl;
 						MatrixXd cbindMat(POSMAT.rows(), POSMAT.cols() + 1); // keep track of each particle's best and it's corresponding cost
 						cbindMat << POSMAT, VectorXd::Zero(POSMAT.rows());
 
@@ -1065,10 +1065,8 @@ int main() {
 						rpoint(px) = (x/(x+y)) / sf2;
 					}
 					
-					VectorXd PBMATV(5);
-					PBMATV << PBMAT(jjj, 0), PBMAT(jjj, 1), PBMAT(jjj, 2), PBMAT(jjj, 3), PBMAT(jjj, 4);
-					POSMAT.row(jjj) = w1 * rpoint + w2 * PBMATV + w3 * gbest;
-
+					
+					POSMAT.row(jjj) = w1 * rpoint + w2 * PBMAT.row(jjj) + w3 * gbest;
 
 					/* set k equal to next position of particle */
 					//for (int i = 0; i < Npars; i++) { k.at(i) = POSMAT(jjj, i); }
