@@ -86,6 +86,9 @@ MatrixXd generate_sample_space(int nProt, int n){
     random_device ranDev;
     mt19937 generator(ranDev());
     MatrixXd sampleSpace(n, nProt);
+    double mu_x = 1.47, mu_y = 1.74, mu_z = 1.99; // true means for MVN(theta)
+	double var_x = 0.77, var_y = 0.99, var_z = 1.11; // true variances for MVN(theta);
+	double sigma_x = sqrt(var_x), sigma_y = sqrt(var_y), sigma_z = sqrt(var_z);
     normal_distribution<double> xNorm(mu_x, sigma_x);
     normal_distribution<double> yNorm(mu_y, sigma_y);
     normal_distribution<double> zNorm(mu_z, sigma_z);

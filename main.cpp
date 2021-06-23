@@ -20,7 +20,6 @@ int main(int argc, char **argv)
     auto t1 = std::chrono::high_resolution_clock::now(); // start time
     int sizeSubset = 3;
     int nMom = (N_SPECIES * (N_SPECIES + 3)) / 2; // number of moments
-    
     /* RNG */
     random_device ranDev;
     mt19937 generator(ranDev());
@@ -30,14 +29,36 @@ int main(int argc, char **argv)
     ofstream covCorMatTf, covCorMat1, covCorMat5; 
     open_files(covCorMatTf, covCorMat1, covCorMat5); 
 
-    /* calculation variables*/
-    MatrixXd cov(N_SPECIES, N_SPECIES); // covar matrix   
-    MatrixXd w = MatrixXd::Identity(nMom, nMom); // wt. matrix
-    VectorXd sub = VectorXd::Zero(N_DIM); sub << 1,2,0,0,5,0;
-    /* ODE solver variables */
+    /* ODE Vars */
+    const double t0 = 0.0, tf = 3.0, dt = 1.0, tn = 3.0; // times 
+    VectorXd sub = VectorXd::Zero(N_DIM); sub << 1,2,0,0,5,6; // subset of proteins to solve for.
     Controlled_RK_Stepper_N controlled_stepper;
 
-    cout << "beginning to do nonlinear6 for given parameters!" << endl;
+    /* PSO Vars */
+    MatrixXd cov(N_SPECIES, N_SPECIES); // covar matrix   
+    MatrixXd w = MatrixXd::Identity(nMom, nMom); // wt. matrix
+
+    /* Note: We don't actually need Y_0, elements of Y_0 is generated repeatedly using lognorm dist  */
+
+    /* Solve ODEs for Y_t or mu "true" moment vectors using exact rate constants */
+    cout << "Computing Y_t" << endl;
+    struct K exactK; 
+    exactK.k << 5.0, 0.10, 1.00, 8.69, 0.05, 0.70; // true k vector
+    Nonlinear_ODE6 ode6Sys(exactK); // system to solve to evolve to Y_t
+    Data_Components Y_t(sub, tf, nMom); // System for Y_t = mu
+    Data_ODE_Observer YtObs6(Y_t);
+    for(int i = 0; i < N; i++){
+        State_N c0 = gen_multi_lognorm_init6();
+        integrate_adaptive(controlled_stepper, ode6Sys, c0, t0, tf, dt, YtObs6);
+    }
+    Y_t.secondMoments/=N; //average moments
+    Y_t.moments /= N;
+    VectorXd mu = gen_sub_mom_vec(Y_t.moments);
+    cout << "Y_t moment vector" << mu.transpose() << endl << endl;
+
+
+    /* */
+
     /* For Checking Purposes - Graph Vav, p-Vav .., SHP1 */
     struct K trueK; 
     trueK.k << 5.0, 0.10, 1.00, 8.69, 0.05, 0.70; // GRAPH
