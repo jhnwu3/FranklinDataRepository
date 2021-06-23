@@ -38,9 +38,8 @@ int main(int argc, char **argv)
     int subMom = (subSize * (subSize + 3)) / 2;
     MatrixXd cov(subMom, subMom); // covar matrix   
     MatrixXd wt = MatrixXd::Identity(subMom, subMom); // wt. matrix
-    VectorXd globalBestVector = VectorXd::Zero(subMom);
-
-    double globalCost = 10000000; // some outrageous starting value
+    VectorXd gBestVec = VectorXd::Zero(subMom);
+    double gCost = 10000000; // some outrageous starting value
 
     /* Note: We don't actually need Y_0, elements of Y_0 is generated repeatedly using lognorm dist  */
 
@@ -65,6 +64,7 @@ int main(int argc, char **argv)
     cout << "Parallel Computing Has Started!" << endl << endl;
 #pragma omp parallel for
     for(particle = 0; particle < N_PARTICLES; particle++){
+        int nSteps = 30;
         struct K pK;
         /* rng */
         random_device pRanDev;
@@ -72,6 +72,7 @@ int main(int argc, char **argv)
         uniform_real_distribution<double> pUnifDist(0.0, 1.0);
         /* ODE */
         for(int i = 0; i < pK.k.size(); i++){ pK.k(i) = pUnifDist(generator); } 
+        
         Nonlinear_ODE6 pOdeSys(pK);
         Controlled_RK_Stepper_N pControlledStepper;
         Data_Components X_t(sub, tf, nMom); // System for Y_t = mu

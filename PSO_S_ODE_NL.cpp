@@ -650,7 +650,7 @@ int main() {
 				Nparts = Nparts_2;
 				Nsteps = Nsteps_2;
 				cout << "ln 652" << endl;
-				GBMAT.conservativeResize(GBMAT.rows() + 1, Nparts + 1);
+				GBMAT.conservativeResize(GBMAT.rows() + 1, Npars + 1);
 				cbind << best_sofar, cost_sofar;
 				GBMAT.row(GBMAT.rows() - 1) = cbind;
 
