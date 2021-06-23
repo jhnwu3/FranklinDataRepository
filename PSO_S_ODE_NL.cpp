@@ -1065,7 +1065,7 @@ int main() {
 						rpoint(px) = (x/(x+y)) / sf2;
 					}
 					
-					
+					cout << "1068" << endl;
 					POSMAT.row(jjj) = w1 * rpoint + w2 * PBMAT.row(jjj) + w3 * gbest;
 
 					/* set k equal to next position of particle */
