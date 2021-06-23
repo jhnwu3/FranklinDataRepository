@@ -1066,7 +1066,9 @@ int main() {
 					}
 					
 					cout << "1068" << endl;
-					POSMAT.row(jjj) = w1 * rpoint + w2 * PBMAT.row(jjj) + w3 * gbest;
+					VectorXd PBMATV(Npars);
+					for(int i = 0; i < Npars; i++){PBMATV(i) = PBMAT(jjj, i);}
+					POSMAT.row(jjj) = w1 * rpoint + w2 * PBMATV + w3 * gbest;
 
 					/* set k equal to next position of particle */
 					//for (int i = 0; i < Npars; i++) { k.at(i) = POSMAT(jjj, i); }
