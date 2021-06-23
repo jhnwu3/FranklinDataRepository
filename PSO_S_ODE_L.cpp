@@ -1094,8 +1094,8 @@ int main() {
 				cout << "ln 1194" << endl;
 				dCom.mat = MatrixXd::Zero(N, 3);
 				dCom.timeToRecord = tf;
-				// Linear_ODE3 ode3LinSys(trueK);
-				Nonlinear_ODE6 nonlinODE6(trueK);
+			    Linear_ODE3 ode3LinSys(trueK);
+				//Nonlinear_ODE6 nonlinODE6(trueK);
 				for(int i = 0; i < N; i++){
 					dCom.index = i;
 					int k = 0;
@@ -1108,7 +1108,7 @@ int main() {
 						// }
 						c0[j] = X_0(i,j);
 					}
-					integrate_adaptive(controlledStepper, nonlinODE6, c0, t0, tf, dt, obs); 
+					integrate_adaptive(controlledStepper, ode3LinSys, c0, t0, tf, dt, obs); 
 					Q.row(i) = dCom.mat.row(i);
 				}
 				cout << "ln 1114 - before computing moment diffs" << endl;
