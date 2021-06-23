@@ -784,7 +784,7 @@ int main() {
 				
 				if (pso == (Biter + 1)) {
 					vector<int> chkpts;
-					
+					cout << "ln 787" << endl;
 					for (unsigned int i = 0; i < wmatup.size(); i++) {	
 						chkpts.push_back(wmatup.at(i)* Nsteps);
 					}
