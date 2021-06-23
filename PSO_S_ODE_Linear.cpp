@@ -14,7 +14,7 @@
 #include <chrono>
 
 #define N_SPECIES 3
-#define N 2000 // # of samples to sample over
+#define N 1000 // # of samples to sample over
 #define N_DIM 5 // dim of PSO hypercube
 #define N_PARTICLES 20 
 
@@ -1111,7 +1111,7 @@ int main() {
 					integrate_adaptive(controlledStepper, nonlinODE6, c0, t0, tf, dt, obs); 
 					Q.row(i) = dCom.mat.row(i);
 				}
-
+				cout << "ln 1114 - before computing moment diffs" << endl;
 				MatrixXd fmdiffs(N, 3);
 				fmdiffs = Y_t - Q;
 
@@ -1155,7 +1155,7 @@ int main() {
 
 				MatrixXd g_mat(N, Nterms);
 				g_mat = Adiffs;
-
+				cout << "ln 1158 - after computing differences" << endl;
 				w_mat.setZero();
 				for (int m = 0; m < N; m++) { w_mat = w_mat + (g_mat.row(m).transpose()) * g_mat.row(m); }
 				w_mat = (w_mat/N).inverse();
