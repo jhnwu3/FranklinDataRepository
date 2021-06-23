@@ -1049,7 +1049,7 @@ int main() {
 					}
 				
 					VectorXd rpoint = POSMAT.row(jjj);
-					cout << "line 1052" << endl;
+				//	cout << "line 1052" << endl;
 					for (int smart = 0; smart < ncomp; smart++) {
 						int px = wcomp(smart);
 						double pos = rpoint(px);
@@ -1065,7 +1065,7 @@ int main() {
 						rpoint(px) = (x/(x+y)) / sf2;
 					}
 					
-					cout << "1068" << endl;
+				//	cout << "1068" << endl;
 					VectorXd PBMATV(Npars);
 					for(int i = 0; i < Npars; i++){PBMATV(i) = PBMAT(jjj, i);}
 					POSMAT.row(jjj) = w1 * rpoint + w2 * PBMATV + w3 * gbest;

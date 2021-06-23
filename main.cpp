@@ -29,15 +29,17 @@ int main(int argc, char **argv)
     open_files(covCorMatTf, covCorMat1, covCorMat5); 
 
     /* ODE Vars */
-    const double t0 = 0.0, tf = 3.0, dt = 1.0, tn = 3.0; // times 
-    VectorXd sub = VectorXd::Zero(N_DIM); sub << 1,2,0,0,5,6; // subset of proteins to solve for.
+    double t0 = 0.0, tf = 3.0, dt = 1.0, tn = 3.0; // times 
+    VectorXd sub = VectorXd::Zero(N_DIM); sub << 1,2,0,0,5,0; // subset of proteins to solve for.
     Controlled_RK_Stepper_N controlled_stepper;
 
     /* PSO Vars */
-    MatrixXd cov(N_SPECIES, N_SPECIES); // covar matrix   
-    MatrixXd wt = MatrixXd::Identity(nMom, nMom); // wt. matrix
-    VectorXd globalBestVector = VectorXd::Zero(nMom);
-    
+    int subSize = 3;
+    int subMom = (subSize * (subSize + 3)) / 2;
+    MatrixXd cov(subMom, subMom); // covar matrix   
+    MatrixXd wt = MatrixXd::Identity(subMom, subMom); // wt. matrix
+    VectorXd globalBestVector = VectorXd::Zero(subMom);
+
     double globalCost = 10000000; // some outrageous starting value
 
     /* Note: We don't actually need Y_0, elements of Y_0 is generated repeatedly using lognorm dist  */
@@ -46,8 +48,8 @@ int main(int argc, char **argv)
     cout << "Computing Y_t" << endl;
     struct K exactK; 
     exactK.k << 5.0, 0.10, 1.00, 8.69, 0.05, 0.70; // true k vector
-    Nonlinear_ODE6 ode6Sys(exactK); // system to solve to evolve to Y_t
-    Data_Components Y_t(sub, tf, nMom); // System for Y_t = mu
+    Nonlinear_ODE6 ode6Sys(exactK); // ode sys to evolve
+    Data_Components Y_t(sub, tf, nMom); // Y_t = mu
     Data_ODE_Observer YtObs6(Y_t); // obs sums over subset of values
     State_N c0 = {120, 250, 0, 0, 80, 0}; //gen_multi_lognorm_init6();
     for(int i = 0; i < N; i++){
@@ -58,19 +60,30 @@ int main(int argc, char **argv)
     VectorXd mu = gen_sub_mom_vec(Y_t.moments); // filter out zero moments due to subset.
     cout << "Y_t moment vector" << mu.transpose() << endl << endl;
 
-    /****************************** Parallel Computing ******************************/
+    /****************************** Parallel Computing - Particles/PSO ******************************/
     int particle = 0; // private variable used in parallel computing.
-
     cout << "Parallel Computing Has Started!" << endl << endl;
 #pragma omp parallel for
     for(particle = 0; particle < N_PARTICLES; particle++){
-        /* particle specific variables */
         struct K pK;
+        /* rng */
         random_device pRanDev;
         mt19937 pGenerator(pRanDev());
         uniform_real_distribution<double> pUnifDist(0.0, 1.0);
+        /* ODE */
+        for(int i = 0; i < pK.k.size(); i++){ pK.k(i) = pUnifDist(generator); } 
+        Nonlinear_ODE6 pOdeSys(pK);
+        Controlled_RK_Stepper_N pControlledStepper;
+        Data_Components X_t(sub, tf, nMom); // System for Y_t = mu
+        Data_ODE_Observer XtObs6(X_t); // obs sums over subset of values
+        double pt0 = t0, ptf = tf, pdt = dt;
+        /* PSO */
         double w = 1.0, cS = 2.0, cC = 2.0; // weights for particle
 
+        for(int i = 0; i < N; i++){
+            State_N pC0 = gen_multi_lognorm_init6();
+            integrate_adaptive(pControlledStepper, pOdeSys, pC0, pt0, ptf, pdt, XtObs6);
+        }
         /* cost comparisons */
         #pragma omp critical
         {     
