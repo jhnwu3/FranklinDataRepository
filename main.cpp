@@ -35,9 +35,11 @@ int main(int argc, char **argv)
 
     /* PSO Vars */
     MatrixXd cov(N_SPECIES, N_SPECIES); // covar matrix   
-    MatrixXd w = MatrixXd::Identity(nMom, nMom); // wt. matrix
-    double globalCost = 10000000; // some outrageous starting value
+    MatrixXd wt = MatrixXd::Identity(nMom, nMom); // wt. matrix
+    VectorXd globalBestVector = VectorXd::Zero(nMom);
     
+    double globalCost = 10000000; // some outrageous starting value
+
     /* Note: We don't actually need Y_0, elements of Y_0 is generated repeatedly using lognorm dist  */
 
     /* Solve ODEs for Y_t or mu "true" moment vectors using exact rate constants */
@@ -67,7 +69,7 @@ int main(int argc, char **argv)
         random_device pRanDev;
         mt19937 pGenerator(pRanDev());
         uniform_real_distribution<double> pUnifDist(0.0, 1.0);
-
+        double w = 1.0, cS = 2.0, cC = 2.0; // weights for particle
 
         /* cost comparisons */
         #pragma omp critical

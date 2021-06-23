@@ -1049,7 +1049,7 @@ int main() {
 					}
 				
 					VectorXd rpoint = POSMAT.row(jjj);
-
+					cout << "line 1052" << endl;
 					for (int smart = 0; smart < ncomp; smart++) {
 						int px = wcomp(smart);
 						double pos = rpoint(px);
