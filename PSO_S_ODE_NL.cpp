@@ -772,7 +772,7 @@ int main() {
 
 				PBMAT(h, Npars) = term_vec.transpose() * w_mat * (term_vec.transpose()).transpose();
 			}
-
+			cout << "ln 775 - PSO starts" << endl;
 ///////////////////////////////////////////////////////////   PSO PART 2 of Particle Module    ////////////////////////////////////////////////////////////////////////////////////////////////////			
 			// ALL SWARMS BEGIN TO MOVE HERE 
 			double sfi = sfe;

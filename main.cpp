@@ -47,8 +47,8 @@ int main(int argc, char **argv)
     Nonlinear_ODE6 ode6Sys(exactK); // system to solve to evolve to Y_t
     Data_Components Y_t(sub, tf, nMom); // System for Y_t = mu
     Data_ODE_Observer YtObs6(Y_t); // obs sums over subset of values
+    State_N c0 = gen_multi_lognorm_init6();
     for(int i = 0; i < N; i++){
-        State_N c0 = gen_multi_lognorm_init6();
         integrate_adaptive(controlled_stepper, ode6Sys, c0, t0, tf, dt, YtObs6);
     }
     Y_t.secondMoments/=N; // average moments
@@ -68,7 +68,11 @@ int main(int argc, char **argv)
     for(particle = 0; particle < N_PARTICLES; particle++){
         /* particle specific variables */
         struct K pK;
-        
+        random_device pRanDev;
+        mt19937 pGenerator(pRanDev());
+        uniform_real_distribution<double> pUnifDist(0.0, 1.0);
+
+
         /* cost comparisons */
         #pragma omp critical
         {     
