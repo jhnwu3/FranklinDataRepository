@@ -11,7 +11,6 @@
 /* Global Variables to be used for parallel computing */
 MatrixXd globalSample = MatrixXd::Zero(N, N_SPECIES);// sample matrix
 VectorXd bestMomentVector = VectorXd::Zero( N_SPECIES*(N_SPECIES + 3) / 2); // secomd moment vector 
-double globalCost = 10000000; // some outrageous starting value
 
 int main(int argc, char **argv)
 {   
@@ -37,7 +36,8 @@ int main(int argc, char **argv)
     /* PSO Vars */
     MatrixXd cov(N_SPECIES, N_SPECIES); // covar matrix   
     MatrixXd w = MatrixXd::Identity(nMom, nMom); // wt. matrix
-
+    double globalCost = 10000000; // some outrageous starting value
+    
     /* Note: We don't actually need Y_0, elements of Y_0 is generated repeatedly using lognorm dist  */
 
     /* Solve ODEs for Y_t or mu "true" moment vectors using exact rate constants */
@@ -47,7 +47,7 @@ int main(int argc, char **argv)
     Nonlinear_ODE6 ode6Sys(exactK); // system to solve to evolve to Y_t
     Data_Components Y_t(sub, tf, nMom); // System for Y_t = mu
     Data_ODE_Observer YtObs6(Y_t); // obs sums over subset of values
-    State_N c0 = gen_multi_lognorm_init6();
+    State_N c0 = {120, 250, 0, 0, 80, 0}; //gen_multi_lognorm_init6();
     for(int i = 0; i < N; i++){
         integrate_adaptive(controlled_stepper, ode6Sys, c0, t0, tf, dt, YtObs6);
     }
@@ -56,10 +56,6 @@ int main(int argc, char **argv)
     VectorXd mu = gen_sub_mom_vec(Y_t.moments); // filter out zero moments due to subset.
     cout << "Y_t moment vector" << mu.transpose() << endl << endl;
 
-
-    /*  */
-
-    
     /****************************** Parallel Computing ******************************/
     int particle = 0; // private variable used in parallel computing.
 

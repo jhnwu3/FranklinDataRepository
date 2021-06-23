@@ -1023,7 +1023,7 @@ int main() {
 					}
 				}
 
-				//cout << "line 802" << endl;
+				cout << "line 1026" << endl;
 				for (int jjj = 0; jjj < Nparts; jjj++) {
 
 					double w1 = sfi * unifDist(generator) /sf2, w2 = sfc*  unifDist(generator) / sf2, w3 = sfs * unifDist(generator) / sf2;
