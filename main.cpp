@@ -65,33 +65,42 @@ int main(int argc, char **argv)
     cout << "Parallel Computing Has Started!" << endl << endl;
 #pragma omp parallel for
     for(particle = 0; particle < N_PARTICLES; particle++){
+       
         int nSteps = 30;
-        struct K pK;
+        struct K posK;
         /* rng */
         random_device pRanDev;
         mt19937 pGenerator(pRanDev());
         uniform_real_distribution<double> pUnifDist(0.0, 1.0);
         /* ODE */
-        for(int i = 0; i < pK.k.size(); i++){ pK.k(i) = pUnifDist(generator); } 
-        Nonlinear_ODE6 pOdeSys(pK);
+        for(int i = 0; i < posK.k.size(); i++){ posK.k(i) = pUnifDist(generator); } 
+        Nonlinear_ODE6 pOdeSys(posK);
         Controlled_RK_Stepper_N pControlledStepper;
         Data_Components X_t(sub, tf, nMom); // System for Y_t = mu
         Data_ODE_Observer XtObs6(X_t); // obs sums over subset of values
         double pt0 = t0, ptf = tf, pdt = dt;
         
+
         /* PSO */
+        /* instantiate values before PSO */
         double w = 1.0, cS = 2.0, cC = 2.0; // weights for particle
-        MatrixXd pBMat;
+        VectorXd pBVec; // best particle k rates
+        double pBCost; // best cost in particle history
         for(int i = 0; i < N; i++){
             State_N pC0 = gen_multi_lognorm_init6();
             integrate_adaptive(pControlledStepper, pOdeSys, pC0, pt0, ptf, pdt, XtObs6);
         }
-        /* cost comparisons */
-        #pragma omp critical
-        {     
+
+        for(int jjj = 0; jjj < nSteps; jjj++){
             
+
+
+            /* cost comparisons */
+            #pragma omp critical
+            {     
+                
+            }
         }
- 
         /* 2nd iteration - PSO*/
         /* using CF2 compute next cost function and recompute weight */
     }
