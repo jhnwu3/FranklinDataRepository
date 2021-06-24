@@ -714,7 +714,7 @@ int main() {
 				// Linear_ODE3 ode3LinSys(trueK);
 				Data_ODE_Observer6 obs(dCom);
 				Nonlinear_ODE6 nonlinODE6(trueK);
-				cout << "ln 717" << endl;
+				//cout << "ln 717" << endl;
 				for(int i = 0; i < N; i++){
 					dCom.index = i;
 					int k = 0;
