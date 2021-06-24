@@ -133,7 +133,7 @@ struct Data_ODE_Observer6
     {
         if(t == dComp.timeToRecord){
 			int i = 0, j = 0;
-			while( i < 6 && j < dComp.sub.size()){
+			while( i < N_SPECIES && j < dComp.sub.size()){
 				if(i == dComp.sub(j)){
 					dComp.mat(dComp.index,j) = c[i];
 					j++;
