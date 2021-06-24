@@ -110,7 +110,7 @@ int main(int argc, char **argv)
     Data_ODE_Observer t5Obs6(time_5); // obs sums over subset of values
     Data_Components time_10(sub, 10.0, nMom); // Y_t = mu
     Data_ODE_Observer t10Obs6(time_10); // obs sums over subset of values
-    State_N c0 = {120, 250, 0, 0, 80, 0}; //gen_multi_lognorm_init6();
+    State_N c0 = gen_multi_lognorm_init(); //gen_multi_lognorm_init6();
     for(int i = 0; i < N; i++){
         integrate_adaptive(controlled_stepper, ode6Sys, c0, t0, tf, dt, tfObs6);
         integrate_adaptive(controlled_stepper, ode6Sys, c0, t0, 5.0, dt, t5Obs6);
