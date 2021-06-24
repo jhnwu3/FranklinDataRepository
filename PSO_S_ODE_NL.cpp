@@ -370,7 +370,7 @@ int main() {
 				int k = 0;
 				cout << "line 371" << endl;
 				for(int j = 0; j < N_SPECIES; j++){ 
-					if(j == sub(k)){
+					if(k < sub.size() && j == sub(k)){
 						c0[j] = Y_0(i, k);
 						k++; 
 					}else{
