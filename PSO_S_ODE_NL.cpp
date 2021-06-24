@@ -719,7 +719,7 @@ int main() {
 					dCom.index = i;
 					int k = 0;
 					for(int j = 0; j < N_SPECIES; j++){ 
-						if(k < sub.size() && j == sub(j)){
+						if(k < sub.size() && j == sub(k)){
 							c0[j] = X_0(i, k);
 							k++; 
 						}else{
