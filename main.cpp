@@ -73,15 +73,15 @@ int main(int argc, char **argv)
         uniform_real_distribution<double> pUnifDist(0.0, 1.0);
         /* ODE */
         for(int i = 0; i < pK.k.size(); i++){ pK.k(i) = pUnifDist(generator); } 
-        
         Nonlinear_ODE6 pOdeSys(pK);
         Controlled_RK_Stepper_N pControlledStepper;
         Data_Components X_t(sub, tf, nMom); // System for Y_t = mu
         Data_ODE_Observer XtObs6(X_t); // obs sums over subset of values
         double pt0 = t0, ptf = tf, pdt = dt;
+        
         /* PSO */
         double w = 1.0, cS = 2.0, cC = 2.0; // weights for particle
-
+        MatrixXd pBMat;
         for(int i = 0; i < N; i++){
             State_N pC0 = gen_multi_lognorm_init6();
             integrate_adaptive(pControlledStepper, pOdeSys, pC0, pt0, ptf, pdt, XtObs6);
