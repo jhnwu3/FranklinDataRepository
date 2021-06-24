@@ -87,6 +87,7 @@ int main(int argc, char **argv)
             integrate_adaptive(pControlledStepper, pOdeSys, pC0, pt0, ptf, pdt, XtObs6);
         }
 
+        /* Instantiate inertial component aka original velocity vector */
         for(int jjj = 0; jjj < nSteps; jjj++){
             
 

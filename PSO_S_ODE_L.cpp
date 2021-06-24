@@ -701,7 +701,6 @@ int main() {
 
 			for (int iii = 0; iii < Nsteps; iii++) { //REMEMBER IF THERE IS ITERATION WITH iii MAKE SURE TO SUBTRACT ONE
 
-				
 				if (pso == (Biter + 1)) {
 					vector<int> chkpts;
 					
@@ -978,9 +977,9 @@ int main() {
 					/* set k equal to next position of particle */
 					//for (int i = 0; i < Npars; i++) { k.at(i) = POSMAT(jjj, i); }
 					trueK.k = POSMAT.row(jjj);
-					if(jjj % 1000 == 0){
-						cout << "jjj:" << jjj << endl; 
-					}
+					// if(jjj % 1000 == 0){
+					// 	cout << "jjj:" << jjj << endl; 
+					// }
 
 					dCom.mat = MatrixXd::Zero(N, 3);
 					dCom.timeToRecord = tf;
