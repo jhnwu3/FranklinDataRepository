@@ -369,7 +369,7 @@ int main() {
 				dCom.index = i;
 				int k = 0;
 				for(int j = 0; j < N_SPECIES; j++){ 
-					if(j == sub(j)){
+					if(j == sub(k)){
 						c0[j] = Y_0(i, k);
 						k++; 
 					}else{
@@ -561,7 +561,7 @@ int main() {
 			dCom.index = i;
 			int k = 0;
 			for(int j = 0; j < N_SPECIES; j++){ 
-				if(j == sub(j)){
+				if(j == sub(k)){
 					c0[j] = X_0(i, k);
 					k++; 
 				}else{
@@ -807,7 +807,7 @@ int main() {
 							dCom.index = i;
 							int k = 0;
 							for(int j = 0; j < N_SPECIES; j++){ 
-								if(j == sub(j)){
+								if(j == sub(k)){
 									c0[j] = X_0(i, k);
 									k++; 
 								}else{
@@ -966,7 +966,7 @@ int main() {
 								dCom.index = i;
 								int k = 0;
 								for(int j = 0; j < N_SPECIES; j++){ 
-									if(j == sub(j)){
+									if(j == sub(k)){
 										c0[j] = X_0(i, k);
 										k++; 
 									}else{
@@ -1088,7 +1088,7 @@ int main() {
 						dCom.index = i;
 						int k = 0;
 						for(int j = 0; j < N_SPECIES; j++){ 
-							if(j == sub(j)){
+							if(j == sub(k)){
 								c0[j] = X_0(i, k);
 								k++; 
 							}else{
@@ -1204,7 +1204,7 @@ int main() {
 					dCom.index = i;
 					int k = 0;
 					for(int j = 0; j < N_SPECIES; j++){ 
-						if(j == sub(j)){
+						if(j == sub(k)){
 							c0[j] = X_0(i, k);
 							k++; 
 						}else{
@@ -1280,7 +1280,7 @@ int main() {
 					dCom.index = i;
 					int k = 0;
 					for(int j = 0; j < N_SPECIES; j++){ 
-						if(j == sub(j)){
+						if(j == sub(k)){
 							c0[j] = X_0(i, k);
 							k++; 
 						}else{
