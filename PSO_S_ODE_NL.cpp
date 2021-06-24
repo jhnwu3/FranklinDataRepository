@@ -368,6 +368,7 @@ int main() {
 			for(int i = 0; i < N; i++){
 				dCom.index = i;
 				int k = 0;
+				cout << "line 371" << endl;
 				for(int j = 0; j < N_SPECIES; j++){ 
 					if(j == sub(k)){
 						c0[j] = Y_0(i, k);
