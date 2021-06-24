@@ -38,6 +38,7 @@ int main(int argc, char **argv)
     int subMom = (subSize * (subSize + 3)) / 2;
     MatrixXd cov(subMom, subMom); // covar matrix   
     MatrixXd wt = MatrixXd::Identity(subMom, subMom); // wt. matrix
+    MatrixXd gBMat;
     VectorXd gBestVec = VectorXd::Zero(subMom);
     double gCost = 10000000; // some outrageous starting value
 

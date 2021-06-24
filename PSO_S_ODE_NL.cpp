@@ -784,7 +784,7 @@ int main() {
 				
 				if (pso == (Biter + 1)) {
 					vector<int> chkpts;
-					cout << "ln 787" << endl;
+					//cout << "ln 787" << endl;
 					for (unsigned int i = 0; i < wmatup.size(); i++) {	
 						chkpts.push_back(wmatup.at(i)* Nsteps);
 					}
@@ -1023,7 +1023,7 @@ int main() {
 					}
 				}
 
-				cout << "line 1026" << endl;
+				//cout << "line 1026" << endl;
 				for (int jjj = 0; jjj < Nparts; jjj++) {
 
 					double w1 = sfi * unifDist(generator) /sf2, w2 = sfc*  unifDist(generator) / sf2, w3 = sfs * unifDist(generator) / sf2;
@@ -1074,9 +1074,9 @@ int main() {
 					//for (int i = 0; i < Npars; i++) { k.at(i) = POSMAT(jjj, i); }
 					trueK.k = POSMAT.row(jjj);
 
-					if(jjj % 1000 == 0){
-						cout << "jjj:" << jjj << endl; 
-					}
+					// if(jjj % 1000 == 0){
+					// 	cout << "jjj:" << jjj << endl; 
+					// }
 					dCom.sub = sub;
 					dCom.mat = MatrixXd::Zero(N, 3);
 					dCom.timeToRecord = tf;
