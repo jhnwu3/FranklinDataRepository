@@ -80,6 +80,7 @@ int main(int argc, char **argv)
         /* PSO */
         /* instantiate values before PSO */  
         double w = 1.0, cS = 2.0, cC = 2.0; // weights for particle
+        double pCurrCost;
         VectorXd pBVec; // best particle k rates
         double pBCost; // best cost in particle history
         for(int i = 0; i < N; i++){
@@ -88,7 +89,7 @@ int main(int argc, char **argv)
         }
 
         /* instantiate V(J) */
-        
+        VectorXd vj; 
         /* Instantiate inertial component aka original velocity vector */
         for(int jjj = 0; jjj < nSteps; jjj++){
             

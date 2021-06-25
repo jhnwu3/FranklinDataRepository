@@ -5,5 +5,5 @@
 #SBATCH --nodes=1
 #SBATCH --ntasks-per-node=1
 set -e
-echo "PSO_S_ODE_NonLinear"
+echo "PSO_S_ODE_Linear"
 ./PSO_S_ODE_L
