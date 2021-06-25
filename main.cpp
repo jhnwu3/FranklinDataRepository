@@ -89,7 +89,7 @@ int main(int argc, char **argv)
         }
         VectorXd pMoments = gen_sub_mom_vec(X_t.moments);
         /* instantiate custom velocity markov component */
-        VectorXd vj = comp_vel_vec(pos.k); 
+        VectorXd vj = VectorXd::Zero(N_DIM);//comp_vel_vec(pos.k); 
         pCurrCost = calculate_cf1(mu, pMoments, subMom);
 
         /* Instantiate inertial component aka original velocity vector */
@@ -99,8 +99,8 @@ int main(int argc, char **argv)
             wS = wS * pUnifDist(generator) / sumW;
             wC = wC * pUnifDist(generator) / sumW;
 
-            pos.k = w * vj + wC * pBVec + wS * gBVec;
-
+            pos.k = pos.k + (w * vj + wC * pBVec + wS * gBVec);
+            
             /* cost comparisons */
             #pragma omp critical
             {     

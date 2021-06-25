@@ -11,5 +11,6 @@ set ylabel "Cost"
 set grid
 
 #plot the graphic
-plot "Bill_Global_Best.txt" using 1:7 title "Linear Cost"
+awk "NR>=0 && NR<=15" Bill_Global_Best.txt > processedLin.txt
+plot "processedLin.txt" using 1:7 title "Linear Cost"
 
