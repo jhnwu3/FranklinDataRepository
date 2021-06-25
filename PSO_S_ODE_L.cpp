@@ -155,8 +155,7 @@ int main() {
 	auto t1 = std::chrono::high_resolution_clock::now();
 	/*---------------------- Setup ------------------------ */
 	int bsi = 1, Nterms = 9, useEqual = 0, Niter = 1, Biter = 1; 
-	ofstream plot;
-	plot.open("Bill_Global_Best.txt");
+	
 	/* Variables (global) */
 	double t0 = 0, tf = 3.0, dt = 0.1;
 	int wasflipped = 0, Nprots = 3, Npars = 5;
@@ -977,7 +976,7 @@ int main() {
 					/* set k equal to next position of particle */
 					//for (int i = 0; i < Npars; i++) { k.at(i) = POSMAT(jjj, i); }
 					trueK.k = POSMAT.row(jjj);
-					
+
 					// if(jjj % 1000 == 0){
 					// 	cout << "jjj:" << jjj << endl; 
 					// }
@@ -1262,6 +1261,8 @@ int main() {
 	} // end loop over NIter simulations
 	cout << "GBMAT: " << endl;
 	cout << GBMAT << endl;
+	ofstream plot;
+	plot.open("Bill_Global_Best.txt");
 	MatrixXd GBMATWithSteps(GBMAT.rows(), GBMAT.cols() + 1);
 	VectorXd globalIterations(GBMAT.rows());
 	for(int i = 0; i < GBMAT.rows(); i++){
@@ -1269,6 +1270,7 @@ int main() {
 	}
 	GBMATWithSteps << globalIterations, GBMAT;
 	plot << GBMATWithSteps << endl;
+	plot.close();
 	auto t2 = std::chrono::high_resolution_clock::now();
 	auto duration = std::chrono::duration_cast<std::chrono::seconds>(t2 - t1).count();
 	cout << "CODE FINISHED RUNNING IN "<< duration<< " s TIME!" << endl;
