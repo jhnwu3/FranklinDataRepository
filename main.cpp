@@ -25,7 +25,7 @@ int main(int argc, char **argv)
     uniform_real_distribution<double> unifDist(0.0, 1.0);
 
     /* ODE Vars */
-    double t0 = 0.0, tf = 3.0, dt = 1.0, tn = 3.0; // times 
+    double t0 = 0.0, tf = 4.0, dt = 1.0, tn = 3.0; // times 
     VectorXd sub = VectorXd::Zero(N_DIM); sub << 1,2,0,0,5,0; // subset of proteins to solve for.
     Controlled_RK_Stepper_N controlled_stepper;
 
@@ -78,7 +78,7 @@ int main(int argc, char **argv)
         
 
         /* PSO */
-        /* instantiate values before PSO */
+        /* instantiate values before PSO */  
         double w = 1.0, cS = 2.0, cC = 2.0; // weights for particle
         VectorXd pBVec; // best particle k rates
         double pBCost; // best cost in particle history
@@ -87,10 +87,12 @@ int main(int argc, char **argv)
             integrate_adaptive(pControlledStepper, pOdeSys, pC0, pt0, ptf, pdt, XtObs6);
         }
 
+        /* instantiate V(J) */
+        
         /* Instantiate inertial component aka original velocity vector */
         for(int jjj = 0; jjj < nSteps; jjj++){
             
-
+            /* */
 
             /* cost comparisons */
             #pragma omp critical
@@ -124,7 +126,7 @@ int main(int argc, char **argv)
     time_5.moments /= N;
     time_10.secondMoments /= N; // average moments
     time_10.moments /= N;
-    average9Moments << "tf:" << gen_sub_mom_vec(time_tf.moments).transpose() << endl << endl;
+    average9Moments << "tf 4.0:" << gen_sub_mom_vec(time_tf.moments).transpose() << endl << endl;
     average9Moments << "5:" << gen_sub_mom_vec(time_5.moments).transpose()<< endl << endl;
     average9Moments << "10:" << gen_sub_mom_vec(time_10.moments).transpose() << endl;
 
