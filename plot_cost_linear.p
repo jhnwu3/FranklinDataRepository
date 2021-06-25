@@ -11,5 +11,5 @@ set ylabel "Cost"
 set grid
 
 #plot the graphic
-plot "<(sed -n '1,10p' Bill_Global_Best.txt)" using 1:7 title "Linear Cost"
+plot "<(sed -n '1,10p' Bill_Global_Best.txt)" using 1:7 title "Linear Cost" with points pointtype 5
 
