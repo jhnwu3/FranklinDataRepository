@@ -169,3 +169,36 @@ VectorXd gen_sub_mom_vec(const VectorXd &momVec){
     }
     return sub;
 }
+
+VectorXd comp_vel_vec(const VectorXd &posK){
+    VectorXd rPoint;
+    rPoint = posK;
+    std::random_device rand_dev;
+	std::mt19937 generator(rand_dev());
+    vector<int> rand;
+    for (int i = 0; i < N_DIM; i++) {
+        rand.push_back(i);
+    }
+    shuffle(rand.begin(), rand.end(), generator); // shuffle indices as well as possible. 
+    int ncomp = rand.at(0);
+    VectorXd wcomp(ncomp);
+    shuffle(rand.begin(), rand.end(), generator);
+    for (int i = 0; i < ncomp; i++) {
+        wcomp(i) = rand.at(i);
+    }
+    for (int smart = 0; smart < ncomp; smart++) {
+        int px = wcomp(smart);
+        double pos = rPoint(px);
+        double alpha = 4 * pos;
+        double beta = 4 - alpha;
+
+        std::gamma_distribution<double> aDist(alpha, 1);
+        std::gamma_distribution<double> bDist(beta, 1);
+        
+        double x = aDist(generator);
+        double y = bDist(generator);
+        
+        rPoint(px) = (x/(x+y));
+    }
+    return rPoint;
+}
