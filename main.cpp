@@ -34,7 +34,7 @@ int main(int argc, char **argv)
     int subMom = (subSize * (subSize + 3)) / 2;
     MatrixXd cov(subMom, subMom); // covar matrix   
     MatrixXd wt = MatrixXd::Identity(subMom, subMom); // wt. matrix
-    MatrixXd gBMat;
+    MatrixXd gBMat = MatrixXd::Zero(0,0);
     VectorXd gBVec = VectorXd::Zero(N_DIM);
     double gCost = 10000000; // some outrageous starting value
 
@@ -89,7 +89,7 @@ int main(int argc, char **argv)
         }
         VectorXd pMoments = gen_sub_mom_vec(X_t.moments);
         /* instantiate custom velocity markov component */
-        VectorXd vj = VectorXd::Zero(N_DIM);//comp_vel_vec(pos.k); 
+        VectorXd vj = VectorXd::Zero(pos.k.size());//comp_vel_vec(pos.k); 
         pCurrCost = calculate_cf1(mu, pMoments, subMom);
 
         /* Instantiate inertial component aka original velocity vector */
@@ -99,14 +99,28 @@ int main(int argc, char **argv)
             wS = wS * pUnifDist(generator) / sumW;
             wC = wC * pUnifDist(generator) / sumW;
 
-            pos.k = pos.k + (w * vj + wC * pBVec + wS * gBVec); // update new position
+            vj = (w * vj + wC * pBVec + wS * gBVec);
+            pos.k = pos.k + vj; // update new position
             
-
-            
+            for(int i = 0; i < N; i++){
+                State_N pC0 = gen_multi_lognorm_init6();
+                integrate_adaptive(pControlledStepper, pOdeSys, pC0, pt0, ptf, pdt, XtObs6);
+            }
+            pCurrCost = calculate_cf2(mu, pos.k, wt, mu.size());
+            /* history comparisons */
+            if(pCurrCost < pBCost){
+                pBCost = pCurrCost;
+                pBVec = pos.k;
+            }
             /* global cost comparisons */
             #pragma omp critical
             {     
-                
+                if(pCurrCost < gCost){
+                    gCost = pCurrCost;
+                    gBVec = pos.k;
+                    gBMat.conservativeResize(gBMat.rows() + 1, pos.k.size() + 1);
+                    gBMat.row(gBMat.rows() - 1) << gBVec, gCost;
+                }
             }
         }
         /* 2nd iteration - PSO*/
@@ -138,9 +152,9 @@ int main(int argc, char **argv)
     average9Moments << "tf 0.5:" << gen_sub_mom_vec(time_tf.moments).transpose() << endl << endl;
     average9Moments << "1.0:" << gen_sub_mom_vec(time_5.moments).transpose()<< endl << endl;
     average9Moments << "2.0:" << gen_sub_mom_vec(time_10.moments).transpose() << endl;
-
-
     average9Moments.close();
+
+    cout << "GBMAT" << endl << gBMat;
     auto t2 = std::chrono::high_resolution_clock::now();
 	auto duration = std::chrono::duration_cast<std::chrono::seconds>(t2 - t1).count();
     cout << " Code Finished Running in " << duration << " seconds time!" << endl;
