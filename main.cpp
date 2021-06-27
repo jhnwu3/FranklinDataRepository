@@ -102,8 +102,8 @@ int main(int argc, char **argv)
             vj = (w * vj + wC * pBVec + wS * gBVec);
             pos.k = pos.k + vj; // update new position
             
-            // X_t.moments = VectorXd::Zero(nMom);
-            // X_t.secondMoments = MatrixXd::Zero(nMom, nMom);
+            X_t.moments = VectorXd::Zero(nMom);
+            X_t.secondMoments = MatrixXd::Zero(N_SPECIES, N_SPECIES);
 
             for(int i = 0; i < N; i++){
                 State_N pC0 = gen_multi_lognorm_init6();
@@ -119,7 +119,7 @@ int main(int argc, char **argv)
             /* global cost comparisons */
             #pragma omp critical
             {     
-                cout << "omp works here?" << endl;
+               
                 if(pCurrCost < gCost){
                     gCost = pCurrCost;
                     gBVec = pos.k;
