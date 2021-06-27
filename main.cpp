@@ -102,6 +102,8 @@ int main(int argc, char **argv)
             vj = (w * vj + wC * pBVec + wS * gBVec);
             pos.k = pos.k + vj; // update new position
             
+            X_t.moments = VectorXd::Zero(X_t.moments.size());
+            X_t.secondMoments = MatrixXd::Zero(X_t.secondMoments.size(), X_t.secondMoments.size());
             for(int i = 0; i < N; i++){
                 State_N pC0 = gen_multi_lognorm_init6();
                 integrate_adaptive(pControlledStepper, pOdeSys, pC0, pt0, ptf, pdt, XtObs6);
@@ -116,6 +118,7 @@ int main(int argc, char **argv)
             /* global cost comparisons */
             #pragma omp critical
             {     
+                cout << "omp works here?" << endl;
                 if(pCurrCost < gCost){
                     gCost = pCurrCost;
                     gBVec = pos.k;
