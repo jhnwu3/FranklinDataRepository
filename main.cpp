@@ -98,7 +98,7 @@ int main(int argc, char **argv)
             w = w * pUnifDist(generator) / sumW; //redeem weights 
             wS = wS * pUnifDist(generator) / sumW;
             wC = wC * pUnifDist(generator) / sumW;
-
+            cout << "101" << endl;
             vj = (w * vj + wC * pBVec + wS * gBVec);
             pos.k = pos.k + vj; // update new position
             
