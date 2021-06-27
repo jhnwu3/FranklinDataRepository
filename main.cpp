@@ -102,14 +102,16 @@ int main(int argc, char **argv)
             vj = (w * vj + wC * pBVec + wS * gBVec);
             pos.k = pos.k + vj; // update new position
             
-            X_t.moments = VectorXd::Zero(nMom);
-            X_t.secondMoments = MatrixXd::Zero(N_SPECIES, N_SPECIES);
+
+            Nonlinear_ODE6 pOdeSysPSO(pos);
+            Data_Components XtPSO(sub, tf, nMom); // System for Y_t = mu
+            Data_ODE_Observer XtObsPSO(XtPSO); // obs sums over subset of values
 
             for(int i = 0; i < N; i++){
                 State_N pC0 = gen_multi_lognorm_init6();
-                integrate_adaptive(pControlledStepper, pOdeSys, pC0, pt0, ptf, pdt, XtObs6);
+                integrate_adaptive(pControlledStepper, pOdeSysPSO, pC0, pt0, ptf, pdt, XtObsPSO);
             }
-            pMoments = gen_sub_mom_vec(X_t.moments);
+            pMoments = gen_sub_mom_vec(XtPSO.moments);
             pCurrCost = calculate_cf2(mu, pMoments, wt, mu.size());
             /* history comparisons */
             if(pCurrCost < pBCost){
