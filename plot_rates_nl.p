@@ -1,7 +1,7 @@
 # Set the output to a png file
 set terminal png size 800,800
 # The file we'll write to
-set output 'linearRates.png'
+set output 'nonlinRates.png'
 # The graphic title
 set title 'Nonlinear Rates'
 
