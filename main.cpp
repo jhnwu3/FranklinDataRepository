@@ -102,8 +102,8 @@ int main(int argc, char **argv)
             vj = (w * vj + wC * pBVec + wS * gBVec);
             pos.k = pos.k + vj; // update new position
             
-            X_t.moments = VectorXd::Zero(nMom);
-            X_t.secondMoments = MatrixXd::Zero(nMom, nMom);
+            // X_t.moments = VectorXd::Zero(nMom);
+            // X_t.secondMoments = MatrixXd::Zero(nMom, nMom);
 
             for(int i = 0; i < N; i++){
                 State_N pC0 = gen_multi_lognorm_init6();
