@@ -99,9 +99,11 @@ int main(int argc, char **argv)
             wS = wS * pUnifDist(generator) / sumW;
             wC = wC * pUnifDist(generator) / sumW;
 
-            pos.k = pos.k + (w * vj + wC * pBVec + wS * gBVec);
+            pos.k = pos.k + (w * vj + wC * pBVec + wS * gBVec); // update new position
             
-            /* cost comparisons */
+
+            
+            /* global cost comparisons */
             #pragma omp critical
             {     
                 

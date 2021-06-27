@@ -11,5 +11,5 @@ set ylabel "NL Cost"
 set grid
 
 #plot the graphic
-plot "Jay_Global_Best.txt" using 1:8 title "NL Cost"
+plot "<(sed -n '1,10p' Jay_Global_Best.txt)"  using 1:8 title "NL Cost" with points pointtype 5
 
