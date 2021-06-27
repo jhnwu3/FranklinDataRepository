@@ -101,7 +101,7 @@ int main(int argc, char **argv)
             cout << "101" << endl;
             vj = (w * vj + wC * pBVec + wS * gBVec);
             pos.k = pos.k + vj; // update new position
-            
+            cout << "104" << endl;
             for(int i = 0; i < N; i++){
                 State_N pC0 = gen_multi_lognorm_init6();
                 integrate_adaptive(pControlledStepper, pOdeSys, pC0, pt0, ptf, pdt, XtObs6);
