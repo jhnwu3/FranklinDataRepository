@@ -155,6 +155,7 @@ int main(int argc, char **argv)
     average9Moments << "2.0:" << gen_sub_mom_vec(time_10.moments).transpose() << endl;
     average9Moments.close();
 
+    cout << "gcost:" << gCost << endl << endl; 
     cout << "GBMAT" << endl << gBMat;
     auto t2 = std::chrono::high_resolution_clock::now();
 	auto duration = std::chrono::duration_cast<std::chrono::seconds>(t2 - t1).count();
