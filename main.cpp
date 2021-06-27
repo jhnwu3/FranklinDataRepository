@@ -98,15 +98,16 @@ int main(int argc, char **argv)
             w = w * pUnifDist(generator) / sumW; //redeem weights 
             wS = wS * pUnifDist(generator) / sumW;
             wC = wC * pUnifDist(generator) / sumW;
-            cout << "101" << endl;
+            
             vj = (w * vj + wC * pBVec + wS * gBVec);
             pos.k = pos.k + vj; // update new position
-            cout << "104" << endl;
+            
             for(int i = 0; i < N; i++){
                 State_N pC0 = gen_multi_lognorm_init6();
                 integrate_adaptive(pControlledStepper, pOdeSys, pC0, pt0, ptf, pdt, XtObs6);
             }
-            pCurrCost = calculate_cf2(mu, pos.k, wt, mu.size());
+            pMoments = gen_sub_mom_vec(X_t.moments);
+            pCurrCost = calculate_cf2(mu, pMoments, wt, mu.size());
             /* history comparisons */
             if(pCurrCost < pBCost){
                 pBCost = pCurrCost;
