@@ -14,7 +14,7 @@
 #include <chrono>
 
 #define N_SPECIES 6
-#define N 1000 // # of samples to sample over
+#define N 10000 // # of samples to sample over
 #define N_DIM 6 // dim of PSO hypercube
 #define N_PARTICLES 20 
 
@@ -157,7 +157,7 @@ int main() {
 	int bsi = 1, Nterms = 9, useEqual = 0, Niter = 1, Biter = 1; 
 
 	/* Variables (global) */
-	double t0 = 0, tf = 3.0 * (8.69 + 1.0), dt = 0.1 * (8.69 + 1.0);
+	double t0 = 0, tf = 3.0 * (10.0), dt = 0.1 * (10.0);
 	int wasflipped = 0, Nprots = 3, Npars = 6;
 	double squeeze = 0.96, sdbeta = 0.05;
 
@@ -166,11 +166,11 @@ int main() {
 	int sf1 = 1;
 	int sf2 = 1;
 	
-	int Nparts_1 = 1000;
+	int Nparts_1 = 5000;
 	int Nsteps_1 = 5;
 
 	int Nparts_2 = 5;
-	int Nsteps_2 = 1000;
+	int Nsteps_2 = 5000;
 
 	// note for coder: wmatup is a list 
 	vector<double> wmatup; 
@@ -190,7 +190,7 @@ int main() {
 	// trueK.k(4) = 0.30464502 / sf1;
 	double maxK = 8.69;
 	trueK.k << 5.0, 0.1, 1.0, 8.69, 0.05, 0.70;
-	trueK.k /= (8.69 + 1.0); // scale by max - scale by a max
+	trueK.k /= (10.0); // scale by max - scale by a max
 	vector<double> truk; // make a copy of a vector/ array/list 
 
 	for (unsigned int i = 0; i < trueK.k.size(); i++) {
