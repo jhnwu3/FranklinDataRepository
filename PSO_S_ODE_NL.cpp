@@ -157,7 +157,7 @@ int main() {
 	int bsi = 1, Nterms = 9, useEqual = 0, Niter = 1, Biter = 1; 
 
 	/* Variables (global) */
-	double t0 = 0, tf = 3.0, dt = 0.1;
+	double t0 = 0, tf = 3.0 * (8.69 + 1.0), dt = 0.1 * (8.69 + 1.0);
 	int wasflipped = 0, Nprots = 3, Npars = 6;
 	double squeeze = 0.96, sdbeta = 0.05;
 
@@ -188,8 +188,9 @@ int main() {
 	// trueK.k(2) = 0.44321700 / sf1;
 	// trueK.k(3) = 0.04244124 / sf1;
 	// trueK.k(4) = 0.30464502 / sf1;
+	double maxK = 8.69;
 	trueK.k << 5.0, 0.1, 1.0, 8.69, 0.05, 0.70;
-
+	trueK.k /= (8.69 + 1.0); // scale by max - scale by a max
 	vector<double> truk; // make a copy of a vector/ array/list 
 
 	for (unsigned int i = 0; i < trueK.k.size(); i++) {
@@ -1069,7 +1070,7 @@ int main() {
 				//	cout << "1068" << endl;
 					VectorXd PBMATV(Npars);
 					for(int i = 0; i < Npars; i++){PBMATV(i) = PBMAT(jjj, i);}
-					POSMAT.row(jjj) = w1 * rpoint + w2 * PBMATV + w3 * gbest;
+					POSMAT.row(jjj) = (w1 * rpoint + w2 * PBMATV + w3 * gbest);
 
 					/* set k equal to next position of particle */
 					//for (int i = 0; i < Npars; i++) { k.at(i) = POSMAT(jjj, i); }
