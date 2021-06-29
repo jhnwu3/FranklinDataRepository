@@ -108,7 +108,7 @@ MatrixXd generate_sample_space(int nProt, int n){
 }
 
 /* Generates initial conditions for ODEs */
-State_N gen_multi_lognorm_init6(void){
+State_N gen_multi_lognorm_iSub(void){
     State_N c0;
     VectorXd mu(3);
     mu << 4.78334234137469844730960782, 
@@ -134,7 +134,7 @@ State_N gen_multi_lognorm_init6(void){
 }
 
 /* Generates initial conditions for ODEs */
-State_N gen_multi_norm_init6(void){
+State_N gen_multi_norm_iSub(void){
     State_N c0;
     VectorXd mu(3);
     mu << 4.78334234137469844730960782, 

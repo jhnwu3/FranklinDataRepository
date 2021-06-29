@@ -236,7 +236,7 @@ int main() {
 	int t = 3; // num steps away from initial state
 
 	// Linear ODE3
-	
+	int nMoments = (N_SPECIES * (N_SPECIES + 3)) / 2;
 	/* global variables that are being recalculated in PSO */
 	double omp_1, omp_2, omp_3, ovp_1 = 0, ovp_2 = 0, ovp_3 = 0, ocov_12, ocov_13, ocov_23;
 	double pmp_1, pmp_2, pmp_3, pvp_1 = 0, pvp_2 = 0, pvp_3 = 0, pcov_12, pcov_13, pcov_23;

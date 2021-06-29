@@ -9,8 +9,8 @@ MatrixXd calculate_covariance_matrix(const MatrixXd& m2, const VectorXd& mVec, i
 MatrixXd calculate_omega_weight_matrix(const MatrixXd &sample, const VectorXd &mu, int nMom, int n);
 MatrixXd generate_covariance_matrix(const MatrixXd& sampleSpace, const VectorXd& mu, int nProt);
 MatrixXd generate_sample_space(int nProt, int n);
-State_N gen_multi_lognorm_init6(void); // temporary function for N_SPECIES = 6
-State_N gen_multi_norm_init6(void);
+State_N gen_multi_lognorm_iSub(void); // temporary function for N_SPECIES = 6
+State_N gen_multi_norm_iSub(void);
 VectorXd gen_sub_mom_vec(const VectorXd &momVec);
 VectorXd comp_vel_vec(const VectorXd &posK); // compute velocity vector
 /* Struct for multi-variate normal distribution */

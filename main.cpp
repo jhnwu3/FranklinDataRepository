@@ -84,7 +84,7 @@ int main(int argc, char **argv)
         VectorXd pBVec = pos.k; // best particle k rates
         double pBCost; // best cost in particle history
         for(int i = 0; i < N; i++){
-            State_N pC0 = gen_multi_lognorm_init6();
+            State_N pC0 = gen_multi_lognorm_iSub();
             integrate_adaptive(pControlledStepper, pOdeSys, pC0, pt0, ptf, pdt, XtObs6);
         }
         VectorXd pMoments = gen_sub_mom_vec(X_t.moments);
@@ -108,10 +108,13 @@ int main(int argc, char **argv)
             Data_ODE_Observer XtObsPSO(XtPSO); // obs sums over subset of values
 
             for(int i = 0; i < N; i++){
-                State_N pC0 = gen_multi_lognorm_init6();
+                State_N pC0 = gen_multi_lognorm_iSub();
                 integrate_adaptive(pControlledStepper, pOdeSysPSO, pC0, pt0, ptf, pdt, XtObsPSO);
             }
+            XtPSO.moments/=N;
+            XtPSO.secondMoments/=N;
             pMoments = gen_sub_mom_vec(XtPSO.moments);
+            cout << XtPSO.moments.transpose() << endl;
             pCurrCost = calculate_cf2(mu, pMoments, wt, mu.size());
             /* history comparisons */
             if(pCurrCost < pBCost){
@@ -145,7 +148,7 @@ int main(int argc, char **argv)
     Data_ODE_Observer t10Obs6(time_10); // obs sums over subset of values
     
     for(int i = 0; i < N; i++){
-        State_N c0t = gen_multi_lognorm_init6(); //gen_multi_lognorm_init6();
+        State_N c0t = gen_multi_lognorm_iSub(); //gen_multi_lognorm_init6();
         integrate_adaptive(controlled_stepper, ode6Sys, c0t, t0, 0.5, dt, tfObs6);
         integrate_adaptive(controlled_stepper, ode6Sys, c0t, t0, 1.0, dt, t5Obs6);
         integrate_adaptive(controlled_stepper, ode6Sys, c0t, t0, 2.0, dt, t10Obs6);
