@@ -1,0 +1,14 @@
+Testing Parallel Cost Functions
+Computing Y_t
+Y_t moment vector   64.0391   0.192239  0.0605694    4101.03  0.0369561 0.00366866    12.3107     3.8788  0.0116438
+
+Parallel Computing Has Started!
+
+slurmstepd: error: *** JOB 1410384 ON r1pl-hpcf-n07 CANCELLED AT 2021-06-29T04:50:55 DUE TO TIME LIMIT ***
+Job Statistics for 1410384:
+           JobID       User               Start                 End    Elapsed     MaxRSS   TotalCPU      State Exit        NodeList                                  ReqTRES 
+---------------- ---------- ------------------- ------------------- ---------- ---------- ---------- ---------- ---- --------------- ---------------------------------------- 
+         1410384   rsjxw007 2021-06-28T18:40:28 2021-06-29T04:50:55   10:10:27            2-09:26:42    TIMEOUT  0:0   r1pl-hpcf-n07     billing=20,cpu=20,mem=156240M,node=1 
+   1410384.batch            2021-06-28T18:40:28 2021-06-29T04:50:57   10:10:29      1.44M 2-09:26:42  CANCELLED 0:15   r1pl-hpcf-n07                                          
+  1410384.extern            2021-06-28T18:40:28 2021-06-29T04:50:55   10:10:27          0  00:00.001  COMPLETED  0:0   r1pl-hpcf-n07                                          
+CPU Efficiency: 28.23% of 8-11:29:00 core-walltime
