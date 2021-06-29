@@ -14,7 +14,7 @@
 #include <chrono>
 
 #define N_SPECIES 6
-#define N 3000 // # of samples to sample over
+#define N 1000 // # of samples to sample over
 #define N_DIM 6 // dim of PSO hypercube
 #define N_PARTICLES 20 
 
@@ -166,11 +166,11 @@ int main() {
 	int sf1 = 1;
 	int sf2 = 1;
 	
-	int Nparts_1 = 3000;
+	int Nparts_1 = 1000;
 	int Nsteps_1 = 5;
 
 	int Nparts_2 = 5;
-	int Nsteps_2 = 3000;
+	int Nsteps_2 = 1000;
 
 	// note for coder: wmatup is a list 
 	vector<double> wmatup; 
