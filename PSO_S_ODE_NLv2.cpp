@@ -262,8 +262,8 @@ int main() {
 	VectorXd z(N); // z big questions about how to get the data values for it. It takes in a far bigger value???
 	VectorXd pa_z(N);
 
-	VectorXd all_terms(9);
-	VectorXd term_vec(9);
+	VectorXd all_terms(nMoments);
+	VectorXd term_vec(nMoments);
 
 	/* IMPORTANT THAT YOU INSTANTIATE THE RANDOM GENERATOR LIKE THIS!*/
 	std::random_device rand_dev;

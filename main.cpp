@@ -76,7 +76,6 @@ int main(int argc, char **argv)
         Data_ODE_Observer XtObs6(X_t); // obs sums over subset of values
         double pt0 = t0, ptf = tf, pdt = dt;
         
-
         /* PSO */
         /* instantiate values before PSO */  
         double w = 1.0, wS = 2.0, wC = 2.0; //  w - inertial weight, cS - social weight 
@@ -102,7 +101,6 @@ int main(int argc, char **argv)
             vj = (w * vj + wC * pBVec + wS * gBVec);
             pos.k = pos.k + vj; // update new position
             
-
             Nonlinear_ODE6 pOdeSysPSO(pos);
             Data_Components XtPSO(sub, tf, nMom); // System for Y_t = mu
             Data_ODE_Observer XtObsPSO(XtPSO); // obs sums over subset of values
@@ -114,8 +112,8 @@ int main(int argc, char **argv)
             XtPSO.moments/=N;
             XtPSO.secondMoments/=N;
             pMoments = gen_sub_mom_vec(XtPSO.moments);
-            cout << XtPSO.moments.transpose() << endl;
             pCurrCost = calculate_cf2(mu, pMoments, wt, mu.size());
+            cout << "line 116" << endl;
             /* history comparisons */
             if(pCurrCost < pBCost){
                 pBCost = pCurrCost;
