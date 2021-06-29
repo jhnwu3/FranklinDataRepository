@@ -113,7 +113,7 @@ int main(int argc, char **argv)
             XtPSO.secondMoments/=N;
             pMoments = gen_sub_mom_vec(XtPSO.moments);
             pCurrCost = calculate_cf2(mu, pMoments, wt, mu.size());
-            cout << "line 116" << endl;
+            
             /* history comparisons */
             if(pCurrCost < pBCost){
                 pBCost = pCurrCost;
@@ -127,6 +127,7 @@ int main(int argc, char **argv)
                     gCost = pCurrCost;
                     gBVec = pos.k;
                     gBMat.conservativeResize(gBMat.rows() + 1, pos.k.size() + 1);
+                    cout << "here" << endl;
                     gBMat.row(gBMat.rows() - 1) << gBVec, gCost;
                 }
             }
