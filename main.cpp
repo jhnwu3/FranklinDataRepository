@@ -128,8 +128,17 @@ int main(int argc, char **argv)
                     gBVec = pos.k;
                     gBMat.conservativeResize(gBMat.rows() + 1, pos.k.size() + 1);
                     cout << "here" << endl;
-                    gBMat.row(gBMat.rows() - 1) << gBVec, gCost;
-                    cout << "here" << endl;
+                    // assign rate constants and respective cost to the global best matrix.
+
+                    //gBMat.row(gBMat.rows() - 1) << gBVec, gCost; - doesnt work!
+                    for(int i = 0; i < gBMat.cols(); i++){
+                        if(i < gBVec.size()){
+                            gBMat(gBMat.rows() - 1, i) = gBVec(i);
+                        }else{
+                            gBMat(gBMat.rows() - 1, i) = gCost;
+                        }
+                    }
+                    
                 }
             }
         }
