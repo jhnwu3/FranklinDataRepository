@@ -3,7 +3,7 @@
 #SBATCH --job-name=PSO_ODE_Nonlinear
 #SBATCH --partition=general
 #SBATCH --nodes=1
-#SBATCH --output=nonlinear_out.txt
+#SBATCH --output=./slurm_outputs/nonlinear_out%j.txt
 #SBATCH --ntasks-per-node=1
 set -e
 echo "PSO_S_ODE_NonLinear"
