@@ -166,11 +166,11 @@ int main() {
 	int sf1 = 1;
 	int sf2 = 1;
 	
-	int Nparts_1 = 1000;
+	int Nparts_1 = 500;
 	int Nsteps_1 = 5;
 
 	int Nparts_2 = 5;
-	int Nsteps_2 = 1000;
+	int Nsteps_2 = 500;
 
 	// note for coder: wmatup is a list 
 	vector<double> wmatup; 
