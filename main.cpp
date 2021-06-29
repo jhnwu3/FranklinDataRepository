@@ -129,6 +129,7 @@ int main(int argc, char **argv)
                     gBMat.conservativeResize(gBMat.rows() + 1, pos.k.size() + 1);
                     cout << "here" << endl;
                     gBMat.row(gBMat.rows() - 1) << gBVec, gCost;
+                    cout << "here" << endl;
                 }
             }
         }
