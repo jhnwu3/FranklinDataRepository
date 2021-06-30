@@ -62,7 +62,7 @@ int main(int argc, char **argv)
 #pragma omp parallel for
     for(particle = 0; particle < N_PARTICLES; particle++){
        
-        int nSteps = 50;
+        int nSteps = 500;
         struct K pos; // particle k vals
         /* rng */
         random_device pRanDev;
