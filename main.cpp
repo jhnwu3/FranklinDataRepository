@@ -94,9 +94,9 @@ int main(int argc, char **argv)
         /* Instantiate inertial component aka original velocity vector */
         for(int jjj = 0; jjj < nSteps; jjj++){
             double sumW = w + wS + wC;
-            w = w * pUnifDist(generator) / sumW; //redeem weights 
-            wS = wS * pUnifDist(generator) / sumW;
-            wC = wC * pUnifDist(generator) / sumW;
+            w = w * pUnifDist(generator); //redeem weights 
+            wS = wS * pUnifDist(generator);
+            wC = wC * pUnifDist(generator);
             
             vj = (w * vj + wC * (pBVec - pos.k) + wS * (gBVec - pos.k));
             pos.k = pos.k + vj; // update new position
