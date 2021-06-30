@@ -192,6 +192,30 @@ State_N gen_multi_lognorm_iSub(void){
 
     return c0;
 }
+
+VectorXd gen_multi_lognorm_vecSub(void){
+    VectorXd initVec(N_SPECIES);
+    VectorXd mu(3);
+    mu << 4.78334234137469844730960782, 
+    5.52142091946216110500584912965, 
+    4.3815581042632114978686130;
+    MatrixXd sigma (3, 3);
+    sigma << 0.008298802814695093876186221, 0, 0,
+    0, 0.0000799968001706564273219830, 0,
+    0, 0, 0.000937060821340228802149700;
+    Multi_Normal_Random_Variable gen(mu, sigma);
+    VectorXd c0Vec = gen();
+    int j = 0;
+    for(int i = 0; i < N_SPECIES; i++){
+        if( i == 0 || i == 1 || i == 4 ){ // Syk, Vav, SHP1
+            initVec(i) = exp(c0Vec(j));
+            j++;
+        }else{
+            initVec(i) = 0;
+        }
+    }
+    return initVec;
+}
 void nonlinearODE3( const State_N &c , State_N &dcdt , double t )
 {
     dcdt[0] =  ((ke*(C1T - c[0]))/(kme + (C1T - c[0]))) + ((kf * (C1T - c[0]) * c[0] * c[1]) / (kmf + (C1T - c[0]))) - ((kd*c[0]*c[2])/(kmd + c[0])); // dc1dt = ke*(C1T-C1).... (in document)
@@ -202,7 +226,7 @@ int main() {
 	
 	auto t1 = std::chrono::high_resolution_clock::now();
 	/*---------------------- Setup ------------------------ */
-	int bsi = 1, Nterms = 9, useEqual = 0, Niter = 1, Biter = 1; 
+	int bsi = 1, Nterms = 9, useEqual = 0, Niter = 1, Biter = 1, psoIter = 2; 
 
 	/* Variables (global) */
 	double t0 = 0, tf = 5.0 * (9.69), dt = 0.1 * (9.69);
@@ -292,8 +316,8 @@ int main() {
 	MatrixXd X_0(N, 3);
 	MatrixXd X_0_cp(N,3);
 	//MatrixXd X_0_db(N,6);
-	MatrixXd X_0_obs(N, 3);
-	MatrixXd Y_t_obs(N, 3);
+	MatrixXd X_0_obs(N, N_SPECIES);
+	MatrixXd Y_t_obs(N, N_SPECIES);
 	MatrixXd Y_t(N, 3);
 	VectorXd pmpV(3);
 
@@ -330,79 +354,12 @@ int main() {
 		if (bsi == 0 || q == 1) {
 			/* Simulate Y(t) and X(0) */
 			
-			std::normal_distribution<double> xNorm(mu_x, sigma_x);
-
-			for (int i = 0; i < N; i++) {
-				x(i) = (xNorm(generator));
-				pa_x(i) = (exp(x(i)));
-			}
 			
-			for (int i = 0; i < x.size(); i++) {
-				std::normal_distribution<double> yNorm(mu_y + sigma_y * rho_xy * (x(i) - mu_x) / sigma_x, sqrt(cvar_ygx));
-				y(i) = (yNorm(generator));
-				pa_y(i) = (exp(y(i))); // convert to lognormal distribution!
-			}
-			
-			/* matrix math for the z random vals. */
-			MatrixXd rbind(2, N); // first calculate a 2xN rbind matrix
-			for (int i = 0; i < x.size(); i++) {
-				rbind(0, i) = x(i) - mu_x;
-				rbind(1, i) = y(i) - mu_y;
-			}
-			MatrixXd zMean(1, N); // calculate the vector of means
-			zMean = sigma_12 * sigma_22.inverse() * rbind;
-			for (int i = 0; i < zMean.size(); i++) {
-				zMean(0, i) = zMean(0, i) + mu_z;
-			}
-			// finally actually calculate z and pa_z vectors
-			for (int i = 0; i < N; i++) {
-				std::normal_distribution<double> zNorm(zMean(0,i), sqrt(cvar_zgxy));
-				z(i) = (zNorm(generator));
-				pa_z(i) = (exp(z(i)));
-			}
 			cout << "line 314" << endl;
 			/* Create Y.0 */
-			MatrixXd Y_0(N, 3);
-			MatrixXd Y_0_cp(N, 3);
-			//MatrixXd Y_0_db(N,6);
-			/*for (int i = 0; i < N; i++) {
-				// fill it up from vectors
-				Y_0(i, 0) = pa_x(i);
-				Y_0(i, 1) = pa_y(i);
-				Y_0(i, 2) = pa_z(i);
-			}*/
-			Y_0.col(0) = pa_x;
-			Y_0.col(1) = pa_y;
-			Y_0.col(2) = pa_z;
-			// for (int i = 0; i < N; i++) {
-			// 	x(i) = (xNorm(generator));
-			// 	pa_x(i) = (exp(x(i)));
-			// }
-			// for (int i = 0; i < x.size(); i++) {
-			// 	std::normal_distribution<double> yNorm(mu_y + sigma_y * rho_xy * (x(i) - mu_x) / sigma_x, sqrt(cvar_ygx));
-			// 	y(i) = (yNorm(generator));
-			// 	pa_y(i) = (exp(y(i))); // convert to lognormal distribution!
-			// }
-			
-			// /* matrix math for the z random vals. */
-			// for (int i = 0; i < x.size(); i++) {
-			// 	rbind(0, i) = x(i) - mu_x;
-			// 	rbind(1, i) = y(i) - mu_y;
-			// }
-			// zMean = sigma_12 * sigma_22.inverse() * rbind;
-			// for (int i = 0; i < zMean.size(); i++) {
-			// 	zMean(0, i) = zMean(0, i) + mu_z;
-			// }
-			// // finally actually calculate z and pa_z vectors
-			// for (int i = 0; i < N; i++) {
-			// 	std::normal_distribution<double> zNorm(zMean(0,i), sqrt(cvar_zgxy));
-			// 	z(i) = (zNorm(generator));
-			// 	pa_z(i) = (exp(z(i)));
-			// }
-			// Y_0_cp.col(0) = pa_x;
-			// Y_0_cp.col(1) = pa_y;
-			// Y_0_cp.col(2) = pa_z;
-			// Y_0_db << Y_0, Y_0_cp;
+			MatrixXd Y_0(N, N_SPECIES);
+
+
 			/* COMPUTE ODES! */ // Y_t = (EMT * Y_0.transpose()).transpose(); - Convert to Y_t
 			Data_Components6 dCom;
 			Data_ODE_Observer6 obs(dCom);
@@ -694,7 +651,7 @@ int main() {
 				
 			}
 			
-			if (pso == Biter + 1) {
+			if (pso == psoIter) {
 				Nparts = Nparts_2;
 				Nsteps = Nsteps_2;
 				cout << "ln 652" << endl;
