@@ -12,7 +12,7 @@
 #include <chrono>
 #include <omp.h>
 #define N_SPECIES 6
-#define N 500 // # of samples to sample over
+#define N 1000 // # of samples to sample over
 #define N_DIM 6 // dim of PSO hypercube
 #define N_PARTICLES 20 
 

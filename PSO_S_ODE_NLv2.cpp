@@ -34,6 +34,31 @@ typedef controlled_runge_kutta< Error_RK_Stepper_N > Controlled_RK_Stepper_N;
 const double ke = 0.0001, kme = 20, kf = 0.01, kmf = 18, kd = 0.03, kmd = 1, 
 ka2 = 0.01, ka3 = 0.01, C1T = 20, C2T = 5, C3T = 4;
 
+struct Multi_Normal_Random_Variable
+{
+    Multi_Normal_Random_Variable(Eigen::MatrixXd const& covar)
+        : Multi_Normal_Random_Variable(Eigen::VectorXd::Zero(covar.rows()), covar)
+    {}
+
+    Multi_Normal_Random_Variable(Eigen::VectorXd const& mean, Eigen::MatrixXd const& covar)
+        : mean(mean)
+    {
+        Eigen::SelfAdjointEigenSolver<Eigen::MatrixXd> eigenSolver(covar);
+        transform = eigenSolver.eigenvectors() * eigenSolver.eigenvalues().cwiseSqrt().asDiagonal();
+    }
+
+    Eigen::VectorXd mean;
+    Eigen::MatrixXd transform;
+
+    Eigen::VectorXd operator()() const
+    {
+        static std::mt19937 gen{ std::random_device{}() };
+        static std::normal_distribution<> dist;
+
+        return mean + transform * Eigen::VectorXd{ mean.size() }.unaryExpr([&](auto x) { return dist(gen); });
+    }
+};
+
 struct K
 {
     VectorXd k;
@@ -143,7 +168,30 @@ struct Data_ODE_Observer6
         }
     }
 };
+State_N gen_multi_lognorm_iSub(void){
+    State_N c0;
+    VectorXd mu(3);
+    mu << 4.78334234137469844730960782, 
+    5.52142091946216110500584912965, 
+    4.3815581042632114978686130;
+    MatrixXd sigma (3, 3);
+    sigma << 0.008298802814695093876186221, 0, 0,
+    0, 0.0000799968001706564273219830, 0,
+    0, 0, 0.000937060821340228802149700;
+    Multi_Normal_Random_Variable gen(mu, sigma);
+    VectorXd c0Vec = gen();
+    int j = 0;
+    for(int i = 0; i < N_SPECIES; i++){
+        if( i == 0 || i == 1 || i == 4 ){ // Syk, Vav, SHP1
+            c0[i] = exp(c0Vec(j));
+            j++;
+        }else{
+            c0[i] = 0;
+        }
+    }
 
+    return c0;
+}
 void nonlinearODE3( const State_N &c , State_N &dcdt , double t )
 {
     dcdt[0] =  ((ke*(C1T - c[0]))/(kme + (C1T - c[0]))) + ((kf * (C1T - c[0]) * c[0] * c[1]) / (kmf + (C1T - c[0]))) - ((kd*c[0]*c[2])/(kmd + c[0])); // dc1dt = ke*(C1T-C1).... (in document)

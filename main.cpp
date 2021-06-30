@@ -98,7 +98,7 @@ int main(int argc, char **argv)
             wS = wS * pUnifDist(generator) / sumW;
             wC = wC * pUnifDist(generator) / sumW;
             
-            vj = (w * vj + wC * pBVec + wS * gBVec);
+            vj = (w * vj + wC * (pBVec - pos.k) + wS * (gBVec - pos.k));
             pos.k = pos.k + vj; // update new position
             
             Nonlinear_ODE6 pOdeSysPSO(pos);
@@ -127,9 +127,7 @@ int main(int argc, char **argv)
                     gCost = pCurrCost;
                     gBVec = pos.k;
                     gBMat.conservativeResize(gBMat.rows() + 1, pos.k.size() + 1);
-                    cout << "here" << endl;
                     // assign rate constants and respective cost to the global best matrix.
-
                     //gBMat.row(gBMat.rows() - 1) << gBVec, gCost; - doesnt work!
                     for(int i = 0; i < gBMat.cols(); i++){
                         if(i < gBVec.size()){
