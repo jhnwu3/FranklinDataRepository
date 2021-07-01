@@ -134,9 +134,37 @@ struct Data_Components{
     double timeToRecord;
 };
 struct Protein_Moments{
-    VectorXd moments;
-    MatrixXd mat;
+    VectorXd mVec;
+    MatrixXd sec;
     double timeToRecord;
+    Protein_Moments(double tf, int mom){
+        mVec = VectorXd::Zero(mom);
+        sec = MatrixXd::Zero(N_SPECIES, N_SPECIES);
+        timeToRecord = tf;
+    }
+};
+
+struct Mom_ODE_Observer 
+{
+    struct Protein_Moments &pMome;
+    Mom_ODE_Observer( struct Protein_Moments &pMom) : pMome( pMom ) {}
+    void operator()( State_N const& c, const double t ) const 
+    {
+        if(t == pMome.timeToRecord){
+            for(int i = 0; i < N_SPECIES; i++){
+                pMome.mVec(i) += c[i];
+                for(int j = i; j < N_SPECIES; j++){
+                    if( i == j ){ // diagonal elements
+                        pMome.mVec(N_SPECIES + i) += c[i] * c[j];
+                    }else{
+                        pMome.mVec(2*N_SPECIES + (i + j - 1)) += c[i] *c[j];
+                    }
+                    pMome.sec(i,j) += c[i] * c[j];
+                    pMome.sec(j,i) = pMome.sec(i,j); 
+                }
+            }
+        }
+    }
 };
 struct Data_ODE_Observer 
 {
@@ -275,15 +303,13 @@ double calculate_cf2(const VectorXd& trueVec, const  VectorXd& estVec, const Mat
     cost = diff.transpose() * w * (diff.transpose()).transpose();
     return cost;
 }
-void nonlinearODE3( const State_N &c , State_N &dcdt , double t )
-{
-    dcdt[0] =  ((ke*(C1T - c[0]))/(kme + (C1T - c[0]))) + ((kf * (C1T - c[0]) * c[0] * c[1]) / (kmf + (C1T - c[0]))) - ((kd*c[0]*c[2])/(kmd + c[0])); // dc1dt = ke*(C1T-C1).... (in document)
-    dcdt[1] =  ka2 *(C2T - c[1]); // dc2/dt = ka2 * (C2T - c2)
-    dcdt[2] =  ka3*(C3T - c[2]); // dc3/dt = ka3 * (C3t - c3)
-}
+
 int main() {
 	
 	auto t1 = std::chrono::high_resolution_clock::now();
+    random_device ran;
+    mt19937 gen(ran);
+    uniform_real_distribution<double> unifDist(0.0, 1.0);
 	/*---------------------- Setup ------------------------ */
 	int bsi = 1, Nterms = 9, useEqual = 0, Niter = 1, Biter = 1, psoIter = 2; 
 
@@ -307,7 +333,6 @@ int main() {
 
     /* moments */
 	int nMoments = (N_SPECIES * (N_SPECIES + 3)) / 2;
-	VectorXd oMoments(nMoments);
 	MatrixXd Y_t = MatrixXd::Zero(N, N_SPECIES); // Values we are comparing towards - oMoments is derived from this.
 	VectorXd pMoments(nMoments);
 	MatrixXd X_t = MatrixXd::Zero(N, N_SPECIES);
@@ -318,35 +343,105 @@ int main() {
     double sfi = sfe, sfc = sfp, sfs = sfg; // below are the variables being used to reiterate weights
 	double w1 = 6, w2 = 1, w3 = 1, boundary = 0.001; 
 	MatrixXd wt = MatrixXd::Identity(nMoments, nMoments); // wt matrix
-	MatrixXd GBMAT;
+	MatrixXd GBMAT(0,0);
 	MatrixXd PBMAT;
-
+    VectorXd PBVEC = VectorXd::Zero(Npars);
+    MatrixXd GBVEC = VectorXd::Zero(Npars);
 	VectorXd wmatup(4);
 	wmatup << 0.15, 0.3, .45, .6;
+
+    /* Solve for Y_t (mu) */
 	struct K tru; 
 	tru.k = VectorXd::Zero(Npars);
 	tru.k << 5.0, 0.1, 1.0, 8.69, 0.05, 0.70;
 	tru.k /= (9.69);
 	struct K pos;
-
-
-    /* Solve for Y_t (mu) */
+    Nonlinear_ODE6 trueSys(tru);
+    Protein_Moments Yt(tf, nMoments);
+    Mom_ODE_Observer YtObs(Yt);
+    Controlled_RK_Stepper_N controlledStepper;
+    
     for(int i = 0; i < N; i++){
         State_N c0 = gen_multi_lognorm_iSub(); // Y_0 is simulated using lognorm dist.
-        
+        integrate_adaptive(controlledStepper, trueSys, c0, t0, tf, dt, YtObs);
     }
+    Yt.mVec /= N;
+    Yt.sec /= N;
+    
+    /* PSO costs */
+    double gCost;
+    double pCost;
+    
+    /* Instantiate respective pos.k */
+    for(int i = 0; i < Npars; i++){ pos.k(i) = unifDist(gen);}
+    Protein_Moments Xt(tf, nMoments);
+    Mom_ODE_Observer XtObs(Xt);
+    Nonlinear_ODE6 sys(pos);
+    for(int i = 0; i < N; i++){
+        State_N c0 = gen_multi_lognorm_iSub();
+        integrate_adaptive(controlledStepper, sys, c0, t0, tf, dt, XtObs);
+    }
+    Xt.mVec/=N;
+    Xt.sec/=N;
+    double costSeedk = calculate_cf2(Yt.mVec, Xt.mVec, wt, nMoments);
+    gCost = costSeedk;
+    pCost = costSeedk;
 
-    /* Instantiate PBMAT and respective pos.k */
-
-    random_device ran;
-    mt19937 gen(ran);
-    uniform_real_distribution<double> unifDist(0.0, 1.0);
+    /* PSO Starts here!*/
     for(int particle = 0; particle < Nparts; particle++){
+        /* instantiate PBMAT for specific particle */
+        for(int i = 0; i < Npars; i++){
+            pos.k(i) = unifDist(gen);
+        }
+        Xt.mVec = VectorXd::Zero(nMoments);
+        Xt.sec = MatrixXd(nMoments, nMoments);
+        Mom_ODE_Observer XtObsInit(Xt);
+        Nonlinear_ODE6 initSys(pos);
+        for(int i = 0; i < N; i++){
+            State_N c0 = gen_multi_lognorm_iSub();
+            integrate_adaptive(controlledStepper, initSys, c0, t0, tf, dt, XtObsInit);
+        }
+        Xt.mVec /=N;
+        Xt.sec /=N;
+        PBMAT.conservativeResize(1, Npars + 1);
+        for(int i = 0; i < Npars; i++){
+            PBMAT(0, i) = pos.k(i);
+        }
+        PBVEC = pos.k;
+        pCost = calculate_cf2(Yt.mVec, Xt.mVec, wt, nMoments); // initial particle best
+
 		for(int step = 0; step < Nsteps; step++){
             w1 = sfi* unifDist(gen) / sf2; w2 = sfc * unifDist(gen) /sf2; w3 = sfs * unifDist(gen)/sf2; 
             double sumw = w1 + w2 + w3; //w1 = inertial, w2 = pbest, w3 = gbest
             w1 = w1 / sumw; w2 = w2/ sumw; w3 = w3/sumw;
 
+            VectorXd rpoint = comp_vel_vec(pos.k);
+            pos.k = w1 *rpoint + w2*PBVEC + w3 * GBVEC; // GBVEC = gbest in stewart's PSO
+
+            Xt.mVec = VectorXd::Zero(nMoments);
+            Xt.sec = MatrixXd(nMoments, nMoments);
+            Mom_ODE_Observer XtObsPSO(Xt);
+            Nonlinear_ODE6 psoSys(pos); 
+            for(int i = 0; i < N; i++){
+                State_N c0 = gen_multi_lognorm_iSub();
+                integrate_adaptive(controlledStepper, psoSys, c0, t0, tf, dt, XtObsPSO);
+            }
+            Xt.mVec/=N;
+            Xt.sec/=N;
+            double pCurrCost = calculate_cf2(Yt.mVec, Xt.mVec, wt, nMoments);
+            if(pCurrCost < pCost){
+                PBVEC = pos.k;
+                pCost = pCurrCost;
+                if(pCurrCost < gCost){
+                    gCost = pCurrCost;
+                    GBVEC = pos.k;
+                    GBMAT.conservativeResize(GBMAT.rows() + 1, Npars + 1);
+                    for(int i = 0; i < Npars; i++){
+                        GBMAT(GBMAT.rows() -1 , i) = GBVEC(i);
+                    }
+                    GBMAT(GBMAT.rows() - 1, Npars) = gCost;
+                }
+            }
 		}
 	}
 
