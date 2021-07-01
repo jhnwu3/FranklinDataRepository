@@ -355,6 +355,7 @@ int main() {
 	tru.k << 5.0, 0.1, 1.0, 8.69, 0.05, 0.70;
 	tru.k /= (9.69);
 	struct K pos;
+    pos.k = VectorXd::Zero(Npars);
     Nonlinear_ODE6 trueSys(tru);
     Protein_Moments Yt(tf, nMoments);
     Mom_ODE_Observer YtObs(Yt);
