@@ -336,7 +336,7 @@ int main() {
 	MatrixXd Y_t = MatrixXd::Zero(N, N_SPECIES); // Values we are comparing towards - oMoments is derived from this.
 	VectorXd pMoments(nMoments);
 	MatrixXd X_t = MatrixXd::Zero(N, N_SPECIES);
-	
+	cout << "339" << endl;
 	/* PSO weights */
     double sfp = 3.0, sfg = 1.0, sfe = 6.0; // initial particle historical weight, global weight social, inertial
     double sfi = sfe, sfc = sfp, sfs = sfg; // below are the variables being used to reiterate weights
@@ -359,7 +359,7 @@ int main() {
     Protein_Moments Yt(tf, nMoments);
     Mom_ODE_Observer YtObs(Yt);
     Controlled_RK_Stepper_N controlledStepper;
-    
+    cout << "362" << endl;
     for(int i = 0; i < N; i++){
         State_N c0 = gen_multi_lognorm_iSub(); // Y_0 is simulated using lognorm dist.
         integrate_adaptive(controlledStepper, trueSys, c0, t0, tf, dt, YtObs);
@@ -385,7 +385,7 @@ int main() {
     double costSeedk = calculate_cf2(Yt.mVec, Xt.mVec, wt, nMoments);
     gCost = costSeedk;
     pCost = costSeedk;
-
+    cout << "388" << endl;
     /* PSO Starts here!*/
     for(int particle = 0; particle < Nparts; particle++){
         /* instantiate PBMAT for specific particle */
