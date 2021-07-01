@@ -393,7 +393,7 @@ int main() {
             pos.k(i) = unifDist(gen);
         }
         Xt.mVec = VectorXd::Zero(nMoments);
-        Xt.sec = MatrixXd(nMoments, nMoments);
+        Xt.sec = MatrixXd(N_SPECIES, N_SPECIES);
         Mom_ODE_Observer XtObsInit(Xt);
         Nonlinear_ODE6 initSys(pos);
         for(int i = 0; i < N; i++){
@@ -418,7 +418,7 @@ int main() {
             pos.k = w1 *rpoint + w2*PBVEC + w3 * GBVEC; // GBVEC = gbest in stewart's PSO
 
             Xt.mVec = VectorXd::Zero(nMoments);
-            Xt.sec = MatrixXd(nMoments, nMoments);
+            Xt.sec = MatrixXd(N_SPECIES, N_SPECIES);
             Mom_ODE_Observer XtObsPSO(Xt);
             Nonlinear_ODE6 psoSys(pos); 
             for(int i = 0; i < N; i++){
