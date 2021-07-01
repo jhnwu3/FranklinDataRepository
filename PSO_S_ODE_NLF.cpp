@@ -441,6 +441,8 @@ int main() {
                     GBMAT(GBMAT.rows() - 1, Npars) = gCost;
                 }
             }
+            sfi = sfi - (sfe - sfg)/Nsteps;   // reduce the inertial weight after each step 
+            sfs = sfs + (sfe - sfg)/Nsteps;   
 		}
 	}
 
