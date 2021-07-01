@@ -308,7 +308,7 @@ int main() {
 	
 	auto t1 = std::chrono::high_resolution_clock::now();
     random_device ran;
-    mt19937 gen(ran);
+    mt19937 gen(ran());
     uniform_real_distribution<double> unifDist(0.0, 1.0);
 	/*---------------------- Setup ------------------------ */
 	int bsi = 1, Nterms = 9, useEqual = 0, Niter = 1, Biter = 1, psoIter = 2; 
