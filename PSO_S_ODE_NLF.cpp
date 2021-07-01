@@ -338,7 +338,6 @@ int main() {
 	MatrixXd X_t = MatrixXd::Zero(N, N_SPECIES);
 	
 	/* PSO weights */
-    double sf2 = 1.0, sf1 = 1.0;
     double sfp = 3.0, sfg = 1.0, sfe = 6.0; // initial particle historical weight, global weight social, inertial
     double sfi = sfe, sfc = sfp, sfs = sfg; // below are the variables being used to reiterate weights
 	double w1 = 6, w2 = 1, w3 = 1, boundary = 0.001; 
