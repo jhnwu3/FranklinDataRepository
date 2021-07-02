@@ -314,7 +314,7 @@ int main() {
 	int bsi = 1, Nterms = 9, useEqual = 0, Niter = 1, Biter = 1, psoIter = 2; 
 
 	/* Variables (global) */
-	double t0 = 0, tf = 5.0 * (9.69), dt = 0.1 * (9.69);
+	double t0 = 0, tf = 5.0, dt = 0.1;
 	int wasflipped = 0, Nprots = 3, Npars = 6;
 	double squeeze = 0.96, sdbeta = 0.05;
 
