@@ -323,12 +323,12 @@ int main() {
 	int sf1 = 1;
 	int sf2 = 1;
 	
-	int Nparts_1 = 10;
+	int Nparts_1 = 100;
 	int Nparts = Nparts_1;
 	int Nsteps_1 = 5;
 
 	int Nparts_2 = 5;
-	int Nsteps_2 = 10;
+	int Nsteps_2 = 100;
 	int Nsteps = Nsteps_2;
 
     cout << "sample size:" << N << "Nparts:" << Nparts << "Nsteps:" << Nsteps << endl;
