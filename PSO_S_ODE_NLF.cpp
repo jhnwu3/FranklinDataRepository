@@ -14,7 +14,7 @@
 #include <chrono>
 
 #define N_SPECIES 6
-#define N 100 // # of samples to sample over
+#define N 10 // # of samples to sample over
 #define N_DIM 6 // dim of PSO hypercube
 #define N_PARTICLES 20 
 
@@ -314,7 +314,7 @@ int main() {
 	int bsi = 1, Nterms = 9, useEqual = 0, Niter = 1, Biter = 1, psoIter = 2; 
 
 	/* Variables (global) */
-	double t0 = 0, tf = 5.0, dt = 0.1;
+	double t0 = 0, tf = 5.0 * 9.69, dt = 1.0;
 	int wasflipped = 0, Nprots = 3, Npars = 6;
 	double squeeze = 0.96, sdbeta = 0.05;
 
