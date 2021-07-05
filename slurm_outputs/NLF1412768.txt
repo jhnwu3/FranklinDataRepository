@@ -2,3 +2,11 @@ PSO_S_ODE_NonLinear
 339
 362
 388
+slurmstepd: error: *** JOB 1412768 ON r1pl-hpcf-n21 CANCELLED AT 2021-07-04T04:04:07 DUE TO TIME LIMIT ***
+Job Statistics for 1412768:
+           JobID       User               Start                 End    Elapsed     MaxRSS   TotalCPU      State Exit        NodeList                                  ReqTRES 
+---------------- ---------- ------------------- ------------------- ---------- ---------- ---------- ---------- ---- --------------- ---------------------------------------- 
+         1412768   rsjxw007 2021-07-02T11:53:44 2021-07-04T04:04:07 1-16:10:23            1-16:03:14    TIMEOUT  0:0   r1pl-hpcf-n21         billing=1,cpu=1,mem=7812M,node=1 
+   1412768.batch            2021-07-02T11:53:44 2021-07-04T04:04:09 1-16:10:25      1.44M 1-16:03:14  CANCELLED 0:15   r1pl-hpcf-n21                                          
+  1412768.extern            2021-07-02T11:53:44 2021-07-04T04:04:07 1-16:10:23          0  00:00.001  COMPLETED  0:0   r1pl-hpcf-n21                                          
+CPU Efficiency: 99.70% of 1-16:10:23 core-walltime
