@@ -1,9 +1,0 @@
-PSO_S_ODE_NonLinear
-./PSO_S_ODE_NLF: /lib64/libstdc++.so.6: version `GLIBCXX_3.4.26' not found (required by ./PSO_S_ODE_NLF)
-Job Statistics for 1412941:
-           JobID       User               Start                 End    Elapsed     MaxRSS   TotalCPU      State Exit        NodeList                                  ReqTRES 
----------------- ---------- ------------------- ------------------- ---------- ---------- ---------- ---------- ---- --------------- ---------------------------------------- 
-         1412941   rsjxw007 2021-07-02T17:21:33 2021-07-02T17:21:33   00:00:00             00:00.009     FAILED  1:0   r1pl-hpcf-n21         billing=1,cpu=1,mem=7812M,node=1 
-   1412941.batch            2021-07-02T17:21:33 2021-07-02T17:21:33   00:00:00          0  00:00.008     FAILED  1:0   r1pl-hpcf-n21                                          
-  1412941.extern            2021-07-02T17:21:33 2021-07-02T17:21:33   00:00:00          0  00:00.001  COMPLETED  0:0   r1pl-hpcf-n21                                          
-CPU Efficiency: 0.00% of 00:00:00 core-walltime
