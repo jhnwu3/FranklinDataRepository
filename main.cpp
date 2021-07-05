@@ -45,16 +45,19 @@ int main(int argc, char **argv)
     struct K exactK; 
     exactK.k << 5.0, 0.10, 1.00, 8.69, 0.05, 0.70; // true k vector
     exactK.k /= (10.00);
+
     Nonlinear_ODE6 ode6Sys(exactK); // ode sys to evolve
-    Data_Components Y_t(sub, tf, nMom); // Y_t = mu
-    Data_ODE_Observer YtObs6(Y_t); // obs sums over subset of values
+    // Data_Components Y_t(sub, tf, nMom); // Y_t = mu
+    // Data_ODE_Observer YtObs6(Y_t); // obs sums over subset of values
+    Protein_Moments Y_t(tf, nMom);
+    Mom_ODE_Observer YtObs6(Y_t);
     State_N c0 = {120, 250, 0, 0, 80, 0}; //gen_multi_lognorm_init6();
     for(int i = 0; i < N; i++){
         integrate_adaptive(controlled_stepper, ode6Sys, c0, t0, tf, dt, YtObs6);
     }
-    Y_t.secondMoments/=N; // average moments
-    Y_t.moments /= N;
-    VectorXd mu = gen_sub_mom_vec(Y_t.moments); // filter out zero moments due to subset.
+    Y_t.sec /= N; // average moments
+    Y_t.mVec /= N;
+    VectorXd mu = Y_t.mVec;//gen_sub_mom_vec(Y_t.mVec); // filter out zero moments due to subset.
     cout << "Y_t moment vector" << mu.transpose() << endl << endl;
 
     /****************************** Parallel Computing - Particles/PSO ******************************/
@@ -73,8 +76,10 @@ int main(int argc, char **argv)
         for(int i = 0; i < pos.k.size(); i++){ pos.k(i) = pUnifDist(generator); } 
         Nonlinear_ODE6 pOdeSys(pos);
         Controlled_RK_Stepper_N pControlledStepper;
-        Data_Components X_t(sub, tf, nMom); // System for Y_t = mu
-        Data_ODE_Observer XtObs6(X_t); // obs sums over subset of values
+        //Data_Components X_t(sub, tf, nMom); // System for Y_t = mu
+        //Data_ODE_Observer XtObs6(X_t); // obs sums over subset of values
+        Protein_Moments X_t(tf, nMom);
+        Mom_ODE_Observer XtObs6(X_t);
         double pt0 = t0, ptf = tf, pdt = dt;
         
         /* PSO */
@@ -87,7 +92,8 @@ int main(int argc, char **argv)
             State_N pC0 = gen_multi_lognorm_iSub();
             integrate_adaptive(pControlledStepper, pOdeSys, pC0, pt0, ptf, pdt, XtObs6);
         }
-        VectorXd pMoments = gen_sub_mom_vec(X_t.moments);
+        X_t.mVec /= N;
+        VectorXd pMoments = X_t.mVec;//gen_sub_mom_vec(X_t.moments);
         /* instantiate custom velocity markov component */
         VectorXd vj = VectorXd::Zero(pos.k.size());//comp_vel_vec(pos.k); 
         pCurrCost = calculate_cf1(mu, pMoments, subMom);
@@ -103,16 +109,18 @@ int main(int argc, char **argv)
             pos.k = pos.k + vj; // update new position
             
             Nonlinear_ODE6 pOdeSysPSO(pos);
-            Data_Components XtPSO(sub, tf, nMom); // System for Y_t = mu
-            Data_ODE_Observer XtObsPSO(XtPSO); // obs sums over subset of values
+            // Data_Components XtPSO(sub, tf, nMom); // System for Y_t = mu
+            // Data_ODE_Observer XtObsPSO(XtPSO); // obs sums over subset of values
+            Protein_Moments XtPSO(tf, nMom);
+            Mom_ODE_Observer XtObsPSO(XtPSO);
 
             for(int i = 0; i < N; i++){
                 State_N pC0 = gen_multi_lognorm_iSub();
                 integrate_adaptive(pControlledStepper, pOdeSysPSO, pC0, pt0, ptf, pdt, XtObsPSO);
             }
-            XtPSO.moments/=N;
-            XtPSO.secondMoments/=N;
-            pMoments = gen_sub_mom_vec(XtPSO.moments);
+            XtPSO.mVec/=N;
+            XtPSO.sec/=N;
+            pMoments = XtPSO.mVec;//gen_sub_mom_vec(XtPSO.moments);
             pCurrCost = calculate_cf2(mu, pMoments, wt, mu.size());
             
             /* history comparisons */
@@ -120,10 +128,10 @@ int main(int argc, char **argv)
                 pBCost = pCurrCost;
                 pBVec = pos.k;
             }
+            
             /* global cost comparisons */
             #pragma omp critical
             {     
-               
                 if(pCurrCost < gCost){
                     gCost = pCurrCost;
                     gBVec = pos.k;

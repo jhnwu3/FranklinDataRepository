@@ -197,4 +197,40 @@ struct Particle_Observer
         }
     }
 }; 
+
+
+struct Protein_Moments {
+    VectorXd mVec;
+    MatrixXd sec;
+    double timeToRecord;
+    Protein_Moments(double tf, int mom) {
+        mVec = VectorXd::Zero(mom);
+        sec = MatrixXd::Zero(N_SPECIES, N_SPECIES);
+        timeToRecord = tf;
+    }
+};
+
+struct Mom_ODE_Observer
+{
+    struct Protein_Moments& pMome;
+    Mom_ODE_Observer(struct Protein_Moments& pMom) : pMome(pMom) {}
+    void operator()(State_N const& c, const double t) const
+    {
+        if (t == pMome.timeToRecord) {
+            for (int i = 0; i < N_SPECIES; i++) {
+                pMome.mVec(i) += c[i];
+                for (int j = i; j < N_SPECIES; j++) {
+                    if (i == j) { // diagonal elements
+                        pMome.mVec(N_SPECIES + i) += c[i] * c[j];
+                    }
+                    else {
+                        pMome.mVec(2 * N_SPECIES + (i + j - 1)) += c[i] * c[j];
+                    }
+                    pMome.sec(i, j) += c[i] * c[j];
+                    pMome.sec(j, i) = pMome.sec(i, j);
+                }
+            }
+        }
+    }
+};
 #endif
