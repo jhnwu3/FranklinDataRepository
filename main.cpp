@@ -33,7 +33,7 @@ int main(int argc, char **argv)
     int subSize = 3;
     int subMom = (subSize * (subSize + 3)) / 2;
     MatrixXd cov(subMom, subMom); // covar matrix   
-    MatrixXd wt = MatrixXd::Identity(subMom, subMom); // wt. matrix
+    MatrixXd wt = MatrixXd::Identity(nMom, nMom); // wt. matrix - change if no longer using sub moments
     MatrixXd gBMat = MatrixXd::Zero(0,0);
     VectorXd gBVec = VectorXd::Zero(N_DIM);
     double gCost = 10000000; // some outrageous starting value
@@ -128,7 +128,7 @@ int main(int argc, char **argv)
                 pBCost = pCurrCost;
                 pBVec = pos.k;
             }
-            
+
             /* global cost comparisons */
             #pragma omp critical
             {     
