@@ -14,7 +14,7 @@
 #include <chrono>
 
 #define N_SPECIES 6
-#define N 1000 // # of samples to sample over
+#define N 500 // # of samples to sample over
 #define N_DIM 6 // dim of PSO hypercube
 #define N_PARTICLES 20 
 
@@ -334,7 +334,7 @@ int main() {
     int sf1 = 1;
     int sf2 = 1;
 
-    int Nparts = 1500;
+    int Nparts = 500;
     int Nsteps = 20;
 
     cout << "sample size:" << N << "Nparts:" << Nparts << "Nsteps:" << Nsteps << endl;
