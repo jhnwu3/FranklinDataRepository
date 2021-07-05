@@ -1,6 +1,3 @@
-// PSO_ODE_Windows.cpp : This file contains the 'main' function. Program execution begins and ends there.
-//
-/* hpp section */
 // PSO.cpp : Replacing Dr. Stewarts linear 3 ODE's with the nonlinear3 ODE system provided way earlier
 //
 
@@ -17,7 +14,7 @@
 #include <chrono>
 
 #define N_SPECIES 6
-#define N 10 // # of samples to sample over
+#define N 1000 // # of samples to sample over
 #define N_DIM 6 // dim of PSO hypercube
 #define N_PARTICLES 20 
 
@@ -284,7 +281,7 @@ VectorXd comp_vel_vec(const VectorXd& posK) {
         }
         double alpha = 4 * pos;
         double beta = 4 - alpha;
-        cout << "alpha:" << alpha << "beta:" << beta << endl;
+       // cout << "alpha:" << alpha << "beta:" << beta << endl;
         std::gamma_distribution<double> aDist(alpha, 1);
         std::gamma_distribution<double> bDist(beta, 1);
 
@@ -337,8 +334,8 @@ int main() {
     int sf1 = 1;
     int sf2 = 1;
 
-    int Nparts = 100;
-    int Nsteps = 10;
+    int Nparts = 1500;
+    int Nsteps = 20;
 
     cout << "sample size:" << N << "Nparts:" << Nparts << "Nsteps:" << Nsteps << endl;
     /* moments */
@@ -445,7 +442,7 @@ int main() {
             w1 = w1 / sumw; w2 = w2 / sumw; w3 = w3 / sumw;
             pos.k = POSMAT.row(particle);
             VectorXd rpoint = comp_vel_vec(pos.k);
-            cout << "Rpoint" << rpoint.transpose() << "line:" << step << endl;
+          //  cout << "Rpoint" << rpoint.transpose() << "line:" << step << endl;
             for (int i = 0; i < Npars; i++) {
                 PBVEC(i) = PBMAT(particle, i);
             }
@@ -503,7 +500,6 @@ int main() {
 
     return 0; // just to close the program at the end.
 }
-
 
 
 
