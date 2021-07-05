@@ -25,7 +25,7 @@ int main(int argc, char **argv)
     uniform_real_distribution<double> unifDist(0.0, 1.0);
 
     /* ODE Vars */
-    double t0 = 0.0, tf = 4.0, dt = 1.0, tn = 3.0; // times 
+    double t0 = 0.0, tf = 4.0 * 10.0, dt = 1.0, tn = 3.0; // times 
     VectorXd sub = VectorXd::Zero(N_DIM); sub << 1,2,0,0,5,0; // subset of proteins to solve for.
     Controlled_RK_Stepper_N controlled_stepper;
 
@@ -44,6 +44,7 @@ int main(int argc, char **argv)
     cout << "Computing Y_t" << endl;
     struct K exactK; 
     exactK.k << 5.0, 0.10, 1.00, 8.69, 0.05, 0.70; // true k vector
+    exactK.k /= (10.00);
     Nonlinear_ODE6 ode6Sys(exactK); // ode sys to evolve
     Data_Components Y_t(sub, tf, nMom); // Y_t = mu
     Data_ODE_Observer YtObs6(Y_t); // obs sums over subset of values
@@ -62,7 +63,7 @@ int main(int argc, char **argv)
 #pragma omp parallel for
     for(particle = 0; particle < N_PARTICLES; particle++){
        
-        int nSteps = 300;
+        int nSteps = 100;
         struct K pos; // particle k vals
         /* rng */
         random_device pRanDev;
@@ -98,7 +99,7 @@ int main(int argc, char **argv)
             wS = wS * pUnifDist(generator);
             wC = wC * pUnifDist(generator);
             
-            vj = (w * vj + wC * (pBVec - pos.k) + wS * (gBVec - pos.k));
+            vj = (w * vj) + wC * (pBVec - pos.k) + wS * (gBVec - pos.k);
             pos.k = pos.k + vj; // update new position
             
             Nonlinear_ODE6 pOdeSysPSO(pos);
