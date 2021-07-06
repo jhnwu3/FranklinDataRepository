@@ -323,7 +323,7 @@ int main() {
     uniform_real_distribution<double> unifDist(0.0, 1.0);
     /*---------------------- Setup ------------------------ */
     int bsi = 1, Nterms = 9, useEqual = 0, Niter = 1, Biter = 1, psoIter = 2;
-
+    
     /* Variables (global) */
     double t0 = 0, tf = 5.0 * 9.69, dt = 1.0;
     int wasflipped = 0, Nprots = 3, Npars = 6;
@@ -337,7 +337,7 @@ int main() {
     int Nparts = 1500;
     int Nsteps = 50;
 
-    cout << "sample size:" << N << "Nparts:" << Nparts << "Nsteps:" << Nsteps << endl;
+    cout << "sample size:" << N << " Nparts:" << Nparts << " Nsteps:" << Nsteps << endl;
     /* moments */
     int nMoments = (N_SPECIES * (N_SPECIES + 3)) / 2;
     MatrixXd Y_t = MatrixXd::Zero(N, N_SPECIES); // Values we are comparing towards - oMoments is derived from this.
