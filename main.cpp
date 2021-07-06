@@ -18,7 +18,7 @@ int main(int argc, char **argv)
     auto t1 = std::chrono::high_resolution_clock::now(); // start time
     int sizeSubset = 3;
     int nMom = (N_SPECIES * (N_SPECIES + 3)) / 2; // number of moments
-    int nSteps = 75;
+    int nSteps = 20;
     cout << "sample:" << N << "Nparts:" << N_PARTICLES << "nsteps:" << nSteps << endl;
     /* RNG */
     random_device ranDev;
