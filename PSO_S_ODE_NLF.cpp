@@ -358,7 +358,7 @@ int main() {
     VectorXd wmatup(4);
     wmatup << 0.15, 0.3, .45, .6;
 
-    /* Solve for Y_t (mu) */
+    /* Solve for Y_t (mu). */
     struct K tru;
     tru.k = VectorXd::Zero(Npars);
     tru.k << 5.0, 0.1, 1.0, 8.69, 0.05, 0.70;
