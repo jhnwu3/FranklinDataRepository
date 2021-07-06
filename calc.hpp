@@ -3,8 +3,8 @@
 
 #include "main.hpp"
 /* Calculation Functions */
-double calculate_cf1(const VectorXd& trueVec, const VectorXd& estVec, int n);
-double calculate_cf2(const VectorXd& trueVec, const VectorXd& estVec, const MatrixXd& w, int n);
+double calculate_cf1(const VectorXd& trueVec, const VectorXd& estVec);
+double calculate_cf2(const VectorXd& trueVec, const VectorXd& estVec, const MatrixXd& w);
 MatrixXd calculate_covariance_matrix(const MatrixXd& m2, const VectorXd& mVec, int nProt);
 MatrixXd calculate_omega_weight_matrix(const MatrixXd &sample, const VectorXd &mu, int nMom, int n);
 MatrixXd generate_covariance_matrix(const MatrixXd& sampleSpace, const VectorXd& mu, int nProt);

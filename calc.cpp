@@ -2,9 +2,9 @@
 #include "calc.hpp"
 
 /* abbreviation: cf1 = cost function 1 */
-double calculate_cf1(const VectorXd& trueVec, const VectorXd& estVec, int n){
+double calculate_cf1(const VectorXd& trueVec, const VectorXd& estVec){
     double cost = 0;
-    VectorXd diff(n);
+    VectorXd diff(trueVec.size());
     diff = trueVec - estVec;
     cost = diff.transpose() * diff.transpose().transpose();
     // for(int i = 0; i < n; i++){
@@ -13,9 +13,9 @@ double calculate_cf1(const VectorXd& trueVec, const VectorXd& estVec, int n){
     return cost;
 }
 
-double calculate_cf2(const VectorXd& trueVec, const  VectorXd& estVec, const MatrixXd& w, int n){
+double calculate_cf2(const VectorXd& trueVec, const  VectorXd& estVec, const MatrixXd& w){
     double cost = 0;
-    VectorXd diff(n);
+    VectorXd diff(trueVec.size());
     /*for(int i = 0; i < n; i++){
         for(int j = 0; j < n; j++){
            cost += (estVec(i) - trueVec(i)) * w(i,j) *(estVec(j) - trueVec(j));
