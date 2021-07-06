@@ -434,64 +434,64 @@ int main() {
         }
     }
     cout << "PSO Begins!" << endl;
-    /* PSO Starts here!*/
-    for (int step = 0; step < Nsteps; step++) {
-        for (int particle = 0; particle < Nsteps; particle++) {
-            w1 = sfi * unifDist(gen) / sf2; w2 = sfc * unifDist(gen) / sf2; w3 = sfs * unifDist(gen) / sf2;
-            double sumw = w1 + w2 + w3; //w1 = inertial, w2 = pbest, w3 = gbest
-            w1 = w1 / sumw; w2 = w2 / sumw; w3 = w3 / sumw;
-            pos.k = POSMAT.row(particle);
-            VectorXd rpoint = comp_vel_vec(pos.k);
-          //  cout << "Rpoint" << rpoint.transpose() << "line:" << step << endl;
-            for (int i = 0; i < Npars; i++) {
-                PBVEC(i) = PBMAT(particle, i);
-            }
-            pos.k = w1 * rpoint + w2 * PBVEC + w3 * GBVEC; // GBVEC = gbest in stewart's PSO
-            POSMAT.row(particle) = pos.k;
-            Protein_Moments Xt(tf, nMoments);
-            Mom_ODE_Observer XtObsPSO(Xt);
-            Nonlinear_ODE6 psoSys(pos);
-            for (int i = 0; i < N; i++) {
-                State_N c0 = gen_multi_lognorm_iSub();
-                integrate_adaptive(controlledStepper, psoSys, c0, t0, tf, dt, XtObsPSO);
-            }
-            Xt.mVec /= N;
-            Xt.sec /= N;
-            double pCurrCost = calculate_cf2(Yt.mVec, Xt.mVec, wt, nMoments);
-            if (pCurrCost < PBMAT(particle, Npars)) {
-                for (int i = 0; i < Npars; i++) {
-                    PBMAT(particle, i) = pos.k(i);
-                }
-                PBMAT(particle, Npars) = pCurrCost; // initial particle best cost
-                if (pCurrCost < gCost) {
-                    gCost = pCurrCost;
-                    GBVEC = pos.k;
-                    GBMAT.conservativeResize(GBMAT.rows() + 1, Npars + 1);
-                    for (int i = 0; i < Npars; i++) {
-                        GBMAT(GBMAT.rows() - 1, i) = GBVEC(i);
-                    }
-                    GBMAT(GBMAT.rows() - 1, Npars) = gCost;
-                }
-            }
+    // /* PSO Starts here!*/
+    // for (int step = 0; step < Nsteps; step++) {
+    //     for (int particle = 0; particle < Nsteps; particle++) {
+    //         w1 = sfi * unifDist(gen) / sf2; w2 = sfc * unifDist(gen) / sf2; w3 = sfs * unifDist(gen) / sf2;
+    //         double sumw = w1 + w2 + w3; //w1 = inertial, w2 = pbest, w3 = gbest
+    //         w1 = w1 / sumw; w2 = w2 / sumw; w3 = w3 / sumw;
+    //         pos.k = POSMAT.row(particle);
+    //         VectorXd rpoint = comp_vel_vec(pos.k);
+    //       //  cout << "Rpoint" << rpoint.transpose() << "line:" << step << endl;
+    //         for (int i = 0; i < Npars; i++) {
+    //             PBVEC(i) = PBMAT(particle, i);
+    //         }
+    //         pos.k = w1 * rpoint + w2 * PBVEC + w3 * GBVEC; // GBVEC = gbest in stewart's PSO
+    //         POSMAT.row(particle) = pos.k;
+    //         Protein_Moments Xt(tf, nMoments);
+    //         Mom_ODE_Observer XtObsPSO(Xt);
+    //         Nonlinear_ODE6 psoSys(pos);
+    //         for (int i = 0; i < N; i++) {
+    //             State_N c0 = gen_multi_lognorm_iSub();
+    //             integrate_adaptive(controlledStepper, psoSys, c0, t0, tf, dt, XtObsPSO);
+    //         }
+    //         Xt.mVec /= N;
+    //         Xt.sec /= N;
+    //         double pCurrCost = calculate_cf2(Yt.mVec, Xt.mVec, wt, nMoments);
+    //         if (pCurrCost < PBMAT(particle, Npars)) {
+    //             for (int i = 0; i < Npars; i++) {
+    //                 PBMAT(particle, i) = pos.k(i);
+    //             }
+    //             PBMAT(particle, Npars) = pCurrCost; // initial particle best cost
+    //             if (pCurrCost < gCost) {
+    //                 gCost = pCurrCost;
+    //                 GBVEC = pos.k;
+    //                 GBMAT.conservativeResize(GBMAT.rows() + 1, Npars + 1);
+    //                 for (int i = 0; i < Npars; i++) {
+    //                     GBMAT(GBMAT.rows() - 1, i) = GBVEC(i);
+    //                 }
+    //                 GBMAT(GBMAT.rows() - 1, Npars) = gCost;
+    //             }
+    //         }
            
-         /*   if (sfi < 0 ) {
-                cout << "negative inertial weight! " << sfi << endl;
-                sfi = 0;
-            }
-            if (sfs > 1) {
-                cout << "negative social weight!" << sfs << endl;
-                sfs = 1;
-             }*/
-        }
-        if (sfi > 0) {
-            sfi = sfi - (sfe - sfg) / Nsteps;   // reduce the inertial weight after each step 
-            sfs = sfs + (sfe - sfg) / Nsteps;
-        }
-    }
+    //      /*   if (sfi < 0 ) {
+    //             cout << "negative inertial weight! " << sfi << endl;
+    //             sfi = 0;
+    //         }
+    //         if (sfs > 1) {
+    //             cout << "negative social weight!" << sfs << endl;
+    //             sfs = 1;
+    //          }*/
+    //     }
+    //     if (sfi > 0) {
+    //         sfi = sfi - (sfe - sfg) / Nsteps;   // reduce the inertial weight after each step 
+    //         sfs = sfs + (sfe - sfg) / Nsteps;
+    //     }
+    // }
 
 
 
-    cout << GBMAT << endl;
+    // cout << GBMAT << endl;
     auto t2 = std::chrono::high_resolution_clock::now();
     auto duration = std::chrono::duration_cast<std::chrono::seconds>(t2 - t1).count();
     cout << "CODE FINISHED RUNNING IN " << duration << " s TIME!" << endl;
