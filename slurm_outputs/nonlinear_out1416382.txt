@@ -1,0 +1,24 @@
+PSO_S_ODE_NonLinear
+line 314
+line 363
+line 383
+line 431
+ln 482
+ln 547
+ln 559
+ln 576
+ln 626
+ln 628
+ln 633
+ln 635
+PSO:1
+ln 695
+ln 701
+slurmstepd: error: *** JOB 1416382 ON r1pl-hpcf-n21 CANCELLED AT 2021-07-06T15:35:21 ***
+Job Statistics for 1416382:
+           JobID       User               Start                 End    Elapsed     MaxRSS   TotalCPU      State Exit        NodeList                                  ReqTRES 
+---------------- ---------- ------------------- ------------------- ---------- ---------- ---------- ---------- ---- --------------- ---------------------------------------- 
+         1416382   rsjxw007 2021-07-06T15:35:01 2021-07-06T15:35:20   00:00:19             00:00.036 CANCELLED+  0:0   r1pl-hpcf-n21         billing=1,cpu=1,mem=7812M,node=1 
+   1416382.batch            2021-07-06T15:35:01 2021-07-06T15:35:22   00:00:21          0  00:00.035  CANCELLED 0:15   r1pl-hpcf-n21                                          
+  1416382.extern            2021-07-06T15:35:01 2021-07-06T15:35:21   00:00:20          0  00:00.001  COMPLETED  0:0   r1pl-hpcf-n21                                          
+CPU Efficiency: 0.00% of 00:00:19 core-walltime
