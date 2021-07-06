@@ -96,7 +96,7 @@ int main(int argc, char **argv)
         VectorXd pMoments = X_t.mVec;//gen_sub_mom_vec(X_t.moments);
         /* instantiate custom velocity markov component */
         VectorXd vj = VectorXd::Zero(pos.k.size());//comp_vel_vec(pos.k); 
-        pCurrCost = calculate_cf1(mu, pMoments, mu.size());
+        pCurrCost = calculate_cf1(mu, pMoments);
 
         /* Instantiate inertial component aka original velocity vector */
         for(int jjj = 0; jjj < nSteps; jjj++){
@@ -121,7 +121,7 @@ int main(int argc, char **argv)
             XtPSO.mVec/=N;
             XtPSO.sec/=N;
             pMoments = XtPSO.mVec;//gen_sub_mom_vec(XtPSO.moments);
-            pCurrCost = calculate_cf2(mu, pMoments, wt, mu.size());
+            pCurrCost = calculate_cf2(mu, pMoments, wt);
             
             /* history comparisons */
             if(pCurrCost < pBCost){
