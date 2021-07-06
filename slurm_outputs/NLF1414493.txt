@@ -1,0 +1,14 @@
+PSO_S_ODE_NonLinear
+sample size:2000 Nparts:1500 Nsteps:50
+339
+362
+388
+PSO Begins!
+CODE FINISHED RUNNING IN 941 s TIME!
+Job Statistics for 1414493:
+           JobID       User               Start                 End    Elapsed     MaxRSS   TotalCPU      State Exit        NodeList                                  ReqTRES 
+---------------- ---------- ------------------- ------------------- ---------- ---------- ---------- ---------- ---- --------------- ---------------------------------------- 
+         1414493   rsjxw007 2021-07-06T08:44:14 2021-07-06T08:59:56   00:15:42             15:36.099  COMPLETED  0:0   r1pl-hpcf-n21        billing=8,cpu=8,mem=62496M,node=1 
+   1414493.batch            2021-07-06T08:44:14 2021-07-06T08:59:56   00:15:42      1.30M  15:36.098  COMPLETED  0:0   r1pl-hpcf-n21                                          
+  1414493.extern            2021-07-06T08:44:14 2021-07-06T08:59:56   00:15:42          0  00:00.001  COMPLETED  0:0   r1pl-hpcf-n21                                          
+CPU Efficiency: 12.42% of 02:05:36 core-walltime

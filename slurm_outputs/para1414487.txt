@@ -1,0 +1,7 @@
+Testing Parallel Cost Functions
+sample:600Nparts:400nsteps:20
+Computing Y_t
+Y_t moment vector  64.0315  0.192267   55.9685     113.9 0.0605738   79.9394    4100.1 0.0369676   3132.55   12973.2 0.0036692   6390.31   12.3109   3583.68      7304   25.7775   11493.4     18.76   4480.99   9105.08   4.84223         0         0         0         0         0         0
+
+Parallel Computing Has Started!
+

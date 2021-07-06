@@ -1,0 +1,13 @@
+PSO_S_ODE_NonLinear
+sample size:2000 Nparts:1500 Nsteps:50
+339
+362
+388
+slurmstepd: error: *** JOB 1414492 ON r1pl-hpcf-n21 CANCELLED AT 2021-07-06T08:40:27 ***
+Job Statistics for 1414492:
+           JobID       User               Start                 End    Elapsed     MaxRSS   TotalCPU      State Exit        NodeList                                  ReqTRES 
+---------------- ---------- ------------------- ------------------- ---------- ---------- ---------- ---------- ---- --------------- ---------------------------------------- 
+         1414492   rsjxw007 2021-07-06T08:38:11 2021-07-06T08:40:27   00:02:16             01:59.033 CANCELLED+  0:0   r1pl-hpcf-n21         billing=1,cpu=1,mem=7812M,node=1 
+   1414492.batch            2021-07-06T08:38:11 2021-07-06T08:40:28   00:02:17      1.31M  01:59.031  CANCELLED 0:15   r1pl-hpcf-n21                                          
+  1414492.extern            2021-07-06T08:38:11 2021-07-06T08:40:27   00:02:16          0  00:00.001  COMPLETED  0:0   r1pl-hpcf-n21                                          
+CPU Efficiency: 87.50% of 00:02:16 core-walltime
