@@ -386,6 +386,11 @@ int main() {
     for (int i = 0; i < Npars; i++) { pos.k(i) = unifDist(gen); }
     pos.k /= 10;
     pos.k = tru.k - pos.k;
+    for(int i = 0; i < Npars; i++){
+        if(pos.k(i) < 0){
+            pos.k(i) *= (-1);
+        }
+    }
     Protein_Moments Xt(tf, nMoments);
     Mom_ODE_Observer XtObs(Xt);
     Nonlinear_ODE6 sys(pos);
@@ -412,6 +417,11 @@ int main() {
             pos.k(i) = unifDist(gen);}
         pos.k /= 10;
         pos.k = tru.k - pos.k;
+        for(int i = 0; i < Npars; i++){
+            if(pos.k(i) < 0){
+                pos.k(i) *= (-1);
+            }
+        }
         POSMAT.row(particle) = pos.k;
         Xt.mVec = VectorXd::Zero(nMoments);
         Xt.sec = MatrixXd(N_SPECIES, N_SPECIES);
