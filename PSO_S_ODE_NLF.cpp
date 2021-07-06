@@ -497,10 +497,10 @@ int main() {
                 sfs = 1;
              }*/
         }
-        if (sfi > 0) {
-            sfi = sfi - (sfe - sfg) / Nsteps;   // reduce the inertial weight after each step 
-            sfs = sfs + (sfe - sfg) / Nsteps;
-        }
+        
+        sfi = sfi - (sfe - sfg) / Nsteps;   // reduce the inertial weight after each step 
+        sfs = sfs + (sfe - sfg) / Nsteps;
+        
     }
 
 
