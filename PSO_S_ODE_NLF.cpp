@@ -335,8 +335,8 @@ int main() {
     int sf1 = 1;
     int sf2 = 1;
 
-    int Nparts = 50;
-    int Nsteps = 10;
+    int Nparts = 500;
+    int Nsteps = 15;
 
     cout << "sample size:" << N << " Nparts:" << Nparts << " Nsteps:" << Nsteps << endl;
     /* moments */
