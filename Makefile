@@ -7,9 +7,9 @@ all: PSO para PSO_S PSO_S_ODE_NL PSO_S_ODE_L PSO_S_ODE_NLF
 
 # target dependencies for main PSO program - also equally messy code inside!
 PSO: main.o fileIO.o ODE.o calc.o
-	g++ main.o fileIO.o ODE.o calc.o -o PSO 
+	g++ main.o fileIO.o ODE.o calc.o -o PSO -fopenmp
 main.o: main.cpp main.hpp fileIO.hpp ODE.hpp calc.hpp  
-	g++ -c -fopenmp -O3 main.cpp 
+	g++ -c -O3 -fopenmp main.cpp 
 fileIO.o: fileIO.cpp main.hpp fileIO.hpp
 	g++ -c fileIO.cpp
 ODE.o: ODE.cpp main.hpp ODE.hpp
