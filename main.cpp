@@ -14,7 +14,6 @@ VectorXd bestMomentVector = VectorXd::Zero( N_SPECIES*(N_SPECIES + 3) / 2); // s
 
 int main(int argc, char **argv)
 {   
-    /**** PART ONE ****/
     auto t1 = std::chrono::high_resolution_clock::now(); // start time
     int sizeSubset = 3;
     int nMom = (N_SPECIES * (N_SPECIES + 3)) / 2; // number of moments
