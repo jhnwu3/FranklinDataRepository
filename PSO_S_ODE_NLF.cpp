@@ -505,7 +505,7 @@ int main() {
 
 
 
-    // cout << GBMAT << endl;
+    cout << GBMAT << endl;
     auto t2 = std::chrono::high_resolution_clock::now();
     auto duration = std::chrono::duration_cast<std::chrono::seconds>(t2 - t1).count();
     cout << "CODE FINISHED RUNNING IN " << duration << " s TIME!" << endl;
