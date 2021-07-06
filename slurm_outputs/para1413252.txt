@@ -1,0 +1,15 @@
+Testing Parallel Cost Functions
+Computing Y_t
+Y_t moment vector   64.0358   0.192251    55.9642    113.904  0.0605713    79.9394    4100.63  0.0369611    3132.03    12974.2 0.00366889    6390.31    12.3108    3583.67    7304.75    25.7768    11493.5    18.7583    4480.64    9105.43    4.84203          0          0          0          0          0          0
+
+Parallel Computing Has Started!
+
+PSO: /gpfs0/export/apps/easybuild/software/Eigen/3.3.7-GCCcore-9.3.0/include/Eigen/src/Core/Product.h:95: Eigen::Product<Lhs, Rhs, Option>::Product(const Lhs&, const Rhs&) [with _Lhs = Eigen::Transpose<Eigen::Matrix<double, -1, 1> >; _Rhs = Eigen::Matrix<double, -1, -1>; int Option = 0; Eigen::Product<Lhs, Rhs, Option>::Lhs = Eigen::Transpose<Eigen::Matrix<double, -1, 1> >; Eigen::Product<Lhs, Rhs, Option>::Rhs = Eigen::Matrix<double, -1, -1>]: Assertion `lhs.cols() == rhs.rows() && "invalid matrix product" && "if you wanted a coeff-wise or a dot product use the respective explicit functions"' failed.
+/var/spool/slurmd/job1413252/slurm_script: line 11: 3062672 Aborted                 (core dumped) ./PSO
+Job Statistics for 1413252:
+           JobID       User               Start                 End    Elapsed     MaxRSS   TotalCPU      State Exit        NodeList                                  ReqTRES 
+---------------- ---------- ------------------- ------------------- ---------- ---------- ---------- ---------- ---- --------------- ---------------------------------------- 
+         1413252   rsjxw007 2021-07-05T17:43:04 2021-07-05T17:43:20   00:00:16             01:25.622     FAILED  6:0   r1pl-hpcf-n22     billing=20,cpu=20,mem=156240M,node=1 
+   1413252.batch            2021-07-05T17:43:04 2021-07-05T17:43:20   00:00:16          0  01:25.620     FAILED  6:0   r1pl-hpcf-n22                                          
+  1413252.extern            2021-07-05T17:43:04 2021-07-05T17:43:20   00:00:16          0  00:00.002  COMPLETED  0:0   r1pl-hpcf-n22                                          
+CPU Efficiency: 26.88% of 00:05:20 core-walltime
