@@ -18,7 +18,8 @@ int main(int argc, char **argv)
     auto t1 = std::chrono::high_resolution_clock::now(); // start time
     int sizeSubset = 3;
     int nMom = (N_SPECIES * (N_SPECIES + 3)) / 2; // number of moments
-    
+    int nSteps = 75;
+    cout << "sample:" << N << "Nparts:" << N_PARTICLES << "nsteps:" << nSteps << endl;
     /* RNG */
     random_device ranDev;
     mt19937 generator(ranDev());
@@ -65,8 +66,7 @@ int main(int argc, char **argv)
     cout << "Parallel Computing Has Started!" << endl << endl;
 #pragma omp parallel for
     for(particle = 0; particle < N_PARTICLES; particle++){
-       
-        int nSteps = 75;
+    
         struct K pos; // particle k vals
         /* rng */
         random_device pRanDev;
