@@ -19,7 +19,7 @@ int main(int argc, char **argv)
     int sizeSubset = 3;
     int nMom = (N_SPECIES * (N_SPECIES + 3)) / 2; // number of moments
     int nSteps = 20;
-    cout << "sample:" << N << "Nparts:" << N_PARTICLES << "nsteps:" << nSteps << endl;
+    cout << "sample:" << N << " Nparts:" << N_PARTICLES << " nsteps:" << nSteps << endl;
     /* RNG */
     random_device ranDev;
     mt19937 generator(ranDev());
