@@ -362,7 +362,7 @@ int main() {
     Multi_Normal_Random_Variable gen1(mu, sigma);
     
     /*---------------Testing Nonlinear vs Linear3 ------------- */
-    int sampleSize = 10000;
+    int sampleSize = 20000;
     int nMoments = (N_SPECIES * (N_SPECIES + 3)) / 2;
     double t0 = 0, tf = 5.0, dt = 1.0;
     cout << "testing for nonlinear6 and linear3 has begun!" << endl;
