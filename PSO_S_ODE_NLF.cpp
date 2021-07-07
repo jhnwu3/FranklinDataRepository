@@ -335,7 +335,7 @@ int main() {
     int sf1 = 1;
     int sf2 = 1;
 
-    int Nparts = 1500;
+    int Nparts = 3000;
     int Nsteps = 15;
 
     cout << "sample size:" << N << " Nparts:" << Nparts << " Nsteps:" << Nsteps << endl;
@@ -358,7 +358,7 @@ int main() {
     MatrixXd GBVEC = VectorXd::Zero(Npars);
     VectorXd wmatup(4);
     wmatup << 0.15, 0.3, .45, .6;
-
+    
     /* Solve for Y_t (mu). */
     struct K tru;
     tru.k = VectorXd::Zero(Npars);
@@ -488,14 +488,6 @@ int main() {
                 }
             }
            
-         /*   if (sfi < 0 ) {
-                cout << "negative inertial weight! " << sfi << endl;
-                sfi = 0;
-            }
-            if (sfs > 1) {
-                cout << "negative social weight!" << sfs << endl;
-                sfs = 1;
-             }*/
         }
         
         sfi = sfi - (sfe - sfg) / Nsteps;   // reduce the inertial weight after each step 
@@ -503,6 +495,15 @@ int main() {
         
     }
 
+    /**** SECOND PART STARTS HERE! ****/
+    int Nparts2 = 25, Nsteps2 = 1500;
+    VectorXd chkpts = wmatup * Nsteps2;
+    for(int step = 0; step < Nsteps2; step++){
+        /* compute covar matrix */
+        if(step == chkpts(0) || step == chkpts(1) || step == chkpts(2) || step == chkpts(3)){
+
+        }
+    }
 
 
     cout << GBMAT << endl;
