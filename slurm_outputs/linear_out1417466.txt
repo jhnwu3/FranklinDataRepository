@@ -1,0 +1,79 @@
+PSO_S_ODE_Linear
+line 314
+line 363
+line 383
+line 431
+ln 482
+ln 547
+ln 559
+ln 576
+ln 626
+ln 628
+ln 633
+ln 635
+PSO:1
+ln 695
+ln 701
+ln 705
+h:0
+Nparts:3000
+ln 705
+h:500
+Nparts:3000
+ln 705
+h:1000
+Nparts:3000
+ln 705
+h:1500
+Nparts:3000
+ln 705
+h:2000
+Nparts:3000
+ln 705
+h:2500
+Nparts:3000
+ln 692
+ln 1194
+ln 1114 - before computing moment diffs
+ln 1158 - after computing differences
+ln 1270
+blindpso+cost.est:
+0.348061
+0.372218
+0.499359
+0.300541
+0.792214
+0.818973
+
+PSO:2
+ln 652
+ln 695
+ln 701
+ln 705
+h:0
+Nparts:5
+ln 692
+line 804
+ln 961
+ln 961
+ln 961
+ln 961
+ln 961
+line 804
+ln 961
+ln 961
+ln 961
+ln 961
+ln 961
+line 804
+ln 961
+ln 961
+ln 961
+ln 961
+ln 961
+line 804
+ln 961
+ln 961
+ln 961
+ln 961
+ln 961
