@@ -33,9 +33,9 @@ PSO_S.o: PSO_S.cpp
 
 # PSO_S_ODE but instead of mat exponentation, do nonlinear ODEs!
 PSO_S_ODE_NL: PSO_S_ODE_NL.o
-	g++ PSO_S_ODE_NL.o -o PSO_S_ODE_NL
+	g++ PSO_S_ODE_NL.o -o PSO_S_ODE_NL -fopenmp
 PSO_S_ODE_NL.o: PSO_S_ODE_NL.cpp
-	g++ -c PSO_S_ODE_NL.cpp
+	g++ -c -O3 -fopenmp PSO_S_ODE_NL.cpp
 
 PSO_S_ODE_NLF: PSO_S_ODE_NLF.o 
 	g++ PSO_S_ODE_NLF.o -o PSO_S_ODE_NLF -fopenmp
@@ -44,9 +44,9 @@ PSO_S_ODE_NLF.o: PSO_S_ODE_NLF.cpp
 
 # PSO_S_ODE but instead of mat exponentation, do nonlinear ODEs!
 PSO_S_ODE_L: PSO_S_ODE_L.o
-	g++ PSO_S_ODE_L.o -o PSO_S_ODE_L
+	g++ PSO_S_ODE_L.o -o PSO_S_ODE_L -fopenmp
 PSO_S_ODE_L.o: PSO_S_ODE_L.cpp
-	g++ -c PSO_S_ODE_L.cpp
+	g++ -c -O3 -fopenmp PSO_S_ODE_L.cpp
 	
 # this target deletes all files produced from the Makefile
 # so that a completely new compile of all items is required

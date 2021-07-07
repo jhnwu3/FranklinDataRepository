@@ -12,6 +12,7 @@
 #include <unsupported/Eigen/MatrixFunctions>
 #include <cmath>
 #include <chrono>
+#include <omp.h>
 
 #define N_SPECIES 6
 #define N 500 // # of samples to sample over
