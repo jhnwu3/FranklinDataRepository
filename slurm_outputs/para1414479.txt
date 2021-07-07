@@ -4,3 +4,11 @@ Y_t moment vector   64.0358   0.192251    55.9642    113.904  0.0605713    79.93
 
 Parallel Computing Has Started!
 
+slurmstepd: error: *** JOB 1414479 ON r1pl-hpcf-n21 CANCELLED AT 2021-07-07T03:58:01 DUE TO TIME LIMIT ***
+Job Statistics for 1414479:
+           JobID       User               Start                 End    Elapsed     MaxRSS   TotalCPU      State Exit        NodeList                                  ReqTRES 
+---------------- ---------- ------------------- ------------------- ---------- ---------- ---------- ---------- ---- --------------- ---------------------------------------- 
+         1414479   rsjxw007 2021-07-06T07:47:53 2021-07-07T03:58:01   20:10:08            3-22:15:03    TIMEOUT  0:0   r1pl-hpcf-n21     billing=20,cpu=20,mem=156240M,node=1 
+   1414479.batch            2021-07-06T07:47:53 2021-07-07T03:58:02   20:10:09      1.27M 3-22:15:03  CANCELLED 0:15   r1pl-hpcf-n21                                          
+  1414479.extern            2021-07-06T07:47:53 2021-07-07T03:58:01   20:10:08          0  00:00.001  COMPLETED  0:0   r1pl-hpcf-n21                                          
+CPU Efficiency: 23.37% of 16-19:22:40 core-walltime
