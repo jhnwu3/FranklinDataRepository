@@ -1,0 +1,15 @@
+PSO_S_ODE_NonLinear
+testing for nonlinear6 and linear3 has begun!
+Sample Size: 20000
+t0: 0 tf: 5 dt: 1
+Nonlinear ran in 8seconds
+0.000360109 0.000185156 0.000188775
+Linear ran in 0 seconds
+CODE FINISHED RUNNING IN 8 s TIME!
+Job Statistics for 1417464:
+           JobID       User               Start                 End    Elapsed     MaxRSS   TotalCPU      State Exit        NodeList                                  ReqTRES 
+---------------- ---------- ------------------- ------------------- ---------- ---------- ---------- ---------- ---- --------------- ---------------------------------------- 
+         1417464   rsjxw007 2021-07-07T12:49:56 2021-07-07T12:50:05   00:00:09             00:08.624  COMPLETED  0:0   r1pl-hpcf-n21        billing=8,cpu=8,mem=62496M,node=1 
+   1417464.batch            2021-07-07T12:49:56 2021-07-07T12:50:05   00:00:09          0  00:08.622  COMPLETED  0:0   r1pl-hpcf-n21                                          
+  1417464.extern            2021-07-07T12:49:56 2021-07-07T12:50:05   00:00:09          0  00:00.002  COMPLETED  0:0   r1pl-hpcf-n21                                          
+CPU Efficiency: 12.50% of 00:01:12 core-walltime
