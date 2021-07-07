@@ -400,8 +400,9 @@ int main() {
     lin3.mat = MatrixXd::Zero(sampleSize, 3);
     Data_ODE_Observer obs3(lin3);
     for(int i = 0; i < sampleSize; i++){
+        lin3.index = i;
         VectorXd c0l = gen1();
-        State_N c0;
+        State_3 c0;
         for(int s = 0; s < c0l.size(); s++){
             c0[s] = c0l(s);
         }
