@@ -3,7 +3,7 @@ testing for nonlinear6 and linear3 has begun!
 Sample Size: 5000
 t0: 0tf: 5dt: 1
 Nonlinear ran in 2seconds
-Linear ran in 0seconds
+Linear ran in 0 seconds
 CODE FINISHED RUNNING IN 2 s TIME!
 Job Statistics for 1417454:
            JobID       User               Start                 End    Elapsed     MaxRSS   TotalCPU      State Exit        NodeList                                  ReqTRES 

@@ -362,12 +362,12 @@ int main() {
     Multi_Normal_Random_Variable gen1(mu, sigma);
     
     /*---------------Testing Nonlinear vs Linear3 ------------- */
-    int sampleSize = 5000;
+    int sampleSize = 10000;
     int nMoments = (N_SPECIES * (N_SPECIES + 3)) / 2;
     double t0 = 0, tf = 5.0, dt = 1.0;
     cout << "testing for nonlinear6 and linear3 has begun!" << endl;
     cout << "Sample Size: " << sampleSize << endl;
-    cout << "t0: " << t0 << "tf: " << tf << "dt: " << dt << endl;
+    cout << "t0: " << t0 << " tf: " << tf << " dt: " << dt << endl;
     auto tiNonlinear = std::chrono::high_resolution_clock::now();
     struct K tru;
     tru.k = VectorXd::Zero(6);
@@ -410,7 +410,7 @@ int main() {
     }
     auto tfLin = std::chrono::high_resolution_clock::now();
     auto durationLin = std::chrono::duration_cast<std::chrono::seconds>(tfLin- tiLin).count();
-    cout << "Linear ran in " << durationLin << "seconds" << endl;
+    cout << "Linear ran in " << durationLin << " seconds" << endl;
     /*---------------------- Setup ------------------------ */
     // int bsi = 1, Nterms = 9, useEqual = 0, Niter = 1, Biter = 1, psoIter = 2;
     
