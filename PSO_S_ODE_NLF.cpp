@@ -409,6 +409,7 @@ int main() {
         integrate_adaptive(lStep, sysL, c0, t0, tf, dt, obs3);
     }
     lin3.mat /= sampleSize;
+    cout << lin3.mat.row(0) << endl;
     auto tfLin = std::chrono::high_resolution_clock::now();
     auto durationLin = std::chrono::duration_cast<std::chrono::seconds>(tfLin- tiLin).count();
     cout << "Linear ran in " << durationLin << " seconds" << endl;
