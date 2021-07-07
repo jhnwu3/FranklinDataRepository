@@ -496,14 +496,14 @@ int main() {
     }
 
     /**** SECOND PART STARTS HERE! ****/
-    int Nparts2 = 25, Nsteps2 = 1500;
-    VectorXd chkpts = wmatup * Nsteps2;
-    for(int step = 0; step < Nsteps2; step++){
-        /* compute covar matrix */
-        if(step == chkpts(0) || step == chkpts(1) || step == chkpts(2) || step == chkpts(3)){
+    // int Nparts2 = 25, Nsteps2 = 1500;
+    // VectorXd chkpts = wmatup * Nsteps2;
+    // for(int step = 0; step < Nsteps2; step++){
+    //     /* compute covar matrix */
+    //     if(step == chkpts(0) || step == chkpts(1) || step == chkpts(2) || step == chkpts(3)){
 
-        }
-    }
+    //     }
+    // }
 
 
     cout << GBMAT << endl;
