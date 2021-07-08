@@ -414,8 +414,6 @@ int main() {
     double boundary = 0.001;
     MatrixXd wt = MatrixXd::Identity(nMoments, nMoments); // wt matrix
     MatrixXd GBMAT(0, 0);
-    MatrixXd PBMAT(Nparts, Npars + 1);
-    MatrixXd POSMAT(Nparts, Npars);
    
     VectorXd wmatup(4);
     wmatup << 0.15, 0.3, .45, .6;
