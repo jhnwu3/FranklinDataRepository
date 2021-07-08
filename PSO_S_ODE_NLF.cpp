@@ -490,7 +490,7 @@ int main() {
         }
         XtPSO.mVec/=N;
         //XtPSO.sec/=N;
-        double cost = calculate_cf2(Yt.mVec, Xt.mVec, wt);
+        double cost = calculate_cf2(Yt.mVec, XtPSO.mVec, wt);
         double partBest = cost; 
         VectorXd PBVEC = pos.k;
         /* step into PSO */
@@ -509,7 +509,7 @@ int main() {
             }
             XtPSO.mVec /= N;
             //XtPSO.sec /=N;
-            cost = calculate_cf2(Yt.mVec, Xt.mVec, wt);
+            cost = calculate_cf2(Yt.mVec, XtPSO.mVec, wt);
             if(cost < partBest){
                 PBVEC = pos.k;
                 partBest = cost;
