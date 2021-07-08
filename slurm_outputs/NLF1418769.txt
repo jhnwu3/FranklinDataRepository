@@ -1,0 +1,195 @@
+PSO_S_ODE_NonLinear
+sample size:1500 Nparts:20 Nsteps:15
+339
+362
+PSO begins!
+underflow!-0.981888
+pos  1.86366   8.81175   33.9311  -7.17013  -6.81425 -0.981888
+underflow!-7.17013
+pos  1.86366   8.81175   33.9311  -7.17013  -6.81425 -0.981888
+underflow!-0.303904
+pos-0.176906   1.10648  0.626916   1.16713 -0.303904  0.814275
+underflow!-0.176906
+pos-0.176906   1.10648  0.626916   1.16713 -0.303904  0.814275
+overflow!
+underflow!-2.42664
+pos-0.18791 -2.42664  2.49737 0.908684  1.74775  -3.5733
+overflow!
+underflow!-3.5733
+pos-0.18791 -2.42664  2.49737 0.908684  1.74775  -3.5733
+overflow!
+underflow!-0.249623
+pos 0.310864  0.999037  0.530723   1.02636 -0.249623  0.682832
+overflow!
+overflow!
+overflow!
+underflow!-0.517377
+pos 0.295752  0.721756 -0.517377  0.957518  0.240132  0.974643
+underflow!-0.218778
+pos-0.218778  -1.75808      -nan  -1.73697  0.276687  -2.94546
+underflow!-2.94546
+pos-0.218778  -1.75808      -nan  -1.73697  0.276687  -2.94546
+underflow!-1.75808
+pos-0.218778  -1.75808      -nan  -1.73697  0.276687  -2.94546
+underflow!-12.2517
+pos-0.221091  -2.17023  -12.2517      -nan     2.708      -nan
+underflow!-2.17023
+pos-0.221091  -2.17023  -12.2517      -nan     2.708      -nan
+underflow!-0.221091
+pos-0.221091  -2.17023  -12.2517      -nan     2.708      -nan
+overflow!
+overflow!
+underflow!-46.7038
+pos-46.7038  34.9675 -66.5975  64.2128  60.2167  5.93617
+underflow!-66.5975
+pos-46.7038  34.9675 -66.5975  64.2128  60.2167  5.93617
+overflow!
+overflow!
+overflow!
+underflow!-0.131406
+pos 0.243068   1.65394   1.07176  0.958935 -0.131406  0.506749
+overflow!
+overflow!
+overflow!
+overflow!
+overflow!
+overflow!
+overflow!
+underflow!-0.398321
+pos 0.337809   1.45071      -nan  0.925784 -0.398321  0.285579
+underflow!-0.652995
+pos       -nan        -nan -0.00738069        -nan   -0.652995        -nan
+underflow!-0.146917
+pos 0.196335 -0.146917      -nan  0.961575   1.01912   1.26893
+overflow!
+overflow!
+underflow!-5.97255
+pos -5.97255 -0.256703   3.49881      -nan  -18.9578   13.0499
+underflow!-0.256703
+pos -5.97255 -0.256703   3.49881      -nan  -18.9578   13.0499
+overflow!
+underflow!-18.9578
+pos -5.97255 -0.256703   3.49881      -nan  -18.9578   13.0499
+overflow!
+overflow!
+underflow!-12.4865
+pos-6.20056 -12.4865     -nan   1.6019     -nan  5.81194
+overflow!
+underflow!-141.19
+pos-465.253  31.2631  20.1882  -141.19 -59.0597  501.212
+overflow!
+overflow!
+underflow!-7.54104
+pos    -nan -5.34602 -7.54104  13.9208     -nan -4.55799
+overflow!
+underflow!-1.80862
+pos 0.359678   1.38367 -0.262344   1.14418  -1.80862  0.438876
+overflow!
+underflow!-1.5345
+pos   -nan    -nan    -nan    -nan    -nan -1.5345
+underflow!-22.5238
+pos-22.5238     -nan     -nan     -nan     -nan     -nan
+overflow!
+overflow!
+underflow!-0.0755189
+pos   1.12975       -nan   0.932579    1.01252 -0.0755189  -0.430846
+underflow!-0.576835
+pos 0.523023   1.94729      -nan  0.956762 -0.529723 -0.576835
+underflow!-0.132737
+pos 0.413385  0.864237 -0.132737   1.22412 0.0448636   0.74261
+underflow!-1.83052
+pos0.343632  5.57744 -1.83052 0.756599  -6.4338   2.6098
+overflow!
+overflow!
+overflow!
+underflow!-2.22575
+pos-0.381258 0.0082525   2.87757  -2.22575    0.8421  -1.08651
+overflow!
+underflow!-0.603778
+pos    1.2799       -nan     1.4142  -0.603778 -0.0784144   -1.11322
+overflow!
+underflow!-2.70475
+pos  54.411 -2.70475     -nan     -nan  7.46582     -nan
+overflow!
+underflow!-2.69815
+pos  1.19467   1.81075  -2.69815      -nan -0.831015   2.58835
+underflow!-0.831015
+pos  1.19467   1.81075  -2.69815      -nan -0.831015   2.58835
+overflow!
+overflow!
+overflow!
+underflow!-2.20437
+pos 2.02999     -nan     -nan -2.20437     -nan     -nan
+overflow!
+overflow!
+underflow!-374.802
+pos    -nan -374.802     -nan  801.331     -nan   -311.9
+overflow!
+overflow!
+underflow!-3.27452
+pos-3.27452     -nan     -nan     -nan 0.731891  6.90571
+overflow!
+underflow!-2.92858
+pos -2.92858   5.65935  0.793585   5.95826  0.372372 -0.779521
+overflow!
+overflow!
+overflow!
+overflow!
+overflow!
+underflow!-24.2274
+pos    -nan     -nan -24.2274     -nan  0.61096  76.5876
+overflow!
+overflow!
+overflow!
+overflow!
+underflow!-1.61838
+pos-2.08399 0.837763 -1.61838     -nan -1.06709 0.936682
+underflow!-2.08399
+pos-2.08399 0.837763 -1.61838     -nan -1.06709 0.936682
+underflow!-1.06709
+pos-2.08399 0.837763 -1.61838     -nan -1.06709 0.936682
+underflow!-9.62865
+pos    -nan     -nan     -nan     -nan     -nan -9.62865
+underflow!-44.6634
+pos    -nan     -nan     -nan     -nan -44.6634     -nan
+overflow!
+overflow!
+overflow!
+underflow!-39.8745
+pos-8.79995  8.45803  23.4456   2.3111     -nan -39.8745
+overflow!
+underflow!-7.54214
+pos    -nan     -nan     -nan     -nan -7.54214     -nan
+overflow!
+underflow!-11.4459
+pos 5.03275     -nan -11.4459 0.240769     -nan     -nan
+overflow!
+underflow!-13.1171
+pos-9.74829 -9.85115 -13.1171     -nan     -nan -13.8698
+overflow!
+overflow!
+overflow!
+overflow!
+underflow!-0.0630435
+pos  0.236432    0.86063   0.849074    1.00416 -0.0630435    1.04581
+overflow!
+overflow!
+underflow!-229.519
+pos    -nan     -nan     -nan     -nan     -nan -229.519
+underflow!-2.74968
+pos -2.74968  -5.62907  -3.49011      -nan -0.432059  -1.95002
+underflow!-0.432059
+pos -2.74968  -5.62907  -3.49011      -nan -0.432059  -1.95002
+underflow!-1.95002
+pos -2.74968  -5.62907  -3.49011      -nan -0.432059  -1.95002
+overflow!
+overflow!
+   0.327506      0.8212    0.366378    0.956445   0.0876209    0.567266 4.52125e+08
+CODE FINISHED RUNNING IN 31 s TIME!
+Job Statistics for 1418769:
+           JobID       User               Start                 End    Elapsed     MaxRSS   TotalCPU      State Exit        NodeList                                  ReqTRES 
+---------------- ---------- ------------------- ------------------- ---------- ---------- ---------- ---------- ---- --------------- ---------------------------------------- 
+         1418769   rsjxw007 2021-07-08T14:04:22 2021-07-08T14:04:54   00:00:32             05:57.476  COMPLETED  0:0   r1pl-hpcf-n21     billing=20,cpu=20,mem=156240M,node=1 
+   1418769.batch            2021-07-08T14:04:22 2021-07-08T14:04:54   00:00:32      1.43M  05:57.474  COMPLETED  0:0   r1pl-hpcf-n21                                          
+  1418769.extern            2021-07-08T14:04:22 2021-07-08T14:04:54   00:00:32          0  00:00.001  COMPLETED  0:0   r1pl-hpcf-n21                                          
+CPU Efficiency: 55.78% of 00:10:40 core-walltime
