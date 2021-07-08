@@ -519,9 +519,7 @@ int main() {
                         gCost = cost;
                         GBVEC = pos.k;
                         GBMAT.conservativeResize(GBMAT.rows() + 1, Npars + 1);
-                        for (int i = 0; i < Npars; i++) {
-                            GBMAT(GBMAT.rows() - 1, i) = GBVEC(i);
-                        }
+                        for (int i = 0; i < Npars; i++) {GBMAT(GBMAT.rows() - 1, i) = GBVEC(i);}
                         GBMAT(GBMAT.rows() - 1, Npars) = gCost;
                     }   
                 }
