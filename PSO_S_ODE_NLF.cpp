@@ -399,8 +399,8 @@ int main() {
     int sf1 = 1;
     int sf2 = 1;
 
-    int Nparts = 600;
-    int Nsteps = 20;
+    int Nparts = 300;
+    int Nsteps = 40;
     double nearby = sdbeta;
     cout << "sample size:" << N << " Nparts:" << Nparts << " Nsteps:" << Nsteps << endl;
     /* moments */
