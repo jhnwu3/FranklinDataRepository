@@ -515,6 +515,7 @@ int main() {
                 partBest = cost;
                 #pragma omp critical
                 {
+                    cout << PBVEC.transpose() << endl;
                     if(cost < gCost){
                         gCost = cost;
                         GBVEC = pos.k;
