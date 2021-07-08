@@ -367,13 +367,13 @@ double calculate_cf2(const VectorXd& trueVec, const  VectorXd& estVec, const Mat
     return cost;
 }
 double unifDistRng(){
-    random_device pRanDev;
+    thread_local random_device pRanDev;
     thread_local mt19937 engine(pRanDev());
     uniform_real_distribution<double> dist(0.0, 1.0);
     return dist(engine);
 }
 VectorXd randUnifVector(int n){
-    VectorXd unif(n);
+    thread_local VectorXd unif(n);
     for(int i = 0; i < n; i++){
         unif(i) = unifDistRng();
     }
@@ -483,6 +483,7 @@ int main() {
         double cost = calculate_cf2(Yt.mVec, Xt.mVec, wt);
         double partBest = cost; 
         VectorXd PBVEC = pos.k;
+        /* step into PSO */
         for(int step = 0; step < Nsteps; step++){
             double w1 = 6, w2 = 1, w3 = 1;
             w1 = sfi * unifDistRng()/ sf2; w2 = sfc * unifDistRng() / sf2; w3 = sfs * unifDistRng() / sf2;
