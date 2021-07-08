@@ -515,18 +515,15 @@ int main() {
                 if(cost < partBest){
                     PBVEC = pos.k;
                     partBest = cost;
-                
-                        if(cost < gCost){
-                            gCost = cost;
-                            GBVEC = pos.k;
-                            GBMAT.conservativeResize(GBMAT.rows() + 1, Npars + 1);
-                            for (int i = 0; i < Npars; i++) {
-                                GBMAT(GBMAT.rows() - 1, i) = GBVEC(i);
-                            }
-                            GBMAT(GBMAT.rows() - 1, Npars) = gCost;
+                    if(cost < gCost){
+                        gCost = cost;
+                        GBVEC = pos.k;
+                        GBMAT.conservativeResize(GBMAT.rows() + 1, Npars + 1);
+                        for (int i = 0; i < Npars; i++) {
+                            GBMAT(GBMAT.rows() - 1, i) = GBVEC(i);
                         }
-                        
-                    
+                        GBMAT(GBMAT.rows() - 1, Npars) = gCost;
+                    }   
                 }
             }
             sfi = sfi - (sfe - sfg) / Nsteps;   // reduce the inertial weight after each step 
