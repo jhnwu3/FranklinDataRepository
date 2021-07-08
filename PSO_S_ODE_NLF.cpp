@@ -410,8 +410,8 @@ int main() {
     MatrixXd X_t = MatrixXd::Zero(N, N_SPECIES);
     cout << "339" << endl;
     /* PSO weights */
-    double sfp = 3.0, sfg = 1.0, sfe = 6.0; // initial particle historical weight, global weight social, inertial
-    double sfi = sfe, sfc = sfp, sfs = sfg; // below are the variables being used to reiterate weights
+    // double sfp = 3.0, sfg = 1.0, sfe = 6.0; // initial particle historical weight, global weight social, inertial
+    // double sfi = sfe, sfc = sfp, sfs = sfg; // below are the variables being used to reiterate weights
 
     double boundary = 0.001;
     MatrixXd wt = MatrixXd::Identity(nMoments, nMoments); // wt matrix
@@ -468,7 +468,8 @@ int main() {
     /* PSO begins */
     #pragma omp parallel for
     for(int particle = 0; particle < Nparts; particle++){
-
+        double sfp = 3.0, sfg = 1.0, sfe = 6.0; // initial particle historical weight, global weight social, inertial
+        double sfi = sfe, sfc = sfp, sfs = sfg; // below are the variables being used to reiterate weights
         random_device pRanDev;
         mt19937 pGenerator(pRanDev());
         uniform_real_distribution<double> pUnifDist(0.0, 1.0);
@@ -523,11 +524,11 @@ int main() {
                         }
                         GBMAT(GBMAT.rows() - 1, Npars) = gCost;
                     }
-                    sfi = sfi - (sfe - sfg) / Nsteps;   // reduce the inertial weight after each step 
-                    sfs = sfs + (sfe - sfg) / Nsteps;
+                    
                 }
             }
-            
+            sfi = sfi - (sfe - sfg) / Nsteps;   // reduce the inertial weight after each step 
+            sfs = sfs + (sfe - sfg) / Nsteps;
         }
         
     }
