@@ -510,21 +510,22 @@ int main() {
             XtPSO.mVec /= N;
             //XtPSO.sec /=N;
             cost = calculate_cf2(Yt.mVec, XtPSO.mVec, wt);
-            if(cost < partBest){
-                PBVEC = pos.k;
-                partBest = cost;
-                #pragma omp critical
-                {
-                    cout << omp_get_thread_num() << endl;
-                    if(cost < gCost){
-                        gCost = cost;
-                        GBVEC = pos.k;
-                        GBMAT.conservativeResize(GBMAT.rows() + 1, Npars + 1);
-                        for (int i = 0; i < Npars; i++) {
-                            GBMAT(GBMAT.rows() - 1, i) = GBVEC(i);
+            #pragma omp critical
+            {
+                if(cost < partBest){
+                    PBVEC = pos.k;
+                    partBest = cost;
+                
+                        if(cost < gCost){
+                            gCost = cost;
+                            GBVEC = pos.k;
+                            GBMAT.conservativeResize(GBMAT.rows() + 1, Npars + 1);
+                            for (int i = 0; i < Npars; i++) {
+                                GBMAT(GBMAT.rows() - 1, i) = GBVEC(i);
+                            }
+                            GBMAT(GBMAT.rows() - 1, Npars) = gCost;
                         }
-                        GBMAT(GBMAT.rows() - 1, Npars) = gCost;
-                    }
+                        
                     
                 }
             }
