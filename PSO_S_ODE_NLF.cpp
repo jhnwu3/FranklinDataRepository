@@ -399,8 +399,8 @@ int main() {
     int sf1 = 1;
     int sf2 = 1;
 
-    int Nparts = 20;
-    int Nsteps = 15;
+    int Nparts = 200;
+    int Nsteps = 20;
     double nearby = sdbeta;
     cout << "sample size:" << N << " Nparts:" << Nparts << " Nsteps:" << Nsteps << endl;
     /* moments */
@@ -515,7 +515,6 @@ int main() {
                 partBest = cost;
                 #pragma omp critical
                 {
-                    cout << PBVEC.transpose() << endl;
                     if(cost < gCost){
                         gCost = cost;
                         GBVEC = pos.k;
