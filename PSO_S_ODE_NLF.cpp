@@ -368,8 +368,8 @@ double calculate_cf2(const VectorXd& trueVec, const  VectorXd& estVec, const Mat
 }
 double unifDistRng(){
     random_device pRanDev;
-    mt19937 engine(pRanDev);
-    uniform_int_distribution<double> dist(0.0, 1.0);
+    thread_local mt19937 engine(pRanDev);
+    uniform_real_distribution<double> dist(0.0, 1.0);
     return dist(engine);
 }
 VectorXd randUnifVector(int n){
