@@ -1,0 +1,14 @@
+PSO_S_ODE_NonLinear
+sample size:1500 Nparts:20 Nsteps:15
+339
+362
+PSO begins!
+   0.211339     0.52654   0.0343541     0.59391    0.262395    0.350918 8.07519e+08
+CODE FINISHED RUNNING IN 42 s TIME!
+Job Statistics for 1418796:
+           JobID       User               Start                 End    Elapsed     MaxRSS   TotalCPU      State Exit        NodeList                                  ReqTRES 
+---------------- ---------- ------------------- ------------------- ---------- ---------- ---------- ---------- ---- --------------- ---------------------------------------- 
+         1418796   rsjxw007 2021-07-08T14:18:14 2021-07-08T14:18:58   00:00:44             06:49.263  COMPLETED  0:0   r1pl-hpcf-n21     billing=20,cpu=20,mem=156240M,node=1 
+   1418796.batch            2021-07-08T14:18:14 2021-07-08T14:18:58   00:00:44      1.31M  06:49.261  COMPLETED  0:0   r1pl-hpcf-n21                                          
+  1418796.extern            2021-07-08T14:18:14 2021-07-08T14:18:58   00:00:44          0  00:00.001  COMPLETED  0:0   r1pl-hpcf-n21                                          
+CPU Efficiency: 46.48% of 00:14:40 core-walltime
