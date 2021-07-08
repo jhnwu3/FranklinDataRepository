@@ -442,7 +442,7 @@ int main() {
     /* Variables (global) */
     double t0 = 0, tf = 5.0 * 9.69, dt = 1.0;
     int wasflipped = 0, Nprots = 3, Npars = 6;
-    double squeeze = 0.96, sdbeta = 0.05;
+    double squeeze = 0.96, sdbeta = 0.15;
 
     /* SETUP */
     int useDiag = 0;
@@ -451,7 +451,6 @@ int main() {
 
     int Nparts = 3000;
     int Nsteps = 15;
-    double sdbeta = 0.15;
     double nearby = sdbeta;
     cout << "sample size:" << N << " Nparts:" << Nparts << " Nsteps:" << Nsteps << endl;
     /* moments */
