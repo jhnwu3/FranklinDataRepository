@@ -366,24 +366,26 @@ double calculate_cf2(const VectorXd& trueVec, const  VectorXd& estVec, const Mat
     cost = diff.transpose() * w * (diff.transpose()).transpose();
     return cost;
 }
-double unifDistRng(){
-    thread_local random_device pRanDev;
-    thread_local mt19937 engine(pRanDev());
-    uniform_real_distribution<double> dist(0.0, 1.0);
-    return dist(engine);
-}
-VectorXd randUnifVector(int n){
-    thread_local VectorXd unif(n);
-    for(int i = 0; i < n; i++){
-        unif(i) = unifDistRng();
-    }
-    return unif;
-}
+// double unifDistRng(){
+//     thread_local random_device pRanDev;
+//     thread_local mt19937 engine(pRanDev());
+//     uniform_real_distribution<double> dist(0.0, 1.0);
+//     return dist(engine);
+// }
+// VectorXd randUnifVector(int n){
+//     thread_local VectorXd unif(n);
+//     for(int i = 0; i < n; i++){
+//         unif(i) = unifDistRng();
+//     }
+//     return unif;
+// }
 
 int main() {
 
     auto t1 = std::chrono::high_resolution_clock::now();
-   
+    random_device RanDev;
+    mt19937 gen(RanDev());
+    uniform_real_distribution<double> unifDist(0.0, 1.0);
     /*---------------------- Setup ------------------------ */
     int bsi = 1, Nterms = 9, useEqual = 0, Niter = 1, Biter = 1, psoIter = 2;
     
@@ -440,7 +442,7 @@ int main() {
     /* PSO costs */
     double gCost = 20000;
     /* Instantiate seedk aka global costs */
-    for (int i = 0; i < Npars; i++) { seed.k(i) = unifDistRng(); }
+    for (int i = 0; i < Npars; i++) { seed.k(i) = unifDist(gen); }
    
     Protein_Moments Xt(tf, nMoments);
     Mom_ODE_Observer XtObs(Xt);
@@ -466,9 +468,16 @@ int main() {
     /* PSO begins */
     #pragma omp parallel for
     for(int particle = 0; particle < Nparts; particle++){
+
+        random_device pRanDev;
+        mt19937 pGenerator(pRanDev());
+        uniform_real_distribution<double> pUnifDist(0.0, 1.0);
         /* instantiate all particle rate constants with unifDist */
         struct K pos;
-        pos.k = randUnifVector(Npars);
+        pos.k = VectorXd::Zero(Npars);
+        for(int i = 0; i < Npars; i++){
+            pos.k(i) = pUnifDist(pGenerator);
+        }
         
         /* using new rate constants, instantiate particle best values */
         Nonlinear_ODE6 initSys(pos);
@@ -484,9 +493,9 @@ int main() {
         double partBest = cost; 
         VectorXd PBVEC = pos.k;
         /* step into PSO */
+        double w1 = 6, w2 = 1, w3 = 1;
         for(int step = 0; step < Nsteps; step++){
-            double w1 = 6, w2 = 1, w3 = 1;
-            w1 = sfi * unifDistRng()/ sf2; w2 = sfc * unifDistRng() / sf2; w3 = sfs * unifDistRng() / sf2;
+            w1 = sfi * pUnifDist(pGenerator)/ sf2; w2 = sfc * pUnifDist(pGenerator) / sf2; w3 = sfs * pUnifDist(pGenerator)/ sf2;
             double sumw = w1 + w2 + w3; //w1 = inertial, w2 = pbest, w3 = gbest
             w1 = w1 / sumw; w2 = w2 / sumw; w3 = w3 / sumw;
             VectorXd rpoint = comp_vel_vec(pos.k);
@@ -514,10 +523,11 @@ int main() {
                         }
                         GBMAT(GBMAT.rows() - 1, Npars) = gCost;
                     }
+                    sfi = sfi - (sfe - sfg) / Nsteps;   // reduce the inertial weight after each step 
+                    sfs = sfs + (sfe - sfg) / Nsteps;
                 }
             }
-            sfi = sfi - (sfe - sfg) / Nsteps;   // reduce the inertial weight after each step 
-            sfs = sfs + (sfe - sfg) / Nsteps;
+            
         }
         
     }
