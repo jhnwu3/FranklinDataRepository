@@ -515,6 +515,7 @@ int main() {
                 partBest = cost;
                 #pragma omp critical
                 {
+                    cout << omp_get_thread_num() << endl;
                     if(cost < gCost){
                         gCost = cost;
                         GBVEC = pos.k;
