@@ -399,7 +399,7 @@ int main() {
     int sf1 = 1;
     int sf2 = 1;
 
-    int Nparts = 1000;
+    int Nparts = 1500;
     int Nsteps = 20;
     double nearby = sdbeta;
     cout << "sample size:" << N << " Nparts:" << Nparts << " Nsteps:" << Nsteps << endl;
