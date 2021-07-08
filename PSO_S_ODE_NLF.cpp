@@ -367,8 +367,9 @@ double calculate_cf2(const VectorXd& trueVec, const  VectorXd& estVec, const Mat
     return cost;
 }
 double unifDistRng(){
-    thread_local std::mt19937 engine(std::random_device{}());
-    std::uniform_int_distribution<double> dist(0.0, 1.0);
+    random_device pRanDev;
+    mt19937 engine(pRanDev);
+    uniform_int_distribution<double> dist(0.0, 1.0);
     return dist(engine);
 }
 VectorXd randUnifVector(int n){
