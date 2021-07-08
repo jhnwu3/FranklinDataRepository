@@ -366,76 +366,23 @@ double calculate_cf2(const VectorXd& trueVec, const  VectorXd& estVec, const Mat
     cost = diff.transpose() * w * (diff.transpose()).transpose();
     return cost;
 }
+double unifDistRng(){
+    thread_local std::mt19937 engine(std::random_device{}());
+    std::uniform_int_distribution<double> dist(0.0, 1.0);
+    return dist(engine);
+}
+VectorXd randUnifVector(int n){
+    VectorXd unif(n);
+    for(int i = 0; i < n; i++){
+        unif(i) = unifDistRng();
+    }
+    return unif;
+}
 
 int main() {
 
     auto t1 = std::chrono::high_resolution_clock::now();
-    random_device ran;
-    mt19937 gen(ran());
-    uniform_real_distribution<double> unifDist(0.0, 1.0);
-
-    // VectorXd mu(3);
-    // mu << 4.78334234137469844730960782,
-    //     5.52142091946216110500584912965,
-    //     4.3815581042632114978686130;
-    // MatrixXd sigma(3, 3);
-    // sigma << 0.008298802814695093876186221, 0, 0,
-    //     0, 0.0000799968001706564273219830, 0,
-    //     0, 0, 0.000937060821340228802149700;
-    // Multi_Normal_Random_Variable gen1(mu, sigma);
-    
-    // /*---------------Testing Nonlinear vs Linear3 ------------- */
-    // int sampleSize = 20000;
-    // int nMoments = (N_SPECIES * (N_SPECIES + 3)) / 2;
-    // double t0 = 0, tf = 5.0, dt = 1.0;
-    // cout << "testing for nonlinear6 and linear3 has begun!" << endl;
-    // cout << "Sample Size: " << sampleSize << endl;
-    // cout << "t0: " << t0 << " tf: " << tf << " dt: " << dt << endl;
-    // auto tiNonlinear = std::chrono::high_resolution_clock::now();
-    // struct K tru;
-    // tru.k = VectorXd::Zero(6);
-    // tru.k << 5.0, 0.1, 1.0, 8.69, 0.05, 0.70;
-    // Nonlinear_ODE6 sysNL(tru);
-    // Controlled_RK_Stepper_N nlStep;
-    // Protein_Moments yt(tf, nMoments);
-    // Mom_ODE_Observer obs6(yt);
-    // for(int i = 0; i < sampleSize; i++){
-    //     State_N c0 = gen_multi_lognorm_iSub();
-    //     integrate_adaptive(nlStep, sysNL, c0, t0, tf, dt, obs6);
-    // }
-    // yt.mVec /= sampleSize;
-    // yt.sec /= sampleSize;
-    // auto tfNonlinear = std::chrono::high_resolution_clock::now();
-    // auto durationNonlinear = std::chrono::duration_cast<std::chrono::seconds>(tfNonlinear - tiNonlinear).count();
-    // cout << "Nonlinear ran in " << durationNonlinear << "seconds" << endl;
-    // auto tiLin = std::chrono::high_resolution_clock::now();
-    // struct K trul;
-    // trul.k = VectorXd::Zero(5);
-    // trul.k(0) =  0.27678200;
-	// trul.k(1) = 0.83708059;
-	// trul.k(2) = 0.44321700;
-	// trul.k(3) = 0.04244124;
-	// trul.k(4) = 0.30464502;
-    // Linear_ODE3 sysL(trul);
-    // Controlled_RK_Stepper_3 lStep;
-    // Data_Components3 lin3;
-    // lin3.timeToRecord = tf;
-    // lin3.mat = MatrixXd::Zero(sampleSize, 3);
-    // Data_ODE_Observer obs3(lin3);
-    // for(int i = 0; i < sampleSize; i++){
-    //     lin3.index = i;
-    //     VectorXd c0l = gen1();
-    //     State_3 c0;
-    //     for(int s = 0; s < c0l.size(); s++){
-    //         c0[s] = c0l(s);
-    //     }
-    //     integrate_adaptive(lStep, sysL, c0, t0, tf, dt, obs3);
-    // }
-    // lin3.mat /= sampleSize;
-    // cout << "first row:" << lin3.mat.row(0) << endl;
-    // auto tfLin = std::chrono::high_resolution_clock::now();
-    // auto durationLin = std::chrono::duration_cast<std::chrono::seconds>(tfLin- tiLin).count();
-    // cout << "Linear ran in " << durationLin << " seconds" << endl;
+   
     /*---------------------- Setup ------------------------ */
     int bsi = 1, Nterms = 9, useEqual = 0, Niter = 1, Biter = 1, psoIter = 2;
     
@@ -449,7 +396,7 @@ int main() {
     int sf1 = 1;
     int sf2 = 1;
 
-    int Nparts = 3000;
+    int Nparts = 20;
     int Nsteps = 15;
     double nearby = sdbeta;
     cout << "sample size:" << N << " Nparts:" << Nparts << " Nsteps:" << Nsteps << endl;
@@ -463,13 +410,12 @@ int main() {
     double sfp = 3.0, sfg = 1.0, sfe = 6.0; // initial particle historical weight, global weight social, inertial
     double sfi = sfe, sfc = sfp, sfs = sfg; // below are the variables being used to reiterate weights
 
-    double w1 = 6, w2 = 1, w3 = 1, boundary = 0.001;
+    double boundary = 0.001;
     MatrixXd wt = MatrixXd::Identity(nMoments, nMoments); // wt matrix
     MatrixXd GBMAT(0, 0);
     MatrixXd PBMAT(Nparts, Npars + 1);
     MatrixXd POSMAT(Nparts, Npars);
-    VectorXd PBVEC = VectorXd::Zero(Npars);
-    MatrixXd GBVEC = VectorXd::Zero(Npars);
+   
     VectorXd wmatup(4);
     wmatup << 0.15, 0.3, .45, .6;
     
@@ -478,8 +424,8 @@ int main() {
     tru.k = VectorXd::Zero(Npars);
     tru.k << 5.0, 0.1, 1.0, 8.69, 0.05, 0.70;
     tru.k /= (9.69);
-    struct K pos;
-    pos.k = VectorXd::Zero(Npars);
+    struct K seed;
+    seed.k = VectorXd::Zero(Npars);
     Nonlinear_ODE6 trueSys(tru);
     Protein_Moments Yt(tf, nMoments);
     Mom_ODE_Observer YtObs(Yt);
@@ -494,20 +440,12 @@ int main() {
 
     /* PSO costs */
     double gCost = 20000;
-    double pCost;
-
-    /* Instantiate respective pos.k */
-    for (int i = 0; i < Npars; i++) { pos.k(i) = unifDist(gen); }
-    pos.k /= 10;
-    pos.k = tru.k - pos.k;
-    for(int i = 0; i < Npars; i++){
-        if(pos.k(i) < 0){
-            pos.k(i) *= (-1);
-        }
-    }
+    /* Instantiate seedk aka global costs */
+    for (int i = 0; i < Npars; i++) { seed.k(i) = unifDistRng(); }
+   
     Protein_Moments Xt(tf, nMoments);
     Mom_ODE_Observer XtObs(Xt);
-    Nonlinear_ODE6 sys(pos);
+    Nonlinear_ODE6 sys(seed);
     
     for (int i = 0; i < N; i++) {
         State_N c0 = gen_multi_lognorm_iSub();
@@ -515,230 +453,80 @@ int main() {
     }
     Xt.mVec /= N;
     Xt.sec /= N;
-    double costSeedk = calculate_cf2(Yt.mVec, Xt.mVec, wt);
+    double costSeedk = calculate_cf2(Yt.mVec, Xt.mVec, wt); 
 
-    gCost = costSeedk;
+    gCost = costSeedk; //initialize costs and GBMAT
+    VectorXd GBVEC = seed.k;
     GBMAT.conservativeResize(GBMAT.rows() + 1, Npars + 1);
     for (int i = 0; i < Npars; i++) {
-        GBMAT(GBMAT.rows() - 1, i) = pos.k(i);
+        GBMAT(GBMAT.rows() - 1, i) = seed.k(i);
     }
     GBMAT(GBMAT.rows() - 1, Npars) = gCost;
-
-    cout << "388" << endl;
-    for (int particle = 0; particle < Nparts; particle++) {
-        /* instantiate PBMAT for all particles */
-        for (int i = 0; i < Npars; i++) { // temporarily using values close to the true value in attempt to shorten runtimes.
-            pos.k(i) = unifDist(gen);}
-        pos.k /= 10;
-        pos.k = tru.k - pos.k;
-        for(int i = 0; i < Npars; i++){
-            if(pos.k(i) < 0){
-                pos.k(i) *= (-1);
-            }
-        }
-        POSMAT.row(particle) = pos.k;
-        Xt.mVec = VectorXd::Zero(nMoments);
-        Xt.sec = MatrixXd(N_SPECIES, N_SPECIES);
-        Mom_ODE_Observer XtObsInit(Xt);
+    
+    cout << "PSO begins!" << endl;
+    /* PSO begins */
+    #pragma omp parallel for
+    for(int particle = 0; particle < Nparts; particle++){
+        /* instantiate all particle rate constants with unifDist */
+        struct K pos;
+        pos.k = randUnifVector(Npars);
+        
+        /* using new rate constants, instantiate particle best values */
         Nonlinear_ODE6 initSys(pos);
-        for (int i = 0; i < N; i++) {
+        Protein_Moments XtPSO(tf, nMoments);
+        Mom_ODE_Observer XtObsPSO(XtPSO);
+        for(int i = 0; i < N; i++){
             State_N c0 = gen_multi_lognorm_iSub();
-            integrate_adaptive(controlledStepper, initSys, c0, t0, tf, dt, XtObsInit);
+            integrate_adaptive(controlledStepper, initSys, c0, t0, tf, dt, XtObsPSO);
         }
-        Xt.mVec /= N;
-        Xt.sec /= N;
-        for (int i = 0; i < Npars; i++) {
-            PBMAT(particle, i) = pos.k(i);
-        }
-
-        PBMAT(particle, Npars) = calculate_cf2(Yt.mVec, Xt.mVec, wt); // initial particle best cost
-        if (PBMAT(particle,Npars) < gCost) {
-            gCost = PBMAT(particle, Npars);
-            GBMAT.conservativeResize(GBMAT.rows() + 1, Npars + 1);
-            for (int i = 0; i < Npars; i++) {
-                GBMAT(GBMAT.rows() - 1, i) = pos.k(i);
-            }
-            GBMAT(GBMAT.rows() - 1, Npars) = gCost;
-        }
-    }
-    cout << "PSO Begins!" << endl;
-    /* PSO Starts here!*/
-    for (int step = 0; step < Nsteps; step++) {
-        for (int particle = 0; particle < Nparts; particle++) {
-            w1 = sfi * unifDist(gen) / sf2; w2 = sfc * unifDist(gen) / sf2; w3 = sfs * unifDist(gen) / sf2;
+        XtPSO.mVec/=N;
+        //XtPSO.sec/=N;
+        double cost = calculate_cf2(Yt.mVec, Xt.mVec, wt);
+        double partBest = cost; 
+        VectorXd PBVEC = pos.k;
+        for(int step = 0; step < Nsteps; step++){
+            double w1 = 6, w2 = 1, w3 = 1;
+            w1 = sfi * unifDistRng()/ sf2; w2 = sfc * unifDistRng() / sf2; w3 = sfs * unifDistRng() / sf2;
             double sumw = w1 + w2 + w3; //w1 = inertial, w2 = pbest, w3 = gbest
             w1 = w1 / sumw; w2 = w2 / sumw; w3 = w3 / sumw;
-            pos.k = POSMAT.row(particle);
-            VectorXd rpoint = comp_vel_vec(pos.k); // markovian 
-          //  cout << "Rpoint" << rpoint.transpose() << "line:" << step << endl;
-            for (int i = 0; i < Npars; i++) {
-                PBVEC(i) = PBMAT(particle, i);
-            }
-            pos.k = w1 * rpoint + w2 * PBVEC + w3 * GBVEC; // update position GBVEC = gbest in stewart's PSO
-            POSMAT.row(particle) = pos.k;
-            Protein_Moments Xt(tf, nMoments);
-            Mom_ODE_Observer XtObsPSO(Xt);
-            Nonlinear_ODE6 psoSys(pos);
-            for (int i = 0; i < N; i++) {
+            VectorXd rpoint = comp_vel_vec(pos.k);
+            pos.k = w1 * rpoint + w2 * PBVEC + w3 * GBVEC; // update position of particle
+            XtPSO.mVec.setZero();
+            XtPSO.sec.setZero();
+            for(int i = 0; i < N; i++){
                 State_N c0 = gen_multi_lognorm_iSub();
-                integrate_adaptive(controlledStepper, psoSys, c0, t0, tf, dt, XtObsPSO);
+                integrate_adaptive(controlledStepper, initSys, c0, t0, tf, dt, XtObsPSO);
             }
-            Xt.mVec /= N;
-            Xt.sec /= N;
-            double pCurrCost = calculate_cf2(Yt.mVec, Xt.mVec, wt);
-            if (pCurrCost < PBMAT(particle, Npars)) {
-                for (int i = 0; i < Npars; i++) {
-                    PBMAT(particle, i) = pos.k(i);
-                }
-                PBMAT(particle, Npars) = pCurrCost; // initial particle best cost
-                if (pCurrCost < gCost) {
-                    gCost = pCurrCost;
-                    GBVEC = pos.k;
-                    GBMAT.conservativeResize(GBMAT.rows() + 1, Npars + 1);
-                    for (int i = 0; i < Npars; i++) {
-                        GBMAT(GBMAT.rows() - 1, i) = GBVEC(i);
+            XtPSO.mVec /= N;
+            //XtPSO.sec /=N;
+            cost = calculate_cf2(Yt.mVec, Xt.mVec, wt);
+            if(cost < partBest){
+                PBVEC = pos.k;
+                partBest = cost;
+                #pragma omp critical
+                {
+                    if(cost < gCost){
+                        gCost = cost;
+                        GBVEC = pos.k;
+                        GBMAT.conservativeResize(GBMAT.rows() + 1, Npars + 1);
+                        for (int i = 0; i < Npars; i++) {
+                            GBMAT(GBMAT.rows() - 1, i) = GBVEC(i);
+                        }
+                        GBMAT(GBMAT.rows() - 1, Npars) = gCost;
                     }
-                    GBMAT(GBMAT.rows() - 1, Npars) = gCost;
                 }
             }
-           
+            sfi = sfi - (sfe - sfg) / Nsteps;   // reduce the inertial weight after each step 
+            sfs = sfs + (sfe - sfg) / Nsteps;
         }
         
-        sfi = sfi - (sfe - sfg) / Nsteps;   // reduce the inertial weight after each step 
-        sfs = sfs + (sfe - sfg) / Nsteps;
-        
     }
-
-    // /**** SECOND PSO PART STARTS HERE! - still being worked on ****/
-    // int Nparts2 = 25, Nsteps2 = 1500;
-    // VectorXd chkpts = wmatup * Nsteps2;
-    // POSMAT = MatrixXd::Zero(Nparts2, Npars);
-    // for(int init = 0; init < Nparts2; init++){
-    //     for(int edim = 0; edim < Npars; edim++){
-    //         double tmean = GBVEC(edim);
-    //         if (GBVEC(edim) > 0.5) {
-    //             tmean = 1 - GBVEC(edim);
-    //             wasflipped = 1;
-    //         }
-    //         double myc = (1 - tmean) / tmean;
-    //         double alpha = myc / ((1 + myc) * (1 + myc) * (1 + myc)*nearby*nearby);
-    //         double beta = myc * alpha;
-
-    //         std::gamma_distribution<double> aDist(alpha, 1);
-    //         std::gamma_distribution<double> bDist(beta, 1);
-
-    //         double x = aDist(gen);
-    //         double y = bDist(gen);
-    //         double myg = x / (x + y);
-    //         // sample from beta dist - this can be quite inefficient and taxing, there is another way with a gamma dist (THAT NEEDS TO BE REINVESTIGATED), but works so far. 
-    //         //beta_distribution<double> betaDist(alpha, beta);
-    //         //double randFromUnif = unifDist(generator);
-    //         //double myg = quantile(betaDist, randFromUnif);
-            
-    //         if (wasflipped == 1) {
-    //             wasflipped = 0;
-    //             myg = 1 - myg;
-    //         }
-    //         POSMAT(init, edim) = myg;
-    //     }
-    // }
-    // PBMAT = MatrixXd::Zero(Nparts2, Npars);
-    // PBMAT = POSMAT;
-    // PBMAT.conservativeResize(Nparts2, Npars + 1);
-    // /* instantiate PBMAT for all particles */
-    // for (int particle = 0; particle < Nparts; particle++) {
-   
-    //     for (int i = 0; i < Npars; i++) { // temporarily using values close to the true value in attempt to shorten runtimes.
-    //         pos.k(i) = PBMAT(particle, i);}
-        
-    //     Xt.mVec = VectorXd::Zero(nMoments);
-    //     Xt.sec = MatrixXd(N_SPECIES, N_SPECIES);
-    //     Mom_ODE_Observer XtObsInit(Xt);
-    //     Nonlinear_ODE6 initSys(pos);
-    //     for (int i = 0; i < N; i++) {
-    //         State_N c0 = gen_multi_lognorm_iSub();
-    //         integrate_adaptive(controlledStepper, initSys, c0, t0, tf, dt, XtObsInit);
-    //     }
-    //     Xt.mVec /= N;
-    //     Xt.sec /= N;
-
-    //     PBMAT(particle, Npars) = calculate_cf2(Yt.mVec, Xt.mVec, wt); // initial particle best cost
-    //     if (PBMAT(particle,Npars) < gCost) {
-    //         gCost = PBMAT(particle, Npars);
-    //         GBMAT.conservativeResize(GBMAT.rows() + 1, Npars + 1);
-    //         for (int i = 0; i < Npars; i++) {
-    //             GBMAT(GBMAT.rows() - 1, i) = pos.k(i);
-    //         }
-    //         GBMAT(GBMAT.rows() - 1, Npars) = gCost;
-    //     }
-    // }
-    
-    // for(int step = 0; step < Nsteps2; step++){
-    //     /* compute inverse matrix matrix */
-    //     if(step == chkpts(0) || step == chkpts(1) || step == chkpts(2) || step == chkpts(3)){
-    //         nearby = squeeze * nearby;
-    //         pos.k = GBVEC;
-    //         Nonlinear_ODE6 psoSys2(pos);
-    //         Data_Components Xt2;
-    //         Xt2.mat = MatrixXd::Zero(N, N_SPECIES);
-    //         Xt2.mVec = VectorXd::Zero(nMoments);
-    //         Xt2.timeToRecord = tf;
-    //         Data_ODE_Observer XtObsPSO2(Xt2);
-    //         for (int i = 0; i < N; i++) {
-    //             State_N c0 = gen_multi_lognorm_iSub();
-    //             Xt2.index = i;
-    //             integrate_adaptive(controlledStepper, psoSys2, c0, t0, tf, dt, XtObsPSO2);
-    //         }
-    //         Xt2.mVec/=N;
-    //         wt = calculate_omega_weight_matrix(Xt2.mat, Yt.mVec, N);
-    //         gCost = calculate_cf2(Yt.mVec, Xt2.mVec, wt);
-    //         GBMAT.conservativeResize(GBMAT.rows() + 1, Npars + 1);
-    //         for (int i = 0; i < Npars; i++) {
-    //             GBMAT(GBMAT.rows() - 1, i) = GBVEC(i);
-    //         }
-    //         GBMAT(GBMAT.rows() - 1, Npars) = gCost;
-
-    //         POSMAT.setZero();
-
-    //         for(int init = 0; init < Nparts2; init++){
-    //             for(int edim = 0; edim < Npars; edim++){
-    //                 double tmean = GBVEC(edim);
-    //                 if (GBVEC(edim) > 0.5) {
-    //                     tmean = 1 - GBVEC(edim);
-    //                     wasflipped = 1;
-    //                 }
-    //                 double myc = (1 - tmean) / tmean;
-    //                 double alpha = myc / ((1 + myc) * (1 + myc) * (1 + myc)*nearby*nearby);
-    //                 double beta = myc * alpha;
-
-    //                 std::gamma_distribution<double> aDist(alpha, 1);
-    //                 std::gamma_distribution<double> bDist(beta, 1);
-
-    //                 double x = aDist(gen);
-    //                 double y = bDist(gen);
-    //                 double myg = x / (x + y);
-    //                 // sample from beta dist - this can be quite inefficient and taxing, there is another way with a gamma dist (THAT NEEDS TO BE REINVESTIGATED), but works so far. 
-    //                 //beta_distribution<double> betaDist(alpha, beta);
-    //                 //double randFromUnif = unifDist(generator);
-    //                 //double myg = quantile(betaDist, randFromUnif);
-
-    //                 if (wasflipped == 1) {
-    //                     wasflipped = 0;
-    //                     myg = 1 - myg;
-    //                 }
-    //                 POSMAT(init, edim) = myg;
-    //             }
-    //         }
-    //     }
-    // }
 
     
     cout << GBMAT << endl;
     auto t2 = std::chrono::high_resolution_clock::now();
     auto duration = std::chrono::duration_cast<std::chrono::seconds>(t2 - t1).count();
     cout << "CODE FINISHED RUNNING IN " << duration << " s TIME!" << endl;
-
-
 
     return 0; // just to close the program at the end.
 }
