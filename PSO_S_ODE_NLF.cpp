@@ -399,7 +399,7 @@ int main() {
     int sf1 = 1;
     int sf2 = 1;
 
-    int Nparts = 300;
+    int Nparts = 20;
     int Nsteps = 20;
     double nearby = sdbeta;
     cout << "sample size:" << N << " Nparts:" << Nparts << " Nsteps:" << Nsteps << endl;
@@ -510,7 +510,7 @@ int main() {
             XtPSO.mVec /= N;
             //XtPSO.sec /=N; l
             cost = calculate_cf2(Yt.mVec, XtPSO.mVec, wt);
-            #pragma omp barrier
+            #pragma omp critical
             {
                 if(cost < partBest){
                     PBVEC = pos.k;
