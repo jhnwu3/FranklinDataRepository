@@ -507,10 +507,10 @@ int main() {
         cout << "k:" << truCp2.k.transpose() << endl;
         Nonlinear_ODE6 trueSysCp2(truCp2);
         Protein_Moments YtCp2(tf, nMoments);
-        Mom_ODE_Observer YtObsCp2(YtCp1);
+        Mom_ODE_Observer YtObsCp2(YtCp2);
         for (int i = 0; i < N; i++) {
             State_N c0 = gen_multi_norm_iSub(); // Y_0 is simulated using lognorm dist.
-            integrate_adaptive(controlledStepper, trueSysCp1, c0, t0, tf, dt, YtObsCp1);
+            integrate_adaptive(controlledStepper, trueSysCp2, c0, t0, tf, dt, YtObsCp2);
         }
         YtCp2.mVec /= N;
         YtCp2.sec /= N;
