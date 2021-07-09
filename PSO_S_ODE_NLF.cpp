@@ -514,7 +514,9 @@ int main() {
         }
         YtCp2.mVec /= N;
         YtCp2.sec /= N;
+        cout << "cost:" << calculate_cf2(YtCp.mVec, YtCp2.mVec, wt);
         cout << "m:" << YtCp2.mVec.transpose() << endl;
+        cout << endl;
     }
     // /* PSO costs */
     // double gCost = 20000;
