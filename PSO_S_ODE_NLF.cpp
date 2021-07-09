@@ -564,6 +564,16 @@ int main() {
 
         // and then redo the above inner code for PSO again.
     cout << GBMAT << endl;
+    ofstream plot;
+	plot.open("Jay_Global_Best.txt");
+	MatrixXd GBMATWithSteps(GBMAT.rows(), GBMAT.cols() + 1);
+	VectorXd globalIterations(GBMAT.rows());
+	for(int i = 0; i < GBMAT.rows(); i++){
+		globalIterations(i) = i;
+	}
+	GBMATWithSteps << globalIterations, GBMAT;
+	plot << GBMATWithSteps << endl;
+	plot.close();
     auto t2 = std::chrono::high_resolution_clock::now();
     auto duration = std::chrono::duration_cast<std::chrono::seconds>(t2 - t1).count();
     cout << "CODE FINISHED RUNNING IN " << duration << " s TIME!" << endl;
