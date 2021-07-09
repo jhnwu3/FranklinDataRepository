@@ -1,0 +1,14 @@
+PSO_S_ODE_NonLinear
+sample size:1500 Nparts:300 Nsteps:40
+339
+362
+cost with exact K's using normal distribution0.00190886
+
+CODE FINISHED RUNNING IN 0 s TIME!
+Job Statistics for 1419165:
+           JobID       User               Start                 End    Elapsed     MaxRSS   TotalCPU      State Exit        NodeList                                  ReqTRES 
+---------------- ---------- ------------------- ------------------- ---------- ---------- ---------- ---------- ---- --------------- ---------------------------------------- 
+         1419165   rsjxw007 2021-07-09T17:35:32 2021-07-09T17:35:32   00:00:00             00:00.155  COMPLETED  0:0   r1pl-hpcf-n21     billing=20,cpu=20,mem=156240M,node=1 
+   1419165.batch            2021-07-09T17:35:32 2021-07-09T17:35:32   00:00:00          0  00:00.153  COMPLETED  0:0   r1pl-hpcf-n21                                          
+  1419165.extern            2021-07-09T17:35:32 2021-07-09T17:35:32   00:00:00          0  00:00.001  COMPLETED  0:0   r1pl-hpcf-n21                                          
+CPU Efficiency: 0.00% of 00:00:00 core-walltime
