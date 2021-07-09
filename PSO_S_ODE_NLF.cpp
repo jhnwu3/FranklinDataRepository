@@ -495,7 +495,7 @@ int main() {
     cout << "mVec:" << YtCp1.mVec.transpose() << endl;
     YtCp1.sec /= N;
 
-    sCost = calculate_cf2(Yt.mVec, YtCp.mVec, wt);
+    sCost = calculate_cf2(Yt.mVec, YtCp1.mVec, wt);
 
     cout << "costs with k" << truCp1.k.transpose() << " cost:" << sCost << endl;
     // /* PSO costs */
