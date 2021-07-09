@@ -480,23 +480,24 @@ int main() {
     cout << "mVec:" << YtCp.mVec.transpose() << endl;
     double sCost = calculate_cf2(Yt.mVec, YtCp.mVec, wt);
     cout <<"cost with exact K's using normal distribution:"<< sCost << endl;
-
-    truCp.k = VectorXd::Zero(Npars);
-    truCp.k << 0.5, 6.5, 1.8, 0.23, 8.69, 0.02;
-    truCp.k /= (9.69);
-   // YtCp.mVec.setZero();
-   // YtCp.sec.setZero();
+    struct K truCp1;
+    truCp1.k = VectorXd::Zero(Npars);
+    truCp1.k << 0.5, 6.5, 1.8, 0.23, 8.69, 0.02;
+    truCp1.k /= (9.69);
+    Nonlinear_ODE6 trueSysCp1(truCp1);
+    Protein_Moments YtCp1(tf, nMoments);
+    Mom_ODE_Observer YtObsCp1(YtCp1);
     for (int i = 0; i < N; i++) {
         State_N c0 = gen_multi_norm_iSub(); // Y_0 is simulated using lognorm dist.
-        integrate_adaptive(controlledStepper, trueSysCp, c0, t0, tf, dt, YtObsCp);
+        integrate_adaptive(controlledStepper, trueSysCp1, c0, t0, tf, dt, YtObsCp1);
     }
-    YtCp.mVec /= N;
-    cout << "mVec:" << YtCp.mVec.transpose() << endl;
-    YtCp.sec /= N;
+    YtCp1.mVec /= N;
+    cout << "mVec:" << YtCp1.mVec.transpose() << endl;
+    YtCp1.sec /= N;
 
     sCost = calculate_cf2(Yt.mVec, YtCp.mVec, wt);
 
-    cout << "costs with k" << truCp.k.transpose() << " cost:" << sCost << endl;
+    cout << "costs with k" << truCp1.k.transpose() << " cost:" << sCost << endl;
     // /* PSO costs */
     // double gCost = 20000;
     // /* Instantiate seedk aka global costs */
