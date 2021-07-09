@@ -495,7 +495,7 @@ int main() {
 
     sCost = calculate_cf2(Yt.mVec, YtCp.mVec, wt);
 
-    cout << "costs with k" << truCp.k.transpose() << endl;
+    cout << "costs with k" << truCp.k.transpose() << "cost" << sCost << endl;
     // /* PSO costs */
     // double gCost = 20000;
     // /* Instantiate seedk aka global costs */
