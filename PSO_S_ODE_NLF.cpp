@@ -468,7 +468,7 @@ int main() {
     truCp.k = VectorXd::Zero(Npars);
     truCp.k << 5.0, 0.1, 1.0, 8.69, 0.05, 0.70;
     truCp.k /= (9.69);
-    Nonlinear_ODE6 trueSysCp(tru);
+    Nonlinear_ODE6 trueSysCp(truCp);
     Protein_Moments YtCp(tf, nMoments);
     Mom_ODE_Observer YtObsCp(YtCp);
     for (int i = 0; i < N; i++) {
@@ -484,9 +484,8 @@ int main() {
     truCp.k = VectorXd::Zero(Npars);
     truCp.k << 0.5, 6.5, 1.8, 0.23, 8.69, 0.02;
     truCp.k /= (9.69);
-    Nonlinear_ODE6 trueSysCp(tru);
-    Protein_Moments YtCp(tf, nMoments);
-    Mom_ODE_Observer YtObsCp(YtCp);
+    YtCp.mVec.setZero();
+    YtCp.sec.setZero();
     for (int i = 0; i < N; i++) {
         State_N c0 = gen_multi_norm_iSub(); // Y_0 is simulated using lognorm dist.
         integrate_adaptive(controlledStepper, trueSysCp, c0, t0, tf, dt, YtObsCp);
