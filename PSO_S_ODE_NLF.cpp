@@ -18,7 +18,7 @@
 #define N_SPECIES 6
 #define N 1500 // # of samples to sample over
 #define N_DIM 6 // dim of PSO hypercube
-#define N_PARTICLES 200 
+#define N_PARTICLES 300 
 
 using Eigen::MatrixXd;
 using Eigen::VectorXd;
