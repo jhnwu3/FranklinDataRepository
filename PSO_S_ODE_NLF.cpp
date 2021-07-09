@@ -465,6 +465,7 @@ int main() {
     Yt.sec /= N;
 
     struct K truCp;
+    truCp.k = VectorXd::Zero(Npars);
     truCp.k << 5.0, 0.1, 1.0, 8.69, 0.05, 0.70;
     truCp.k /= (9.69);
     Nonlinear_ODE6 trueSysCp(tru);
