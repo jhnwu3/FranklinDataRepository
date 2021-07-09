@@ -18,7 +18,6 @@
 #define N_SPECIES 6
 #define N 1500 // # of samples to sample over
 #define N_DIM 6 // dim of PSO hypercube
-#define N_PARTICLES 500 
 
 using Eigen::MatrixXd;
 using Eigen::VectorXd;
@@ -257,6 +256,32 @@ State_N gen_multi_lognorm_iSub(void) {
     return c0;
 }
 
+State_N gen_multi_norm_iSub(void) {
+    State_N c0;
+    VectorXd mu(3);
+    mu << 4.78334234137469844730960782,
+        5.52142091946216110500584912965,
+        4.3815581042632114978686130;
+    MatrixXd sigma(3, 3);
+    sigma << 0.008298802814695093876186221, 0, 0,
+        0, 0.0000799968001706564273219830, 0,
+        0, 0, 0.000937060821340228802149700;
+    Multi_Normal_Random_Variable gen(mu, sigma);
+    VectorXd c0Vec = gen();
+    int j = 0;
+    for (int i = 0; i < N_SPECIES; i++) {
+        if (i == 0 || i == 1 || i == 4) { // Syk, Vav, SHP1
+            c0[i] = c0Vec(j);
+            j++;
+        }
+        else {
+            c0[i] = 0;
+        }
+    }
+
+    return c0;
+}
+
 VectorXd gen_multi_lognorm_vecSub(void) {
     VectorXd initVec(N_SPECIES);
     VectorXd mu(3);
@@ -399,8 +424,8 @@ int main() {
     int sf1 = 1;
     int sf2 = 1;
 
-    int Nparts = N_PARTICLES;
-    int Nsteps = 20;
+    int Nparts = 300;
+    int Nsteps = 40;
     double nearby = sdbeta;
     cout << "sample size:" << N << " Nparts:" << Nparts << " Nsteps:" << Nsteps << endl;
     /* moments */
@@ -433,7 +458,7 @@ int main() {
     Controlled_RK_Stepper_N controlledStepper;
     cout << "362" << endl;
     for (int i = 0; i < N; i++) {
-        State_N c0 = gen_multi_lognorm_iSub(); // Y_0 is simulated using lognorm dist.
+        State_N c0 = gen_multi_norm_iSub(); // Y_0 is simulated using lognorm dist.
         integrate_adaptive(controlledStepper, trueSys, c0, t0, tf, dt, YtObs);
     }
     Yt.mVec /= N;
@@ -449,7 +474,7 @@ int main() {
     Nonlinear_ODE6 sys(seed);
     
     for (int i = 0; i < N; i++) {
-        State_N c0 = gen_multi_lognorm_iSub();
+        State_N c0 = gen_multi_norm_iSub();
         integrate_adaptive(controlledStepper, sys, c0, t0, tf, dt, XtObs);
     }
     Xt.mVec /= N;
@@ -485,7 +510,7 @@ int main() {
         Protein_Moments XtPSO(tf, nMoments);
         Mom_ODE_Observer XtObsPSO(XtPSO);
         for(int i = 0; i < N; i++){
-            State_N c0 = gen_multi_lognorm_iSub();
+            State_N c0 = gen_multi_norm_iSub();
             integrate_adaptive(controlledStepper, initSys, c0, t0, tf, dt, XtObsPSO);
         }
         XtPSO.mVec/=N;
@@ -504,7 +529,7 @@ int main() {
             XtPSO.mVec.setZero();
             XtPSO.sec.setZero();
             for(int i = 0; i < N; i++){
-                State_N c0 = gen_multi_lognorm_iSub();
+                State_N c0 = gen_multi_norm_iSub();
                 integrate_adaptive(controlledStepper, initSys, c0, t0, tf, dt, XtObsPSO);
             }
             XtPSO.mVec /= N;
