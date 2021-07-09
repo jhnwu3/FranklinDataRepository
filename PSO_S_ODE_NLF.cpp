@@ -499,7 +499,22 @@ int main() {
 
     cout << "costs with k" << truCp1.k.transpose() << " cost:" << sCost << endl;
     for(int i = 0; i < 10; i++){
-
+        struct K truCp2;
+        truCp2.k = VectorXd::Zero(Npars);
+        for(int j = 0; j < Npars; j++){
+            truCp2.k(j) = unifDist(gen);
+        }
+        cout << "k:" << truCp2.k.transpose() << endl;
+        Nonlinear_ODE6 trueSysCp2(truCp1);
+        Protein_Moments YtCp2(tf, nMoments);
+        Mom_ODE_Observer YtObsCp2(YtCp1);
+        for (int i = 0; i < N; i++) {
+            State_N c0 = gen_multi_norm_iSub(); // Y_0 is simulated using lognorm dist.
+            integrate_adaptive(controlledStepper, trueSysCp1, c0, t0, tf, dt, YtObsCp1);
+        }
+        YtCp2.mVec /= N;
+        YtCp2.sec /= N;
+        cout << "m:" << YtCp2.mVec.transpose() << endl;
     }
     // /* PSO costs */
     // double gCost = 20000;
