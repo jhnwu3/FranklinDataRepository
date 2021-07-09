@@ -491,13 +491,16 @@ int main() {
         State_N c0 = gen_multi_norm_iSub(); // Y_0 is simulated using lognorm dist.
         integrate_adaptive(controlledStepper, trueSysCp1, c0, t0, tf, dt, YtObsCp1);
     }
-    YtCp1.mVec /= N;
+    YtCp1.mVec;
     cout << "mVec:" << YtCp1.mVec.transpose() << endl;
     YtCp1.sec /= N;
 
     sCost = calculate_cf2(Yt.mVec, YtCp1.mVec, wt);
 
     cout << "costs with k" << truCp1.k.transpose() << " cost:" << sCost << endl;
+    for(int i = 0; i < 10; i++){
+
+    }
     // /* PSO costs */
     // double gCost = 20000;
     // /* Instantiate seedk aka global costs */
