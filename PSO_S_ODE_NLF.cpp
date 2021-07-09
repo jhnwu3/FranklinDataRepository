@@ -16,9 +16,9 @@
 #include <boost/numeric/odeint/external/openmp/openmp.hpp>
 
 #define N_SPECIES 6
-#define N 5000 // # of samples to sample over
+#define N 1500 // # of samples to sample over
 #define N_DIM 6 // dim of PSO hypercube
-#define N_PARTICLES 20 
+#define N_PARTICLES 30 
 
 using Eigen::MatrixXd;
 using Eigen::VectorXd;
@@ -400,7 +400,7 @@ int main() {
     int sf2 = 1;
 
     int Nparts = 300;
-    int Nsteps = 40;
+    int Nsteps = 20;
     double nearby = sdbeta;
     cout << "sample size:" << N << " Nparts:" << Nparts << " Nsteps:" << Nsteps << endl;
     /* moments */
@@ -510,7 +510,7 @@ int main() {
             XtPSO.mVec /= N;
             //XtPSO.sec /=N; l
             cost = calculate_cf2(Yt.mVec, XtPSO.mVec, wt);
-            #pragma omp critical
+            #pragma omp barrier
             {
                 if(cost < partBest){
                     PBVEC = pos.k;
@@ -529,8 +529,40 @@ int main() {
         }
         
     }
+    // cout << "GBMAT from first PSO:" << endl << endl;
+    // cout << GBMAT << endl;
+    // cout << " targeted pso has begun!" << endl;
+    // /* second targeted PSO */
+    // int Nparts2 = 25; // targeted PSO requires far less particles.
+    // int steps2 = 1500;
+    // #pragma omp parallel for
+    // for(int particle = 0; particle < Nparts; particle++){
+    //     // reset weights
+    //     double sfp = 3.0, sfg = 1.0, sfe = 6.0; // initial particle historical weight, global weight social, inertial
+    //     double sfi = sfe, sfc = sfp, sfs = sfg; // below are the variables being used to reiterate weights
+    //     random_device pRanDev;
+    //     mt19937 pGenerator(pRanDev());
+    //     uniform_real_distribution<double> pUnifDist(0.0, 1.0);
 
+    //     // instantiate new position vector based on GBVEC using markov like movement
+    // } 
+
+   
     
+
+    // use that to instantiate new PBVEC and respective cost using this value
+
+    // re enter for loop of # of steps
+
+        // at each checkpoint, use global best vector to solve ode system and..
+        //compute a new weight matrix using method discussed with sample and inverse omega matrix
+        // compute moment vectors of new GBbest and cost function
+        //  attach new cost with updated w.mat into GBMAT
+        // reuse markov like behavior on setting up position vector again
+        // use new position based on global best, solve odes, recompute moment vectors and /or cost.
+        // compare with particle best and update accordingly
+
+        // and then redo the above inner code for PSO again.
     cout << GBMAT << endl;
     auto t2 = std::chrono::high_resolution_clock::now();
     auto duration = std::chrono::duration_cast<std::chrono::seconds>(t2 - t1).count();
