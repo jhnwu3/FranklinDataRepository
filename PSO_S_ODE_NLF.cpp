@@ -477,9 +477,9 @@ int main() {
     }
     YtCp.mVec /= N;
     YtCp.sec /= N;
-
+    cout << "mVec:" << YtCp.mVec.transpose() << endl;
     double sCost = calculate_cf2(Yt.mVec, YtCp.mVec, wt);
-    cout <<"cost with exact K's using normal distribution"<< sCost << endl;
+    cout <<"cost with exact K's using normal distribution:"<< sCost << endl;
 
     truCp.k = VectorXd::Zero(Npars);
     truCp.k << 0.5, 6.5, 1.8, 0.23, 8.69, 0.02;
@@ -491,11 +491,12 @@ int main() {
         integrate_adaptive(controlledStepper, trueSysCp, c0, t0, tf, dt, YtObsCp);
     }
     YtCp.mVec /= N;
+    cout << "mVec:" << YtCp.mVec.transpose() << endl;
     YtCp.sec /= N;
 
     sCost = calculate_cf2(Yt.mVec, YtCp.mVec, wt);
 
-    cout << "costs with k" << truCp.k.transpose() << "cost" << sCost << endl;
+    cout << "costs with k" << truCp.k.transpose() << " cost:" << sCost << endl;
     // /* PSO costs */
     // double gCost = 20000;
     // /* Instantiate seedk aka global costs */

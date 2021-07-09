@@ -3,7 +3,7 @@ sample size:1500 Nparts:300 Nsteps:40
 339
 362
 cost with exact K's using normal distribution0.00245784
-costs with k 0.0515996   0.670795   0.185759  0.0237358   0.896801 0.00206398cost0.000282471
+costs with k 0.0515996   0.670795   0.185759  0.0237358   0.896801 0.00206398 cost 0.000282471
 
 CODE FINISHED RUNNING IN 0 s TIME!
 Job Statistics for 1419167:
