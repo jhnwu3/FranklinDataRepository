@@ -508,7 +508,7 @@ int main() {
                 integrate_adaptive(controlledStepper, initSys, c0, t0, tf, dt, XtObsPSO);
             }
             XtPSO.mVec /= N;
-            //XtPSO.sec /=N;
+            //XtPSO.sec /=N; l
             cost = calculate_cf2(Yt.mVec, XtPSO.mVec, wt);
             #pragma omp critical
             {
