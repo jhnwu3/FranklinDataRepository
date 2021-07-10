@@ -1,4 +1,4 @@
-PSO_S_ODE_NonLinear
+PSO_S_ODE_NonLinear - using norm
 sample size:1500 Nparts:300 Nsteps:40
 339
 362
