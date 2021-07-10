@@ -156,14 +156,15 @@ struct Mom_ODE_Observer
     void operator()(State_N const& c, const double t) const
     {
         if (t == pMome.timeToRecord) {
+            int upperDiag = 2 * N_SPECIES;
             for (int i = 0; i < N_SPECIES; i++) {
                 pMome.mVec(i) += c[i];
                 for (int j = i; j < N_SPECIES; j++) {
                     if (i == j) { // diagonal elements
                         pMome.mVec(N_SPECIES + i) += c[i] * c[j];
-                    }
-                    else {
-                        pMome.mVec(2 * N_SPECIES + (i + j - 1)) += c[i] * c[j];
+                    }else { //upper right diagonal elements
+                        pMome.mVec(upperDiag) += c[i] * c[j];
+                        upperDiag++;
                     }
                     pMome.sec(i, j) += c[i] * c[j];
                     pMome.sec(j, i) = pMome.sec(i, j);
@@ -179,15 +180,16 @@ struct Data_ODE_Observer
     void operator()(State_N const& c, const double t) const
     {
         if (t == dComp.timeToRecord) {
+            int upperDiag = 2 * N_SPECIES;
             for (int i = 0; i < dComp.mat.cols(); i++) { dComp.mat(dComp.index, i) = c[i]; }
             for (int i = 0; i < N_SPECIES; i++) {
                 dComp.mVec(i) += c[i];
                 for (int j = i; j < N_SPECIES; j++) {
                     if (i == j) { // diagonal elements
                         dComp.mVec(N_SPECIES + i) += c[i] * c[j];
-                    }
-                    else {
-                        dComp.mVec(2 * N_SPECIES + (i + j - 1)) += c[i] * c[j];
+                    }else {
+                        dComp.mVec(upperDiag) += c[i] * c[j];
+                        upperDiag++;
                     }
             
                 }
