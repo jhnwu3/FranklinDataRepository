@@ -2,121 +2,399 @@
 may or may not be renamed to main.cpp at some point. 
  */
 
-
-
 #include <iostream>
-#include <boost/array.hpp>
 #include <fstream>
+#include <boost/math/distributions.hpp>
+#include <boost/array.hpp>
 #include <boost/numeric/odeint.hpp>
+#include <random>
 #include <vector>
 #include <Eigen/Dense>
-#include <random>
+#include <unsupported/Eigen/MatrixFunctions>
 #include <cmath>
 #include <chrono>
 #include <omp.h>
-#define N_SPECIES 3 // using #defines technically right now, but will eventually change it to a variable in main
-#define N 10000
-#define N_DIM 5
-#define N_PARTICLES 5
+#include <boost/numeric/odeint/external/openmp/openmp.hpp>
 
+#define N_SPECIES 6
+#define N 1500 // # of samples to sample over
+#define N_DIM 6 // dim of PSO hypercube
 
-/* namespaces for ease of use */
+using Eigen::MatrixXd;
+using Eigen::VectorXd;
 using namespace std;
-using namespace Eigen;
+using namespace boost;
+using namespace boost::math;
 using namespace boost::numeric::odeint;
 
-/* typedefs for boost ODE-ints*/
-typedef boost::numeric::ublas::vector< double > vector_type;
-typedef boost::numeric::ublas::matrix< double > matrix_type;
-typedef boost::array< double , N_SPECIES > state_type;
-typedef runge_kutta_cash_karp54< state_type > error_stepper_type;
-typedef controlled_runge_kutta< error_stepper_type > controlled_stepper_type;
+/* typedefs for boost ODE-ints */
+typedef boost::array< double, N_SPECIES > State_N;
+typedef runge_kutta_cash_karp54< State_N > Error_RK_Stepper_N;
+typedef controlled_runge_kutta< Error_RK_Stepper_N > Controlled_RK_Stepper_N;
 
-/* time conditions, t0 = start time, tf = final time, dt = time step*/
-double t0 = 0.0, tf = 3.0, dt = 0.2, tn = 3.0;
-double k1 = 0.276782, k2 = 0.8370806, k3 = 0.443217, k4 = 0.04244124, k5 = 0.304645; // Bill's true k
-int i = 0;
-int minimum = 100;
+typedef boost::array< double, 3 > State_3;
+typedef runge_kutta_cash_karp54< State_3 > Error_RK_Stepper_3;
+typedef controlled_runge_kutta< Error_RK_Stepper_3 > Controlled_RK_Stepper_3;
 
-/* moment vector */
-VectorXd mVecTrue = VectorXd::Zero(N_SPECIES*(N_SPECIES + 3) / 2); // for some t
-/* Second moment matrix. */
-MatrixXd m2Mat = MatrixXd::Zero(N_SPECIES, N_SPECIES); // secomd moment vector
+const double ke = 0.0001, kme = 20, kf = 0.01, kmf = 18, kd = 0.03, kmd = 1,
+ka2 = 0.01, ka3 = 0.01, C1T = 20, C2T = 5, C3T = 4;
+
+struct Multi_Normal_Random_Variable
+{
+    Multi_Normal_Random_Variable(Eigen::MatrixXd const& covar)
+        : Multi_Normal_Random_Variable(Eigen::VectorXd::Zero(covar.rows()), covar)
+    {}
+
+    Multi_Normal_Random_Variable(Eigen::VectorXd const& mean, Eigen::MatrixXd const& covar)
+        : mean(mean)
+    {
+        Eigen::SelfAdjointEigenSolver<Eigen::MatrixXd> eigenSolver(covar);
+        transform = eigenSolver.eigenvectors() * eigenSolver.eigenvalues().cwiseSqrt().asDiagonal();
+    }
+
+    Eigen::VectorXd mean;
+    Eigen::MatrixXd transform;
+
+    Eigen::VectorXd operator()() const
+    {
+        static std::mt19937 gen{ std::random_device{}() };
+        static std::normal_distribution<> dist;
+
+        return mean + transform * Eigen::VectorXd{ mean.size() }.unaryExpr([&](auto x) { return dist(gen); });
+    }
+};
 
 struct K
 {
-    array<double, N_DIM> k;
+    VectorXd k;
 };
 
-class Particle_Linear
+/* /* 3-var linear ODE system - need to rename! @TODO */
+class Linear_ODE3
 {
-    struct K T1;
+    struct K bill;
 
 public:
-    Particle_Linear(struct K G) : T1(G) {} 
+    Linear_ODE3(struct K G) : bill(G) {}
 
-    void operator() (  const state_type &c , state_type &dcdt , double t)
+    void operator() (const State_3& c, State_3& dcdt, double t)
     {
-        MatrixXd kr(N_SPECIES, N_SPECIES); 
-        kr << 0, T1.k[1], T1.k[3],
-            T1.k[2], 0, T1.k[0],
-            0, T1.k[4], 0;
-        dcdt[0] = (kr(0,0) * c[0] - kr(0,0) * c[0]) +
-              (kr(0,1) * c[1] - kr(1,0) * c[0]) + 
-              (kr(0,2) * c[2] - kr(2,0) * c[0]);
+        MatrixXd kr(3, 3);
+        kr << 0, bill.k(1), bill.k(3),
+            bill.k(2), 0, bill.k(0),
+            0, bill.k(4), 0;
+        dcdt[0] = (kr(0, 0) * c[0] - kr(0, 0) * c[0]) +
+            (kr(0, 1) * c[1] - kr(1, 0) * c[0]) +
+            (kr(0, 2) * c[2] - kr(2, 0) * c[0]);
 
-        dcdt[1] = (kr(1,0) * c[0] - kr(0,1) * c[1]) +
-                (kr(1,1) * c[1] - kr(1,1) * c[1]) + 
-                (kr(1,2) * c[2] - kr(2,1) * c[1]);
+        dcdt[1] = (kr(1, 0) * c[0] - kr(0, 1) * c[1]) +
+            (kr(1, 1) * c[1] - kr(1, 1) * c[1]) +
+            (kr(1, 2) * c[2] - kr(2, 1) * c[1]);
 
-        dcdt[2] = (kr(2,0) * c[0] - kr(0,2) * c[2]) + 
-                (kr(2,1) * c[1] - kr(1,2) * c[2]) + 
-                (kr(2,2) * c[2] - kr(2,2) * c[2]);
+        dcdt[2] = (kr(2, 0) * c[0] - kr(0, 2) * c[2]) +
+            (kr(2, 1) * c[1] - kr(1, 2) * c[2]) +
+            (kr(2, 2) * c[2] - kr(2, 2) * c[2]);
     }
 };
-/* Only to be used with integrate/integrate_adaptive - nonlinear */
-void sample_adapt( const state_type &c , const double t){
-    /* We will have some time we are sampling towards */
-    if(t == tf){
-        
-        for(int row = 0; row < N_SPECIES; row++){
-            mVecTrue(row) += c[row]; // store all first moments in the first part of the moment vec
-            for(int col = row; col < N_SPECIES; col++){
-                m2Mat(row,col) += (c[row] * c[col]);   // store in a 2nd moment matrix
-            }
-        }
-    }
-    if( c[0] - c[1] < 1e-10 && c[0] - c[1] > -1e-10){
-        cout << "Out of bounds!" << endl;
-        return; // break out for loop
-    }
-}
-/* Example Streaming Observer Format */
-struct Particle_Observer
+
+
+class Nonlinear_ODE6
 {
-    VectorXd& momentVector; // note: Unfortunately, VectorXd from Eigen is far more complicated?
-    Particle_Observer( VectorXd& vec) : momentVector( vec ){}
-    void operator()( const state_type &c , const double t ) 
+    struct K jay;
+
+public:
+    Nonlinear_ODE6(struct K G) : jay(G) {}
+
+    void operator() (const State_N& c, State_N& dcdt, double t)
     {
-        if(t == tf){
-            for(int row = 0; row < N_SPECIES; row++){
-                momentVector(row) += c[row]; 
-                for(int col = row; col < N_SPECIES; col++){
-                    if( row == col){
-                        momentVector(N_SPECIES + row) += c[row] * c[col];
-                    }else{
-                        momentVector(2*N_SPECIES + (row + col - 1)) += c[row] *c[col];
+        dcdt[0] = -(jay.k(0) * c[0] * c[1])  // Syk
+            + jay.k(1) * c[2]
+            + jay.k(2) * c[2];
+
+        dcdt[1] = -(jay.k(0) * c[0] * c[1]) // Vav
+            + jay.k(1) * c[2]
+            + jay.k(5) * c[5];
+
+        dcdt[2] = jay.k(0) * c[0] * c[1] // Syk-Vav
+            - jay.k(1) * c[2]
+            - jay.k(2) * c[2];
+
+        dcdt[3] = jay.k(2) * c[2] //pVav
+            - jay.k(3) * c[3] * c[4]
+            + jay.k(4) * c[5];
+
+        dcdt[4] = -(jay.k(3) * c[3] * c[4]) // SHP1 
+            + jay.k(4) * c[5]
+            + jay.k(5) * c[5];
+
+        dcdt[5] = jay.k(3) * c[3] * c[4]  // SHP1-pVav
+            - jay.k(4) * c[5]
+            - jay.k(5) * c[5];
+    }
+};
+
+struct Data_Components {
+    int index;
+    MatrixXd mat;
+    VectorXd mVec;
+    double timeToRecord;
+};
+struct Protein_Moments {
+    VectorXd mVec;
+    MatrixXd sec;
+    double timeToRecord;
+    Protein_Moments(double tf, int mom) {
+        mVec = VectorXd::Zero(mom);
+        sec = MatrixXd::Zero(N_SPECIES, N_SPECIES);
+        timeToRecord = tf;
+    }
+};
+
+struct Mom_ODE_Observer
+{
+    struct Protein_Moments& pMome;
+    Mom_ODE_Observer(struct Protein_Moments& pMom) : pMome(pMom) {}
+    void operator()(State_N const& c, const double t) const
+    {
+        if (t == pMome.timeToRecord) {
+            int upperDiag = 2 * N_SPECIES;
+            for (int i = 0; i < N_SPECIES; i++) {
+                pMome.mVec(i) += c[i];
+                for (int j = i; j < N_SPECIES; j++) {
+                    if (i == j) { // diagonal elements
+                        pMome.mVec(N_SPECIES + i) += c[i] * c[j];
+                    }else { //upper right diagonal elements
+                       // cout << "upperDiag: " << upperDiag << endl; 
+                        pMome.mVec(upperDiag) += c[i] * c[j];
+                        upperDiag++;
                     }
+                    pMome.sec(i, j) += c[i] * c[j];
+                    pMome.sec(j, i) = pMome.sec(i, j);
                 }
-      
             }
         }
     }
 };
+struct Data_ODE_Observer
+{
+    struct Data_Components& dComp;
+    Data_ODE_Observer(struct Data_Components& dCom) : dComp(dCom) {}
+    void operator()(State_N const& c, const double t) const
+    {
+        if (t == dComp.timeToRecord) {
+            int upperDiag = 2 * N_SPECIES;
+            for (int i = 0; i < dComp.mat.cols(); i++) { dComp.mat(dComp.index, i) = c[i]; }
+            for (int i = 0; i < N_SPECIES; i++) {
+                dComp.mVec(i) += c[i];
+                for (int j = i; j < N_SPECIES; j++) {
+                    if (i == j) { // diagonal elements
+                        dComp.mVec(N_SPECIES + i) += c[i] * c[j];
+                    }else {
+                        dComp.mVec(upperDiag) += c[i] * c[j];
+                        upperDiag++;
+                    }
+            
+                }
+            }
+        }
+    }
+};
+struct Data_ODE_Observer3
+{
+    struct Data_Components& dComp;
+    Data_ODE_Observer3(struct Data_Components& dCom) : dComp(dCom) {}
+    void operator()(State_3 const& c, const double t) const
+    {
+        if (t == dComp.timeToRecord) {
+            for (int i = 0; i < dComp.mat.cols(); i++) { dComp.mat(dComp.index, i) = c[i]; }
+        }
+    }
+};
+struct Data_Components6 {
+    int index;
+    MatrixXd mat;
+    VectorXd sub;
+    double timeToRecord;
+};
+struct Data_ODE_Observer6
+{
+    struct Data_Components6& dComp;
+    Data_ODE_Observer6(struct Data_Components6& dCom) : dComp(dCom) {}
+    void operator()(State_N const& c, const double t) const
+    {
+        if (t == dComp.timeToRecord) {
+            int i = 0, j = 0;
+            while (i < N_SPECIES && j < dComp.sub.size()) {
+                if (i == dComp.sub(j)) {
+                    dComp.mat(dComp.index, j) = c[i];
+                    j++;
+                }
+                i++;
+            }
+        }
+    }
+};
+State_N gen_multi_lognorm_iSub(void) {
+    State_N c0;
+    VectorXd mu(3);
+    mu << 4.78334234137469844730960782,
+        5.52142091946216110500584912965,
+        4.3815581042632114978686130;
+    MatrixXd sigma(3, 3);
+    sigma << 0.008298802814695093876186221, 0, 0,
+        0, 0.0000799968001706564273219830, 0,
+        0, 0, 0.000937060821340228802149700;
+    Multi_Normal_Random_Variable gen(mu, sigma);
+    VectorXd c0Vec = gen();
+    int j = 0;
+    for (int i = 0; i < N_SPECIES; i++) {
+        if (i == 0 || i == 1 || i == 4) { // Syk, Vav, SHP1
+            c0[i] = exp(c0Vec(j));
+            j++;
+        }
+        else {
+            c0[i] = 0;
+        }
+    }
 
+    return c0;
+}
 
+State_N gen_multi_norm_iSub(void) {
+    State_N c0;
+    VectorXd mu(3);
+    mu << 4.78334234137469844730960782,
+        5.52142091946216110500584912965,
+        4.3815581042632114978686130;
+    MatrixXd sigma(3, 3);
+    sigma << 0.008298802814695093876186221, 0, 0,
+        0, 0.0000799968001706564273219830, 0,
+        0, 0, 0.000937060821340228802149700;
+    Multi_Normal_Random_Variable gen(mu, sigma);
+    VectorXd c0Vec = gen();
+    int j = 0;
+    for (int i = 0; i < N_SPECIES; i++) {
+        if (i == 0 || i == 1 || i == 4) { // Syk, Vav, SHP1
+            c0[i] = c0Vec(j);
+            j++;
+        }
+        else {
+            c0[i] = 0;
+        }
+    }
 
+    return c0;
+}
 
+VectorXd gen_multi_lognorm_vecSub(void) {
+    VectorXd initVec(N_SPECIES);
+    VectorXd mu(3);
+    mu << 4.78334234137469844730960782,
+        5.52142091946216110500584912965,
+        4.3815581042632114978686130;
+    MatrixXd sigma(3, 3);
+    sigma << 0.008298802814695093876186221, 0, 0,
+        0, 0.0000799968001706564273219830, 0,
+        0, 0, 0.000937060821340228802149700;
+    Multi_Normal_Random_Variable gen(mu, sigma);
+    VectorXd c0Vec = gen();
+    int j = 0;
+    for (int i = 0; i < N_SPECIES; i++) {
+        if (i == 0 || i == 1 || i == 4) { // Syk, Vav, SHP1
+            initVec(i) = exp(c0Vec(j));
+            j++;
+        }
+        else {
+            initVec(i) = 0;
+        }
+    }
+    return initVec;
+}
+VectorXd comp_vel_vec(const VectorXd& posK) {
+    VectorXd rPoint;
+    rPoint = posK;
+    std::random_device rand_dev;
+    std::mt19937 generator(rand_dev());
+    vector<int> rand;
+    for (int i = 0; i < N_DIM; i++) {
+        rand.push_back(i);
+    }
+    shuffle(rand.begin(), rand.end(), generator); // shuffle indices as well as possible. 
+    int ncomp = rand.at(0);
+    VectorXd wcomp(ncomp);
+    shuffle(rand.begin(), rand.end(), generator);
+    for (int i = 0; i < ncomp; i++) {
+        wcomp(i) = rand.at(i);
+    }
+    for (int smart = 0; smart < ncomp; smart++) {
+        int px = wcomp(smart);
+        double pos = rPoint(px);
+        if (pos > 1.0) {
+            cout << "overflow!" << endl;
+            pos += -0.001;
+        }else if (pos < 0.001) {
+            cout << "underflow!"<< pos << endl;
+            cout << "pos" << posK.transpose() << endl;
+            pos += 0.001;
+        }
+        double alpha = 4 * pos;
+        double beta = 4 - alpha;
+       // cout << "alpha:" << alpha << "beta:" << beta << endl;
+        std::gamma_distribution<double> aDist(alpha, 1);
+        std::gamma_distribution<double> bDist(beta, 1);
+
+        double x = aDist(generator);
+        double y = bDist(generator);
+
+        rPoint(px) = (x / (x + y));
+    }
+    return rPoint;
+}
+MatrixXd calculate_omega_weight_matrix(const MatrixXd &sample, const VectorXd &mu, int n){
+    MatrixXd inv = MatrixXd::Zero(mu.size(), mu.size());
+    VectorXd X = VectorXd::Zero(mu.size());
+    for(int s = 0; s < n; s++){
+        for(int row = 0; row < N_SPECIES; row++){
+            X(row) = sample(s, row); 
+            for(int col = row; col < N_SPECIES; col++){
+                if( row == col){
+                    X(N_SPECIES + row) = sample(s, row) * sample(s, col);
+                }else{
+                    X(2*N_SPECIES + (row + col - 1)) = sample(s,row) * sample(s,col);
+                }
+            }
+        }
+        for(int i = 0; i < mu.size(); i++){
+            for(int j = 0; j < mu.size(); j++){
+                inv(i,j) += (X(i) - mu(i)) * (X(j) - mu(j));
+            }
+        }
+    }
+    inv /= n;
+    return inv.inverse();
+}
+double calculate_cf1(const VectorXd& trueVec, const VectorXd& estVec) {
+    double cost = 0;
+    VectorXd diff(trueVec.size());
+    diff = trueVec - estVec;
+    cost = diff.transpose() * diff.transpose().transpose();
+    // for(int i = 0; i < n; i++){
+    //     cost += (estVec(i) - trueVec(i)) * (estVec(i) - trueVec(i));
+    // }
+    return cost;
+}
+double calculate_cf2(const VectorXd& trueVec, const  VectorXd& estVec, const MatrixXd& w) {
+    double cost = 0;
+    VectorXd diff(trueVec.size());
+    /*for(int i = 0; i < n; i++){
+        for(int j = 0; j < n; j++){
+           cost += (estVec(i) - trueVec(i)) * w(i,j) *(estVec(j) - trueVec(j));
+        }
+    }*/
+    diff = trueVec - estVec;
+    cost = diff.transpose() * w * (diff.transpose()).transpose();
+    return cost;
+}
 
 void doStuff(){
     for(int j = 0; j< 20000; j++){
@@ -131,20 +409,10 @@ int main (){
     mt19937 generator(rand_dev());
     uniform_real_distribution<double> unifDist(0.0, 1.0);
      /* ODE solver variables! */
-    VectorXd initCon(N_SPECIES); // temp vector to be used for initiation conditions
-    state_type c0;
-    controlled_stepper_type controlled_stepper;
-     /* Variables used for multivariate log normal distribution */
-    VectorXd mu(N_SPECIES);
-    MatrixXd sigma  = MatrixXd::Zero(N_SPECIES, N_SPECIES);
-    /* assign mu vector and sigma matrix values   */
-    mu << mu_x, mu_y, mu_z;
-    sigma << 0.77, 0.0873098, 0.046225, 
-             0.0873098, 0.99, 0.104828, 
-             0.046225, 0.104828, 1.11; 
+
 
     #pragma omp parallel for
-        for(i = 0; i < N; i++){
+        for(int i = 0; i < N; i++){
         
             doStuff();
             #pragma omp critical
@@ -154,6 +422,5 @@ int main (){
         } 
 
 
-    cout << "min:" << minimum << endl;
     return EXIT_SUCCESS;
 }

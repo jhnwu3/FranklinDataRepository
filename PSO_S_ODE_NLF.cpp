@@ -461,12 +461,23 @@ int main() {
     Controlled_RK_Stepper_N controlledStepper;
     cout << "362" << endl;
     for (int i = 0; i < N; i++) {
-        State_N c0 = gen_multi_lognorm_iSub(); // Y_0 is simulated using lognorm dist.
+        State_N c0 = gen_multi_norm_iSub(); // Y_0 is simulated using lognorm dist.
         integrate_adaptive(controlledStepper, trueSys, c0, t0, tf, dt, YtObs);
     }
     Yt.mVec /= N;
     Yt.sec /= N;
+    VectorXd testVector = VectorXd::Zero(nMoments);
+    int testDiag = N_SPECIES;
+    for(int i = 0; i < N_SPECIES; i++){
+        testVector(i) = Yt.mVec(i);
+        for(int j = i; j < N_SPECIES; j++){
+            testVector(testDiag) = Yt.sec(i,j);
+            testDiag++;
+        }
+    }
 
+    cout << "Yt moments:" << Yt.mVec.transpose() << endl;
+    cout << "test vector:" << testVector.transpose() << endl;
     /* PSO costs */
     double gCost = 20000;
     /* Instantiate seedk aka global costs */
@@ -477,7 +488,7 @@ int main() {
     Nonlinear_ODE6 sys(seed);
     
     for (int i = 0; i < N; i++) {
-        State_N c0 = gen_multi_lognorm_iSub();
+        State_N c0 = gen_multi_norm_iSub();
         integrate_adaptive(controlledStepper, sys, c0, t0, tf, dt, XtObs);
     }
     Xt.mVec /= N;
@@ -513,7 +524,7 @@ int main() {
         Protein_Moments XtPSO(tf, nMoments);
         Mom_ODE_Observer XtObsPSO(XtPSO);
         for(int i = 0; i < N; i++){
-            State_N c0 = gen_multi_lognorm_iSub();
+            State_N c0 = gen_multi_norm_iSub();
             integrate_adaptive(controlledStepper, initSys, c0, t0, tf, dt, XtObsPSO);
         }
         XtPSO.mVec/=N;
@@ -534,7 +545,7 @@ int main() {
             Nonlinear_ODE6 stepSys(pos);
             Mom_ODE_Observer XtObsPSO1(XtPSO);
             for(int i = 0; i < N; i++){
-                State_N c0 = gen_multi_lognorm_iSub();
+                State_N c0 = gen_multi_norm_iSub();
                 integrate_adaptive(controlledStepper, initSys, c0, t0, tf, dt, XtObsPSO1);
             }
             XtPSO.mVec /= N;
