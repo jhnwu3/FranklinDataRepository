@@ -466,6 +466,103 @@ int main() {
     }
     Yt.mVec /= N;
     Yt.sec /= N;
+
+    /**** Testing ****/
+    struct K truCp;
+    truCp.k = VectorXd::Zero(Npars);
+    truCp.k << 5.0, 0.1, 1.0, 8.69, 0.05, 0.70;
+    truCp.k /= (9.69);
+    Nonlinear_ODE6 trueSysCp(truCp);
+    Protein_Moments YtCp(tf, nMoments);
+    Mom_ODE_Observer YtObsCp(YtCp);
+    for (int i = 0; i < N; i++) {
+        State_N c0 = gen_multi_norm_iSub(); // Y_0 is simulated using lognorm dist.
+        integrate_adaptive(controlledStepper, trueSysCp, c0, t0, tf, dt, YtObsCp);
+    }
+    YtCp.mVec /= N;
+    YtCp.sec /= N;
+    cout << "mVec:" << YtCp.mVec.transpose() << endl;
+    double sCost = calculate_cf2(Yt.mVec, YtCp.mVec, wt);
+    cout <<"cost with exact K's using normal distribution:"<< sCost << endl << endl;
+
+    struct K truCpLn;
+    truCp.k = VectorXd::Zero(Npars);
+    truCp.k << 5.0, 0.1, 1.0, 8.69, 0.05, 0.70;
+    truCp.k /= (9.69);
+    Nonlinear_ODE6 trueSysCpLn(truCpLn);
+    Protein_Moments YtCpLn(tf, nMoments);
+    Mom_ODE_Observer YtObsCpLn(YtCpLn);
+    for (int i = 0; i < N; i++) {
+        State_N c0 = gen_multi_lognorm_iSub(); // Y_0 is simulated using lognorm dist.
+        integrate_adaptive(controlledStepper, trueSysCpLn, c0, t0, tf, dt, YtObsCpLn);
+    }
+    YtCpLn.mVec /= N;
+    YtCpLn.sec /= N;
+    cout << "mVec:" << YtCpLn.mVec.transpose() << endl;
+    sCost = calculate_cf2(YtCpLn.mVec, YtCpLn.mVec, wt);
+    cout <<"cost with exact K's using lognormal distribution:"<< sCost << endl << endl;
+
+    struct K truCp1;
+    truCp1.k = VectorXd::Zero(Npars);
+    truCp1.k << 0.5, 6.5, 1.8, 0.23, 8.69, 0.02;
+    truCp1.k /= (9.69);
+    Nonlinear_ODE6 trueSysCp1(truCp1);
+    Protein_Moments YtCp1(tf, nMoments);
+    Mom_ODE_Observer YtObsCp1(YtCp1);
+    for (int i = 0; i < N; i++) {
+        State_N c0 = gen_multi_norm_iSub(); // Y_0 is simulated using lognorm dist.
+        integrate_adaptive(controlledStepper, trueSysCp1, c0, t0, tf, dt, YtObsCp1);
+    }
+    YtCp1.mVec;
+    cout << "mVec:" << YtCp1.mVec.transpose() << endl;
+    YtCp1.sec /= N;
+
+    sCost = calculate_cf2(Yt.mVec, YtCp1.mVec, wt);
+
+    cout << "costs with k" << truCp1.k.transpose() << " cost:" << sCost << endl;
+    for(int i = 0; i < 10; i++){
+        struct K truCp2;
+        truCp2.k = VectorXd::Zero(Npars);
+        for(int j = 0; j < Npars; j++){
+            truCp2.k(j) = unifDist(gen);
+        }
+        cout << "k:" << truCp2.k.transpose() << endl;
+        Nonlinear_ODE6 trueSysCp2(truCp2);
+        Protein_Moments YtCp2(tf, nMoments);
+        Mom_ODE_Observer YtObsCp2(YtCp2);
+        for (int i = 0; i < N; i++) {
+            State_N c0 = gen_multi_norm_iSub(); // Y_0 is simulated using lognorm dist.
+            integrate_adaptive(controlledStepper, trueSysCp2, c0, t0, tf, dt, YtObsCp2);
+        }
+        YtCp2.mVec /= N;
+        YtCp2.sec /= N;
+        cout << "normal cost:" << calculate_cf2(YtCp.mVec, YtCp2.mVec, wt);
+        cout << "m:" << YtCp2.mVec.transpose() << endl;
+        cout << endl;
+    }
+     for(int i = 0; i < 10; i++){
+        struct K truCp2;
+        truCp2.k = VectorXd::Zero(Npars);
+        for(int j = 0; j < Npars; j++){
+            truCp2.k(j) = unifDist(gen);
+        }
+        cout << "k:" << truCp2.k.transpose() << endl;
+        Nonlinear_ODE6 trueSysCp2(truCp2);
+        Protein_Moments YtCp2(tf, nMoments);
+        Mom_ODE_Observer YtObsCp2(YtCp2);
+        for (int i = 0; i < N; i++) {
+            State_N c0 = gen_multi_lognorm_iSub(); // Y_0 is simulated using lognorm dist.
+            integrate_adaptive(controlledStepper, trueSysCp2, c0, t0, tf, dt, YtObsCp2);
+        }
+        YtCp2.mVec /= N;
+        YtCp2.sec /= N;
+        cout << "lognormal cost:" << calculate_cf2(YtCp.mVec, YtCp2.mVec, wt);
+        cout << "m:" << YtCp2.mVec.transpose() << endl;
+        cout << endl;
+    }
+
+
+
     VectorXd testVector = VectorXd::Zero(nMoments);
     int testDiag = N_SPECIES;
     for(int i = 0; i < N_SPECIES; i++){
@@ -478,6 +575,8 @@ int main() {
 
     cout << "Yt moments:" << Yt.mVec.transpose() << endl;
     cout << "test vector:" << testVector.transpose() << endl;
+    cout << "cost between the vector and moments:" << calculate_cf2(Yt.mVec, testVector, wt); 
+
     /* PSO costs */
     double gCost = 20000;
     /* Instantiate seedk aka global costs */
