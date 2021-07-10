@@ -483,7 +483,7 @@ int main() {
     Xt.mVec /= N;
     Xt.sec /= N;
     double costSeedk = calculate_cf2(Yt.mVec, Xt.mVec, wt); 
-
+    cout << "Xt:" << Xt.mVec.transpose() << endl;
     gCost = costSeedk; //initialize costs and GBMAT
     VectorXd GBVEC = seed.k;
     GBMAT.conservativeResize(GBMAT.rows() + 1, Npars + 1);
