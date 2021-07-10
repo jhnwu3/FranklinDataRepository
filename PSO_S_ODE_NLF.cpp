@@ -163,7 +163,7 @@ struct Mom_ODE_Observer
                     if (i == j) { // diagonal elements
                         pMome.mVec(N_SPECIES + i) += c[i] * c[j];
                     }else { //upper right diagonal elements
-                        cout << "upperDiag: " << upperDiag << endl; 
+                       // cout << "upperDiag: " << upperDiag << endl; 
                         pMome.mVec(upperDiag) += c[i] * c[j];
                         upperDiag++;
                     }
