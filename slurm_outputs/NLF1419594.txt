@@ -1,0 +1,16 @@
+PSO_S_ODE_NonLinear
+sample size:1500 Nparts:300 Nsteps:40
+339
+362
+mVec:  2.66421  0.175332   2.12266  0.193641   1.35201   3.02977   7.10569 0.0307729    4.5057 0.0375137   1.82879   9.17951   0.46663   5.65537  0.515946   3.60181   8.07216  0.372161 0.0339481  0.237068  0.531202   0.41103   2.86989   6.43118  0.261684  0.586682   4.09632
+cost with exact K's using normal distribution:0.00119045
+
+PSO_S_ODE_NLF: /gpfs0/export/apps/easybuild/software/Eigen/3.3.7-GCCcore-9.3.0/include/Eigen/src/Core/DenseCoeffsBase.h:425: Eigen::DenseCoeffsBase<Derived, 1>::Scalar& Eigen::DenseCoeffsBase<Derived, 1>::operator()(Eigen::Index) [with Derived = Eigen::Matrix<double, -1, 1>; Eigen::DenseCoeffsBase<Derived, 1>::Scalar = double; Eigen::Index = long int]: Assertion `index >= 0 && index < size()' failed.
+/var/spool/slurmd/job1419594/slurm_script: line 11: 3997297 Aborted                 (core dumped) ./PSO_S_ODE_NLF
+Job Statistics for 1419594:
+           JobID       User               Start                 End    Elapsed     MaxRSS   TotalCPU      State Exit        NodeList                                  ReqTRES 
+---------------- ---------- ------------------- ------------------- ---------- ---------- ---------- ---------- ---- --------------- ---------------------------------------- 
+         1419594   rsjxw007 2021-07-10T18:19:34 2021-07-10T18:19:35   00:00:01             00:00.158     FAILED  6:0   r1pl-hpcf-n21     billing=20,cpu=20,mem=156240M,node=1 
+   1419594.batch            2021-07-10T18:19:34 2021-07-10T18:19:35   00:00:01          0  00:00.156     FAILED  6:0   r1pl-hpcf-n21                                          
+  1419594.extern            2021-07-10T18:19:34 2021-07-10T18:19:35   00:00:01          0  00:00.001  COMPLETED  0:0   r1pl-hpcf-n21                                          
+CPU Efficiency: 0.00% of 00:00:20 core-walltime
