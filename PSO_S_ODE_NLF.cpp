@@ -467,6 +467,16 @@ int main() {
     Yt.mVec /= N;
     Yt.sec /= N;
 
+    Protein_Moments YtLn(tf, nMoments);
+    Mom_ODE_Observer YtObsLn(YtLn);
+    cout << "362" << endl;
+    for (int i = 0; i < N; i++) {
+        State_N c0 = gen_multi_lognorm_iSub(); // Y_0 is simulated using lognorm dist.
+        integrate_adaptive(controlledStepper, trueSys, c0, t0, tf, dt, YtObsLn);
+    }
+    YtLn.mVec /= N;
+    YtLn.sec /= N;
+
     /**** Testing ****/
     struct K truCp;
     truCp.k = VectorXd::Zero(Npars);
@@ -486,9 +496,9 @@ int main() {
     cout <<"cost with exact K's using normal distribution:"<< sCost << endl << endl;
 
     struct K truCpLn;
-    truCp.k = VectorXd::Zero(Npars);
-    truCp.k << 5.0, 0.1, 1.0, 8.69, 0.05, 0.70;
-    truCp.k /= (9.69);
+    truCpLn.k = VectorXd::Zero(Npars);
+    truCpLn.k << 5.0, 0.1, 1.0, 8.69, 0.05, 0.70;
+    truCpLn.k /= (9.69);
     Nonlinear_ODE6 trueSysCpLn(truCpLn);
     Protein_Moments YtCpLn(tf, nMoments);
     Mom_ODE_Observer YtObsCpLn(YtCpLn);
@@ -499,7 +509,7 @@ int main() {
     YtCpLn.mVec /= N;
     YtCpLn.sec /= N;
     cout << "mVec:" << YtCpLn.mVec.transpose() << endl;
-    sCost = calculate_cf2(YtCpLn.mVec, YtCpLn.mVec, wt);
+    sCost = calculate_cf2(YtLn.mVec, YtCpLn.mVec, wt);
     cout <<"cost with exact K's using lognormal distribution:"<< sCost << endl << endl;
 
     struct K truCp1;
