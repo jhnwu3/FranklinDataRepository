@@ -424,7 +424,7 @@ int main() {
     
     /* Variables (global) */
     double t0 = 0, tf = 5.0 * 9.69, dt = 1.0;
-    int wasflipped = 0, Nprots = 3, Npars = 6;
+    int Nprots = 3, Npars = 6;
     double squeeze = 0.975, sdbeta = 0.15;
 
     /* SETUP */
@@ -567,7 +567,7 @@ int main() {
 
 
     cout << "GBMAT from first PSO:" << endl << endl;
-    cout << GBMAT << endl;
+    cout << GBMAT << endl << endl;
     cout << " targeted pso has begun!" << endl;
     /* second targeted PSO */
     int Nparts2 = 25; // targeted PSO requires far less particles.
@@ -580,6 +580,7 @@ int main() {
 
     #pragma omp parallel for
     for(int particle = 0; particle < Nparts; particle++){
+        int wasflipped = 0;
         double nearby = sdbeta;
         // reset weights
         double sfp = 3.0, sfg = 1.0, sfe = 6.0; // initial particle historical weight, global weight social, inertial
