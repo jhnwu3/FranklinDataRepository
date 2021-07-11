@@ -579,7 +579,7 @@ int main() {
     }
 
     #pragma omp parallel for
-    for(int particle = 0; particle < Nparts; particle++){
+    for(int particle = 0; particle < Nparts2; particle++){
         int wasflipped = 0;
         double nearby = sdbeta;
         // reset weights
