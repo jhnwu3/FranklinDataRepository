@@ -574,6 +574,7 @@ int main() {
     for(int i = 0; i < Npars; i++){
         dist += abs((tru.k(i) - GBMAT(GBMAT.rows() - 1, i)));
     }
+    cout << "distance b/w truk and final GBVEC" << dist << endl;
     // compute difference
 
 
