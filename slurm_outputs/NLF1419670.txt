@@ -1,0 +1,362 @@
+PSO_S_ODE_NonLinear
+sample size:1000 Nparts:300 Nsteps:20
+339
+362
+Xt: 3.01269 0.862353  1.77094  1.71177  3.20747  1.17623  9.08371 0.744118   3.1363  2.93038  10.2886  1.38355  2.59616  5.33586  5.15791   9.6625  3.54399  1.52705  1.47592  2.76617  1.01424  3.03148   5.6803  2.08308  5.49013  2.01346  3.77276
+PSO begins!
+underflow!0.000175163
+pos   0.218135    0.884117    0.981781 0.000175163    0.367286    0.282951
+underflow!0.00065811
+pos  0.256961   0.998817    0.29521 0.00065811   0.742269   0.270485
+GBMAT from first PSO:
+
+ 0.970751  0.851473  0.571624  0.192127 0.0361228  0.860643   313.544
+ 0.447576  0.125491  0.298637  0.400093  0.813548  0.290553   212.446
+ 0.673156  0.834665  0.357278  0.394431  0.264559  0.381782   148.111
+ 0.673156  0.834665  0.357278  0.394431  0.264559  0.381782   147.682
+ 0.673156  0.846642  0.320755  0.394431  0.264559  0.403413   147.485
+ 0.673156  0.846642  0.320755  0.394431  0.264559  0.495768   146.922
+  0.65216  0.855516  0.320816  0.393262  0.250271  0.498211   146.784
+ 0.756821  0.155886   0.83402  0.708523  0.151471  0.823412   108.576
+ 0.756821 0.0569496   0.83402  0.867877  0.151471  0.823412   108.543
+ 0.808417 0.0365882  0.786993  0.882661  0.299639    0.8517   108.501
+ 0.761945 0.0308791  0.720727  0.840634  0.333483  0.887317   108.365
+ 0.761945  0.133908  0.720911  0.840634  0.333483  0.887317   108.327
+ 0.841085  0.724761  0.482064  0.893424  0.142746  0.359304   53.8429
+ 0.849291  0.713628  0.482185  0.896051  0.148829  0.313173   53.6769
+
+truk  0.515996  0.0103199   0.103199   0.896801 0.00515996  0.0722394
+distance b/w truk and final GBVEC1.80094
+ targeted pso has begun!
+underflow!-0.226081
+pos 0.735263  0.691819  0.484675  0.994089 -0.226081  0.536498
+underflow!-0.207455
+pos 0.807829  0.664992  0.298853  0.963383 -0.207455  0.338861
+underflow!-1.43774
+pos  2.16197  -0.99795 -0.553152  0.559013      -nan  -1.43774
+underflow!-0.99795
+pos  2.16197  -0.99795 -0.553152  0.559013      -nan  -1.43774
+underflow!-0.553152
+pos  2.16197  -0.99795 -0.553152  0.559013      -nan  -1.43774
+underflow!-0.0465038
+pos  0.898581   0.836468   0.249282   0.999785 -0.0465038   0.501748
+underflow!-0.000778479
+pos    0.899963     0.723985     0.306953     0.978712 -0.000778479     0.489537
+overflow!
+overflow!
+underflow!-0.631123
+pos 0.587641   1.07982  0.308369   1.44338 0.0363482 -0.631123
+underflow!-0.0088591
+pos -0.185217   0.201043 -0.0088591    1.36259       -nan    0.98103
+overflow!
+underflow!-0.0193467
+pos  0.884723   0.910344   0.309936   0.982673 -0.0193467    0.44625
+overflow!
+underflow!-0.497456
+pos-0.497456      -nan      -nan  0.852551      -nan      -nan
+overflow!
+underflow!-0.66391
+pos-0.743928  -0.66391   16.0948   -1.4119   9.30657  -4.65784
+underflow!-0.100858
+pos  0.90425  0.736236  0.308388  0.973572 -0.100858  0.510417
+underflow!-10.687
+pos 2.79046     -nan -18.3395  3.75437  -10.687  6.39302
+overflow!
+overflow!
+overflow!
+overflow!
+overflow!
+overflow!
+overflow!
+overflow!
+overflow!
+underflow!-0.031368
+pos 0.900165  0.755954  0.305787  0.979089 -0.031368  0.479138
+overflow!
+overflow!
+underflow!-0.234186
+pos-0.234186      -nan      -nan      -nan  0.274032      -nan
+overflow!
+underflow!-0.716694
+pos 0.913734  0.727668 -0.716694  0.877458  0.197502  0.647086
+underflow!-0.0422187
+pos   1.39601    1.62743       -nan       -nan -0.0422187    1.20275
+overflow!
+overflow!
+underflow!-0.0170688
+pos  0.881006   0.742134   0.261713   0.979835 -0.0170688   0.476442
+overflow!
+underflow!-0.0481595
+pos  0.904951   0.812931   0.310565   0.978607 -0.0481595   0.489236
+underflow!-7.43221
+pos     -nan      -nan      -nan      -nan -0.929751  -7.43221
+overflow!
+overflow!
+overflow!
+overflow!
+overflow!
+overflow!
+overflow!
+overflow!
+underflow!-0.0923127
+pos  0.752504    0.82438     1.1337   0.940851   -9.34991 -0.0923127
+overflow!
+underflow!-0.845568
+pos     -nan      -nan      -nan      -nan -0.845568      -nan
+overflow!
+underflow!-0.0462202
+pos  0.883784   0.841143       -nan    1.03097 -0.0462202   0.463088
+underflow!-2.93064
+pos 1.48754 0.466415 -2.93064  1.12737  37.2352  1.60518
+overflow!
+overflow!
+underflow!-0.0369342
+pos  0.462059  -0.762159    1.26674       -nan -0.0369342       -nan
+underflow!-0.0415539
+pos  0.985738   0.768675   0.248034   0.966406 -0.0415539   0.515695
+underflow!-16.4021
+pos    -nan -9.46372  11.0567     -nan 0.546505 -16.4021
+overflow!
+overflow!
+underflow!-3.45505
+pos     1.118 0.00998899   -63.9892    7.49618   -3.45505   0.840726
+overflow!
+overflow!
+overflow!
+underflow!-8.58323
+pos 4.60623  13.3179 -8.58323     -nan -2.78149     -nan
+overflow!
+overflow!
+overflow!
+overflow!
+underflow!-175.51
+pos   -nan -175.51  185.72    -nan 9.26317    -nan
+underflow!-0.453911
+pos     -nan      -nan  0.266009  0.887539 -0.453911      -nan
+overflow!
+underflow!-6.52237
+pos    -nan -6.52237     -nan     -nan  1.62771     -nan
+overflow!
+underflow!-0.758738
+pos   1.02908   0.407559   -0.18998   0.963042 -0.0140037  -0.758738
+underflow!-0.107053
+pos 0.897152  0.705863  0.314526  0.361588 -0.107053  0.467119
+underflow!-0.021081
+pos     -nan  0.698871      -nan  0.982846 -0.021081      -nan
+overflow!
+underflow!-0.489377
+pos 0.921938  0.636518      -nan  0.862628 -0.489377   0.52002
+overflow!
+underflow!-0.150664
+pos     -nan  0.720589  0.362636    0.9685 0.0111934 -0.150664
+overflow!
+underflow!-1.37772
+pos    -nan 0.828816     -nan 0.972606 -1.37772     -nan
+overflow!
+overflow!
+underflow!-3.97835
+pos    -nan  2.49626  1.00646 -3.97835  7.58845 0.649493
+underflow!-0.0565922
+pos      -nan       -nan       -nan       -nan -0.0565922       -nan
+underflow!-0.239093
+pos  0.493484   0.486138 -0.0553473   0.973323  -0.239093       -nan
+underflow!-1.76464
+pos-1.76464     -nan  -8.0413  1.13549     -nan     -nan
+overflow!
+underflow!-5.34642
+pos0.929534 0.564187 -5.34642   1.5508     -nan 0.550102
+overflow!
+overflow!
+overflow!
+overflow!
+underflow!-0.455223
+pos  0.557388 -0.0975435  -0.455223   0.978361       -nan       -nan
+underflow!-0.0975435
+pos  0.557388 -0.0975435  -0.455223   0.978361       -nan       -nan
+underflow!-1.12838
+pos     -nan   1.93401  -1.12838  0.913967 0.0117011 -0.117604
+underflow!-0.117604
+pos     -nan   1.93401  -1.12838  0.913967 0.0117011 -0.117604
+underflow!-4.34583
+pos    -nan     -nan -2.90706 -4.34583     -nan     -nan
+underflow!-2.90706
+pos    -nan     -nan -2.90706 -4.34583     -nan     -nan
+underflow!-0.0998778
+pos-0.0998778   -42.5503       -nan       -nan       -nan   -6.67687
+underflow!-42.5503
+pos-0.0998778   -42.5503 underflow!      -nan       -nan  -0.332647      -nan
+pos     -nan      -nan      -nan      -nan  -0.332647          -6.67687 
+      -nan
+overflow!
+underflow!-0.00344857
+pos    1.22558      0.8923    0.348874     1.23103 -0.00344857    0.116608
+underflow!-0.287831
+pos     -nan -0.287831  -8.53926      -nan      -nan      -nan
+overflow!
+overflow!
+overflow!
+underflow!-0.15754
+pos0.867649 -0.15754     -nan 0.977458     -nan     -nan
+overflow!
+underflow!-11.0727
+pos    -nan     -nan     -nan -11.0727     -nan     -nan
+underflow!-0.483761
+pos 0.723878  0.636284  0.260054   0.84468 -0.483761  0.683087
+overflow!
+underflow!-0.0473916
+pos   11.3064 -0.0473916       -nan   0.531079       -nan       -nan
+underflow!-22.3045
+pos-22.3045 0.736339     -nan  1.97595     -nan     -nan
+overflow!
+underflow!-0.481368
+pos     -nan  0.538115      -nan -0.481368      -nan      -nan
+overflow!
+overflow!
+underflow!-0.153794
+pos  1.67505  0.277451  0.313516  0.972903 0.0321204 -0.153794
+overflow!
+overflow!
+overflow!
+overflow!
+underflow!-5.89087
+pos    -nan -5.89087     -nan  20.8594     -nan     -nan
+overflow!
+underflow!-10.6012
+pos    -nan     -nan     -nan -10.6012     -nan     -nan
+overflow!
+underflow!-0.750134
+pos  0.923997   -1.14589  -0.750134    1.07235 -0.0349509  -0.592564
+underflow!-1.14589
+pos  0.923997   -1.14589  -0.750134    1.07235 -0.0349509  -0.592564
+overflow!
+underflow!-0.0349509
+pos  0.923997   -1.14589  -0.750134    1.07235 -0.0349509  -0.592564
+underflow!-0.221887
+pos 0.829912  0.337006 -0.221887  0.949553      -nan 0.0512738
+overflow!
+underflow!-0.00204737
+pos    0.82257    0.668589    0.436543    0.994307 -0.00204737    -5.12704
+underflow!-0.142239
+pos 0.838094      -nan   0.13013   2.75947 -0.142239   0.87426
+overflow!
+overflow!
+underflow!-1.00655
+pos 1.97789     -nan  1.69571     -nan -1.00655 -2.69779
+overflow!
+underflow!-0.0972343
+pos      -nan -0.0972343       -nan       -nan       -nan       -nan
+overflow!
+overflow!
+overflow!
+underflow!-0.0819032
+pos      -nan    3.28479  -0.244849  -0.374018 -0.0819032    25.2722
+underflow!-0.374018
+pos      -nan    3.28479  -0.244849  -0.374018 -0.0819032    25.2722
+underflow!-9.05765
+pos    -nan     -nan     -nan     -nan     -nan -9.05765
+overflow!
+overflow!
+underflow!-0.120976
+pos 0.131022 -0.120976      -nan  0.991356      -nan  -0.98442
+underflow!-203.758
+pos    -nan -203.758     -nan     -nan -70.6225     -nan
+overflow!
+overflow!
+underflow!-1.31801
+pos     -nan      -nan      -nan      -nan -0.048471  -1.31801
+overflow!
+underflow!-11.7177
+pos-2.22682     -nan     -nan     -nan     -nan -11.7177
+overflow!
+overflow!
+overflow!
+overflow!
+underflow!-67.8102
+pos-67.8102     -nan     -nan     -nan     -nan     -nan
+underflow!-4.3092
+pos -4.3092 0.608408     -nan 0.964104     -nan  24.8383
+underflow!-0.986612
+pos 0.374241 -0.986612      -nan  0.802157      -nan -0.584557
+underflow!-0.584557
+pos 0.374241 -0.986612      -nan  0.802157      -nan -0.584557
+underflow!-20.463
+pos    -nan 0.858975     -nan 0.991139     -nan  -20.463
+overflow!
+overflow!
+overflow!
+overflow!
+overflow!
+overflow!
+underflow!-1.27112
+pos      -nan       -nan       -nan    1.07173 -0.0154855   -1.27112
+overflow!
+overflow!
+overflow!
+overflow!
+underflow!-0.00569298
+pos       -nan        -nan        -nan        -nan -0.00569298        -nan
+underflow!-0.13418
+pos    -nan     -nan     -nan     -nan -0.13418     -nan
+underflow!-0.311346
+pos     -nan      -nan      -nan      -nan -0.311346      -nan
+overflow!
+overflow!
+    0.970751     0.851473     0.571624     0.192127    0.0361228     0.860643      313.544
+    0.447576     0.125491     0.298637     0.400093     0.813548     0.290553      212.446
+    0.673156     0.834665     0.357278     0.394431     0.264559     0.381782      148.111
+    0.673156     0.834665     0.357278     0.394431     0.264559     0.381782      147.682
+    0.673156     0.846642     0.320755     0.394431     0.264559     0.403413      147.485
+    0.673156     0.846642     0.320755     0.394431     0.264559     0.495768      146.922
+     0.65216     0.855516     0.320816     0.393262     0.250271     0.498211      146.784
+    0.756821     0.155886      0.83402     0.708523     0.151471     0.823412      108.576
+    0.756821    0.0569496      0.83402     0.867877     0.151471     0.823412      108.543
+    0.808417    0.0365882     0.786993     0.882661     0.299639       0.8517      108.501
+    0.761945    0.0308791     0.720727     0.840634     0.333483     0.887317      108.365
+    0.761945     0.133908     0.720911     0.840634     0.333483     0.887317      108.327
+    0.841085     0.724761     0.482064     0.893424     0.142746     0.359304      53.8429
+    0.849291     0.713628     0.482185     0.896051     0.148829     0.313173      53.6769
+    0.835558      0.75351     0.310606     0.978443    0.0214796     0.205645      27.7766
+    0.835558     0.753868     0.310585     0.978569     0.018229     0.203113      27.7499
+     0.90024      0.75224     0.310585     0.978569    0.0102143     0.476297      27.7145
+        -nan         -nan         -nan         -nan         -nan         -nan -9.45197e+14
+        -nan         -nan         -nan         -nan         -nan         -nan -1.67691e+15
+        -nan         -nan         -nan         -nan         -nan         -nan -9.31365e+15
+        -nan         -nan         -nan         -nan         -nan         -nan -9.31976e+15
+        -nan         -nan         -nan         -nan         -nan         -nan -9.32853e+15
+        -nan         -nan         -nan         -nan         -nan         -nan -9.33615e+15
+        -nan         -nan         -nan         -nan         -nan         -nan -9.34768e+15
+-nan -nan -nan -nan -nan -nan -nan -nan -nan -nan -nan -nan -nan -nan -nan -nan -nan -nan -nan -nan -nan -nan -nan -nan -nan -nan -nan
+-nan -nan -nan -nan -nan -nan -nan -nan -nan -nan -nan -nan -nan -nan -nan -nan -nan -nan -nan -nan -nan -nan -nan -nan -nan -nan -nan
+-nan -nan -nan -nan -nan -nan -nan -nan -nan -nan -nan -nan -nan -nan -nan -nan -nan -nan -nan -nan -nan -nan -nan -nan -nan -nan -nan
+-nan -nan -nan -nan -nan -nan -nan -nan -nan -nan -nan -nan -nan -nan -nan -nan -nan -nan -nan -nan -nan -nan -nan -nan -nan -nan -nan
+-nan -nan -nan -nan -nan -nan -nan -nan -nan -nan -nan -nan -nan -nan -nan -nan -nan -nan -nan -nan -nan -nan -nan -nan -nan -nan -nan
+-nan -nan -nan -nan -nan -nan -nan -nan -nan -nan -nan -nan -nan -nan -nan -nan -nan -nan -nan -nan -nan -nan -nan -nan -nan -nan -nan
+-nan -nan -nan -nan -nan -nan -nan -nan -nan -nan -nan -nan -nan -nan -nan -nan -nan -nan -nan -nan -nan -nan -nan -nan -nan -nan -nan
+-nan -nan -nan -nan -nan -nan -nan -nan -nan -nan -nan -nan -nan -nan -nan -nan -nan -nan -nan -nan -nan -nan -nan -nan -nan -nan -nan
+-nan -nan -nan -nan -nan -nan -nan -nan -nan -nan -nan -nan -nan -nan -nan -nan -nan -nan -nan -nan -nan -nan -nan -nan -nan -nan -nan
+-nan -nan -nan -nan -nan -nan -nan -nan -nan -nan -nan -nan -nan -nan -nan -nan -nan -nan -nan -nan -nan -nan -nan -nan -nan -nan -nan
+-nan -nan -nan -nan -nan -nan -nan -nan -nan -nan -nan -nan -nan -nan -nan -nan -nan -nan -nan -nan -nan -nan -nan -nan -nan -nan -nan
+-nan -nan -nan -nan -nan -nan -nan -nan -nan -nan -nan -nan -nan -nan -nan -nan -nan -nan -nan -nan -nan -nan -nan -nan -nan -nan -nan
+-nan -nan -nan -nan -nan -nan -nan -nan -nan -nan -nan -nan -nan -nan -nan -nan -nan -nan -nan -nan -nan -nan -nan -nan -nan -nan -nan
+-nan -nan -nan -nan -nan -nan -nan -nan -nan -nan -nan -nan -nan -nan -nan -nan -nan -nan -nan -nan -nan -nan -nan -nan -nan -nan -nan
+-nan -nan -nan -nan -nan -nan -nan -nan -nan -nan -nan -nan -nan -nan -nan -nan -nan -nan -nan -nan -nan -nan -nan -nan -nan -nan -nan
+-nan -nan -nan -nan -nan -nan -nan -nan -nan -nan -nan -nan -nan -nan -nan -nan -nan -nan -nan -nan -nan -nan -nan -nan -nan -nan -nan
+-nan -nan -nan -nan -nan -nan -nan -nan -nan -nan -nan -nan -nan -nan -nan -nan -nan -nan -nan -nan -nan -nan -nan -nan -nan -nan -nan
+-nan -nan -nan -nan -nan -nan -nan -nan -nan -nan -nan -nan -nan -nan -nan -nan -nan -nan -nan -nan -nan -nan -nan -nan -nan -nan -nan
+-nan -nan -nan -nan -nan -nan -nan -nan -nan -nan -nan -nan -nan -nan -nan -nan -nan -nan -nan -nan -nan -nan -nan -nan -nan -nan -nan
+-nan -nan -nan -nan -nan -nan -nan -nan -nan -nan -nan -nan -nan -nan -nan -nan -nan -nan -nan -nan -nan -nan -nan -nan -nan -nan -nan
+-nan -nan -nan -nan -nan -nan -nan -nan -nan -nan -nan -nan -nan -nan -nan -nan -nan -nan -nan -nan -nan -nan -nan -nan -nan -nan -nan
+-nan -nan -nan -nan -nan -nan -nan -nan -nan -nan -nan -nan -nan -nan -nan -nan -nan -nan -nan -nan -nan -nan -nan -nan -nan -nan -nan
+-nan -nan -nan -nan -nan -nan -nan -nan -nan -nan -nan -nan -nan -nan -nan -nan -nan -nan -nan -nan -nan -nan -nan -nan -nan -nan -nan
+-nan -nan -nan -nan -nan -nan -nan -nan -nan -nan -nan -nan -nan -nan -nan -nan -nan -nan -nan -nan -nan -nan -nan -nan -nan -nan -nan
+-nan -nan -nan -nan -nan -nan -nan -nan -nan -nan -nan -nan -nan -nan -nan -nan -nan -nan -nan -nan -nan -nan -nan -nan -nan -nan -nan
+-nan -nan -nan -nan -nan -nan -nan -nan -nan -nan -nan -nan -nan -nan -nan -nan -nan -nan -nan -nan -nan -nan -nan -nan -nan -nan -nan
+-nan -nan -nan -nan -nan -nan -nan -nan -nan -nan -nan -nan -nan -nan -nan -nan -nan -nan -nan -nan -nan -nan -nan -nan -nan -nan -nan
+CODE FINISHED RUNNING IN 197 s TIME!
+Job Statistics for 1419670:
+           JobID       User               Start                 End    Elapsed     MaxRSS   TotalCPU      State Exit        NodeList                                  ReqTRES 
+---------------- ---------- ------------------- ------------------- ---------- ---------- ---------- ---------- ---- --------------- ---------------------------------------- 
+         1419670   rsjxw007 2021-07-12T15:52:22 2021-07-12T15:55:40   00:03:18             47:08.036  COMPLETED  0:0   r1pl-hpcf-n21     billing=20,cpu=20,mem=156240M,node=1 
+   1419670.batch            2021-07-12T15:52:22 2021-07-12T15:55:40   00:03:18      2.42M  47:08.034  COMPLETED  0:0   r1pl-hpcf-n21                                          
+  1419670.extern            2021-07-12T15:52:22 2021-07-12T15:55:40   00:03:18          0  00:00.001  COMPLETED  0:0   r1pl-hpcf-n21                                          
+CPU Efficiency: 71.41% of 01:06:00 core-walltime
