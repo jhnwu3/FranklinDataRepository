@@ -570,6 +570,13 @@ int main() {
     cout << "GBMAT from first PSO:" << endl << endl;
     cout << GBMAT << endl << endl;
     cout << "truk" << tru.k.transpose() << endl;
+    double dist = 0;
+    for(int i = 0; i < Npars; i++){
+        dist += abs((tru.k(i) - GBMAT(GBMAT.rows() - 1, i)));
+    }
+    // compute difference
+
+
    // cout << " targeted pso has begun!" << endl;
     // /* second targeted PSO */
     // int Nparts2 = 25; // targeted PSO requires far less particles.
