@@ -591,6 +591,31 @@ int main() {
         chkPts(i) = val;// round all values down to integer values
     }
 
+    /* instantiate weight matrix */
+    struct K gBesti;
+    gBesti.k = VectorXd::Zero(Npars);
+    gBesti.k = GBVEC;
+    Nonlinear_ODE6 chkSysI(gBesti);
+    Data_Components chkMomentsI(tf, nMoments, N);
+    Data_ODE_Observer chkObsI(chkMomentsI);
+    for(int i = 0; i < N; i++){
+        chkMomentsI.index = i;
+        State_N c0 = gen_multi_norm_iSub();
+        integrate_adaptive(controlledStepper, chkSysI, c0, t0, tf, dt, chkObsI);
+    }
+    chkMomentsI.mVec/=N; // compute moment vectors of new GBbest 
+    
+    //compute a new weight matrix using method discussed with sample and inverse omega matrix - huge bottleneck!
+    wt = calculate_omega_weight_matrix(chkMomentsI.mat, Yt.mVec);
+    double wtInitCost = calculate_cf2(Yt.mVec, chkMomentsI.mVec, wt);    
+    //  attach new cost with updated w.mat into GBMAT
+    if(wtInitCost < gCost){
+        gCost = wtInitCost;
+        GBMAT.conservativeResize(GBMAT.rows() + 1, Npars + 1);
+        for (int i = 0; i < Npars; i++) {GBMAT(GBMAT.rows() - 1, i) = GBVEC(i);}
+        GBMAT(GBMAT.rows() - 1, Npars) = gCost;
+    }   
+    
     #pragma omp parallel for
     for(int particle = 0; particle < Nparts2; particle++){
         int wasflipped = 0;
