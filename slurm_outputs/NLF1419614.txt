@@ -31,7 +31,7 @@ GBMAT from first PSO:
  0.797189  0.150357  0.210714  0.862423 0.0187447  0.291593   41.3564
 
 truk  0.515996  0.0103199   0.103199   0.896801 0.00515996  0.0722394
-distance b/w truk and final GBVEC0.796061
+distance b/w truk and final GBVEC 0.796061
 CODE FINISHED RUNNING IN 241 s TIME!
 Job Statistics for 1419614:
            JobID       User               Start                 End    Elapsed     MaxRSS   TotalCPU      State Exit        NodeList                                  ReqTRES 

@@ -748,14 +748,23 @@ int main() {
 
     // cout << GBMAT << endl;
     ofstream plot;
-	plot.open("Jay_Global_Best.txt");
+	plot.open("GBMAT.csv");
 	MatrixXd GBMATWithSteps(GBMAT.rows(), GBMAT.cols() + 1);
 	VectorXd globalIterations(GBMAT.rows());
 	for(int i = 0; i < GBMAT.rows(); i++){
 		globalIterations(i) = i;
 	}
 	GBMATWithSteps << globalIterations, GBMAT;
-	plot << GBMATWithSteps << endl;
+	for(int i = 0; i < GBMATWithSteps.rows(); i++){
+        for(int j = 0; j < GBMATWithSteps.cols(); j++){
+            if(j == 0){
+                plot << GBMATWithSteps(i,j);
+            }else{
+                plot << "," << GBMATWithSteps(i,j);
+            }
+        }
+    }
+
 	plot.close();
     auto t2 = std::chrono::high_resolution_clock::now();
     auto duration = std::chrono::duration_cast<std::chrono::seconds>(t2 - t1).count();
