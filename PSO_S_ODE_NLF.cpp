@@ -748,6 +748,7 @@ int main() {
     } 
 
     cout << GBMAT << endl;
+    cout << wt << endl;
     ofstream plot;
 	plot.open("GBMAT.csv");
 	MatrixXd GBMATWithSteps(GBMAT.rows(), GBMAT.cols() + 1);
