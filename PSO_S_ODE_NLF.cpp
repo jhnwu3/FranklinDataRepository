@@ -354,17 +354,19 @@ VectorXd comp_vel_vec(const VectorXd& posK) {
     }
     return rPoint;
 }
-MatrixXd calculate_omega_weight_matrix(const MatrixXd &sample, const VectorXd &mu, int n){
+MatrixXd calculate_omega_weight_matrix(const MatrixXd &sample, const VectorXd &mu){
     MatrixXd inv = MatrixXd::Zero(mu.size(), mu.size());
     VectorXd X = VectorXd::Zero(mu.size());
-    for(int s = 0; s < n; s++){
+    int upperDiag = 2 * N_SPECIES;
+    for(int s = 0; s < sample.rows(); s++){
         for(int row = 0; row < N_SPECIES; row++){
             X(row) = sample(s, row); 
             for(int col = row; col < N_SPECIES; col++){
                 if( row == col){
                     X(N_SPECIES + row) = sample(s, row) * sample(s, col);
                 }else{
-                    X(2*N_SPECIES + (row + col - 1)) = sample(s,row) * sample(s,col);
+                    X(upperDiag) = sample(s,row) * sample(s,col);
+                    upperDiag++;
                 }
             }
         }
@@ -374,7 +376,7 @@ MatrixXd calculate_omega_weight_matrix(const MatrixXd &sample, const VectorXd &m
             }
         }
     }
-    inv /= n;
+    inv /= sample.rows();
     return inv.inverse();
 }
 double calculate_cf1(const VectorXd& trueVec, const VectorXd& estVec) {
@@ -663,7 +665,7 @@ int main() {
                 //compute a new weight matrix using method discussed with sample and inverse omega matrix - huge bottleneck!
                 #pragma omp critical
                 {
-                    wt = calculate_omega_weight_matrix(chkMoments.mat, Yt.mVec, N);
+                    wt = calculate_omega_weight_matrix(chkMoments.mat, Yt.mVec);
                     cost = calculate_cf2(Yt.mVec, chkMoments.mVec, wt);    
                     //  attach new cost with updated w.mat into GBMAT
                     if(cost < gCost){
