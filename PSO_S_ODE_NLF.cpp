@@ -770,8 +770,8 @@ int main() {
                     }   
                 }
             }
-            sfi = sfi - (sfe - sfg) / Nsteps;   // reduce the inertial weight after each step 
-            sfs = sfs + (sfe - sfg) / Nsteps;   
+            sfi = sfi - (sfe - sfg) / nSteps2;   // reduce the inertial weight after each step 
+            sfs = sfs + (sfe - sfg) / nSteps2;   
         }
     } 
 
