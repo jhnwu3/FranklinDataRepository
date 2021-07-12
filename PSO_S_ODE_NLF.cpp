@@ -357,8 +357,9 @@ VectorXd comp_vel_vec(const VectorXd& posK) {
 MatrixXd calculate_omega_weight_matrix(const MatrixXd &sample, const VectorXd &mu){
     MatrixXd inv = MatrixXd::Zero(mu.size(), mu.size());
     VectorXd X = VectorXd::Zero(mu.size());
-    int upperDiag = 2 * N_SPECIES;
+    
     for(int s = 0; s < sample.rows(); s++){
+        int upperDiag = 2 * N_SPECIES;
         for(int row = 0; row < N_SPECIES; row++){
             X(row) = sample(s, row); 
             for(int col = row; col < N_SPECIES; col++){
