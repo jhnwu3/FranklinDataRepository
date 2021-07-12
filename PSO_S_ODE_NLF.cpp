@@ -763,7 +763,7 @@ int main() {
                 plot << "," << GBMATWithSteps(i,j);
             }
         }
-        cout << endl;
+        plot << endl;
     }
 
 	plot.close();
