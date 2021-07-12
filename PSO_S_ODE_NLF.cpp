@@ -16,7 +16,7 @@
 #include <boost/numeric/odeint/external/openmp/openmp.hpp>
 
 #define N_SPECIES 6
-#define N 1000 // # of samples to sample over
+#define N 5000 // # of samples to sample over
 #define N_DIM 6 // dim of PSO hypercube
 
 using Eigen::MatrixXd;
@@ -378,7 +378,8 @@ MatrixXd calculate_omega_weight_matrix(const MatrixXd &sample, const VectorXd &m
         }
     }
     inv /= sample.rows();
-    return inv.inverse();
+    inv = inv.inverse();
+    return inv;
 }
 double calculate_cf1(const VectorXd& trueVec, const VectorXd& estVec) {
     double cost = 0;
