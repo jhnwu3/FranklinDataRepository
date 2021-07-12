@@ -628,6 +628,7 @@ int main() {
             }
             pos.k(edim) = myg;
         }
+        // initialize PBMAT
         Protein_Moments XtPSOInit(tf, nMoments);
         Nonlinear_ODE6 initSys(pos);
         Mom_ODE_Observer XtObsPSOInit(XtPSOInit);
@@ -643,7 +644,6 @@ int main() {
         PBVEC = pos.k;
         // re enter for loop of # of steps
         for(int step = 0; step < nSteps2; step++){
-
             // at each checkpoint, use global best vector to solve ode system and..
             if(step == chkPts(0) || step == chkPts(1)  || step == chkPts(2)  || step == chkPts(3)){
                 nearby = squeeze * nearby;
@@ -654,6 +654,7 @@ int main() {
                 Data_Components chkMoments(tf, nMoments, N);
                 Data_ODE_Observer chkObs(chkMoments);
                 for(int i = 0; i < N; i++){
+                    chkMoments.index = i;
                     State_N c0 = gen_multi_norm_iSub();
                     integrate_adaptive(controlledStepper, chkSys, c0, t0, tf, dt, chkObs);
                 }
