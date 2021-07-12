@@ -1,0 +1,290 @@
+PSO_S_ODE_NonLinear
+sample size:1000 Nparts:300 Nsteps:20
+339
+362
+Xt: 3.45904  2.14416  1.31961  1.14743  3.47148  0.91051  11.9715  4.59847  1.74151  1.31683  12.0522 0.829095  7.41416   4.5655  3.97006  12.0073  3.15013  2.82911  2.45985  7.44382  1.95204   1.5143  4.58097  1.20161  3.98295  1.04484   3.1608
+PSO begins!
+GBMAT from first PSO:
+
+ 0.286198  0.931184  0.676803  0.393353  0.739789  0.980897   511.911
+ 0.349835  0.617605    0.9738  0.461479  0.153696  0.716945   231.537
+ 0.762671  0.815998  0.962673  0.758076 0.0924119   0.66976   105.876
+ 0.904475  0.909841  0.574561  0.786957  0.313929  0.375799      72.1
+ 0.904475  0.774607   0.42063  0.786957  0.358771  0.375799   72.0983
+ 0.904475  0.774607   0.42063  0.786957  0.358771  0.375799   71.9633
+ 0.822424  0.693927    0.2617  0.600376  0.136003  0.203074   36.0019
+ 0.822424  0.665046   0.36965  0.572864  0.120542  0.179092   35.8768
+ 0.822348  0.648298  0.369596  0.572999  0.121593  0.200139   35.7813
+
+truk  0.515996  0.0103199   0.103199   0.896801 0.00515996  0.0722394
+distance b/w truk and final GBVEC1.77886
+ targeted pso has begun!
+underflow!4.80135e-05
+pos   0.958417    0.593469     0.26901    0.558101 4.80135e-05    0.191488
+underflow!-0.0388601
+pos  0.778885   0.716516    0.25342   0.813756  0.0449599 -0.0388601
+underflow!-1.24578
+pos0.919901 0.340804  7.11347    14.02 -1.67451 -1.24578
+overflow!
+overflow!
+underflow!-0.114614
+pos 0.926147 0.0870033 -0.322828  0.717726 -0.114614 -0.873168
+underflow!-0.873168
+pos 0.926147 0.0870033 -0.322828  0.717726 -0.114614 -0.873168
+overflow!
+underflow!-0.0350179
+pos  0.886867   0.650593   0.392291   0.540048 -0.0350179   0.141848
+underflow!-0.0593119
+pos   1.27714    1.04925   0.290087   0.503408  -0.372291 -0.0593119
+overflow!
+overflow!
+underflow!-0.0973846
+pos  0.764342    1.20886   0.310904    1.18022 -0.0973846   0.147286
+underflow!-0.105074
+posunderflow! 0.765697  0.521346  -0.214870.284199
+ pos 0.486464  0.200686 -0.105074  
+         1.30431  0.960441  0.184008    2.2539  -0.21487   1.26181
+overflow!
+underflow!-0.0947005
+pos-0.0947005    1.68885    6.57425   0.943718    1.40169    1.08993
+overflow!
+overflow!
+underflow!-0.80918
+pos 0.900402  -0.80918  0.457271  0.599891 0.0622238  0.152069
+underflow!-0.043282
+pos  0.818933   0.639335 -0.0704587   0.368309  -0.043282   0.103961
+overflow!
+overflow!
+overflow!
+underflow!-1.70608
+pos0.669077 -1.70608     -nan     -nan 0.252005     -nan
+overflow!
+overflow!
+underflow!-0.0740409
+pos   1.19691   0.928073   0.292441   0.418996 -0.0740409  -0.234937
+overflow!
+overflow!
+underflow!-0.635082
+pos   1.7032      -nan      -nan      -nan -0.635082      -nan
+underflow!-0.070279
+pos 0.776084   0.43511 -0.070279   1.25167 -0.084712  0.627809
+overflow!
+overflow!
+overflow!
+underflow!-0.301154
+pos     -nan      -nan      -nan  0.355251      -nan -0.301154
+underflow!-0.0479143
+pos      -nan   0.726356   0.262639   0.605072 -0.0479143   0.105939
+overflow!
+overflow!
+underflow!-1.74673
+pos    -nan 0.648772 -0.70232     -nan -1.74673     -nan
+underflow!-0.821622
+pos 0.865453  0.675665 -0.250368  0.574382  0.082776 -0.821622
+overflow!
+underflow!-1.50107
+pos 1.11984  8.00492 -1.50107 -1.12379  2.50139 -1.42003
+underflow!-1.12379
+pos 1.11984  8.00492 -1.50107 -1.12379  2.50139 -1.42003
+underflow!-0.0765363
+pos   0.938429     -0.4377   -0.192294     0.55861  -0.0765363 -0.00293546
+underflow!-0.00293546
+pos   0.938429     -0.4377   -0.192294     0.55861  -0.0765363 -0.00293546
+underflow!-0.185823
+pos     -nan  0.691628 -0.185823  0.634535 -0.113429  -0.30183
+underflow!-0.113429
+pos     -nan  0.691628 -0.185823  0.634535 -0.113429  -0.30183
+underflow!-0.30183
+pos     -nan  0.691628 -0.185823  0.634535 -0.113429  -0.30183
+underflow!-0.0236869
+pos   1.08629    0.76977   0.309179   0.705725   0.083642 -0.0236869
+underflow!-1.68467
+pos 1.11897 -4.64065     -nan     -nan -1.68467  1.31354
+overflow!
+overflow!
+underflow!-0.292171
+pos     -nan  0.580156      -nan  0.229161 -0.292171      -nan
+underflow!-0.306859
+pos  1.35776   2.49722  0.307476  0.714808 -0.306859  -1.61096
+overflow!
+underflow!-1.61096
+pos  1.35776   2.49722  0.307476  0.714808 -0.306859  -1.61096
+underflow!-1.3864
+pos0.900108  2.06186  -1.3864 0.337695 0.270665 0.338956
+overflow!
+underflow!-0.83351
+pos 0.936843  -1.32298  -0.83351 0.0390557  0.819388   1.73091
+underflow!-1.93782
+pos    -nan -7.07176 -0.82877 -1.93782     -nan     -nan
+underflow!-7.07176
+pos    -nan -7.07176 -0.82877 -1.93782     -nan     -nan
+underflow!-0.82877
+pos    -nan -7.07176 -0.82877 -1.93782     -nan     -nan
+underflow!-0.128093
+pos  0.79149  0.669999  0.747125   1.10306 -0.128093  0.124502
+overflow!
+underflow!-0.248938
+pos 0.823337   1.50119      -nan  0.653753 -0.248938 -0.527971
+underflow!-0.527971
+pos 0.823337   1.50119      -nan  0.653753 -0.248938 -0.527971
+overflow!
+underflow!-5.5213
+pos0.691858     -nan     -nan  -5.5213     -nan     -nan
+overflow!
+underflow!-0.0294261
+pos      -nan       -nan  -0.186525       -nan       -nan -0.0294261
+underflow!-0.186525
+pos      -nan       -nan  -0.186525       -nan       -nan -0.0294261
+underflow!-0.259376
+pos   1.0072      -nan      -nan -0.259376   3.09133 -0.182507
+overflow!
+overflow!
+underflow!-1.1914
+pos  -1.1914   1.00017  0.213509 -0.181624  0.120327  0.190999
+overflow!
+underflow!-3.13884
+pos 1.85331     -nan     -nan     -nan -3.13884 0.541859
+overflow!
+overflow!
+underflow!-0.895871
+pos-0.895871   5.19635  0.237418      -nan   3.22775  0.953876
+underflow!-0.298143
+pos     -nan  0.657543      -nan -0.298143      -nan      -nan
+overflow!
+underflow!-0.331999
+pos  1.14302      -nan  0.727521   1.33242 -0.331999  0.229613
+overflow!
+overflow!
+overflow!
+underflow!-4.17148
+pos-4.17148     -nan     -nan     -nan     -nan     -nan
+underflow!-0.0102005
+pos  0.821836 -0.0102005   0.176145    0.35484  -0.070217   0.271937
+underflow!-0.652043
+pos 0.900068      -nan      -nan      -nan      -nan -0.652043
+underflow!-0.446001
+pos 0.173881    2.0979  0.927604 -0.446001  0.135302  -1.22111
+underflow!-3.75872
+pos  3.0755 -3.75872 -1.89678     -nan 0.147293  4.45517
+underflow!-1.89678
+pos  3.0755 -3.75872 -1.89678     -nan 0.147293  4.45517
+overflow!
+underflow!-3.41709
+pos    -nan -3.41709     -nan     -nan     -nan     -nan
+underflow!-0.0111323
+pos  0.909708   0.661482 -0.0111323    0.37479   0.131553   0.151263
+underflow!-10.3928
+pos    -nan     -nan     -nan -10.3928     -nan     -nan
+overflow!
+underflow!-4.1272
+pos0.250435  0.75442  -4.1272 0.369313 0.912155 0.984247
+overflow!
+underflow!-0.0931886
+pos   1.23092    1.24778   0.185229   0.239264 -0.0931886       -nan
+overflow!
+underflow!-56.081
+pos -28.2727      -nan      -nan      -nan -0.677849   -56.081
+underflow!-0.677849
+pos -28.2727      -nan      -nan      -nan -0.677849   -56.081
+overflow!
+underflow!-1.20402
+pos     -nan    1.4539   0.22342 -0.673352  -1.20402      -nan
+underflow!-0.786931
+pos  1.92149  0.580201      -nan   0.37958 -0.786931 -0.835454
+underflow!-0.835454
+pos  1.92149  0.580201      -nan   0.37958 -0.786931 -0.835454
+overflow!
+overflow!
+underflow!-2.37108
+pos    -nan -2.37108     -nan 0.412135     -nan     -nan
+underflow!-0.199082
+pos-0.260512      -nan  -2.04832      -nan      -nan -0.199082
+underflow!-2.04832
+pos-0.260512      -nan  -2.04832      -nan      -nan -0.199082
+overflow!
+overflow!
+underflow!-0.10557
+pos     -nan   3.75428  -0.10557  -1.84737 -0.184147  0.108064
+underflow!-1.84737
+pos     -nan   3.75428  -0.10557  -1.84737 -0.184147  0.108064
+overflow!
+underflow!-0.184147
+pos     -nan   3.75428  -0.10557  -1.84737 -0.184147  0.108064
+underflow!-0.0809693
+pos      -nan       -nan   0.328139       -nan       -nan -0.0809693
+underflow!-4.69028
+pos-4.69028     -nan     -nan     -nan     -nan     -nan
+overflow!
+underflow!-0.0537687
+pos   1.09085   0.466419   0.585862   0.683647 -0.0532676 -0.0537687
+overflow!
+overflow!
+underflow!-0.190958
+pos     -nan   2.12872 -0.190958      -nan      -nan      -nan
+underflow!-0.0701873
+pos  0.736339       -nan   0.288018   0.330418 -0.0701873       -nan
+underflow!-2.38438
+pos-2.38438  3.92595     -nan     -nan     -nan     -nan
+overflow!
+underflow!-0.788203
+pos     -nan -0.788203      -nan      -nan      -nan      -nan
+overflow!
+underflow!-0.117765
+pos     -nan      -nan      -nan      -nan      -nan -0.117765
+underflow!-0.636413
+pos     -nan      -nan   1.41024 -0.636413      -nan      -nan
+overflow!
+overflow!
+underflow!-0.0657687
+pos      -nan       -nan -0.0657687       -nan       -nan    2.02247
+underflow!-0.0492168
+pos  0.897715   0.610923    -0.1083  -0.315125   0.265019 -0.0492168
+underflow!-0.315125
+pos  0.897715   0.610923    -0.1083  -0.315125   0.265019 -0.0492168
+underflow!-0.1083
+pos  0.897715   0.610923    -0.1083  -0.315125   0.265019 -0.0492168
+overflow!
+underflow!-19.5565
+pos-2.90696     -nan -19.5565 0.512299     -nan     -nan
+underflow!-6.83266
+pos-6.83266     -nan     -nan 0.763936     -nan     -nan
+overflow!
+underflow!-0.0259562
+pos  0.878806   0.576959   0.244979       -nan -0.0259562   -0.25414
+underflow!-0.25414
+pos  0.878806   0.576959   0.244979       -nan -0.0259562   -0.25414
+underflow!-12.9538underflow!
+pos-8.00862
+pos    -nan     -nan     -nan -8.00862     -nan     -nan
+    -nan     -nan     -nan     -nan     -nan -12.9538
+underflow!-3.42612
+pos    -nan     -nan     -nan -3.42612     -nan     -nan
+overflow!
+underflow!-0.0752919
+pos      -nan    1.03398       -nan   0.685082 -0.0160919 -0.0752919
+overflow!
+overflow!
+underflow!-4.17714
+pos    -nan     -nan 0.310881     -nan     -nan -4.17714
+underflow!-6.55657
+pos    -nan     -nan     -nan  -57.639 -6.55657  15.1624
+underflow!-10.1078
+pos    -nan     -nan     -nan  41.1649     -nan -10.1078
+overflow!
+underflow!-0.0197939
+pos      -nan       -nan -0.0197939       -nan       -nan       -nan
+overflow!
+overflow!
+overflow!
+underflow!-20.6391
+pos    -nan     -nan -20.6391     -nan     -nan     -nan
+overflow!
+PSO_S_ODE_NLF: /gpfs0/export/apps/easybuild/software/Eigen/3.3.7-GCCcore-9.3.0/include/Eigen/src/Core/DenseCoeffsBase.h:425: Eigen::DenseCoeffsBase<Derived, 1>::Scalar& Eigen::DenseCoeffsBase<Derived, 1>::operator()(Eigen::Index) [with Derived = Eigen::Matrix<double, -1, 1>; Eigen::DenseCoeffsBase<Derived, 1>::Scalar = double; Eigen::Index = long int]: Assertion `index >= 0 && index < size()' failed.
+/var/spool/slurmd/job1419672/slurm_script: line 11: 4169081 Aborted                 (core dumped) ./PSO_S_ODE_NLF
+Job Statistics for 1419672:
+           JobID       User               Start                 End    Elapsed     MaxRSS   TotalCPU      State Exit        NodeList                                  ReqTRES 
+---------------- ---------- ------------------- ------------------- ---------- ---------- ---------- ---------- ---- --------------- ---------------------------------------- 
+         1419672   rsjxw007 2021-07-12T16:27:56 2021-07-12T16:28:38   00:00:42             11:12.887     FAILED  6:0   r1pl-hpcf-n21     billing=20,cpu=20,mem=156240M,node=1 
+   1419672.batch            2021-07-12T16:27:56 2021-07-12T16:28:38   00:00:42      1.26M  11:12.885     FAILED  6:0   r1pl-hpcf-n21                                          
+  1419672.extern            2021-07-12T16:27:56 2021-07-12T16:28:38   00:00:42          0  00:00.001  COMPLETED  0:0   r1pl-hpcf-n21                                          
+CPU Efficiency: 80.12% of 00:14:00 core-walltime
