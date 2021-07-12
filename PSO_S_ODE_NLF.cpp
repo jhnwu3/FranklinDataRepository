@@ -664,7 +664,7 @@ int main() {
                 #pragma omp critical
                 {
                     wt = calculate_omega_weight_matrix(chkMoments.mat, Yt.mVec, N);
-                    double cost = calculate_cf2(Yt.mVec, chkMoments.mVec, wt);    
+                    cost = calculate_cf2(Yt.mVec, chkMoments.mVec, wt);    
                     //  attach new cost with updated w.mat into GBMAT
                     if(cost < gCost){
                         gCost = cost;
