@@ -401,26 +401,67 @@ void doStuff(){
 
     }
 }
+struct Write_File_Plot 
+{
+    ostream& fOut;
+    Write_File_Plot (ostream& out) : fOut( out ) {} 
+    void operator()(const State_N &c, const double t){ // write all solved ODE values in GNU plot vals
+        fOut << t;
+        for(int i = 0; i < 6; i++){
+        fOut << "," << c[i];
+        }
+        fOut << endl;
+    }
+}; 
 /* Test finding min function */
 int main (){
     double mu_x = 1.47, mu_y = 1.74, mu_z = 1.99; // true means for MVN(theta)
+    // ode vars
+    double t0 = 0.0, tf = 25.0, dt = 1.0;
+    struct K tru;
+    tru.k = VectorXd::Zero(6);
+    tru.k << 5.0, 0.1, 1.0, 8.69, 0.05, 0.70;
+    tru.k /= (9.69);
+    Controlled_RK_Stepper_N controlledStepper;
+    Nonlinear_ODE6 trueSys(tru);
+
     /* Random Number Generator */
     random_device rand_dev;
     mt19937 generator(rand_dev());
     uniform_real_distribution<double> unifDist(0.0, 1.0);
+    std::normal_distribution norm(120.0, 120.0);
+
      /* ODE solver variables! */
+    ofstream baseOut;
+    baseOut.open("baseConc.csv");
+    Write_File_Plot baseCsv(baseOut);
+    State_N c0_base = {120 ,41.33, 0, 0, 80, 0}; // baseline
+    integrate_adaptive(controlledStepper, trueSys, c0_base, t0, tf, dt, baseCsv);
+       baseOut.close();
+    ofstream highOut;
+    highOut.open("highConc.csv");
+    Write_File_Plot hiCsv(highOut);
+    State_N c0_high = {600, 41.33, 0, 0, 80, 0};
+    integrate_adaptive(controlledStepper, trueSys, c0_high, t0, tf, dt, hiCsv);
+    highOut.close();
 
-
-    #pragma omp parallel for
-        for(int i = 0; i < N; i++){
-        
-            doStuff();
-            #pragma omp critical
-                {
-                    
-                }
-        } 
-
+    ofstream lowOut;
+    lowOut.open("lowConc.csv");
+    Write_File_Plot loCsv(lowOut);
+    State_N c0_low = {20, 41.33, 0, 0, 80, 0}; // lowered
+    integrate_adaptive(controlledStepper, trueSys, c0_low, t0, tf, dt, loCsv);
+    lowOut.close();
+    
+    int runs = 10;
+    for(int i = 0; i < runs; i++){
+        State_N c0 = {(exp(norm(generator))), 41.33, 0, 0, 80, 0};
+        string s = to_string(c0[0]) + "Protein_Concentrations.csv";
+        ofstream fout;
+        fout.open(s);
+        Write_File_Plot obsCsv(fout);
+        integrate_adaptive(controlledStepper, trueSys, c0, t0, tf, dt, obsCsv);
+        fout.close();
+    }
 
     return EXIT_SUCCESS;
 }
