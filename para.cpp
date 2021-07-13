@@ -429,7 +429,7 @@ int main (){
     random_device rand_dev;
     mt19937 generator(rand_dev());
     uniform_real_distribution<double> unifDist(0.0, 1.0);
-    std::normal_distribution norm(120.0, 120.0);
+    std::normal_distribution<double> norm(120.0, 120.0);
 
      /* ODE solver variables! */
     ofstream baseOut;
@@ -451,7 +451,7 @@ int main (){
     State_N c0_low = {20, 41.33, 0, 0, 80, 0}; // lowered
     integrate_adaptive(controlledStepper, trueSys, c0_low, t0, tf, dt, loCsv);
     lowOut.close();
-    
+
     int runs = 10;
     for(int i = 0; i < runs; i++){
         State_N c0 = {(exp(norm(generator))), 41.33, 0, 0, 80, 0};
