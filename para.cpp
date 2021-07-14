@@ -441,7 +441,7 @@ int main (){
     ofstream highOut;
     highOut.open("highConc.csv");
     Write_File_Plot hiCsv(highOut);
-    State_N c0_high = {600, 41.33, 0, 0, 80, 0};
+    State_N c0_high = {10000, 41.33, 0, 0, 80, 0};
     integrate_adaptive(controlledStepper, trueSys, c0_high, t0, tf, dt, hiCsv);
     highOut.close();
 
