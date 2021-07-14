@@ -1,0 +1,23 @@
+warning: Pulling without specifying how to reconcile divergent branches is
+discouraged. You can squelch this message by running one of the following
+commands sometime before your next pull:
+
+  git config pull.rebase false  # merge (the default strategy)
+  git config pull.rebase true   # rebase
+  git config pull.ff only       # fast-forward only
+
+You can replace "git config" with "git config --global" to set a default
+preference for all repositories. You can also pass --rebase, --no-rebase,
+or --ff-only on the command line to override the configured default per
+invocation.
+
+Already up to date.
+make: Nothing to be done for 'all'.
+slurmstepd: error: *** JOB 1421866 ON r1pl-hpcf-n21 CANCELLED AT 2021-07-13T20:52:59 ***
+Job Statistics for 1421866:
+           JobID       User               Start                 End    Elapsed     MaxRSS   TotalCPU      State Exit        NodeList                                  ReqTRES 
+---------------- ---------- ------------------- ------------------- ---------- ---------- ---------- ---------- ---- --------------- ---------------------------------------- 
+         1421866   rsjxw007 2021-07-13T16:40:03 2021-07-13T20:52:59   04:12:56             47:51.012 CANCELLED+  0:0   r1pl-hpcf-n21        billing=8,cpu=8,mem=62496M,node=1 
+   1421866.batch            2021-07-13T16:40:03 2021-07-13T20:53:00   04:12:57      1.59M  47:51.010  CANCELLED 0:15   r1pl-hpcf-n21                                          
+  1421866.extern            2021-07-13T16:40:03 2021-07-13T20:52:59   04:12:56          0  00:00.001  COMPLETED  0:0   r1pl-hpcf-n21                                          
+CPU Efficiency: 2.36% of 1-09:43:28 core-walltime
