@@ -417,7 +417,7 @@ struct Write_File_Plot
 int main (){
     double mu_x = 1.47, mu_y = 1.74, mu_z = 1.99; // true means for MVN(theta)
     // ode vars
-    double t0 = 0.0, tf = 6.0, dt = 1.0;
+    double t0 = 0.0, tf = 10.0, dt = 1.0;
     struct K tru;
     tru.k = VectorXd::Zero(6);
     tru.k << 5.0, 0.1, 1.0, 8.69, 0.05, 0.70;
