@@ -454,7 +454,7 @@ int main (){
 
     int runs = 10;
     for(int i = 0; i < runs; i++){
-        State_N c0 = {(exp(norm(generator))), 41.33, 0, 0, 80, 0};
+        State_N c0 = {(norm(generator)), 41.33, 0, 0, 80, 0};
         string s = to_string(i) + "Protein_Concentrations.csv";
         ofstream fout;
         fout.open(s);
