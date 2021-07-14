@@ -1,0 +1,22 @@
+warning: Pulling without specifying how to reconcile divergent branches is
+discouraged. You can squelch this message by running one of the following
+commands sometime before your next pull:
+
+  git config pull.rebase false  # merge (the default strategy)
+  git config pull.rebase true   # rebase
+  git config pull.ff only       # fast-forward only
+
+You can replace "git config" with "git config --global" to set a default
+preference for all repositories. You can also pass --rebase, --no-rebase,
+or --ff-only on the command line to override the configured default per
+invocation.
+
+Already up to date.
+make: Nothing to be done for 'all'.
+Job Statistics for 1421887:
+           JobID       User               Start                 End    Elapsed     MaxRSS   TotalCPU      State Exit        NodeList                                  ReqTRES 
+---------------- ---------- ------------------- ------------------- ---------- ---------- ---------- ---------- ---- --------------- ---------------------------------------- 
+         1421887   rsjxw007 2021-07-13T21:52:42 2021-07-13T21:52:46   00:00:04             00:01.435  COMPLETED  0:0   r1pl-hpcf-n21        billing=8,cpu=8,mem=62496M,node=1 
+   1421887.batch            2021-07-13T21:52:42 2021-07-13T21:52:46   00:00:04          0  00:01.434  COMPLETED  0:0   r1pl-hpcf-n21                                          
+  1421887.extern            2021-07-13T21:52:42 2021-07-13T21:52:46   00:00:04          0  00:00.001  COMPLETED  0:0   r1pl-hpcf-n21                                          
+CPU Efficiency: 3.12% of 00:00:32 core-walltime
