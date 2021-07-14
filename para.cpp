@@ -455,7 +455,7 @@ int main (){
     int runs = 10;
     for(int i = 0; i < runs; i++){
         State_N c0 = {(exp(norm(generator))), 41.33, 0, 0, 80, 0};
-        string s = to_string(c0[0]) + "Protein_Concentrations.csv";
+        string s = to_string(i) + "Protein_Concentrations.csv";
         ofstream fout;
         fout.open(s);
         Write_File_Plot obsCsv(fout);
