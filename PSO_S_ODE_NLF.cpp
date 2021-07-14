@@ -266,15 +266,23 @@ State_N gen_multi_lognorm_iSub(void) {
 
 State_N gen_multi_norm_iSub(void) {
     State_N c0;
-    VectorXd mu(3);
-    mu << 4.78334234137469844730960782,
+    // VectorXd mu(3);
+    // mu << 4.78334234137469844730960782,
+    //     5.52142091946216110500584912965,
+    //     4.3815581042632114978686130;
+    // MatrixXd sigma(3, 3);
+    // sigma << 0.008298802814695093876186221, 0, 0,
+    //     0, 0.0000799968001706564273219830, 0,
+    //     0, 0, 0.000937060821340228802149700;
+    VectorXd mvnVec(3);
+    mvnVec << 4.78334234137469844730960782,
         5.52142091946216110500584912965,
         4.3815581042632114978686130;
-    MatrixXd sigma(3, 3);
-    sigma << 0.008298802814695093876186221, 0, 0,
-        0, 0.0000799968001706564273219830, 0,
-        0, 0, 0.000937060821340228802149700;
-    Multi_Normal_Random_Variable gen(mu, sigma);
+    MatrixXd covarMat(3, 3);
+    covarMat << 800.298802814695093876186221, 0, 0,
+        0, 7.99968001706564273219830, 0,
+        0, 0, 93.7060821340228802149700;
+    Multi_Normal_Random_Variable gen(mvnVec, covarMat);
     VectorXd c0Vec = gen();
     int j = 0;
     for (int i = 0; i < N_SPECIES; i++) {
@@ -453,18 +461,11 @@ int main() {
     double boundary = 0.001;
     MatrixXd wt = MatrixXd::Identity(nMoments, nMoments); // wt matrix
     MatrixXd GBMAT(0, 0);
-    VectorXd mvnVec(3);
-    mvnVec << 4.78334234137469844730960782,
-        5.52142091946216110500584912965,
-        4.3815581042632114978686130;
-    MatrixXd covarMat(3, 3);
-    covarMat << 0.008298802814695093876186221, 0, 0,
-        0, 0.0000799968001706564273219830, 0,
-        0, 0, 0.000937060821340228802149700;
+    
 
     cout << "mu:" << mvnVec.transpose() << endl;
     cout << "covarMat:" << covarMat << endl << endl;
-    
+
     VectorXd wmatup(4);
     wmatup << 0.15, 0.3, .45, .6;
     
