@@ -90,7 +90,7 @@ GBMAT from first PSO:
   0.970443   0.243564    0.15065   0.996343 0.00474927   0.216014    24.8805
 
 truk  0.515996  0.0103199   0.103199   0.896801 0.00515996  0.0722394
-distance b/w truk and final GBVEC0.97887
+distance b/w truk and final GBVEC 0.97887
  targeted pso has begun!
 CODE FINISHED RUNNING IN 14899 s TIME!
 Job Statistics for 1424163:

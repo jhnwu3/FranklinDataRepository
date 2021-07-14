@@ -445,7 +445,7 @@ int main() {
     int sf2 = 1;
 
     int Nparts = 300;
-    int Nsteps = 200;
+    int Nsteps = 40;
     
     cout << "sample size:" << N << " Nparts:" << Nparts << " Nsteps:" << Nsteps << endl;
     /* moments */
@@ -461,7 +461,15 @@ int main() {
     double boundary = 0.001;
     MatrixXd wt = MatrixXd::Identity(nMoments, nMoments); // wt matrix
     MatrixXd GBMAT(0, 0);
-    
+
+    VectorXd mvnVec(3);
+    mvnVec << 4.78334234137469844730960782,
+        5.52142091946216110500584912965,
+        4.3815581042632114978686130;
+    MatrixXd covarMat(3, 3);
+    covarMat << 800.298802814695093876186221, 0, 0,
+        0, 7.99968001706564273219830, 0,
+        0, 0, 93.7060821340228802149700;
 
     cout << "mu:" << mvnVec.transpose() << endl;
     cout << "covarMat:" << covarMat << endl << endl;
