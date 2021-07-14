@@ -1,6 +1,6 @@
 #!/bin/bash
 #SBATCH --time=0-10:10:00 
-#SBATCH --job-name=PSO_ODE_Nonlinear
+#SBATCH --job-name=ODE_Plotting
 #SBATCH --partition=general
 #SBATCH --nodes=1
 #SBATCH --output=./slurm_outputs/nonlinear_out%j.txt
