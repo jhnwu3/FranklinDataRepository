@@ -7,3 +7,11 @@ covarMat:  120     0     0
     0     0    80
 
 362
+slurmstepd: error: *** JOB 1425686 ON r1pl-hpcf-n20 CANCELLED AT 2021-07-15T10:44:58 ***
+Job Statistics for 1425686:
+           JobID       User               Start                 End    Elapsed     MaxRSS   TotalCPU      State Exit        NodeList                                  ReqTRES 
+---------------- ---------- ------------------- ------------------- ---------- ---------- ---------- ---------- ---- --------------- ---------------------------------------- 
+         1425686   rsjxw007 2021-07-15T08:35:50 2021-07-15T10:44:58   02:09:08              02:08:48 CANCELLED+  0:0   r1pl-hpcf-n20     billing=30,cpu=30,mem=234360M,node=1 
+   1425686.batch            2021-07-15T08:35:50 2021-07-15T10:44:59   02:09:09     10.18M   02:08:48  CANCELLED 0:15   r1pl-hpcf-n20                                          
+  1425686.extern            2021-07-15T08:35:50 2021-07-15T10:44:58   02:09:08          0  00:00.001  COMPLETED  0:0   r1pl-hpcf-n20                                          
+CPU Efficiency: 3.32% of 2-16:34:00 core-walltime
