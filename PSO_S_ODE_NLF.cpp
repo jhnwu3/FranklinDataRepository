@@ -519,7 +519,7 @@ int main() {
     Controlled_RK_Stepper_N controlledStepper;
     cout << "362" << endl;
     for (int i = 0; i < N; i++) {
-        State_N c0 = gen_multi_norm_iSub(); // Y_0 is simulated using lognorm dist.
+        State_N c0 = gen_multi_lognorm_iSub(); // Y_0 is simulated using lognorm dist.
         integrate_adaptive(controlledStepper, trueSys, c0, t0, tf, dt, YtObs);
     }
     Yt.mVec /= N;
@@ -535,7 +535,7 @@ int main() {
     Nonlinear_ODE6 sys(seed);
     
     for (int i = 0; i < N; i++) {
-        State_N c0 = gen_multi_norm_iSub();
+        State_N c0 = gen_multi_lognorm_iSub();
         integrate_adaptive(controlledStepper, sys, c0, t0, tf, dt, XtObs);
     }
     Xt.mVec /= N;
@@ -571,7 +571,7 @@ int main() {
         Protein_Moments XtPSO(tf, nMoments);
         Mom_ODE_Observer XtObsPSO(XtPSO);
         for(int i = 0; i < N; i++){
-            State_N c0 = gen_multi_norm_iSub();
+            State_N c0 = gen_multi_lognorm_iSub();
             integrate_adaptive(controlledStepper, initSys, c0, t0, tf, dt, XtObsPSO);
         }
         XtPSO.mVec/=N;
@@ -595,7 +595,7 @@ int main() {
             Nonlinear_ODE6 stepSys(pos);
             
             for(int i = 0; i < N; i++){
-                State_N c0 = gen_multi_norm_iSub();
+                State_N c0 = gen_multi_lognorm_iSub();
                 //dCom.index = i;
                 integrate_adaptive(controlledStepper, stepSys, c0, t0, tf, dt, XtObsPSO1);
             }
