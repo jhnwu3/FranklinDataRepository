@@ -484,7 +484,7 @@ int main (){
     fOut.open("syk_pVav.csv");
     Syk_Pvav_Plot fPlot(fOut, tf);
     for(int i = 0; i < 100; i++){
-        State_N c0 = {i, 41.33, 0, 0, 80, 0};
+        State_N c0 = { (double) i, 41.33, 0, 0, 80, 0};
         integrate_adaptive(controlledStepper, trueSys, c0, t0, tf, dt, fPlot);
     }
     fOut.close();
