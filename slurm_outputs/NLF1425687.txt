@@ -1,0 +1,9 @@
+PSO_S_ODE_NonLinear
+sample size:100000 Nparts:300 Nsteps:40
+339
+mu:  120 41.33    80
+covarMat:  120     0     0
+    0 41.33     0
+    0     0    80
+
+362
