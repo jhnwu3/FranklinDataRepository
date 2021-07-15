@@ -16,7 +16,7 @@
 #include <boost/numeric/odeint/external/openmp/openmp.hpp>
 
 #define N_SPECIES 6
-#define N 10000 // # of samples to sample over
+#define N 100000 // # of samples to sample over
 #define N_DIM 6 // dim of PSO hypercube
 
 using Eigen::MatrixXd;
@@ -274,20 +274,20 @@ State_N gen_multi_norm_iSub(void) {
     // sigma << 0.008298802814695093876186221, 0, 0,
     //     0, 0.0000799968001706564273219830, 0,
     //     0, 0, 0.000937060821340228802149700;
-    VectorXd mvnVec(3);
-    mvnVec << 4.78334234137469844730960782,
+    VectorXd mu(3);
+    mu << 4.78334234137469844730960782,
         5.52142091946216110500584912965,
         4.3815581042632114978686130;
-    MatrixXd covarMat(3, 3);
-    covarMat << 800.298802814695093876186221, 0, 0,
+    MatrixXd sigma(3, 3);
+    sigma << 800.298802814695093876186221, 0, 0,
         0, 7.99968001706564273219830, 0,
         0, 0, 93.7060821340228802149700;
-    Multi_Normal_Random_Variable gen(mvnVec, covarMat);
+    Multi_Normal_Random_Variable gen(mu, sigma);
     VectorXd c0Vec = gen();
     int j = 0;
     for (int i = 0; i < N_SPECIES; i++) {
         if (i == 0 || i == 1 || i == 4) { // Syk, Vav, SHP1
-            c0[i] = c0Vec(j);
+            c0[i] = c0Vec(j); * c0Vec(j);
             j++;
         }
         else {
