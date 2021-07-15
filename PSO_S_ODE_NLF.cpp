@@ -152,6 +152,7 @@ struct Protein_Moments {
         //sec = MatrixXd::Zero(N_SPECIES, N_SPECIES);
         timeToRecord = tf;
     }
+
 };
 
 struct Mom_ODE_Observer
@@ -179,6 +180,7 @@ struct Mom_ODE_Observer
         }
     }
 };
+
 struct Data_ODE_Observer
 {
     struct Data_Components& dComp;
@@ -203,6 +205,7 @@ struct Data_ODE_Observer
         }
     }
 };
+
 struct Data_ODE_Observer3
 {
     struct Data_Components& dComp;
@@ -266,14 +269,14 @@ State_N gen_multi_lognorm_iSub(void) {
 
 State_N gen_multi_norm_iSub(void) {
     State_N c0;
-    // VectorXd mu(3);
-    // mu << 4.78334234137469844730960782,
-    //     5.52142091946216110500584912965,
-    //     4.3815581042632114978686130;
-    // MatrixXd sigma(3, 3);
-    // sigma << 0.008298802814695093876186221, 0, 0,
-    //     0, 0.0000799968001706564273219830, 0,
-    //     0, 0, 0.000937060821340228802149700;
+    VectorXd mu(3);
+    mu << 4.78334234137469844730960782,
+        5.52142091946216110500584912965,
+        4.3815581042632114978686130;
+    MatrixXd sigma(3, 3);
+    sigma << 0.008298802814695093876186221, 0, 0,
+        0, 0.0000799968001706564273219830, 0,
+        0, 0, 0.000937060821340228802149700;
     // VectorXd mu(3);
     // mu << 4.78334234137469844730960782,
     //     5.52142091946216110500584912965,
@@ -283,14 +286,14 @@ State_N gen_multi_norm_iSub(void) {
     //     0, 7.99968001706564273219830, 0,
     //     0, 0, 93.7060821340228802149700;
 
-    VectorXd mu(3);
-    mu << 480.0,
-        165.32,
-        320.0;
-    MatrixXd sigma(3, 3);
-    sigma << 120.0, 0, 0,
-        0, 41.33, 0,
-        0, 0, 80.0;
+    // VectorXd mu(3);
+    // mu << 480.0,
+    //     165.32,
+    //     320.0;
+    // MatrixXd sigma(3, 3);
+    // sigma << 120.0, 0, 0,
+    //     0, 41.33, 0,
+    //     0, 0, 80.0;
     Multi_Normal_Random_Variable gen(mu, sigma);
     VectorXd c0Vec = gen();
     int j = 0;
@@ -479,22 +482,22 @@ int main() {
     // covarMat << 800.298802814695093876186221, 0, 0,
     //     0, 7.99968001706564273219830, 0,
     //     0, 0, 93.7060821340228802149700;
-    VectorXd mvnVec(3);
-    mvnVec << 480.0,
-        165.32,
-        320.0;
-    MatrixXd covarMat(3, 3);
-    covarMat << 120.0, 0, 0,
-        0, 41.33, 0,
-        0, 0, 80.0;
     // VectorXd mvnVec(3);
-    // mvnVec << 4.78334234137469844730960782,
-    //     5.52142091946216110500584912965,
-    //     4.3815581042632114978686130;
+    // mvnVec << 480.0,
+    //     165.32,
+    //     320.0;
     // MatrixXd covarMat(3, 3);
-    // covarMat << 0.008298802814695093876186221, 0, 0,
-    //     0, 0.0000799968001706564273219830, 0,
-    //     0, 0, 0.000937060821340228802149700;
+    // covarMat << 120.0, 0, 0,
+    //     0, 41.33, 0,
+    //     0, 0, 80.0;
+    VectorXd mvnVec(3);
+    mvnVec << 4.78334234137469844730960782,
+        5.52142091946216110500584912965,
+        4.3815581042632114978686130;
+    MatrixXd covarMat(3, 3);
+    covarMat << 0.008298802814695093876186221, 0, 0,
+        0, 0.0000799968001706564273219830, 0,
+        0, 0, 0.000937060821340228802149700;
 
     cout << "mu:" << mvnVec.transpose() << endl;
     cout << "covarMat:" << covarMat << endl << endl;
@@ -585,12 +588,16 @@ int main() {
             VectorXd rpoint = comp_vel_vec(pos.k);
             pos.k = w1 * rpoint + w2 * PBVEC + w3 * GBVEC; // update position of particle
             XtPSO.mVec.setZero();
-           // XtPSO.sec.setZero();
-            Nonlinear_ODE6 stepSys(pos);
             Mom_ODE_Observer XtObsPSO1(XtPSO);
+            // XtPSO.sec.setZero();
+            // Data_Components dCom(tf, nMoments, N);
+            // Data_ODE_Observer dObs(dCom); 
+            Nonlinear_ODE6 stepSys(pos);
+            
             for(int i = 0; i < N; i++){
                 State_N c0 = gen_multi_norm_iSub();
-                integrate_adaptive(controlledStepper, initSys, c0, t0, tf, dt, XtObsPSO1);
+                //dCom.index = i;
+                integrate_adaptive(controlledStepper, stepSys, c0, t0, tf, dt, XtObsPSO1);
             }
             XtPSO.mVec /= N;
             //XtPSO.sec /=N; l
