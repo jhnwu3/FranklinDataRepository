@@ -562,8 +562,12 @@ int main() {
     /* PSO begins */
     #pragma omp parallel for
     for(int particle = 0; particle < Nparts; particle++){
+
         double sfp = 3.0, sfg = 1.0, sfe = 6.0; // initial particle historical weight, global weight social, inertial
         double sfi = sfe, sfc = sfp, sfs = sfg; // below are the variables being used to reiterate weights
+        double w = 1.0, wS = 2.0, wC = 2.0; //  w - inertial weight, cS - social weight 
+        VectorXd vj(Npars);
+
         random_device pRanDev;
         mt19937 pGenerator(pRanDev());
         uniform_real_distribution<double> pUnifDist(0.0, 1.0);
@@ -590,20 +594,24 @@ int main() {
         /* step into PSO */
         double w1 = 6, w2 = 1, w3 = 1;
         for(int step = 0; step < Nsteps; step++){
-            w1 = sfi * pUnifDist(pGenerator)/ sf2; w2 = sfc * pUnifDist(pGenerator) / sf2; w3 = sfs * pUnifDist(pGenerator)/ sf2;
-            double sumw = w1 + w2 + w3; //w1 = inertial, w2 = pbest, w3 = gbest
-            w1 = w1 / sumw; w2 = w2 / sumw; w3 = w3 / sumw;
-            VectorXd rpoint = comp_vel_vec(pos.k);
-            pos.k = w1 * rpoint + w2 * PBVEC + w3 * GBVEC; // update position of particle
+            // w1 = sfi * pUnifDist(pGenerator)/ sf2; w2 = sfc * pUnifDist(pGenerator) / sf2; w3 = sfs * pUnifDist(pGenerator)/ sf2;
+            // double sumw = w1 + w2 + w3; //w1 = inertial, w2 = pbest, w3 = gbest
+            // w1 = w1 / sumw; w2 = w2 / sumw; w3 = w3 / sumw;
+            // VectorXd rpoint = comp_vel_vec(pos.k);
 
+          //  pos.k = w1 * rpoint + w2 * PBVEC + w3 * GBVEC; // update position of particle
+            w = w * pUnifDist(pGenerator); //redeem weights 
+            wS = wS * pUnifDist(pGenerator);
+            wC = wC * pUnifDist(pGenerator);
+            vj = (w * vj) + wC * (PBVEC - pos.k) + wS * (GBVEC - pos.k);
+            pos.k = pos.k + vj; // update new position
+            
             /*solve ODEs and recompute cost */
             XtPSO.mVec.setZero();
             Mom_ODE_Observer XtObsPSO1(XtPSO);
             //XtPSO.sec.setZero();
-
             // Data_Components dCom(tf, nMoments, N);
             // Data_ODE_Observer dObs(dCom); 
-
             Nonlinear_ODE6 stepSys(pos);
             //VectorXd sykVec(N);
             
