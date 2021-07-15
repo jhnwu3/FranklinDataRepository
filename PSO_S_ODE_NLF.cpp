@@ -596,6 +596,7 @@ int main() {
             VectorXd rpoint = comp_vel_vec(pos.k);
             pos.k = w1 * rpoint + w2 * PBVEC + w3 * GBVEC; // update position of particle
 
+            /*solve ODEs and recompute cost */
             XtPSO.mVec.setZero();
             Mom_ODE_Observer XtObsPSO1(XtPSO);
             //XtPSO.sec.setZero();
@@ -617,6 +618,7 @@ int main() {
             XtPSO.mVec/=N;
             //XtPSO.sec /=N; l
             cost = calculate_cf2(Yt.mVec, XtPSO.mVec, wt);
+            /* update gBest and pBest */
             #pragma omp critical
             {
                 // if(omp_get_thread_num == 0){
