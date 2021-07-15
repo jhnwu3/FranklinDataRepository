@@ -287,13 +287,13 @@ State_N gen_multi_norm_iSub(void) {
     //     0, 0, 93.7060821340228802149700;
 
     VectorXd mu(3);
-    mu << 480.0,
-        165.32,
-        320.0;
+    mu << 80,
+        250,
+        85;
     MatrixXd sigma(3, 3);
-    sigma << 120.0, 0, 0,
-        0, 41.33, 0,
-        0, 0, 80.0;
+    sigma << 20, 0, 0,
+        0, 5, 0,
+        0, 0, 10.0;
     Multi_Normal_Random_Variable gen(mu, sigma);
     VectorXd c0Vec = gen();
     int j = 0;
@@ -482,14 +482,22 @@ int main() {
     // covarMat << 800.298802814695093876186221, 0, 0,
     //     0, 7.99968001706564273219830, 0,
     //     0, 0, 93.7060821340228802149700;
+    // VectorXd mvnVec(3);
+    // mvnVec << 480.0,
+    //     165.32,
+    //     320.0;
+    // MatrixXd covarMat(3, 3);
+    // covarMat << 120.0, 0, 0,
+    //     0, 41.33, 0,
+    //     0, 0, 80.0;
     VectorXd mvnVec(3);
-    mvnVec << 480.0,
-        165.32,
-        320.0;
+    mvnVec << 80,
+        250,
+        85;
     MatrixXd covarMat(3, 3);
-    covarMat << 120.0, 0, 0,
-        0, 41.33, 0,
-        0, 0, 80.0;
+    covarMat << 20, 0, 0,
+        0, 5, 0,
+        0, 0, 10.0;
     // VectorXd mvnVec(3);
     // mvnVec << 4.78334234137469844730960782,
     //     5.52142091946216110500584912965,
