@@ -413,6 +413,16 @@ struct Write_File_Plot
         fOut << endl;
     }
 }; 
+struct pVav_Plot 
+{
+    ostream& fOut;
+    pVav_Plot (ostream& out) : fOut( out ) {} 
+    void operator()(const State_N &c, const double t){ // write all solved ODE values in GNU plot vals
+        fOut << t;
+        fOut << "," << c[3];
+        fOut << endl;
+    }
+}; 
 struct Syk_Pvav_Plot 
 {
     ostream& fOut;
@@ -430,6 +440,7 @@ struct Syk_Pvav_Plot
         if(t == tf){ fOut << "," << c[3] << endl; }
     }
 }; 
+
 /* Test finding min function */
 int main (){
     double mu_x = 1.47, mu_y = 1.74, mu_z = 1.99; // true means for MVN(theta)
@@ -488,6 +499,27 @@ int main (){
         integrate_adaptive(controlledStepper, trueSys, c0, t0, tf, dt, fPlot);
     }
     fOut.close();
+
+    ofstream plot;
+    plot.open("Syk60.csv");
+    pVav_Plot obs(plot);
+    State_N sykC0 = { 60, 41.33, 0, 0, 80, 0};
+    integrate_adaptive(controlledStepper, trueSys, sykC0, t0, tf, dt, obs);
+    plot.close();
+
+    ofstream plot1;
+    plot1.open("Syk80.csv");
+    pVav_Plot obs1(plot1);
+    sykC0 = {80, 41.33, 0, 0, 80, 0};
+    integrate_adaptive(controlledStepper, trueSys, sykC0, t0, tf, dt, obs1);
+    plot1.close();
+
+    ofstream plot2;
+    plot2.open("Syk100.csv");
+    pVav_Plot obs2(plot2);
+    sykC0 = { 100, 41.33, 0, 0, 80, 0};
+    integrate_adaptive(controlledStepper, trueSys, sykC0, t0, tf, dt, obs2);
+    plot2.close();
 
     return EXIT_SUCCESS;
 }
