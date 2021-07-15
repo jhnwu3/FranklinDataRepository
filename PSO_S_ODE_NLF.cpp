@@ -284,9 +284,9 @@ State_N gen_multi_norm_iSub(void) {
     //     0, 0, 93.7060821340228802149700;
 
     VectorXd mu(3);
-    mu << 120.0,
-        41.33,
-        80.0;
+    mu << 480.0,
+        165.32,
+        320.0;
     MatrixXd sigma(3, 3);
     sigma << 120.0, 0, 0,
         0, 41.33, 0,
@@ -296,7 +296,7 @@ State_N gen_multi_norm_iSub(void) {
     int j = 0;
     for (int i = 0; i < N_SPECIES; i++) {
         if (i == 0 || i == 1 || i == 4) { // Syk, Vav, SHP1
-            c0[i] = c0Vec(j) * c0Vec(j);
+            c0[i] = c0Vec(j);
             j++;
         }
         else {
