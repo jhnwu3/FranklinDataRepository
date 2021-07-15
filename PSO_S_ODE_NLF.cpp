@@ -596,38 +596,39 @@ int main() {
             VectorXd rpoint = comp_vel_vec(pos.k);
             pos.k = w1 * rpoint + w2 * PBVEC + w3 * GBVEC; // update position of particle
 
-            // XtPSO.mVec.setZero();
-            // Mom_ODE_Observer XtObsPSO1(XtPSO);
+            XtPSO.mVec.setZero();
+            Mom_ODE_Observer XtObsPSO1(XtPSO);
             //XtPSO.sec.setZero();
 
-            Data_Components dCom(tf, nMoments, N);
-            Data_ODE_Observer dObs(dCom); 
+            // Data_Components dCom(tf, nMoments, N);
+            // Data_ODE_Observer dObs(dCom); 
 
             Nonlinear_ODE6 stepSys(pos);
-            VectorXd sykVec(N);
+            //VectorXd sykVec(N);
             
             for(int i = 0; i < N; i++){
                 State_N c0 = gen_multi_norm_iSub();
-                dCom.index = i;
-                sykVec(i) = c0[0];
-                integrate_adaptive(controlledStepper, stepSys, c0, t0, tf, dt, dObs);
+                // dCom.index = i;
+                // sykVec(i) = c0[0];
+                integrate_adaptive(controlledStepper, stepSys, c0, t0, tf, dt, XtObsPSO1);
             }
             
-            dCom.mVec /= N;
+            //dCom.mVec /= N;
+            XtPSO.mVec/=N;
             //XtPSO.sec /=N; l
-            cost = calculate_cf2(Yt.mVec, dCom.mVec, wt);
+            cost = calculate_cf2(Yt.mVec, XtPSO.mVec, wt);
             #pragma omp critical
             {
-                if(omp_get_thread_num == 0){
-                    ofstream fOut;
-                    fOut.open("syk_PSO_pVav.csv");
-                    for(int i = 0; i < N; i++){
-                        if(sykVec(i) < 100){
-                            fOut << sykVec(i) <<"," << dCom.mat(i,3) << endl;
-                        }
-                    }
-                    fOut.close();
-                }
+                // if(omp_get_thread_num == 0){
+                //     ofstream fOut;
+                //     fOut.open("syk_PSO_pVav.csv");
+                //     for(int i = 0; i < N; i++){
+                //         if(sykVec(i) < 100){
+                //             fOut << sykVec(i) <<"," << dCom.mat(i,3) << endl;
+                //         }
+                //     }
+                //     fOut.close();
+                // }
                 if(cost < partBest){
                     PBVEC = pos.k;
                     partBest = cost;
