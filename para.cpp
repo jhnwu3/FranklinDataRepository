@@ -495,7 +495,7 @@ int main (){
     fOut.open("syk_pVav.csv");
     Syk_Pvav_Plot fPlot(fOut, tf);
     for(int i = 0; i < 100; i++){
-        State_N c0 = { (double) i, 41.33, 0, 0, 80, 0};
+        State_N c0 = { (double) i, 250.0, 0, 0, 85, 0};
         integrate_adaptive(controlledStepper, trueSys, c0, t0, tf, dt, fPlot);
     }
     fOut.close();
@@ -503,21 +503,21 @@ int main (){
     ofstream plot;
     plot.open("Syk60.csv");
     pVav_Plot obs(plot);
-    State_N sykC0 = { 60, 41.33, 0, 0, 80, 0};
+    State_N sykC0 = { 60, 250.0, 0, 0, 85, 0};
     integrate_adaptive(controlledStepper, trueSys, sykC0, t0, tf, dt, obs);
     plot.close();
 
     ofstream plot1;
     plot1.open("Syk80.csv");
     pVav_Plot obs1(plot1);
-    sykC0 = {80, 41.33, 0, 0, 80, 0};
+    sykC0 = {80, 250.0, 0, 0, 85, 0};
     integrate_adaptive(controlledStepper, trueSys, sykC0, t0, tf, dt, obs1);
     plot1.close();
 
     ofstream plot2;
     plot2.open("Syk100.csv");
     pVav_Plot obs2(plot2);
-    sykC0 = { 100, 41.33, 0, 0, 80, 0};
+    sykC0 = { 100, 250.0, 0, 0, 85, 0};
     integrate_adaptive(controlledStepper, trueSys, sykC0, t0, tf, dt, obs2);
     plot2.close();
 
