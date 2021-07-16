@@ -537,7 +537,7 @@ int main() {
     /* PSO costs */
     double gCost = 20000;
     /* Instantiate seedk aka global costs */
-    for (int i = 0; i < Npars; i++) { seed.k(i) = unifDist(gen); }
+    for (int i = 0; i < Npars; i++) { seed.k(i) = tru.k(i) + 0.25 * (0.5 - unifDist(gen)); }
    
     Protein_Moments Xt(tf, nMoments);
     Mom_ODE_Observer XtObs(Xt);
@@ -567,7 +567,7 @@ int main() {
         double sfp = 3.0, sfg = 1.0, sfe = 6.0; // initial particle historical weight, global weight social, inertial
         double sfi = sfe, sfc = sfp, sfs = sfg; // below are the variables being used to reiterate weights
         double w = 1.0, wS = 2.0, wC = 2.0; //  w - inertial weight, cS - social weight 
-        VectorXd vj(Npars);
+        VectorXd vj = VectorXd::Zero(Npars);
 
         random_device pRanDev;
         mt19937 pGenerator(pRanDev());
@@ -576,7 +576,7 @@ int main() {
         struct K pos;
         pos.k = VectorXd::Zero(Npars);
         for(int i = 0; i < Npars; i++){
-            pos.k(i) = pUnifDist(pGenerator);
+            pos.k(i) = tru.k(i) + 0.25 * (0.5 - pUnifDist(pGenerator));
         }
         
         /* using new rate constants, instantiate particle best values */
