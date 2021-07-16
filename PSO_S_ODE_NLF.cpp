@@ -16,7 +16,7 @@
 #include <boost/numeric/odeint/external/openmp/openmp.hpp>
 
 #define N_SPECIES 6
-#define N 1500 // # of samples to sample over
+#define N 10000 // # of samples to sample over
 #define N_DIM 6 // dim of PSO hypercube
 
 using Eigen::MatrixXd;
@@ -536,7 +536,7 @@ int main() {
     /* PSO costs */
     double gCost = 20000;
     /* Instantiate seedk aka global costs */
-    for (int i = 0; i < Npars; i++) { seed.k(i) = tru.k(i) + 0.5 * unifDist(gen); }
+    for (int i = 0; i < Npars; i++) { seed.k(i) = tru.k(i) + 0.25 * unifDist(gen); }
    
     Protein_Moments Xt(tf, nMoments);
     Mom_ODE_Observer XtObs(Xt);
@@ -575,7 +575,7 @@ int main() {
         struct K pos;
         pos.k = VectorXd::Zero(Npars);
         for(int i = 0; i < Npars; i++){
-            pos.k(i) = tru.k(i) + 0.5 * pUnifDist(pGenerator);
+            pos.k(i) = tru.k(i) + 0.25 * pUnifDist(pGenerator);
         }
         
         /* using new rate constants, instantiate particle best values */
