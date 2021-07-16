@@ -16,7 +16,7 @@
 #include <boost/numeric/odeint/external/openmp/openmp.hpp>
 
 #define N_SPECIES 6
-#define N 10000 // # of samples to sample over
+#define N 500 // # of samples to sample over
 #define N_DIM 6 // dim of PSO hypercube
 
 using Eigen::MatrixXd;
@@ -170,8 +170,8 @@ struct Mom_ODE_Observer
                         pMome.mVec(N_SPECIES + i) += c[i] * c[j];
                     }else { //upper right diagonal elements
                        // cout << "upperDiag: " << upperDiag << endl; 
-                        pMome.mVec(upperDiag) += c[i] * c[j];
-                        upperDiag++;
+                        // pMome.mVec(upperDiag) += c[i] * c[j];
+                        // upperDiag++;
                     }
                     // pMome.sec(i, j) += c[i] * c[j];
                     // pMome.sec(j, i) = pMome.sec(i, j);
@@ -462,6 +462,7 @@ int main() {
     cout << "sample size:" << N << " Nparts:" << Nparts << " Nsteps:" << Nsteps << endl;
     /* moments */
     int nMoments = (N_SPECIES * (N_SPECIES + 3)) / 2;
+    nMoments = 2*N_SPECIES;
     MatrixXd Y_t = MatrixXd::Zero(N, N_SPECIES); // Values we are comparing towards - oMoments is derived from this.
     VectorXd pMoments(nMoments);
     MatrixXd X_t = MatrixXd::Zero(N, N_SPECIES);
@@ -518,7 +519,7 @@ int main() {
     tru.k = VectorXd::Zero(Npars);
     tru.k << 5.0, 0.1, 1.0, 8.69, 0.05, 0.70;
     tru.k /= (9.69);
-   
+    tru.k(4) += 0.05; // make sure not so close to the boundary
     struct K seed;
     seed.k = VectorXd::Zero(Npars);
     Nonlinear_ODE6 trueSys(tru);
@@ -536,7 +537,7 @@ int main() {
     /* PSO costs */
     double gCost = 20000;
     /* Instantiate seedk aka global costs */
-    for (int i = 0; i < Npars; i++) { seed.k(i) = tru.k(i) + 0.25 * unifDist(gen); }
+    for (int i = 0; i < Npars; i++) { seed.k(i) = unifDist(gen); }
    
     Protein_Moments Xt(tf, nMoments);
     Mom_ODE_Observer XtObs(Xt);
@@ -575,7 +576,7 @@ int main() {
         struct K pos;
         pos.k = VectorXd::Zero(Npars);
         for(int i = 0; i < Npars; i++){
-            pos.k(i) = tru.k(i) + 0.25 * pUnifDist(pGenerator);
+            pos.k(i) = pUnifDist(pGenerator);
         }
         
         /* using new rate constants, instantiate particle best values */
