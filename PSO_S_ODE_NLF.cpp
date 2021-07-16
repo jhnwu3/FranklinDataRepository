@@ -170,8 +170,8 @@ struct Mom_ODE_Observer
                         pMome.mVec(N_SPECIES + i) += c[i] * c[j];
                     }else { //upper right diagonal elements
                        // cout << "upperDiag: " << upperDiag << endl; 
-                        // pMome.mVec(upperDiag) += c[i] * c[j];
-                        // upperDiag++;
+                        pMome.mVec(upperDiag) += c[i] * c[j];
+                        upperDiag++;
                     }
                     // pMome.sec(i, j) += c[i] * c[j];
                     // pMome.sec(j, i) = pMome.sec(i, j);
@@ -462,7 +462,7 @@ int main() {
     cout << "sample size:" << N << " Nparts:" << Nparts << " Nsteps:" << Nsteps << endl;
     /* moments */
     int nMoments = (N_SPECIES * (N_SPECIES + 3)) / 2;
-    nMoments = 2*N_SPECIES;
+    //nMoments = 2*N_SPECIES;
     MatrixXd Y_t = MatrixXd::Zero(N, N_SPECIES); // Values we are comparing towards - oMoments is derived from this.
     VectorXd pMoments(nMoments);
     MatrixXd X_t = MatrixXd::Zero(N, N_SPECIES);
