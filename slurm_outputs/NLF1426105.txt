@@ -1,0 +1,17 @@
+PSO_S_ODE_NonLinear
+sample size:40000 Nparts:300 Nsteps:40
+339
+mu: 80 250  85
+covarMat:20  0  0
+ 0  5  0
+ 0  0 10
+
+362
+slurmstepd: error: *** JOB 1426105 ON r1pl-hpcf-n25 CANCELLED AT 2021-07-16T11:53:06 ***
+Job Statistics for 1426105:
+           JobID       User               Start                 End    Elapsed     MaxRSS   TotalCPU      State Exit        NodeList                                  ReqTRES 
+---------------- ---------- ------------------- ------------------- ---------- ---------- ---------- ---------- ---- --------------- ---------------------------------------- 
+         1426105   rsjxw007 2021-07-16T11:52:56 2021-07-16T11:53:06   00:00:10             00:00.043 CANCELLED+  0:0   r1pl-hpcf-n25     billing=20,cpu=20,mem=156240M,node=1 
+   1426105.batch            2021-07-16T11:52:56 2021-07-16T11:53:07   00:00:11          0  00:00.041  CANCELLED 0:15   r1pl-hpcf-n25                                          
+  1426105.extern            2021-07-16T11:52:56 2021-07-16T11:53:06   00:00:10          0  00:00.002  COMPLETED  0:0   r1pl-hpcf-n25                                          
+CPU Efficiency: 0.00% of 00:03:20 core-walltime
