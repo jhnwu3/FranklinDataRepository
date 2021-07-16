@@ -546,7 +546,7 @@ int main() {
         State_N c0 = gen_multi_norm_iSub();
         integrate_adaptive(controlledStepper, sys, c0, t0, tf, dt, XtObs);
     }
-    Xt.mVec /= N;
+    Xt.mVec /= N;  
     //Xt.sec /= N;
     double costSeedk = calculate_cf2(Yt.mVec, Xt.mVec, wt); 
     cout << "Xt:" << Xt.mVec.transpose() << endl;
@@ -594,18 +594,18 @@ int main() {
         /* step into PSO */
         double w1 = 6, w2 = 1, w3 = 1;
         for(int step = 0; step < Nsteps; step++){
-            // w1 = sfi * pUnifDist(pGenerator)/ sf2; w2 = sfc * pUnifDist(pGenerator) / sf2; w3 = sfs * pUnifDist(pGenerator)/ sf2;
-            // double sumw = w1 + w2 + w3; //w1 = inertial, w2 = pbest, w3 = gbest
-            // w1 = w1 / sumw; w2 = w2 / sumw; w3 = w3 / sumw;
-            // VectorXd rpoint = comp_vel_vec(pos.k);
+            w1 = sfi * pUnifDist(pGenerator)/ sf2; w2 = sfc * pUnifDist(pGenerator) / sf2; w3 = sfs * pUnifDist(pGenerator)/ sf2;
+            double sumw = w1 + w2 + w3; //w1 = inertial, w2 = pbest, w3 = gbest
+            w1 = w1 / sumw; w2 = w2 / sumw; w3 = w3 / sumw;
+            VectorXd rpoint = comp_vel_vec(pos.k);
 
-          //  pos.k = w1 * rpoint + w2 * PBVEC + w3 * GBVEC; // update position of particle
-            w = w * pUnifDist(pGenerator); //redeem weights 
-            wS = wS * pUnifDist(pGenerator);
-            wC = wC * pUnifDist(pGenerator);
-            vj = (w * vj) + wC * (PBVEC - pos.k) + wS * (GBVEC - pos.k);
-            pos.k = pos.k + vj; // update new position
-            
+           pos.k = w1 * rpoint + w2 * PBVEC + w3 * GBVEC; // update position of particle
+            // w = w * pUnifDist(pGenerator); //redeem weights 
+            // wS = wS * pUnifDist(pGenerator);
+            // wC = wC * pUnifDist(pGenerator);
+            // vj = (w * vj) + wC * (PBVEC - pos.k) + wS * (GBVEC - pos.k);
+            // pos.k = pos.k + vj; // update new position
+
             /*solve ODEs and recompute cost */
             XtPSO.mVec.setZero();
             Mom_ODE_Observer XtObsPSO1(XtPSO);

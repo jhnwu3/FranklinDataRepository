@@ -1,4 +1,4 @@
-PSO_S_ODE_NonLinear
+PSO_S_ODE_NonLinear - using rpoint
 sample size:20000 Nparts:300 Nsteps:40
 339
 mu: 80 250  85
@@ -95,7 +95,7 @@ GBMAT from first PSO:
    0.855767    0.262288   0.0971934    0.468251    0.187166   0.0669788     55112.5
 
 truk  0.515996  0.0103199   0.103199   0.896801 0.00515996  0.0722394
-distance b/w truk and final GBVEC1.21356
+distance b/w truk and final GBVEC 1.21356
  targeted pso has begun!
 CODE FINISHED RUNNING IN 13642 s TIME!
 Job Statistics for 1425941:
