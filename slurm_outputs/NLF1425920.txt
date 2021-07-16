@@ -1,6 +1,5 @@
 PSO_S_ODE_NonLinear
 sample size:50000 Nparts:300 Nsteps:40
-339
 mu: 80 250  85
 covarMat:20  0  0
  0  5  0

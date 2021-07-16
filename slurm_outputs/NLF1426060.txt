@@ -1,4 +1,4 @@
-PSO_S_ODE_NonLinear
+PSO_S_ODE_NonLinear - this is the one with 12 moments
 sample size:500 Nparts:300 Nsteps:40
 339
 mu: 80 250  85
@@ -30,7 +30,7 @@ GBMAT from first PSO:
     0.75362    0.150579    0.692178    0.645729    0.311007     0.62742      465199
 
 truk 0.515996 0.0103199  0.103199  0.896801   0.05516 0.0722394
-distance b/w truk and final GBVEC2.02896
+distance b/w truk and final GBVEC 2.02896
  targeted pso has begun!
 CODE FINISHED RUNNING IN 376 s TIME!
 Job Statistics for 1426060:
