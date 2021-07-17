@@ -538,7 +538,7 @@ int main() {
     /* PSO costs */
     double gCost = 20000;
     /* Instantiate seedk aka global costs */
-    for (int i = 0; i < Npars; i++) { seed.k(i) = tru.k(i) + 0.25 * (0.5 - unifDist(gen)); }
+    for (int i = 0; i < Npars; i++) { seed.k(i) = unifDist(gen); }
    
     Protein_Moments Xt(tf, nMoments);
     Mom_ODE_Observer XtObs(Xt);
@@ -577,7 +577,7 @@ int main() {
         struct K pos;
         pos.k = VectorXd::Zero(Npars);
         for(int i = 0; i < Npars; i++){
-            pos.k(i) = tru.k(i) + 0.25 * (0.5 - pUnifDist(pGenerator));
+            pos.k(i) = pUnifDist(pGenerator);
         }
         
         /* using new rate constants, instantiate particle best values */
