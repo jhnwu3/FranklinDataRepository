@@ -16,7 +16,7 @@
 #include <boost/numeric/odeint/external/openmp/openmp.hpp>
 
 #define N_SPECIES 6
-#define N 20000 // # of samples to sample over
+#define N 50000 // # of samples to sample over
 #define N_DIM 6 // dim of PSO hypercube
 
 using Eigen::MatrixXd;
@@ -519,6 +519,7 @@ int main() {
     tru.k = VectorXd::Zero(Npars);
     tru.k << 5.0, 0.1, 1.0, 8.69, 0.05, 0.70;
     tru.k /= (9.69);
+    tru.k(2) += 0.05;
     tru.k(4) += 0.05; // make sure not so close to the boundary
     struct K seed;
     seed.k = VectorXd::Zero(Npars);
