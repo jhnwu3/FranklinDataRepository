@@ -340,6 +340,7 @@ VectorXd comp_vel_vec(const VectorXd& posK) {
     std::random_device rand_dev;
     std::mt19937 generator(rand_dev());
     vector<int> rand;
+    uniform_real_distribution<double> unifDist(0.0, 1.0);
     for (int i = 0; i < N_DIM; i++) {
         rand.push_back(i);
     }
@@ -361,16 +362,16 @@ VectorXd comp_vel_vec(const VectorXd& posK) {
             cout << "pos" << posK.transpose() << endl;
             pos += 0.001;
         }
-        double alpha = 4 * pos;
-        double beta = 4 - alpha;
-       // cout << "alpha:" << alpha << "beta:" << beta << endl;
-        std::gamma_distribution<double> aDist(alpha, 1);
-        std::gamma_distribution<double> bDist(beta, 1);
+    //     double alpha = 4 * pos;
+    //     double beta = 4 - alpha;
+    //    // cout << "alpha:" << alpha << "beta:" << beta << endl;
+    //     std::gamma_distribution<double> aDist(alpha, 1);
+    //     std::gamma_distribution<double> bDist(beta, 1);
 
-        double x = aDist(generator);
-        double y = bDist(generator);
+    //     double x = aDist(generator);
+    //     double y = bDist(generator);
 
-        rPoint(px) = (x / (x + y));
+        rPoint(px) = unifDist(generator);//(x / (x + y));
     }
     return rPoint;
 }
