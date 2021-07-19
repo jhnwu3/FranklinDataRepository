@@ -334,7 +334,7 @@ VectorXd gen_multi_lognorm_vecSub(void) {
     }
     return initVec;
 }
-VectorXd comp_vel_vec(const VectorXd& posK) {
+VectorXd comp_vel_vec(const VectorXd& posK, int seed) {
     VectorXd rPoint;
     rPoint = posK;
     std::random_device rand_dev;
@@ -457,6 +457,7 @@ int main() {
     int sf1 = 1;
     int sf2 = 1;
 
+    // PSO run parameters
     int Nparts = 300;
     int Nsteps = 40;
     
@@ -571,8 +572,8 @@ int main() {
         double w = 1.0, wS = 2.0, wC = 2.0; //  w - inertial weight, cS - social weight 
         VectorXd vj = VectorXd::Zero(Npars);
 
-        random_device pRanDev;
-        mt19937 pGenerator(pRanDev());
+        //random_device pRanDev;
+        mt19937 pGenerator(particle);
         uniform_real_distribution<double> pUnifDist(0.0, 1.0);
         /* instantiate all particle rate constants with unifDist */
         struct K pos;
@@ -600,9 +601,9 @@ int main() {
             w1 = sfi * pUnifDist(pGenerator)/ sf2; w2 = sfc * pUnifDist(pGenerator) / sf2; w3 = sfs * pUnifDist(pGenerator)/ sf2;
             double sumw = w1 + w2 + w3; //w1 = inertial, w2 = pbest, w3 = gbest
             w1 = w1 / sumw; w2 = w2 / sumw; w3 = w3 / sumw;
-            VectorXd rpoint = comp_vel_vec(pos.k);
+            VectorXd rpoint = comp_vel_vec(pos.k, particle);
 
-           pos.k = w1 * rpoint + w2 * PBVEC + w3 * GBVEC; // update position of particle
+            pos.k = w1 * rpoint + w2 * PBVEC + w3 * GBVEC; // update position of particle
             // w = w * pUnifDist(pGenerator); //redeem weights 
             // wS = wS * pUnifDist(pGenerator);
             // wC = wC * pUnifDist(pGenerator);
