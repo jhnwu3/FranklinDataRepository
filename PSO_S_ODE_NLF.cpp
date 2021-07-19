@@ -528,7 +528,6 @@ int main() {
     Protein_Moments Yt(tf, nMoments);
     Mom_ODE_Observer YtObs(Yt);
     Controlled_RK_Stepper_N controlledStepper;
-    cout << "362" << endl;
     for (int i = 0; i < N; i++) {
         State_N c0 = gen_multi_norm_iSub(); // Y_0 is simulated using lognorm dist.
         integrate_adaptive(controlledStepper, trueSys, c0, t0, tf, dt, YtObs);
@@ -540,7 +539,7 @@ int main() {
     double gCost = 20000;
     /* Instantiate seedk aka global costs */
     for (int i = 0; i < Npars; i++) { seed.k(i) = unifDist(gen); }
-    cout << "seedk:"<< seed.k.transpose() << endl;
+    
     Protein_Moments Xt(tf, nMoments);
     Mom_ODE_Observer XtObs(Xt);
     Nonlinear_ODE6 sys(seed);
@@ -552,6 +551,7 @@ int main() {
     Xt.mVec /= N;  
     //Xt.sec /= N;
     double costSeedk = calculate_cf2(Yt.mVec, Xt.mVec, wt); 
+    cout << "seedk:"<< seed.k.transpose()<< "cost:" << costSeedk << endl;
     cout << "Xt:" << Xt.mVec.transpose() << endl;
     gCost = costSeedk; //initialize costs and GBMAT
     VectorXd GBVEC = seed.k;
