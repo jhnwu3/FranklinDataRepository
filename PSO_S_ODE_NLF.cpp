@@ -457,7 +457,7 @@ int main() {
     int sf1 = 1;
     int sf2 = 1;
 
-    int Nparts = 300;
+    int Nparts = 50;
     int Nsteps = 1;
     
     cout << "sample size:" << N << " Nparts:" << Nparts << " Nsteps:" << Nsteps << endl;
