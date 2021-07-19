@@ -630,6 +630,7 @@ int main() {
                 //     }
                 //     fOut.close();
                 // }
+                cout << "steps:" << step << endl;
                 if(cost < partBest){
                     PBVEC = pos.k;
                     partBest = cost;
