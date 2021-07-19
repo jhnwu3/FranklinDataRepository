@@ -424,19 +424,6 @@ double calculate_cf2(const VectorXd& trueVec, const  VectorXd& estVec, const Mat
     cost = diff.transpose() * w * (diff.transpose()).transpose();
     return cost;
 }
-// double unifDistRng(){
-//     thread_local random_device pRanDev;
-//     thread_local mt19937 engine(pRanDev());
-//     uniform_real_distribution<double> dist(0.0, 1.0);
-//     return dist(engine);
-// }
-// VectorXd randUnifVector(int n){
-//     thread_local VectorXd unif(n);
-//     for(int i = 0; i < n; i++){
-//         unif(i) = unifDistRng();
-//     }
-//     return unif;
-// }
 
 int main() {
 
