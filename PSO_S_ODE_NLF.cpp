@@ -467,7 +467,7 @@ int main() {
     MatrixXd Y_t = MatrixXd::Zero(N, N_SPECIES); // Values we are comparing towards - oMoments is derived from this.
     VectorXd pMoments(nMoments);
     MatrixXd X_t = MatrixXd::Zero(N, N_SPECIES);
-    cout << "339" << endl;
+    
     /* PSO weights */
     // double sfp = 3.0, sfg = 1.0, sfe = 6.0; // initial particle historical weight, global weight social, inertial
     // double sfi = sfe, sfc = sfp, sfs = sfg; // below are the variables being used to reiterate weights
@@ -540,7 +540,7 @@ int main() {
     double gCost = 20000;
     /* Instantiate seedk aka global costs */
     for (int i = 0; i < Npars; i++) { seed.k(i) = unifDist(gen); }
-   
+    cout << "seedk:"<< seed.k.transpose() << endl;
     Protein_Moments Xt(tf, nMoments);
     Mom_ODE_Observer XtObs(Xt);
     Nonlinear_ODE6 sys(seed);
@@ -571,8 +571,8 @@ int main() {
         double w = 1.0, wS = 2.0, wC = 2.0; //  w - inertial weight, cS - social weight 
         VectorXd vj = VectorXd::Zero(Npars);
 
-        //random_device pRanDev;
-        mt19937 pGenerator(1.0);
+        random_device pRanDev;
+        mt19937 pGenerator(pRanDev());
         uniform_real_distribution<double> pUnifDist(0.0, 1.0);
         /* instantiate all particle rate constants with unifDist */
         struct K pos;
