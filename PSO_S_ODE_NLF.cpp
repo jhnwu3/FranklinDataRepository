@@ -371,7 +371,7 @@ VectorXd comp_vel_vec(const VectorXd& posK) {
     //     double x = aDist(generator);
     //     double y = bDist(generator);
 
-        rPoint(px) = unifDist(generator);//(x / (x + y));
+        rPoint(px) = 0.5 * unifDist(generator);//(x / (x + y));
     }
     return rPoint;
 }
