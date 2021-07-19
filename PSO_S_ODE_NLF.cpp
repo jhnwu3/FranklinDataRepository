@@ -362,16 +362,16 @@ VectorXd comp_vel_vec(const VectorXd& posK, int seed) {
             cout << "pos" << posK.transpose() << endl;
             pos += 0.001;
         }
-    //     double alpha = 4 * pos;
-    //     double beta = 4 - alpha;
-    //    // cout << "alpha:" << alpha << "beta:" << beta << endl;
-    //     std::gamma_distribution<double> aDist(alpha, 1);
-    //     std::gamma_distribution<double> bDist(beta, 1);
+        double alpha = 4 * pos;
+        double beta = 4 - alpha;
+       // cout << "alpha:" << alpha << "beta:" << beta << endl;
+        std::gamma_distribution<double> aDist(alpha, 1);
+        std::gamma_distribution<double> bDist(beta, 1);
 
-    //     double x = aDist(generator);
-    //     double y = bDist(generator);
+        double x = aDist(generator);
+        double y = bDist(generator);
 
-        rPoint(px) = 0.5 * unifDist(generator);//(x / (x + y));
+        rPoint(px) = (x / (x + y)); 
     }
     return rPoint;
 }
@@ -511,7 +511,7 @@ int main() {
     tru.k(1) += 0.05;
     tru.k(4) += 0.05; // make sure not so close to the boundary
     struct K seed;
-    seed.k = VectorXd::Zero(Npars);
+    seed.k = VectorXd::Zero(Npars); 
     Nonlinear_ODE6 trueSys(tru);
     Protein_Moments Yt(tf, nMoments);
     Mom_ODE_Observer YtObs(Yt);

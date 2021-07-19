@@ -1,4 +1,4 @@
-PSO_S_ODE_NonLinear
+PSO_S_ODE_NonLinear - Rpoint is stilld ynamic
 sample size:500 Nparts:300 Nsteps:40
 mu: 80 250  85
 covarMat:20  0  0
