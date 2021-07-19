@@ -56,7 +56,7 @@ struct Multi_Normal_Random_Variable
 
     Eigen::VectorXd operator()() const
     {
-        static std::mt19937 gen{ std::random_device{}() };
+        static std::mt19937 gen{ 1 }; //random_device {} ()
         static std::normal_distribution<> dist;
 
         return mean + transform * Eigen::VectorXd{ mean.size() }.unaryExpr([&](auto x) { return dist(gen); });
@@ -337,8 +337,8 @@ VectorXd gen_multi_lognorm_vecSub(void) {
 VectorXd comp_vel_vec(const VectorXd& posK) {
     VectorXd rPoint;
     rPoint = posK;
-    //std::random_device rand_dev;
-    std::mt19937 generator(1.0);
+    std::random_device rand_dev;
+    std::mt19937 generator(rand_dev);
     vector<int> rand;
     uniform_real_distribution<double> unifDist(0.0, 1.0);
     for (int i = 0; i < N_DIM; i++) {
