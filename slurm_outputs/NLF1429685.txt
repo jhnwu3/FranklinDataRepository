@@ -1,0 +1,127 @@
+PSO_S_ODE_NonLinear
+sample size:500 Nparts:10 Nsteps:10
+mu: 80 250  85
+covarMat:20  0  0
+ 0  5  0
+ 0  0 10
+
+seedk:0.997185 0.932557 0.128124 0.999041 0.236089 0.396581| cost:7.35785e+08
+Xt: 0.587308   144.655   79.5463  0.275606   59.2988   25.6992  0.348179   20963.5   6346.82 0.0765992   3527.08   662.456   84.6115   46.9643  0.163028   34.7617   15.1729   11481.4   39.7486   8584.48   3709.31   22.0142   4711.88   2050.48   16.2747   7.11218   1522.28
+PSO begins!
+steps:0
+steps:0
+steps:1
+steps:0
+steps:1
+steps:2
+steps:3
+steps:2
+steps:0
+steps:0
+steps:0
+steps:4
+steps:3
+steps:5
+steps:6
+steps:4
+steps:1
+steps:1
+steps:7
+steps:0
+steps:1
+steps:1
+steps:5
+steps:8
+steps:6
+steps:2
+steps:9
+steps:0
+steps:0
+steps:2
+steps:3
+steps:7
+steps:2
+steps:2
+steps:4
+steps:8
+steps:0
+steps:1
+steps:3
+steps:5
+steps:9
+steps:1
+steps:1
+steps:6
+steps:3
+steps:3
+steps:4
+steps:7
+steps:4
+steps:2
+steps:2
+steps:5
+steps:8
+steps:1
+steps:4
+steps:6
+steps:9
+steps:5
+steps:3
+steps:2
+steps:7
+steps:5
+steps:3
+steps:4
+steps:8
+steps:9
+steps:2
+steps:5
+steps:6
+steps:6
+steps:6
+steps:3
+steps:4
+steps:7
+steps:7
+steps:7
+steps:3
+steps:8
+steps:8
+steps:4
+steps:5
+steps:9
+steps:8
+steps:9
+steps:4
+steps:6
+steps:5
+steps:9
+steps:5
+steps:6
+steps:7
+steps:7
+steps:6
+steps:8
+steps:9
+steps:8
+steps:7
+steps:9
+steps:8
+steps:9
+GBMAT from first PSO:
+
+   0.997185    0.932557    0.128124    0.999041    0.236089    0.396581 7.35785e+08
+   0.150902     0.83451   0.0945683    0.574142    0.419669   0.0514462 1.14302e+07
+   0.150902    0.827463    0.089481    0.559963    0.419669   0.0514462 6.35817e+06
+   0.223717    0.771026   0.0872179    0.542728    0.471349   0.0558363 5.67582e+06
+
+truk 0.515996 0.0603199  0.103199  0.896801   0.05516 0.0722394
+distance b/w truk and final GBVEC1.80563
+CODE FINISHED RUNNING IN 5 s TIME!
+Job Statistics for 1429685:
+           JobID       User               Start                 End    Elapsed     MaxRSS   TotalCPU      State Exit        NodeList                                  ReqTRES 
+---------------- ---------- ------------------- ------------------- ---------- ---------- ---------- ---------- ---- --------------- ---------------------------------------- 
+         1429685   rsjxw007 2021-07-19T17:55:23 2021-07-19T17:55:30   00:00:07             00:39.067  COMPLETED  0:0   r1pl-hpcf-n22     billing=20,cpu=20,mem=156240M,node=1 
+   1429685.batch            2021-07-19T17:55:23 2021-07-19T17:55:30   00:00:07          0  00:39.065  COMPLETED  0:0   r1pl-hpcf-n22                                          
+  1429685.extern            2021-07-19T17:55:23 2021-07-19T17:55:30   00:00:07          0  00:00.001  COMPLETED  0:0   r1pl-hpcf-n22                                          
+CPU Efficiency: 27.86% of 00:02:20 core-walltime
