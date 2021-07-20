@@ -559,7 +559,7 @@ int main() {
         #pragma omp parallel for 
         for(int particle = 0; particle < Nparts; particle++){
             
-            cout << "particle:" << particle << endl;
+           
             //random_device pRanDev;
             mt19937 pGenerator(particle);
             uniform_real_distribution<double> pUnifDist(0.0, 1.0);
@@ -628,6 +628,7 @@ int main() {
                 #pragma omp critical
                 {
                     cout << "step:" << step << " from thread:" << omp_get_thread_num() << endl;
+                     cout << "particle:" << particle << endl;
                     if(cost < PBMAT(particle, Npars)){ // particle best cost
                         for(int i = 0; i < Npars; i++){
                             PBMAT(particle, i) = pos.k(i);
