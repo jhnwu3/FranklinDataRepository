@@ -1,0 +1,126 @@
+PSO_S_ODE_NonLinear
+sample size:1000 Nparts:10 Nsteps:10
+mu: 80 250  85
+covarMat:20  0  0
+ 0  5  0
+ 0  0 10
+
+seedk:0.997185 0.932557 0.128124 0.999041 0.236089 0.396581| cost:7.39653e+08
+Xt: 0.585826   144.756   79.3806  0.275197   59.3078   25.6457  0.346646   20994.8   6322.09 0.0764636   3529.73   659.874   84.4354   46.7674  0.162514   34.6604   15.1093   11463.6   39.7028   8593.77   3703.57   21.9476    4701.2   2042.49   16.2409   7.09068   1518.83
+PSO begins!
+step:1 from thread:5
+step:1 from thread:3
+step:1 from thread:9
+step:1 from thread:8
+step:1 from thread:7
+step:1 from thread:2
+step:1 from thread:1
+step:1 from thread:4
+step:1 from thread:6
+step:1 from thread:0
+step:2 from thread:8
+step:2 from thread:9
+step:2 from thread:5
+step:2 from thread:3
+step:2 from thread:4
+step:2 from thread:6
+step:2 from thread:7
+step:2 from thread:2
+step:2 from thread:0
+step:2 from thread:1
+step:3 from thread:8
+step:3 from thread:5
+step:3 from thread:3
+step:3 from thread:4
+step:3 from thread:6
+step:3 from thread:9
+step:3 from thread:7
+step:3 from thread:2
+step:3 from thread:1
+step:3 from thread:0
+step:4 from thread:8
+step:4 from thread:3
+step:4 from thread:4
+step:4 from thread:2
+step:4 from thread:5
+step:4 from thread:7
+step:4 from thread:9
+step:4 from thread:6
+step:4 from thread:0
+step:4 from thread:1
+step:5 from thread:7
+step:5 from thread:4
+step:5 from thread:8
+step:5 from thread:3
+step:5 from thread:5
+step:5 from thread:2
+step:5 from thread:9
+step:5 from thread:6
+step:5 from thread:1
+step:5 from thread:0
+step:6 from thread:4
+step:6 from thread:8
+step:6 from thread:7
+step:6 from thread:3
+step:6 from thread:6
+step:6 from thread:5
+step:6 from thread:9
+step:6 from thread:2
+step:6 from thread:0
+step:6 from thread:1
+step:7 from thread:4
+step:7 from thread:8
+step:7 from thread:7
+step:7 from thread:3
+step:7 from thread:2
+step:7 from thread:5
+step:7 from thread:9
+step:7 from thread:1
+step:7 from thread:6
+step:7 from thread:0
+step:8 from thread:3
+step:8 from thread:4
+step:8 from thread:8
+step:8 from thread:5
+step:8 from thread:2
+step:8 from thread:7
+step:8 from thread:0
+step:8 from thread:6
+step:8 from thread:9
+step:8 from thread:1
+step:9 from thread:3
+step:9 from thread:4
+step:9 from thread:8
+step:9 from thread:7
+step:9 from thread:2
+step:9 from thread:5
+step:9 from thread:9
+step:9 from thread:0
+step:9 from thread:6
+step:9 from thread:1
+GBMAT from first PSO:
+
+   0.997185    0.932557    0.128124    0.999041    0.236089    0.396581 7.39653e+08
+   0.208919    0.847849    0.319707    0.983811    0.113693    0.378986 2.69561e+08
+   0.131713    0.845402    0.121729    0.594614    0.425228   0.0409954 2.50166e+08
+   0.534751    0.563987    0.638765    0.634167     0.38724    0.325692 1.92231e+08
+   0.666337    0.860314    0.725294    0.796198    0.553137    0.394565 1.66597e+08
+   0.538237    0.693677    0.492755    0.848628    0.439696     0.45683 3.27153e+07
+   0.304065    0.861572    0.429992    0.946064    0.207312    0.360569 8.00356e+06
+   0.343572    0.834577    0.441327    0.928466    0.258815    0.376122  7.6349e+06
+   0.342063    0.834577    0.441327    0.928466    0.263719    0.370002 4.71214e+06
+   0.320716    0.857513    0.437772    0.940407    0.224211     0.35994 4.45536e+06
+   0.327811    0.847445    0.438954    0.936438    0.237341    0.361247 4.18235e+06
+   0.327797    0.847445    0.438954    0.936438    0.237334    0.361247 4.15891e+06
+   0.333577    0.843289    0.440357    0.937597    0.235506    0.360992 4.07738e+06
+
+truk 0.515996 0.0603199  0.103199  0.896801   0.05516 0.0722394
+distance b/w truk and final GBVEC1.81244
+CODE FINISHED RUNNING IN 20 s TIME!
+Job Statistics for 1430215:
+           JobID       User               Start                 End    Elapsed     MaxRSS   TotalCPU      State Exit        NodeList                                  ReqTRES 
+---------------- ---------- ------------------- ------------------- ---------- ---------- ---------- ---------- ---- --------------- ---------------------------------------- 
+         1430215   rsjxw007 2021-07-20T17:11:12 2021-07-20T17:11:33   00:00:21             02:11.546  COMPLETED  0:0   r1pl-hpcf-n21     billing=20,cpu=20,mem=156240M,node=1 
+   1430215.batch            2021-07-20T17:11:12 2021-07-20T17:11:33   00:00:21          0  02:11.545  COMPLETED  0:0   r1pl-hpcf-n21                                          
+  1430215.extern            2021-07-20T17:11:12 2021-07-20T17:11:33   00:00:21          0  00:00.001  COMPLETED  0:0   r1pl-hpcf-n21                                          
+CPU Efficiency: 31.43% of 00:07:00 core-walltime
