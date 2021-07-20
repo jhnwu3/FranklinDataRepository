@@ -16,7 +16,7 @@
 #include <boost/numeric/odeint/external/openmp/openmp.hpp>
 
 #define N_SPECIES 6
-#define N 10000 // # of samples to sample over
+#define N 500 // # of samples to sample over
 #define N_DIM 6 // dim of PSO hypercube
 
 using Eigen::MatrixXd;
@@ -590,9 +590,7 @@ for(int step = 0; step < Nsteps; step++){
         }else{ // PSO after instantiations
             /* using new rate constants, instantiate particle best values */
             /* step into PSO */
-            double w1 = 6, w2 = 1, w3 = 1;
-            
-            w1 = sfi * pUnifDist(pGenerator)/ sf2; w2 = sfc * pUnifDist(pGenerator) / sf2; w3 = sfs * pUnifDist(pGenerator)/ sf2;
+            double w1 = sfi * pUnifDist(pGenerator)/ sf2, w2 = sfc * pUnifDist(pGenerator) / sf2, w3 = sfs * pUnifDist(pGenerator)/ sf2;
             double sumw = w1 + w2 + w3; //w1 = inertial, w2 = pbest, w3 = gbest
             w1 = w1 / sumw; w2 = w2 / sumw; w3 = w3 / sumw;
             struct K pos;
