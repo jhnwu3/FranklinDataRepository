@@ -16,7 +16,7 @@
 #include <boost/numeric/odeint/external/openmp/openmp.hpp>
 
 #define N_SPECIES 6
-#define N 1000 // # of samples to sample over
+#define N 1500 // # of samples to sample over
 #define N_DIM 6 // dim of PSO hypercube
 
 using Eigen::MatrixXd;
@@ -338,7 +338,7 @@ VectorXd comp_vel_vec(const VectorXd& posK, int seed) {
     VectorXd rPoint;
     rPoint = posK;
     std::random_device rand_dev;
-    std::mt19937 generator(seed);
+    std::mt19937 generator(rand_dev());
     vector<int> rand;
     uniform_real_distribution<double> unifDist(0.0, 1.0);
     for (int i = 0; i < N_DIM; i++) {
@@ -445,8 +445,8 @@ int main() {
     int sf2 = 1;
 
     // PSO run parameters
-    int Nparts = 2;
-    int Nsteps = 10;
+    int Nparts = 300;
+    int Nsteps = 40;
     
     cout << "sample size:" << N << " Nparts:" << Nparts << " Nsteps:" << Nsteps << endl;
     /* moments */
@@ -558,10 +558,8 @@ int main() {
     for(int step = 0; step < Nsteps; step++){
         #pragma omp parallel for 
         for(int particle = 0; particle < Nparts; particle++){
-            
-           
-            //random_device pRanDev;
-            mt19937 pGenerator(particle);
+            random_device pRanDev;
+            mt19937 pGenerator(pRanDev());
             uniform_real_distribution<double> pUnifDist(0.0, 1.0);
             /* instantiate all particle rate constants with unifDist */
             if(step == 0){ 
@@ -627,8 +625,8 @@ int main() {
                 /* update gBest and pBest */
                 #pragma omp critical
                 {
-                    cout << "step:" << step << " from thread:" << omp_get_thread_num() << endl;
-                     cout << "particle:" << particle << endl;
+                    // cout << "step:" << step << " from thread:" << omp_get_thread_num() << endl;
+                    // cout << "particle:" << particle << endl;
                     if(cost < PBMAT(particle, Npars)){ // particle best cost
                         for(int i = 0; i < Npars; i++){
                             PBMAT(particle, i) = pos.k(i);
@@ -645,8 +643,8 @@ int main() {
                 }
             }
         }
-            sfi = sfi - (sfe - sfg) / Nsteps;   // reduce the inertial weight after each step 
-            sfs = sfs + (sfe - sfg) / Nsteps;
+        sfi = sfi - (sfe - sfg) / Nsteps;   // reduce the inertial weight after each step 
+        sfs = sfs + (sfe - sfg) / Nsteps;
     }
 
     cout << "GBMAT from first PSO:" << endl << endl;
