@@ -1,0 +1,35 @@
+PSO_S_ODE_NonLinear
+sample size:1000 Nparts:1 Nsteps:10
+mu: 80 250  85
+covarMat:20  0  0
+ 0  5  0
+ 0  0 10
+
+seedk:0.997185 0.932557 0.128124 0.999041 0.236089 0.396581| cost:7.39653e+08
+Xt: 0.585826   144.756   79.3806  0.275197   59.3078   25.6457  0.346646   20994.8   6322.09 0.0764636   3529.73   659.874   84.4354   46.7674  0.162514   34.6604   15.1093   11463.6   39.7028   8593.77   3703.57   21.9476    4701.2   2042.49   16.2409   7.09068   1518.83
+PSO begins!
+step:1 from thread:0
+step:2 from thread:0
+step:3 from thread:0
+step:4 from thread:0
+step:5 from thread:0
+step:6 from thread:0
+step:7 from thread:0
+step:8 from thread:0
+step:9 from thread:0
+GBMAT from first PSO:
+
+   0.997185    0.932557    0.128124    0.999041    0.236089    0.396581 7.39653e+08
+   0.817318     0.92537    0.725294     0.94329    0.553137    0.386599 1.72029e+08
+   0.826278    0.925372    0.725302    0.943277    0.553135    0.390367 1.71901e+08
+
+truk 0.515996 0.0603199  0.103199  0.896801   0.05516 0.0722394
+distance b/w truk and final GBVEC2.66001
+CODE FINISHED RUNNING IN 8 s TIME!
+Job Statistics for 1430218:
+           JobID       User               Start                 End    Elapsed     MaxRSS   TotalCPU      State Exit        NodeList                                  ReqTRES 
+---------------- ---------- ------------------- ------------------- ---------- ---------- ---------- ---------- ---- --------------- ---------------------------------------- 
+         1430218   rsjxw007 2021-07-20T17:14:43 2021-07-20T17:14:53   00:00:10             00:11.251  COMPLETED  0:0   r1pl-hpcf-n22     billing=20,cpu=20,mem=156240M,node=1 
+   1430218.batch            2021-07-20T17:14:43 2021-07-20T17:14:53   00:00:10          0  00:11.249  COMPLETED  0:0   r1pl-hpcf-n22                                          
+  1430218.extern            2021-07-20T17:14:43 2021-07-20T17:14:53   00:00:10          0  00:00.002  COMPLETED  0:0   r1pl-hpcf-n22                                          
+CPU Efficiency: 5.50% of 00:03:20 core-walltime
