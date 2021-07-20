@@ -602,7 +602,7 @@ for(int step = 0; step < Nsteps; step++){
                 PBVEC(i) = PBMAT(particle, i);
             }
             pos.k = w1 * rpoint + w2 * PBVEC + w3 * GBVEC; // update position of particle
-
+            POSMAT.row(particle) = pos.k;
             /*solve ODEs and recompute cost */
             Protein_Moments XtPSO(tf, nMoments);
             Mom_ODE_Observer XtObsPSO1(XtPSO);
