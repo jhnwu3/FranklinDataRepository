@@ -445,8 +445,8 @@ int main() {
     int sf2 = 1;
 
     // PSO run parameters
-    int Nparts = 300;
-    int Nsteps = 20;
+    int Nparts = 40;
+    int Nsteps = 10;
     
     cout << "sample size:" << N << " Nparts:" << Nparts << " Nsteps:" << Nsteps << endl;
     /* moments */
@@ -626,6 +626,7 @@ for(int step = 0; step < Nsteps; step++){
             /* update gBest and pBest */
             #pragma omp critical
             {
+                cout << "step:" << step << " from thread:" << omp_get_thread_num() << endl;
                 if(cost < PBMAT(particle, Npars)){ // particle best cost
                     for(int i = 0; i < Npars; i++){
                         PBMAT(particle, i) = pos.k(i);
