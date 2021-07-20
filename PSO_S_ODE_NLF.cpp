@@ -560,6 +560,7 @@ int main() {
         for(int particle = 0; particle < Nparts; particle++){
             
             //random_device pRanDev;
+            cout << "particle:" << particle << endl;
             mt19937 pGenerator(particle);
             uniform_real_distribution<double> pUnifDist(0.0, 1.0);
             /* instantiate all particle rate constants with unifDist */
