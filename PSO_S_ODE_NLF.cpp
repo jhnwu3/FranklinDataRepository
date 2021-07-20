@@ -16,7 +16,7 @@
 #include <boost/numeric/odeint/external/openmp/openmp.hpp>
 
 #define N_SPECIES 6
-#define N 500 // # of samples to sample over
+#define N 10000 // # of samples to sample over
 #define N_DIM 6 // dim of PSO hypercube
 
 using Eigen::MatrixXd;
@@ -445,8 +445,8 @@ int main() {
     int sf2 = 1;
 
     // PSO run parameters
-    int Nparts = 10;
-    int Nsteps = 10;
+    int Nparts = 300;
+    int Nsteps = 40;
     
     cout << "sample size:" << N << " Nparts:" << Nparts << " Nsteps:" << Nsteps << endl;
     /* moments */
@@ -628,7 +628,6 @@ for(int step = 0; step < Nsteps; step++){
             /* update gBest and pBest */
             #pragma omp critical
             {
-                cout << "Steps:" << step << endl;
                 if(cost < PBMAT(particle, Npars)){ // particle best cost
                     for(int i = 0; i < Npars; i++){
                         PBMAT(particle, i) = pos.k(i);
