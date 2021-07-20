@@ -1,0 +1,63 @@
+PSO_S_ODE_NonLinear
+sample size:1000 Nparts:2 Nsteps:10
+mu: 80 250  85
+covarMat:20  0  0
+ 0  5  0
+ 0  0 10
+
+seedk:0.997185 0.932557 0.128124 0.999041 0.236089 0.396581| cost:7.39653e+08
+Xt: 0.585826   144.756   79.3806  0.275197   59.3078   25.6457  0.346646   20994.8   6322.09 0.0764636   3529.73   659.874   84.4354   46.7674  0.162514   34.6604   15.1093   11463.6   39.7028   8593.77   3703.57   21.9476    4701.2   2042.49   16.2409   7.09068   1518.83
+PSO begins!
+step:1 from thread:1
+particle:1
+step:1 from thread:0
+particle:0
+step:2 from thread:0
+particle:0
+step:2 from thread:1
+particle:1
+step:3 from thread:1
+particle:1
+step:3 from thread:0
+particle:0
+step:4 from thread:0
+particle:0
+step:4 from thread:1
+particle:1
+step:5 from thread:0
+particle:0
+step:5 from thread:1
+particle:1
+step:6 from thread:0
+particle:0
+step:6 from thread:1
+particle:1
+step:7 from thread:1
+particle:1
+step:7 from thread:0
+particle:0
+step:8 from thread:1
+particle:1
+step:8 from thread:0
+particle:0
+step:9 from thread:0
+particle:0
+step:9 from thread:1
+particle:1
+GBMAT from first PSO:
+
+   0.997185    0.932557    0.128124    0.999041    0.236089    0.396581 7.39653e+08
+   0.666337    0.860314    0.725294    0.874841    0.553137    0.386599 1.70567e+08
+   0.864387     0.90356     0.36782    0.975075    0.363348    0.392574 1.67619e+08
+   0.781134    0.885381    0.518089     0.93294    0.443128    0.390062   4.616e+07
+
+truk 0.515996 0.0603199  0.103199  0.896801   0.05516 0.0722394
+distance b/w truk and final GBVEC2.24702
+CODE FINISHED RUNNING IN 15 s TIME!
+Job Statistics for 1430272:
+           JobID       User               Start                 End    Elapsed     MaxRSS   TotalCPU      State Exit        NodeList                                  ReqTRES 
+---------------- ---------- ------------------- ------------------- ---------- ---------- ---------- ---------- ---- --------------- ---------------------------------------- 
+         1430272   rsjxw007 2021-07-20T17:45:24 2021-07-20T17:45:40   00:00:16             00:30.825  COMPLETED  0:0   r1pl-hpcf-n21     billing=20,cpu=20,mem=156240M,node=1 
+   1430272.batch            2021-07-20T17:45:24 2021-07-20T17:45:40   00:00:16          0  00:30.823  COMPLETED  0:0   r1pl-hpcf-n21                                          
+  1430272.extern            2021-07-20T17:45:24 2021-07-20T17:45:40   00:00:16          0  00:00.001  COMPLETED  0:0   r1pl-hpcf-n21                                          
+CPU Efficiency: 9.69% of 00:05:20 core-walltime
