@@ -1,0 +1,400 @@
+PSO_S_ODE_NonLinear
+sample size:1000 Nparts:40 Nsteps:10
+mu: 80 250  85
+covarMat:20  0  0
+ 0  5  0
+ 0  0 10
+
+seedk:0.997185 0.932557 0.128124 0.999041 0.236089 0.396581| cost:7.39653e+08
+Xt: 0.585826   144.756   79.3806  0.275197   59.3078   25.6457  0.346646   20994.8   6322.09 0.0764636   3529.73   659.874   84.4354   46.7674  0.162514   34.6604   15.1093   11463.6   39.7028   8593.77   3703.57   21.9476    4701.2   2042.49   16.2409   7.09068   1518.83
+PSO begins!
+step:1 from thread:1
+step:1 from thread:8
+step:1 from thread:7
+step:1 from thread:16
+step:1 from thread:18
+step:1 from thread:1
+step:1 from thread:17
+step:1 from thread:13
+step:1 from thread:14
+step:1 from thread:6
+step:1 from thread:4
+step:1 from thread:19
+step:1 from thread:12
+step:1 from thread:10
+step:1 from thread:11
+step:1 from thread:16
+step:1 from thread:6
+step:1 from thread:19
+step:1 from thread:13
+step:1 from thread:0
+step:1 from thread:18
+step:1 from thread:15
+step:1 from thread:2
+step:1 from thread:9
+step:1 from thread:14
+step:1 from thread:2
+step:1 from thread:3
+step:1 from thread:5
+step:1 from thread:4
+step:1 from thread:7
+step:1 from thread:17
+step:1 from thread:11
+step:1 from thread:15
+step:1 from thread:9
+step:1 from thread:8
+step:1 from thread:5
+step:1 from thread:3
+step:1 from thread:10
+step:1 from thread:12
+step:1 from thread:0
+step:2 from thread:10
+step:2 from thread:16
+step:2 from thread:8
+step:2 from thread:7
+step:2 from thread:17
+step:2 from thread:14
+step:2 from thread:1
+step:2 from thread:13
+step:2 from thread:19
+step:2 from thread:18
+step:2 from thread:4
+step:2 from thread:12
+step:2 from thread:6
+step:2 from thread:16
+step:2 from thread:10
+step:2 from thread:9
+step:2 from thread:11
+step:2 from thread:2
+step:2 from thread:0
+step:2 from thread:19
+step:2 from thread:5
+step:2 from thread:1
+step:2 from thread:14
+step:2 from thread:15
+step:2 from thread:6
+step:2 from thread:18
+step:2 from thread:8
+step:2 from thread:9
+step:2 from thread:2
+step:2 from thread:13
+step:2 from thread:17
+step:2 from thread:3
+step:2 from thread:4
+step:2 from thread:11
+step:2 from thread:15
+step:2 from thread:5
+step:2 from thread:7
+step:2 from thread:12
+step:2 from thread:3
+step:2 from thread:0
+step:3 from thread:13
+step:3 from thread:16
+step:3 from thread:4
+step:3 from thread:7
+step:3 from thread:17
+step:3 from thread:18
+step:3 from thread:13
+step:3 from thread:8
+step:3 from thread:12
+step:3 from thread:10
+step:3 from thread:14
+step:3 from thread:9
+step:3 from thread:6
+step:3 from thread:19
+step:3 from thread:5
+step:3 from thread:1
+step:3 from thread:16
+step:3 from thread:0
+step:3 from thread:15
+step:3 from thread:3
+step:3 from thread:2
+step:3 from thread:11
+step:3 from thread:6
+step:3 from thread:19
+step:3 from thread:18
+step:3 from thread:8
+step:3 from thread:4
+step:3 from thread:14
+step:3 from thread:7
+step:3 from thread:1
+step:3 from thread:9
+step:3 from thread:17
+step:3 from thread:2
+step:3 from thread:5
+step:3 from thread:15
+step:3 from thread:3
+step:3 from thread:12
+step:3 from thread:11
+step:3 from thread:10
+step:3 from thread:0
+step:4 from thread:14
+step:4 from thread:18
+step:4 from thread:17
+step:4 from thread:12
+step:4 from thread:16
+step:4 from thread:4
+step:4 from thread:10
+step:4 from thread:8
+step:4 from thread:7
+step:4 from thread:5
+step:4 from thread:14
+step:4 from thread:9
+step:4 from thread:6
+step:4 from thread:13
+step:4 from thread:1
+step:4 from thread:19
+step:4 from thread:15
+step:4 from thread:11
+step:4 from thread:18
+step:4 from thread:0
+step:4 from thread:2
+step:4 from thread:16
+step:4 from thread:1
+step:4 from thread:5
+step:4 from thread:6
+step:4 from thread:19
+step:4 from thread:8
+step:4 from thread:3
+step:4 from thread:4
+step:4 from thread:13
+step:4 from thread:9
+step:4 from thread:17
+step:4 from thread:15
+step:4 from thread:12
+step:4 from thread:2
+step:4 from thread:7
+step:4 from thread:10
+step:4 from thread:11
+step:4 from thread:3
+step:4 from thread:0
+step:5 from thread:6
+step:5 from thread:12
+step:5 from thread:17
+step:5 from thread:18
+step:5 from thread:5
+step:5 from thread:9
+step:5 from thread:6
+step:5 from thread:16
+step:5 from thread:10
+step:5 from thread:4
+step:5 from thread:8
+step:5 from thread:7
+step:5 from thread:15
+step:5 from thread:11
+step:5 from thread:14
+step:5 from thread:19
+step:5 from thread:0
+step:5 from thread:18
+step:5 from thread:1
+step:5 from thread:13
+step:5 from thread:2
+step:5 from thread:16
+step:5 from thread:5
+step:5 from thread:9
+step:5 from thread:8
+step:5 from thread:1
+step:5 from thread:3
+step:5 from thread:15
+step:5 from thread:19
+step:5 from thread:14
+step:5 from thread:17
+step:5 from thread:4
+step:5 from thread:13
+step:5 from thread:2
+step:5 from thread:12
+step:5 from thread:11
+step:5 from thread:7
+step:5 from thread:3
+step:5 from thread:10
+step:5 from thread:0
+step:6 from thread:19
+step:6 from thread:17
+step:6 from thread:12
+step:6 from thread:5
+step:6 from thread:18
+step:6 from thread:10
+step:6 from thread:19
+step:6 from thread:9
+step:6 from thread:16
+step:6 from thread:15
+step:6 from thread:4
+step:6 from thread:8
+step:6 from thread:1
+step:6 from thread:7
+step:6 from thread:11
+step:6 from thread:0
+step:6 from thread:2
+step:6 from thread:14
+step:6 from thread:13
+step:6 from thread:18
+step:6 from thread:1
+step:6 from thread:6
+step:6 from thread:5
+step:6 from thread:3
+step:6 from thread:9
+step:6 from thread:8
+step:6 from thread:16
+step:6 from thread:15
+step:6 from thread:14
+step:6 from thread:17
+step:6 from thread:13
+step:6 from thread:2
+step:6 from thread:6
+step:6 from thread:3
+step:6 from thread:10
+step:6 from thread:7
+step:6 from thread:12
+step:6 from thread:11
+step:6 from thread:4
+step:6 from thread:0
+step:7 from thread:19
+step:7 from thread:19
+step:7 from thread:12
+step:7 from thread:5
+step:7 from thread:17
+step:7 from thread:10
+step:7 from thread:4
+step:7 from thread:18
+step:7 from thread:15
+step:7 from thread:9
+step:7 from thread:16
+step:7 from thread:7
+step:7 from thread:8
+step:7 from thread:11
+step:7 from thread:1
+step:7 from thread:2
+step:7 from thread:0
+step:7 from thread:13
+step:7 from thread:14
+step:7 from thread:3
+step:7 from thread:6
+step:7 from thread:1
+step:7 from thread:18
+step:7 from thread:15
+step:7 from thread:9
+step:7 from thread:8
+step:7 from thread:16
+step:7 from thread:5
+step:7 from thread:2
+step:7 from thread:14
+step:7 from thread:3
+step:7 from thread:13
+step:7 from thread:11
+step:7 from thread:7
+step:7 from thread:6
+step:7 from thread:17
+step:7 from thread:4
+step:7 from thread:12
+step:7 from thread:10
+step:7 from thread:0
+step:8 from thread:19
+step:8 from thread:15
+step:8 from thread:2
+step:8 from thread:19
+step:8 from thread:9
+step:8 from thread:8
+step:8 from thread:5
+step:8 from thread:18
+step:8 from thread:12
+step:8 from thread:17
+step:8 from thread:16
+step:8 from thread:10
+step:8 from thread:0
+step:8 from thread:4
+step:8 from thread:1
+step:8 from thread:11
+step:8 from thread:7
+step:8 from thread:15
+step:8 from thread:3
+step:8 from thread:14
+step:8 from thread:13
+step:8 from thread:9
+step:8 from thread:8
+step:8 from thread:6
+step:8 from thread:2
+step:8 from thread:18
+step:8 from thread:1
+step:8 from thread:16
+step:8 from thread:5
+step:8 from thread:7
+step:8 from thread:17
+step:8 from thread:3
+step:8 from thread:14
+step:8 from thread:11
+step:8 from thread:6
+step:8 from thread:13
+step:8 from thread:12
+step:8 from thread:4
+step:8 from thread:10
+step:8 from thread:0
+step:9 from thread:19
+step:9 from thread:10
+step:9 from thread:18
+step:9 from thread:7
+step:9 from thread:12
+step:9 from thread:19
+step:9 from thread:5
+step:9 from thread:4
+step:9 from thread:3
+step:9 from thread:16
+step:9 from thread:11
+step:9 from thread:15
+step:9 from thread:2
+step:9 from thread:0
+step:9 from thread:8
+step:9 from thread:9
+step:9 from thread:17
+step:9 from thread:1
+step:9 from thread:7
+step:9 from thread:13
+step:9 from thread:18
+step:9 from thread:14
+step:9 from thread:6
+step:9 from thread:5
+step:9 from thread:3
+step:9 from thread:16
+step:9 from thread:15
+step:9 from thread:12
+step:9 from thread:1
+step:9 from thread:8
+step:9 from thread:9
+step:9 from thread:2
+step:9 from thread:13
+step:9 from thread:4
+step:9 from thread:11
+step:9 from thread:10
+step:9 from thread:14
+step:9 from thread:17
+step:9 from thread:6
+step:9 from thread:0
+GBMAT from first PSO:
+
+   0.997185    0.932557    0.128124    0.999041    0.236089    0.396581 7.39653e+08
+   0.380904    0.936157    0.725126    0.595017    0.334587    0.193294 4.48954e+08
+   0.410453    0.189039    0.274184    0.303229    0.615112    0.200201 7.20223e+07
+   0.571006    0.735714    0.778785    0.202051    0.732107    0.649891  3.2529e+07
+   0.229149    0.799081    0.503187    0.717258    0.286749     0.42771 2.00771e+07
+   0.172163    0.672978    0.416533    0.759899    0.253352    0.311647 1.33188e+07
+   0.214958    0.767678    0.485352    0.727877    0.279435    0.373144 9.98022e+06
+    0.21635     0.64015    0.469246    0.683684    0.511238    0.387532 6.25044e+06
+   0.308969    0.670288    0.548444    0.559783    0.542234    0.451044 5.63919e+06
+   0.287334    0.452272    0.507519    0.462757     0.49559     0.44468 5.01243e+06
+    0.37072    0.721753    0.575028    0.619928    0.502254    0.496185 4.37863e+06
+   0.345181    0.714766    0.567965    0.610214    0.494559    0.476904 3.88362e+06
+   0.322906    0.524752    0.544689    0.488164    0.494956    0.464495 3.60877e+06
+    0.32609    0.563844    0.548322    0.511019    0.501765    0.466066 3.51771e+06
+   0.391233    0.590328    0.547571     0.52553     0.48648    0.472634  3.1078e+06
+     0.3758    0.581983    0.549319    0.518838    0.483958    0.470951 3.09095e+06
+   0.364175    0.579328    0.547883    0.519503    0.492829    0.469906 3.03993e+06
+
+truk 0.515996 0.0603199  0.103199  0.896801   0.05516 0.0722394
+distance b/w truk and final GBVEC2.32815
+CODE FINISHED RUNNING IN 30 s TIME!
+Job Statistics for 1430206:
+           JobID       User               Start                 End    Elapsed     MaxRSS   TotalCPU      State Exit        NodeList                                  ReqTRES 
+---------------- ---------- ------------------- ------------------- ---------- ---------- ---------- ---------- ---- --------------- ---------------------------------------- 
+         1430206   rsjxw007 2021-07-20T16:55:43 2021-07-20T16:56:14   00:00:31             06:49.350  COMPLETED  0:0   r1pl-hpcf-n22     billing=20,cpu=20,mem=156240M,node=1 
+   1430206.batch            2021-07-20T16:55:43 2021-07-20T16:56:14   00:00:31      1.23M  06:49.348  COMPLETED  0:0   r1pl-hpcf-n22                                          
+  1430206.extern            2021-07-20T16:55:43 2021-07-20T16:56:14   00:00:31          0  00:00.002  COMPLETED  0:0   r1pl-hpcf-n22                                          
+CPU Efficiency: 65.97% of 00:10:20 core-walltime
