@@ -628,6 +628,7 @@ for(int step = 0; step < Nsteps; step++){
             /* update gBest and pBest */
             #pragma omp critical
             {
+                cout << "Steps:" << step << endl;
                 if(cost < PBMAT(particle, Npars)){ // particle best cost
                     for(int i = 0; i < Npars; i++){
                         PBMAT(particle, i) = pos.k(i);
