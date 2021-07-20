@@ -559,6 +559,7 @@ int main() {
         #pragma omp parallel for 
         for(int particle = 0; particle < Nparts; particle++){
             
+            cout << "particle:" << particle << endl;
             //random_device pRanDev;
             mt19937 pGenerator(particle);
             uniform_real_distribution<double> pUnifDist(0.0, 1.0);
