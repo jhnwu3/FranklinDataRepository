@@ -1,0 +1,121 @@
+PSO_S_ODE_NonLinear
+sample size:500 Nparts:10 Nsteps:10
+mu: 80 250  85
+covarMat:20  0  0
+ 0  5  0
+ 0  0 10
+
+seedk:0.997185 0.932557 0.128124 0.999041 0.236089 0.396581| cost:7.35785e+08
+Xt: 0.587308   144.655   79.5463  0.275606   59.2988   25.6992  0.348179   20963.5   6346.82 0.0765992   3527.08   662.456   84.6115   46.9643  0.163028   34.7617   15.1729   11481.4   39.7486   8584.48   3709.31   22.0142   4711.88   2050.48   16.2747   7.11218   1522.28
+PSO begins!
+Steps:1
+Steps:1
+Steps:1
+Steps:1
+Steps:1
+Steps:1
+Steps:1
+Steps:1
+Steps:1
+Steps:1
+Steps:2
+Steps:2
+Steps:2
+Steps:2
+Steps:2
+Steps:2
+Steps:2
+Steps:2
+Steps:2
+Steps:2
+Steps:3
+Steps:3
+Steps:3
+Steps:3
+Steps:3
+Steps:3
+Steps:3
+Steps:3
+Steps:3
+Steps:3
+Steps:4
+Steps:4
+Steps:4
+Steps:4
+Steps:4
+Steps:4
+Steps:4
+Steps:4
+Steps:4
+Steps:4
+Steps:5
+Steps:5
+Steps:5
+Steps:5
+Steps:5
+Steps:5
+Steps:5
+Steps:5
+Steps:5
+Steps:5
+Steps:6
+Steps:6
+Steps:6
+Steps:6
+Steps:6
+Steps:6
+Steps:6
+Steps:6
+Steps:6
+Steps:6
+Steps:7
+Steps:7
+Steps:7
+Steps:7
+Steps:7
+Steps:7
+Steps:7
+Steps:7
+Steps:7
+Steps:7
+Steps:8
+Steps:8
+Steps:8
+Steps:8
+Steps:8
+Steps:8
+Steps:8
+Steps:8
+Steps:8
+Steps:8
+Steps:9
+Steps:9
+Steps:9
+Steps:9
+Steps:9
+Steps:9
+Steps:9
+Steps:9
+Steps:9
+Steps:9
+GBMAT from first PSO:
+
+   0.997185    0.932557    0.128124    0.999041    0.236089    0.396581 7.35785e+08
+   0.208919    0.847849    0.324342    0.982643    0.105586    0.364228 2.39517e+08
+   0.125276    0.837894    0.106467    0.576556    0.425228   0.0409954 1.31379e+08
+   0.119086    0.831358   0.0943913    0.559451    0.426571   0.0384707 6.73143e+07
+   0.114186    0.826185   0.0848344    0.545913    0.427634   0.0364726 2.56879e+07
+   0.138118    0.835742    0.201865    0.750124    0.265573     0.14216 1.21707e+07
+   0.110304    0.822085    0.077261    0.535184    0.428476   0.0348892 1.11315e+07
+   0.107234    0.818844   0.0712741    0.526704    0.429142   0.0336375 1.11058e+07
+
+truk 0.515996 0.0603199  0.103199  0.896801   0.05516 0.0722394
+distance b/w truk and final GBVEC1.98189
+CODE FINISHED RUNNING IN 12 s TIME!
+Job Statistics for 1429856:
+           JobID       User               Start                 End    Elapsed     MaxRSS   TotalCPU      State Exit        NodeList                                  ReqTRES 
+---------------- ---------- ------------------- ------------------- ---------- ---------- ---------- ---------- ---- --------------- ---------------------------------------- 
+         1429856   rsjxw007 2021-07-20T11:38:48 2021-07-20T11:39:01   00:00:13             01:12.473  COMPLETED  0:0   r1pl-hpcf-n21     billing=20,cpu=20,mem=156240M,node=1 
+   1429856.batch            2021-07-20T11:38:48 2021-07-20T11:39:01   00:00:13          0  01:12.471  COMPLETED  0:0   r1pl-hpcf-n21                                          
+  1429856.extern            2021-07-20T11:38:48 2021-07-20T11:39:01   00:00:13          0  00:00.001  COMPLETED  0:0   r1pl-hpcf-n21                                          
+CPU Efficiency: 27.69% of 00:04:20 core-walltime
