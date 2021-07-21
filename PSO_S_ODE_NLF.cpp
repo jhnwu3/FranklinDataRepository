@@ -16,7 +16,7 @@
 #include <boost/numeric/odeint/external/openmp/openmp.hpp>
 
 #define N_SPECIES 6
-#define N 50000 // # of samples to sample over
+#define N 500 // # of samples to sample over
 #define N_DIM 6 // dim of PSO hypercube
 
 using Eigen::MatrixXd;
@@ -56,7 +56,7 @@ struct Multi_Normal_Random_Variable
 
     Eigen::VectorXd operator()() const
     {
-        static std::mt19937 gen{ 1 }; //random_device {} ()
+        static std::mt19937 gen{ std::random_device{}() }; //random_device {} ()
         static std::normal_distribution<> dist;
 
         return mean + transform * Eigen::VectorXd{ mean.size() }.unaryExpr([&](auto x) { return dist(gen); });
@@ -338,7 +338,7 @@ VectorXd comp_vel_vec(const VectorXd& posK, int seed) {
     VectorXd rPoint;
     rPoint = posK;
     std::random_device rand_dev;
-    std::mt19937 generator(seed);
+    std::mt19937 generator(rand_dev());
     vector<int> rand;
     uniform_real_distribution<double> unifDist(0.0, 1.0);
     for (int i = 0; i < N_DIM; i++) {
@@ -428,8 +428,8 @@ double calculate_cf2(const VectorXd& trueVec, const  VectorXd& estVec, const Mat
 int main() {
 
     auto t1 = std::chrono::high_resolution_clock::now();
-   // random_device RanDev;
-    mt19937 gen(1.0);
+    random_device RanDev;
+    mt19937 gen(RanDev());
     uniform_real_distribution<double> unifDist(0.0, 1.0);
     /*---------------------- Setup ------------------------ */
     int bsi = 1, Nterms = 9, useEqual = 0, Niter = 1, Biter = 1, psoIter = 2;
@@ -556,10 +556,10 @@ int main() {
     double sfi = sfe, sfc = sfp, sfs = sfg; // below are the variables being used to reiterate weights
     /* PSO begins */
     for(int step = 0; step < Nsteps; step++){
-        #pragma omp parallel for 
+      //  #pragma omp parallel for 
         for(int particle = 0; particle < Nparts; particle++){
             random_device pRanDev;
-            mt19937 pGenerator(particle);
+            mt19937 pGenerator(pRanDev());
             uniform_real_distribution<double> pUnifDist(0.0, 1.0);
             /* instantiate all particle rate constants with unifDist */
             if(step == 0){ 
@@ -648,6 +648,8 @@ int main() {
     }
     cout << "POSMAT:" << endl; 
     cout <<  POSMAT<< endl << endl;
+    cout << "PBMAT:" << endl;
+    cout << PBMAT << endl << endl;
     cout << "GBMAT from first PSO:" << endl << endl;
     cout << GBMAT << endl << endl;
     cout << "truk" << tru.k.transpose() << endl;
