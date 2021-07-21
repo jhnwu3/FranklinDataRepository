@@ -16,7 +16,7 @@
 #include <boost/numeric/odeint/external/openmp/openmp.hpp>
 
 #define N_SPECIES 6
-#define N 500 // # of samples to sample over
+#define N 10000 // # of samples to sample over
 #define N_DIM 6 // dim of PSO hypercube
 
 using Eigen::MatrixXd;
@@ -646,10 +646,10 @@ int main() {
         sfi = sfi - (sfe - sfg) / Nsteps;   // reduce the inertial weight after each step 
         sfs = sfs + (sfe - sfg) / Nsteps;
     }
-    cout << "POSMAT:" << endl; 
-    cout <<  POSMAT<< endl << endl;
-    cout << "PBMAT:" << endl;
-    cout << PBMAT << endl << endl;
+    // cout << "POSMAT:" << endl; 
+    // cout <<  POSMAT<< endl << endl;
+    // cout << "PBMAT:" << endl;
+    // cout << PBMAT << endl << endl;
     cout << "GBMAT from first PSO:" << endl << endl;
     cout << GBMAT << endl << endl;
     cout << "truk" << tru.k.transpose() << endl;
