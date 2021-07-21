@@ -16,7 +16,7 @@
 #include <boost/numeric/odeint/external/openmp/openmp.hpp>
 
 #define N_SPECIES 6
-#define N 50000 // # of samples to sample over
+#define N 1500 // # of samples to sample over
 #define N_DIM 6 // dim of PSO hypercube
 
 using Eigen::MatrixXd;
@@ -446,7 +446,7 @@ int main() {
 
     // PSO run parameters
     int Nparts = 300;
-    int Nsteps = 40;
+    int Nsteps = 200;
     
     cout << "sample size:" << N << " Nparts:" << Nparts << " Nsteps:" << Nsteps << endl;
     /* moments */
