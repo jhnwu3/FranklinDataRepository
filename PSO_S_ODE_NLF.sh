@@ -4,8 +4,7 @@
 #SBATCH --partition=general
 #SBATCH --nodes=1
 #SBATCH --output=./slurm_outputs/NLF%j.txt
-#SBATCH --ntasks-per-node=1
-#SBATCH --ntasks-per-node=20
+export OMP_NUM_THREADS=$SLURM_JOB_CPUS_PER_NODE
 set -e
 echo "PSO_S_ODE_NonLinear"
 ./PSO_S_ODE_NLF

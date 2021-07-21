@@ -16,7 +16,7 @@
 #include <boost/numeric/odeint/external/openmp/openmp.hpp>
 
 #define N_SPECIES 6
-#define N 500 // # of samples to sample over
+#define N 50000 // # of samples to sample over
 #define N_DIM 6 // dim of PSO hypercube
 
 using Eigen::MatrixXd;
@@ -556,7 +556,7 @@ int main() {
     double sfi = sfe, sfc = sfp, sfs = sfg; // below are the variables being used to reiterate weights
     /* PSO begins */
     for(int step = 0; step < Nsteps; step++){
-      //  #pragma omp parallel for 
+    #pragma omp parallel for 
         for(int particle = 0; particle < Nparts; particle++){
             random_device pRanDev;
             mt19937 pGenerator(pRanDev());
