@@ -623,8 +623,8 @@ int main() {
                 //XtPSO.sec /=N; l
                 double cost = calculate_cf2(Yt.mVec, XtPSO.mVec, wt);
                 /* update gBest and pBest */
-                #pragma omp critical
-                {
+                // #pragma omp critical
+                // {
                     // cout << "step:" << step << " from thread:" << omp_get_thread_num() << endl;
                     // cout << "particle:" << particle << endl;
                     if(cost < PBMAT(particle, Npars)){ // particle best cost
@@ -640,7 +640,7 @@ int main() {
                             GBMAT(GBMAT.rows() - 1, Npars) = gCost;
                         }   
                     }
-                }
+               // }
             }
         }
         sfi = sfi - (sfe - sfg) / Nsteps;   // reduce the inertial weight after each step 
