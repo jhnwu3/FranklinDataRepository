@@ -16,7 +16,7 @@
 #include <boost/numeric/odeint/external/openmp/openmp.hpp>
 
 #define N_SPECIES 6
-#define N 10000 // # of samples to sample over
+#define N 1500 // # of samples to sample over
 #define N_DIM 6 // dim of PSO hypercube
 
 using Eigen::MatrixXd;
@@ -338,7 +338,7 @@ VectorXd comp_vel_vec(const VectorXd& posK, int seed) {
     VectorXd rPoint;
     rPoint = posK;
     std::random_device rand_dev;
-    std::mt19937 generator(rand_dev());
+    std::mt19937 generator(seed);
     vector<int> rand;
     uniform_real_distribution<double> unifDist(0.0, 1.0);
     for (int i = 0; i < N_DIM; i++) {
@@ -559,7 +559,7 @@ int main() {
         #pragma omp parallel for 
         for(int particle = 0; particle < Nparts; particle++){
             random_device pRanDev;
-            mt19937 pGenerator(pRanDev());
+            mt19937 pGenerator(particle);
             uniform_real_distribution<double> pUnifDist(0.0, 1.0);
             /* instantiate all particle rate constants with unifDist */
             if(step == 0){ 
