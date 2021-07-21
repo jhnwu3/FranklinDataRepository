@@ -646,7 +646,8 @@ int main() {
         sfi = sfi - (sfe - sfg) / Nsteps;   // reduce the inertial weight after each step 
         sfs = sfs + (sfe - sfg) / Nsteps;
     }
-
+    cout << "POSMAT:" << endl; 
+    cout <<  POSMAT<< endl << endl;
     cout << "GBMAT from first PSO:" << endl << endl;
     cout << GBMAT << endl << endl;
     cout << "truk" << tru.k.transpose() << endl;
