@@ -446,7 +446,7 @@ int main() {
 
     // PSO run parameters
     int Nparts = 2;
-    int Nsteps = 4;
+    int Nsteps = 2;
     
     cout << "sample size:" << N << " Nparts:" << Nparts << " Nsteps:" << Nsteps << endl;
     /* moments */
