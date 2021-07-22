@@ -446,7 +446,7 @@ int main() {
 
     // PSO run parameters
     int Nparts = 100;
-    int Nsteps = 2;
+    int Nsteps = 1;
     
     cout << "sample size:" << N << " Nparts:" << Nparts << " Nsteps:" << Nsteps << endl;
     /* moments */
@@ -528,7 +528,7 @@ int main() {
     /* PSO costs */
     double gCost = 20000;
     /* Instantiate seedk aka global costs */
-    for (int i = 0; i < Npars; i++) { seed.k(i) = tru.k(i) + 0.1 *(0.5 - unifDist(gen)); }
+    for (int i = 0; i < Npars; i++) { seed.k(i) = tru.k(i); }
     
     Protein_Moments Xt(tf, nMoments);
     Mom_ODE_Observer XtObs(Xt);
@@ -566,7 +566,7 @@ int main() {
             /* instantiate all particle rate constants with unifDist */
             if(step == 0){ 
                 for(int i = 0; i < Npars; i++){
-                    POSMAT(particle, i) = tru.k(i) + 0.1 *(0.5 - pUnifDist(gen)); //pUnifDist(pGenerator);
+                    POSMAT(particle, i) = tru.k(i); //pUnifDist(pGenerator);
                 }
                 struct K pos;
                 pos.k = VectorXd::Zero(Npars);
@@ -652,8 +652,8 @@ int main() {
     }
     // cout << "POSMAT:" << endl; 
     // cout <<  POSMAT<< endl << endl;
-    // cout << "PBMAT:" << endl;
-    // cout << PBMAT << endl << endl;
+    cout << "PBMAT:" << endl;
+    cout << PBMAT << endl << endl;
     cout << "GBMAT from first PSO:" << endl << endl;
     cout << GBMAT << endl << endl;
     cout << "truk" << tru.k.transpose() << endl;
