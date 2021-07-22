@@ -496,6 +496,22 @@ int main (){
         double cost = calculate_cf2(Yt.mVec, Xt.mVec, wt);
         costOut << kCost << "," << cost << endl;
     }
+    struct K pos;
+    pos.k = VectorXd::Zero(nDim);
+    pos.k << 0.515694, 0.0607786, 0.103353, 0.897172, 0.05473, 0.690204; 
+
+    Protein_Moments Xt(tf, nMoments);
+    Mom_ODE_Observer XtObs(Xt);
+    Nonlinear_ODE6 sys(pos);
+    Controlled_RK_Stepper_N controlledStepper1;
+    for(int s = 0; s < sampleSize; s++){
+        State_N c0 = {80, 250, 0, 0, 85, 0};
+        integrate_adaptive(controlledStepper1, sys, c0, t0, tf, dt, XtObs);
+    }
+    Xt.mVec/=N;
+    double kCost = calculate_cf1(tru.k, pos.k);
+    double cost = calculate_cf2(Yt.mVec, Xt.mVec, wt);
+    costOut << kCost << "," << cost << endl;
     costOut.close();
     //  /* ODE solver variables! */
     // ofstream baseOut;
