@@ -518,7 +518,7 @@ int main (){
     pos1.k = VectorXd::Zero(nDim);
     pos1.k << 0.515925, 0.0600155,   0.10289,  0.897077, 0.0548449, 0.0724748;
     Protein_Moments Xt1(tf, nMoments);
-    Mom_ODE_Observer XtObs1(Xt);
+    Mom_ODE_Observer XtObs1(Xt1);
     Nonlinear_ODE6 sys1(pos1);
     Controlled_RK_Stepper_N controlledStepper2;
     for(int s = 0; s < sampleSize; s++){
