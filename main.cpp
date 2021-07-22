@@ -23,7 +23,8 @@ int main(int argc, char **argv)
     int nDim = N_DIM;
     double t0 = 0, tf = 5.0 * 9.69, dt = 1.0;
     cout << "sample:" << N << " Nparts:" << nPart << " nsteps:" << nSteps << endl;
-    mt19937 gen(std::random_device());
+    random_device rndDev;
+    mt19937 gen(rndDev());
     uniform_real_distribution<double> unifDist(0.0, 1.0);
 
     /* Instantiate Y_t */

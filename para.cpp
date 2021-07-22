@@ -141,13 +141,14 @@ struct Data_Components {
 };
 struct Protein_Moments {
     VectorXd mVec;
-    MatrixXd sec;
+   // MatrixXd sec;
     double timeToRecord;
     Protein_Moments(double tf, int mom) {
         mVec = VectorXd::Zero(mom);
-        sec = MatrixXd::Zero(N_SPECIES, N_SPECIES);
+        //sec = MatrixXd::Zero(N_SPECIES, N_SPECIES);
         timeToRecord = tf;
     }
+
 };
 
 struct Mom_ODE_Observer
@@ -168,8 +169,8 @@ struct Mom_ODE_Observer
                         pMome.mVec(upperDiag) += c[i] * c[j];
                         upperDiag++;
                     }
-                    pMome.sec(i, j) += c[i] * c[j];
-                    pMome.sec(j, i) = pMome.sec(i, j);
+                    // pMome.sec(i, j) += c[i] * c[j];
+                    // pMome.sec(j, i) = pMome.sec(i, j);
                 }
             }
         }
@@ -445,9 +446,10 @@ struct Syk_Pvav_Plot
 int main (){
     double mu_x = 1.47, mu_y = 1.74, mu_z = 1.99; // true means for MVN(theta)
     // ode vars
+    int nDim = 6;
     double t0 = 0.0, tf = 50.0, dt = 1.0;
     struct K tru;
-    tru.k = VectorXd::Zero(6);
+    tru.k = VectorXd::Zero(nDim);
     tru.k << 5.0, 0.1, 1.0, 8.69, 0.05, 0.70;
     tru.k /= (9.69);
     Controlled_RK_Stepper_N controlledStepper;
@@ -459,6 +461,20 @@ int main (){
     uniform_real_distribution<double> unifDist(0.0, 1.0);
     std::normal_distribution<double> norm(120.0, 120.0);
 
+    ofstream costOut;
+    costOut.open("RateDist_vs_Cost.csv");
+    int numDataPts = 100;
+    int sampleSize = 10000;
+    double alpha = 0.001;
+    for(int pt = 0; pt < numDataPts; pt++){
+        struct K pos;
+        pos.k = VectorXd::Zero(nDim);
+        for(int i = 0; i < nDim; i++) { pos.k(i) = tru.k(i) + alpha * (0.5 - unifDist(generator)); }
+        for(int s = 0; s < sampleSize; s++){
+
+        }
+    }
+    costOut.close();
     //  /* ODE solver variables! */
     // ofstream baseOut;
     // baseOut.open("baseConc.csv");
@@ -491,35 +507,35 @@ int main (){
     //     fout.close();
     // }
 
-    ofstream fOut; 
-    fOut.open("syk_pVav.csv");
-    Syk_Pvav_Plot fPlot(fOut, tf);
-    for(int i = 0; i < 100; i++){
-        State_N c0 = { (double) i, 250.0, 0, 0, 85, 0};
-        integrate_adaptive(controlledStepper, trueSys, c0, t0, tf, dt, fPlot);
-    }
-    fOut.close();
+    // ofstream fOut; 
+    // fOut.open("syk_pVav.csv");
+    // Syk_Pvav_Plot fPlot(fOut, tf);
+    // for(int i = 0; i < 100; i++){
+    //     State_N c0 = { (double) i, 250.0, 0, 0, 85, 0};
+    //     integrate_adaptive(controlledStepper, trueSys, c0, t0, tf, dt, fPlot);
+    // }
+    // fOut.close();
 
-    ofstream plot;
-    plot.open("Syk60.csv");
-    pVav_Plot obs(plot);
-    State_N sykC0 = { 60, 250.0, 0, 0, 85, 0};
-    integrate_adaptive(controlledStepper, trueSys, sykC0, t0, tf, dt, obs);
-    plot.close();
+    // ofstream plot;
+    // plot.open("Syk60.csv");
+    // pVav_Plot obs(plot);
+    // State_N sykC0 = { 60, 250.0, 0, 0, 85, 0};
+    // integrate_adaptive(controlledStepper, trueSys, sykC0, t0, tf, dt, obs);
+    // plot.close();
 
-    ofstream plot1;
-    plot1.open("Syk80.csv");
-    pVav_Plot obs1(plot1);
-    sykC0 = {80, 250.0, 0, 0, 85, 0};
-    integrate_adaptive(controlledStepper, trueSys, sykC0, t0, tf, dt, obs1);
-    plot1.close();
+    // ofstream plot1;
+    // plot1.open("Syk80.csv");
+    // pVav_Plot obs1(plot1);
+    // sykC0 = {80, 250.0, 0, 0, 85, 0};
+    // integrate_adaptive(controlledStepper, trueSys, sykC0, t0, tf, dt, obs1);
+    // plot1.close();
 
-    ofstream plot2;
-    plot2.open("Syk100.csv");
-    pVav_Plot obs2(plot2);
-    sykC0 = { 100, 250.0, 0, 0, 85, 0};
-    integrate_adaptive(controlledStepper, trueSys, sykC0, t0, tf, dt, obs2);
-    plot2.close();
+    // ofstream plot2;
+    // plot2.open("Syk100.csv");
+    // pVav_Plot obs2(plot2);
+    // sykC0 = { 100, 250.0, 0, 0, 85, 0};
+    // integrate_adaptive(controlledStepper, trueSys, sykC0, t0, tf, dt, obs2);
+    // plot2.close();
 
     return EXIT_SUCCESS;
 }

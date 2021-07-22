@@ -444,8 +444,8 @@ int main() {
     int sf2 = 1;
 
     // PSO run parameters
-    int Nparts = 3;
-    int Nsteps = 5;
+    int Nparts = 10;
+    int Nsteps = 20;
     
     cout << "sample size:" << N << " Nparts:" << Nparts << " Nsteps:" << Nsteps << endl;
     /* moments */
@@ -524,7 +524,7 @@ int main() {
     /* Instantiate seedk aka global costs */
     struct K seed;
     seed.k = VectorXd::Zero(Npars); 
-    for (int i = 0; i < Npars; i++) { seed.k(i) = tru.k(i) + 0.001 * (0.5 - unifDist(gen)); }
+    for (int i = 0; i < Npars; i++) { seed.k(i) = unifDist(gen);}//tru.k(i) + 0.001 * (0.5 - unifDist(gen)); }
     
     Protein_Moments Xt(tf, nMoments);
     Mom_ODE_Observer XtObs(Xt);
@@ -562,7 +562,7 @@ int main() {
             /* instantiate all particle rate constants with unifDist */
             if(step == 0){ 
                 for(int i = 0; i < Npars; i++){
-                    POSMAT(particle, i) = tru.k(i) + 0.001 * (0.5 - unifDist(gen)); //pUnifDist(pGenerator);
+                    POSMAT(particle, i) = pUnifDist(pGenerator);
                 }
                 struct K pos;
                 pos.k = VectorXd::Zero(Npars);
@@ -591,6 +591,7 @@ int main() {
                 double w1 = sfi * pUnifDist(pGenerator)/ sf2, w2 = sfc * pUnifDist(pGenerator) / sf2, w3 = sfs * pUnifDist(pGenerator)/ sf2;
                 double sumw = w1 + w2 + w3; //w1 = inertial, w2 = pbest, w3 = gbest
                 w1 = w1 / sumw; w2 = w2 / sumw; w3 = w3 / sumw;
+                w1 = 0.05; w2 = 0.90; w3 = 0.05;
                 struct K pos;
                 pos.k = VectorXd::Zero(Npars);
                 pos.k = POSMAT.row(particle);
