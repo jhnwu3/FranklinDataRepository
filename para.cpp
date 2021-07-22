@@ -286,7 +286,30 @@ State_N gen_multi_norm_iSub(void) {
 
     return c0;
 }
+VectorXd gen_multinorm_iVec(void) {
+    VectorXd c0(N_SPECIES);
+    VectorXd mu(3);
+    mu << 80,
+        250,
+        85;
+    MatrixXd sigma(3, 3);
+    sigma << 20, 0, 0,
+        0, 5, 0,
+        0, 0, 10.0;
+    Multi_Normal_Random_Variable gen(mu, sigma);
+    VectorXd c0Vec = gen();
+    int j = 0;
+    for (int i = 0; i < N_SPECIES; i++) {
+        if (i == 0 || i == 1 || i == 4) { // Syk, Vav, SHP1
+            c0(i) = c0Vec(j);
+            j++;
+        }else {
+            c0[i] = 0;
+        }
+    }
 
+    return c0;
+}
 VectorXd gen_multi_lognorm_vecSub(void) {
     VectorXd initVec(N_SPECIES);
     VectorXd mu(3);
@@ -454,18 +477,6 @@ int main (){
     tru.k << 5.0, 0.1, 1.0, 8.69, 0.05, 0.70;
     tru.k /= (9.69);
     MatrixXd wt = MatrixXd::Identity(nMoments, nMoments); // wt matrix
-    Controlled_RK_Stepper_N controlledStepper;
-    Nonlinear_ODE6 trueSys(tru);
-    Protein_Moments Yt(tf, nMoments);
-    Mom_ODE_Observer YtObs(Yt);
-    for (int i = 0; i < N; i++) {
-        //State_N c0 = gen_multi_norm_iSub(); // Y_0 is simulated using norm dist.
-        State_N c0 = {80, 250, 0, 0, 85, 0};
-        integrate_adaptive(controlledStepper, trueSys, c0, t0, tf, dt, YtObs);
-    }
-    Yt.mVec /= N;
-    cout << "Yt:" << Yt.mVec.transpose() << endl;
-
     /* Random Number Generator */
     random_device rand_dev;
     mt19937 generator(rand_dev());
@@ -473,10 +484,30 @@ int main (){
     std::normal_distribution<double> norm(120.0, 120.0);
 
     ofstream costOut;
-    
     int numDataPts = 100;
-    int sampleSize = 10;
-    double alpha = 0.80;
+    int sampleSize = 5000;
+    double alpha = 0.50;
+
+    MatrixXd X_0(sampleSize, N_SPECIES);
+    MatrixXd Y_0(sampleSize, N_SPECIES);
+    // fill X_0 and Y_0 from MVN distribution
+    for(int i = 0; i < sampleSize; i++){
+        X_0.row(i) = gen_multinorm_iVec();
+        Y_0.row(i) = gen_multinorm_iVec();
+    }
+
+    Controlled_RK_Stepper_N controlledStepper;
+    Nonlinear_ODE6 trueSys(tru);
+    Protein_Moments Yt(tf, nMoments);
+    Mom_ODE_Observer YtObs(Yt);
+    for (int i = 0; i < sampleSize; i++) {
+        //State_N c0 = gen_multi_norm_iSub(); // Y_0 is simulated using norm dist.
+        State_N c0 = {Y_0(i,0), Y_0(i,1), 0, 0, Y_0(i,4), 0};
+        integrate_adaptive(controlledStepper, trueSys, c0, t0, tf, dt, YtObs);
+    }
+    Yt.mVec /= N;
+    cout << "Yt:" << Yt.mVec.transpose() << endl;
+
     string s =  to_string(alpha) + "RateDist_vs_Cost.csv";
     costOut.open(s);
     for(int pt = 0; pt < numDataPts; pt++){
@@ -489,7 +520,7 @@ int main (){
         Nonlinear_ODE6 sys(pos);
         Controlled_RK_Stepper_N controlledStepper1;
         for(int s = 0; s < sampleSize; s++){
-            State_N c0 = {80, 250, 0, 0, 85, 0};
+            State_N c0 = {X_0(s,0), X_0(s,1), 0, 0, X_0(s,4), 0};
             integrate_adaptive(controlledStepper1, sys, c0, t0, tf, dt, XtObs);
         }
         Xt.mVec /= sampleSize;
@@ -506,14 +537,14 @@ int main (){
     Nonlinear_ODE6 sys(pos);
     Controlled_RK_Stepper_N controlledStepper1;
     for(int s = 0; s < sampleSize; s++){
-        State_N c0 = {80, 250, 0, 0, 85, 0};
+        State_N c0 = {X_0(s,0), X_0(s,1), 0, 0, X_0(s,4), 0};
         integrate_adaptive(controlledStepper1, sys, c0, t0, tf, dt, XtObs);
     }
     Xt.mVec/=sampleSize;
     double kCost = calculate_cf1(tru.k, pos.k);
     double cost = calculate_cf2(Yt.mVec, Xt.mVec, wt);
     costOut << kCost << "," << cost << endl;
-
+    cout << "k sq. dist:" << kCost << "cost:" << cost << " for k:" << pos.k.transpose() << endl; 
     struct K pos1;
     pos1.k = VectorXd::Zero(nDim);
     pos1.k << 0.515925, 0.0600155,   0.10289,  0.897077, 0.0548449, 0.0724748;
@@ -522,7 +553,7 @@ int main (){
     Nonlinear_ODE6 sys1(pos1);
     Controlled_RK_Stepper_N controlledStepper2;
     for(int s = 0; s < sampleSize; s++){
-        State_N c0 = {80, 250, 0, 0, 85, 0};
+        State_N c0 = {X_0(s,0), X_0(s,1), 0, 0, X_0(s,4), 0};
         integrate_adaptive(controlledStepper2, sys1, c0, t0, tf, dt, XtObs1);
     }
     Xt1.mVec/=sampleSize;
@@ -530,6 +561,7 @@ int main (){
     cost = calculate_cf2(Yt.mVec, Xt1.mVec, wt);
     costOut << kCost << "," << cost << endl;
     costOut.close();
+    cout << "k sq. dist:" << kCost << "cost:" << cost << " for k:" << pos1.k.transpose() << endl;
     //  /* ODE solver variables! */
     // ofstream baseOut;
     // baseOut.open("baseConc.csv");

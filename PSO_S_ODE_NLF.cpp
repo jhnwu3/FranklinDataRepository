@@ -309,7 +309,30 @@ State_N gen_multi_norm_iSub(void) {
 
     return c0;
 }
+VectorXd gen_multinorm_iVec(void) {
+    VectorXd c0(N_SPECIES);
+    VectorXd mu(3);
+    mu << 80,
+        250,
+        85;
+    MatrixXd sigma(3, 3);
+    sigma << 20, 0, 0,
+        0, 5, 0,
+        0, 0, 10.0;
+    Multi_Normal_Random_Variable gen(mu, sigma);
+    VectorXd c0Vec = gen();
+    int j = 0;
+    for (int i = 0; i < N_SPECIES; i++) {
+        if (i == 0 || i == 1 || i == 4) { // Syk, Vav, SHP1
+            c0(i) = c0Vec(j);
+            j++;
+        }else {
+            c0[i] = 0;
+        }
+    }
 
+    return c0;
+}
 VectorXd gen_multi_lognorm_vecSub(void) {
     VectorXd initVec(N_SPECIES);
     VectorXd mu(3);
