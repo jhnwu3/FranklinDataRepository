@@ -447,13 +447,24 @@ int main (){
     double mu_x = 1.47, mu_y = 1.74, mu_z = 1.99; // true means for MVN(theta)
     // ode vars
     int nDim = 6;
+    int nMoments = (N_SPECIES * (N_SPECIES + 3)) / 2;
     double t0 = 0.0, tf = 50.0, dt = 1.0;
     struct K tru;
     tru.k = VectorXd::Zero(nDim);
     tru.k << 5.0, 0.1, 1.0, 8.69, 0.05, 0.70;
     tru.k /= (9.69);
+    MatrixXd wt = MatrixXd::Identity(nMoments, nMoments); // wt matrix
     Controlled_RK_Stepper_N controlledStepper;
     Nonlinear_ODE6 trueSys(tru);
+    Protein_Moments Yt(tf, nMoments);
+    Mom_ODE_Observer YtObs(Yt);
+    for (int i = 0; i < N; i++) {
+        //State_N c0 = gen_multi_norm_iSub(); // Y_0 is simulated using norm dist.
+        State_N c0 = {80, 250, 0, 0, 85, 0};
+        integrate_adaptive(controlledStepper, trueSys, c0, t0, tf, dt, YtObs);
+    }
+    Yt.mVec /= N;
+    cout << "Yt:" << Yt.mVec.transpose() << endl;
 
     /* Random Number Generator */
     random_device rand_dev;
@@ -470,9 +481,18 @@ int main (){
         struct K pos;
         pos.k = VectorXd::Zero(nDim);
         for(int i = 0; i < nDim; i++) { pos.k(i) = tru.k(i) + alpha * (0.5 - unifDist(generator)); }
+        double kCost = calculate_cf1(tru.k, pos.k);
+        Protein_Moments Xt(tf, nMoments);
+        Mom_ODE_Observer XtObs(Xt);
+        Nonlinear_ODE6 sys(pos);
+    
         for(int s = 0; s < sampleSize; s++){
-
+            State_N c0 = {80, 250, 0, 0, 85, 0};
+            integrate_adaptive(controlledStepper, sys, c0, t0, tf, dt, XtObs);
         }
+        Xt.mVec /= sampleSize;
+        double cost = calculate_cf2(Yt.mVec, Xt.mVec, wt);
+        costOut << kCost << "," << cost << endl;
     }
     costOut.close();
     //  /* ODE solver variables! */
