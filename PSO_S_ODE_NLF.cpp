@@ -518,8 +518,7 @@ int main() {
         integrate_adaptive(controlledStepper, trueSys, c0, t0, tf, dt, YtObs);
     }
     Yt.mVec /= N;
-    //Yt.sec /= N;
-
+    cout << "Yt:" << Yt.mVec.transpose() << endl;
     /* PSO costs */
     double gCost = 20000;
     /* Instantiate seedk aka global costs */
