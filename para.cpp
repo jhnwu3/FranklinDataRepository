@@ -475,7 +475,7 @@ int main (){
     ofstream costOut;
     costOut.open("RateDist_vs_Cost.csv");
     int numDataPts = 100;
-    int sampleSize = 10000;
+    int sampleSize = 100;
     double alpha = 0.001;
     for(int pt = 0; pt < numDataPts; pt++){
         struct K pos;
