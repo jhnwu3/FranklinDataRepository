@@ -508,7 +508,7 @@ int main (){
         State_N c0 = {80, 250, 0, 0, 85, 0};
         integrate_adaptive(controlledStepper1, sys, c0, t0, tf, dt, XtObs);
     }
-    Xt.mVec/=N;
+    Xt.mVec/=sampleSize;
     double kCost = calculate_cf1(tru.k, pos.k);
     double cost = calculate_cf2(Yt.mVec, Xt.mVec, wt);
     costOut << kCost << "," << cost << endl;
