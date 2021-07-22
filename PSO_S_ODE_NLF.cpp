@@ -357,6 +357,10 @@ VectorXd gen_multi_lognorm_vecSub(void) {
     }
     return initVec;
 }
+State_N convertInit(const MatrixXd& sample, int index){
+    State_N c0 = {sample(index,0), sample(index,1), 0, 0, sample(index,4), 0};
+    return c0;
+}
 VectorXd comp_vel_vec(const VectorXd& posK, int seed) {
     VectorXd rPoint;
     rPoint = posK;
