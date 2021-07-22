@@ -524,7 +524,7 @@ int main() {
     /* Instantiate seedk aka global costs */
     struct K seed;
     seed.k = VectorXd::Zero(Npars); 
-    for (int i = 0; i < Npars; i++) { seed.k(i) = tru.k(i) + 0.1 * (0.5 - unifDist(gen)); }
+    for (int i = 0; i < Npars; i++) { seed.k(i) = tru.k(i) + 0.001 * (0.5 - unifDist(gen)); }
     
     Protein_Moments Xt(tf, nMoments);
     Mom_ODE_Observer XtObs(Xt);
@@ -562,7 +562,7 @@ int main() {
             /* instantiate all particle rate constants with unifDist */
             if(step == 0){ 
                 for(int i = 0; i < Npars; i++){
-                    POSMAT(particle, i) = tru.k(i) + 0.1 * (0.5 - unifDist(gen)); //pUnifDist(pGenerator);
+                    POSMAT(particle, i) = tru.k(i) + 0.001 * (0.5 - unifDist(gen)); //pUnifDist(pGenerator);
                 }
                 struct K pos;
                 pos.k = VectorXd::Zero(Npars);
