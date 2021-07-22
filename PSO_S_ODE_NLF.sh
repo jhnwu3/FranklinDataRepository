@@ -8,4 +8,4 @@
 set -e
 echo "PSO_S_ODE_NonLinear"
 ./PSO_S_ODE_NLF
-mv GBMAT.csv GBMAT_$(date +%F-%H%M).csv
+mv GBMAT.csv GBMAT_$(date +%F-%H%M).csv  

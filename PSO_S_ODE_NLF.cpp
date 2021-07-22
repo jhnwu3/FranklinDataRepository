@@ -518,7 +518,8 @@ int main() {
     Mom_ODE_Observer YtObs(Yt);
     Controlled_RK_Stepper_N controlledStepper;
     for (int i = 0; i < N; i++) {
-        State_N c0 = gen_multi_norm_iSub(); // Y_0 is simulated using lognorm dist.
+        //State_N c0 = gen_multi_norm_iSub(); // Y_0 is simulated using norm dist.
+        State_N c0 = {80, 250, 0, 0, 85, 0};
         integrate_adaptive(controlledStepper, trueSys, c0, t0, tf, dt, YtObs);
     }
     Yt.mVec /= N;
@@ -534,7 +535,8 @@ int main() {
     Nonlinear_ODE6 sys(seed);
     
     for (int i = 0; i < N; i++) {
-        State_N c0 = gen_multi_norm_iSub();
+        //State_N c0 = gen_multi_norm_iSub();
+        State_N c0 = {80, 250, 0, 0, 85, 0};
         integrate_adaptive(controlledStepper, sys, c0, t0, tf, dt, XtObs);
     }
     Xt.mVec /= N;  
@@ -575,7 +577,8 @@ int main() {
                 Protein_Moments XtPSO(tf, nMoments);
                 Mom_ODE_Observer XtObsPSO(XtPSO);
                 for(int i = 0; i < N; i++){
-                    State_N c0 = gen_multi_norm_iSub();
+                    //State_N c0 = gen_multi_norm_iSub();
+                    State_N c0 = {80, 250, 0, 0, 85, 0};
                     integrate_adaptive(controlledStepper, initSys, c0, t0, tf, dt, XtObsPSO);
                 }
                 XtPSO.mVec/=N;
@@ -612,7 +615,8 @@ int main() {
                 //VectorXd sykVec(N);
                 
                 for(int i = 0; i < N; i++){
-                    State_N c0 = gen_multi_norm_iSub();
+                    //State_N c0 = gen_multi_norm_iSub();
+                    State_N c0 = {80, 250, 0, 0, 85, 0};
                     // dCom.index = i;
                     // sykVec(i) = c0[0];
                     integrate_adaptive(controlledStepper, stepSys, c0, t0, tf, dt, XtObsPSO1);
