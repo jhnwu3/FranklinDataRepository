@@ -587,10 +587,19 @@ int main() {
             mt19937 pGenerator(pRanDev());
             uniform_real_distribution<double> pUnifDist(0.0, 1.0);
             /* instantiate all particle rate constants with unifDist */
-            if(step == 0){ 
-                for(int i = 0; i < Npars; i++){
-                    POSMAT(particle, i) = pUnifDist(pGenerator);
-                }
+            if(step == 0){
+                /* temporarily assign specified k constants */
+                if(particle != 1 && particle != 2){
+                    for(int i = 0; i < Npars; i++){
+                        POSMAT(particle, i) = pUnifDist(pGenerator);
+                    }
+                }else if (particle == 1){
+
+                }else if (particle == 2){
+
+                }              
+                
+                
                 struct K pos;
                 pos.k = VectorXd::Zero(Npars);
                 for(int i = 0; i < Npars; i++){
