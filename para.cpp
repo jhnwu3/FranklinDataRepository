@@ -476,7 +476,7 @@ int main (){
     
     int numDataPts = 100;
     int sampleSize = 10;
-    double alpha = 0.001;
+    double alpha = 0.25;
     string s =  to_string(alpha) + "RateDist_vs_Cost.csv";
     costOut.open(s);
     for(int pt = 0; pt < numDataPts; pt++){
