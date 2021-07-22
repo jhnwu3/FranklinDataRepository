@@ -523,7 +523,7 @@ int main (){
     Controlled_RK_Stepper_N controlledStepper2;
     for(int s = 0; s < sampleSize; s++){
         State_N c0 = {80, 250, 0, 0, 85, 0};
-        integrate_adaptive(controlledStepper1, sys, c0, t0, tf, dt, XtObs);
+        integrate_adaptive(controlledStepper2, sys1, c0, t0, tf, dt, XtObs1);
     }
     Xt1.mVec/=sampleSize;
     kCost = calculate_cf1(tru.k, pos1.k);
