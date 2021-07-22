@@ -624,6 +624,7 @@ int main() {
                 //XtPSO.sec /=N; l
                 double cost = calculate_cf2(Yt.mVec, XtPSO.mVec, wt);
                 cout << "particle:" << particle << " position:" << pos.k.transpose() <<" cost:" << cost << endl;
+                cout << "XtPSO.mVec:" << XtPSO.mVec.transpose() << endl;
                 /* update gBest and pBest */
                 // #pragma omp critical
                 // {
