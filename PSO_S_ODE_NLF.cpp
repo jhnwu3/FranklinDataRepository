@@ -432,7 +432,6 @@ int main() {
     mt19937 gen(RanDev());
     uniform_real_distribution<double> unifDist(0.0, 1.0);
     /*---------------------- Setup ------------------------ */
-    int bsi = 1, Nterms = 9, useEqual = 0, Niter = 1, Biter = 1, psoIter = 2;
     
     /* Variables (global) */
     double t0 = 0, tf = 5.0 * 9.69, dt = 1.0;
@@ -445,16 +444,13 @@ int main() {
     int sf2 = 1;
 
     // PSO run parameters
-    int Nparts = 100;
-    int Nsteps = 2;
+    int Nparts = 3;
+    int Nsteps = 5;
     
     cout << "sample size:" << N << " Nparts:" << Nparts << " Nsteps:" << Nsteps << endl;
     /* moments */
     int nMoments = (N_SPECIES * (N_SPECIES + 3)) / 2;
     //nMoments = 2*N_SPECIES;
-    MatrixXd Y_t = MatrixXd::Zero(N, N_SPECIES); // Values we are comparing towards - oMoments is derived from this.
-    VectorXd pMoments(nMoments);
-    MatrixXd X_t = MatrixXd::Zero(N, N_SPECIES);
     
     /* PSO weights */
     // double sfp = 3.0, sfg = 1.0, sfe = 6.0; // initial particle historical weight, global weight social, inertial
@@ -511,8 +507,7 @@ int main() {
     tru.k /= (9.69);
     tru.k(1) += 0.05;
     tru.k(4) += 0.05; // make sure not so close to the boundary
-    struct K seed;
-    seed.k = VectorXd::Zero(Npars); 
+   
     Nonlinear_ODE6 trueSys(tru);
     Protein_Moments Yt(tf, nMoments);
     Mom_ODE_Observer YtObs(Yt);
@@ -528,7 +523,9 @@ int main() {
     /* PSO costs */
     double gCost = 20000;
     /* Instantiate seedk aka global costs */
-    for (int i = 0; i < Npars; i++) { seed.k(i) = tru.k(i); }
+    struct K seed;
+    seed.k = VectorXd::Zero(Npars); 
+    for (int i = 0; i < Npars; i++) { seed.k(i) = tru.k(i) + 0.1 * (0.5 - unifDist(gen)); }
     
     Protein_Moments Xt(tf, nMoments);
     Mom_ODE_Observer XtObs(Xt);
@@ -566,7 +563,7 @@ int main() {
             /* instantiate all particle rate constants with unifDist */
             if(step == 0){ 
                 for(int i = 0; i < Npars; i++){
-                    POSMAT(particle, i) = tru.k(i); //pUnifDist(pGenerator);
+                    POSMAT(particle, i) = tru.k(i) + 0.1 * (0.5 - unifDist(gen)); //pUnifDist(pGenerator);
                 }
                 struct K pos;
                 pos.k = VectorXd::Zero(Npars);
@@ -626,32 +623,33 @@ int main() {
                 XtPSO.mVec/=N;
                 //XtPSO.sec /=N; l
                 double cost = calculate_cf2(Yt.mVec, XtPSO.mVec, wt);
+                cout << "particle:" << particle << " position:" << pos.k.transpose() <<" cost:" << cost << endl;
                 /* update gBest and pBest */
                 // #pragma omp critical
                 // {
                     // cout << "step:" << step << " from thread:" << omp_get_thread_num() << endl;
                     // cout << "particle:" << particle << endl;
-                    if(cost < PBMAT(particle, Npars)){ // particle best cost
-                        for(int i = 0; i < Npars; i++){
-                            PBMAT(particle, i) = pos.k(i);
-                        }
-                        PBMAT(particle, Npars) = cost;
-                        if(cost < gCost){
-                            gCost = cost;
-                            GBVEC = pos.k;
-                            GBMAT.conservativeResize(GBMAT.rows() + 1, Npars + 1);
-                            for (int i = 0; i < Npars; i++) {GBMAT(GBMAT.rows() - 1, i) = GBVEC(i);}
-                            GBMAT(GBMAT.rows() - 1, Npars) = gCost;
-                        }   
+                if(cost < PBMAT(particle, Npars)){ // particle best cost
+                    for(int i = 0; i < Npars; i++){
+                        PBMAT(particle, i) = pos.k(i);
                     }
+                    PBMAT(particle, Npars) = cost;
+                    if(cost < gCost){
+                        gCost = cost;
+                        GBVEC = pos.k;
+                        GBMAT.conservativeResize(GBMAT.rows() + 1, Npars + 1);
+                        for (int i = 0; i < Npars; i++) {GBMAT(GBMAT.rows() - 1, i) = GBVEC(i);}
+                        GBMAT(GBMAT.rows() - 1, Npars) = gCost;
+                    }   
+                }
                // }
             }
         }
         sfi = sfi - (sfe - sfg) / Nsteps;   // reduce the inertial weight after each step 
         sfs = sfs + (sfe - sfg) / Nsteps;
     }
-    // cout << "POSMAT:" << endl; 
-    // cout <<  POSMAT<< endl << endl;
+    cout << "POSMAT:" << endl; 
+    cout <<  POSMAT<< endl << endl;
     cout << "PBMAT:" << endl;
     cout << PBMAT << endl << endl;
     cout << "GBMAT from first PSO:" << endl << endl;

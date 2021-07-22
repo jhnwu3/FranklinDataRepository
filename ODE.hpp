@@ -201,11 +201,11 @@ struct Particle_Observer
 
 struct Protein_Moments {
     VectorXd mVec;
-    MatrixXd sec;
+   // MatrixXd sec;
     double timeToRecord;
     Protein_Moments(double tf, int mom) {
         mVec = VectorXd::Zero(mom);
-        sec = MatrixXd::Zero(N_SPECIES, N_SPECIES);
+        //sec = MatrixXd::Zero(N_SPECIES, N_SPECIES);
         timeToRecord = tf;
     }
 };
@@ -217,17 +217,19 @@ struct Mom_ODE_Observer
     void operator()(State_N const& c, const double t) const
     {
         if (t == pMome.timeToRecord) {
+            int upperDiag = 2 * N_SPECIES;
             for (int i = 0; i < N_SPECIES; i++) {
                 pMome.mVec(i) += c[i];
                 for (int j = i; j < N_SPECIES; j++) {
                     if (i == j) { // diagonal elements
                         pMome.mVec(N_SPECIES + i) += c[i] * c[j];
+                    }else { //upper right diagonal elements
+                       // cout << "upperDiag: " << upperDiag << endl; 
+                        pMome.mVec(upperDiag) += c[i] * c[j];
+                        upperDiag++;
                     }
-                    else {
-                        pMome.mVec(2 * N_SPECIES + (i + j - 1)) += c[i] * c[j];
-                    }
-                    pMome.sec(i, j) += c[i] * c[j];
-                    pMome.sec(j, i) = pMome.sec(i, j);
+                    // pMome.sec(i, j) += c[i] * c[j];
+                    // pMome.sec(j, i) = pMome.sec(i, j);
                 }
             }
         }
