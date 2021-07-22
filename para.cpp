@@ -485,10 +485,10 @@ int main (){
         Protein_Moments Xt(tf, nMoments);
         Mom_ODE_Observer XtObs(Xt);
         Nonlinear_ODE6 sys(pos);
-    
+        Controlled_RK_Stepper_N controlledStepper1;
         for(int s = 0; s < sampleSize; s++){
             State_N c0 = {80, 250, 0, 0, 85, 0};
-            integrate_adaptive(controlledStepper, sys, c0, t0, tf, dt, XtObs);
+            integrate_adaptive(controlledStepper1, sys, c0, t0, tf, dt, XtObs);
         }
         Xt.mVec /= sampleSize;
         double cost = calculate_cf2(Yt.mVec, Xt.mVec, wt);
