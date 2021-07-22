@@ -473,10 +473,12 @@ int main (){
     std::normal_distribution<double> norm(120.0, 120.0);
 
     ofstream costOut;
-    costOut.open("RateDist_vs_Cost.csv");
+    
     int numDataPts = 100;
     int sampleSize = 10;
     double alpha = 0.00001;
+    string s =  to_string(alpha) + "RateDist_vs_Cost.csv";
+    costOut.open(s);
     for(int pt = 0; pt < numDataPts; pt++){
         struct K pos;
         pos.k = VectorXd::Zero(nDim);
