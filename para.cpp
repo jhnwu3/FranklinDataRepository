@@ -531,7 +531,7 @@ int main (){
     pos.k = VectorXd::Zero(nDim);
     pos.k << 0.515694, 0.0607786, 0.103353, 0.897172, 0.05473, 0.690204; 
 
-    sampleSize = 2000; // reset sample size to 2k just in case.
+    sampleSize = 5000; // reset sample size to 2k just in case.
     Protein_Moments Xt(tf, nMoments);
     Mom_ODE_Observer XtObs(Xt);
     Nonlinear_ODE6 sys(pos);
