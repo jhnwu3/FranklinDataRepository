@@ -1,0 +1,82 @@
+warning: Pulling without specifying how to reconcile divergent branches is
+discouraged. You can squelch this message by running one of the following
+commands sometime before your next pull:
+
+  git config pull.rebase false  # merge (the default strategy)
+  git config pull.rebase true   # rebase
+  git config pull.ff only       # fast-forward only
+
+You can replace "git config" with "git config --global" to set a default
+preference for all repositories. You can also pass --rebase, --no-rebase,
+or --ff-only on the command line to override the configured default per
+invocation.
+
+From https://github.com/jhnwu3/PSOLinux
+   0ad8486..bef316a  master     -> origin/master
+Updating 0ad8486..bef316a
+Fast-forward
+ para.cpp | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+g++ -c para.cpp -o para.o -fopenmp
+g++ para.o -o para -fopenmp
+X_0
+81.2252 249.862       0       0  87.202       0
+83.7596 249.862       0       0 84.9653       0
+81.2527 248.772       0       0 89.1747       0
+82.1355 249.235       0       0 84.6905       0
+80.4195 250.089       0       0 82.3926       0
+80.9996 250.182       0       0  84.178       0
+93.1842 248.519       0       0 87.5683       0
+74.4456 249.216       0       0 86.8398       0
+83.3531 251.221       0       0 84.6535       0
+83.5132 249.926       0       0 85.6673       0
+79.6854 251.372       0       0 87.4773       0
+82.7253 253.266       0       0 84.8427       0
+76.0169 249.874       0       0 81.0835       0
+81.5599 250.456       0       0 83.9353       0
+82.3046  252.71       0       0 80.8582       0
+83.3457 251.252       0       0 88.2399       0
+73.3604 254.227       0       0 82.0875       0
+84.3846  252.48       0       0 83.8978       0
+73.0126 247.633       0       0  84.091       0
+75.9242 245.285       0       0   90.11       0
+75.8223 251.006       0       0 89.2303       0
+78.4403 251.272       0       0 89.7469       0
+76.8375 249.845       0       0  87.515       0
+78.4154 247.914       0       0 83.7253       0
+90.1497 247.566       0       0  91.191       0
+76.3469 246.959       0       0 80.3064       0
+80.2449 250.194       0       0 82.2412       0
+80.7596 247.358       0       0 84.4129       0
+86.9686     253       0       0 85.7206       0
+88.7547 250.629       0       0 84.7951       0
+66.1333 248.775       0       0  88.193       0
+87.3563 250.651       0       0 84.5755       0
+78.7022 249.383       0       0 89.2178       0
+87.3349 248.299       0       0  82.203       0
+74.8535 249.733       0       0 91.2524       0
+88.3521 249.153       0       0 82.8594       0
+79.7431 250.519       0       0  81.344       0
+84.8472 251.982       0       0 82.5124       0
+83.4178 251.004       0       0 80.7098       0
+87.1202 249.358       0       0 80.2353       0
+79.5675 248.646       0       0 88.5912       0
+76.0308 250.231       0       0 84.1953       0
+75.6879 248.333       0       0 83.3405       0
+79.8673 249.509       0       0 81.0308       0
+77.9457 249.565       0       0 81.5294       0
+81.4979 246.577       0       0 82.8353       0
+75.4278 251.368       0       0 87.1869       0
+72.6584 249.862       0       0 85.3303       0
+85.0394 247.142       0       0 84.8579       0
+78.2822 250.138       0       0 89.3579       0
+Yt: 0.0919897   0.823314    2.55051    2.14995 0.00523001    2.81278    0.90849    33.8469     195.67    152.517 0.00264554    237.768   0.537756    6.79216    8.09772 0.00789607    7.51981    61.8503    40.1409   0.228466    70.1955    164.966   0.385544    215.428   0.242975    180.058   0.447723
+para: /gpfs0/export/apps/easybuild/software/Eigen/3.3.7-GCCcore-9.3.0/include/Eigen/src/Core/DenseCoeffsBase.h:364: Eigen::DenseCoeffsBase<Derived, 1>::Scalar& Eigen::DenseCoeffsBase<Derived, 1>::operator()(Eigen::Index, Eigen::Index) [with Derived = Eigen::Matrix<double, -1, -1>; Eigen::DenseCoeffsBase<Derived, 1>::Scalar = double; Eigen::Index = long int]: Assertion `row >= 0 && row < rows() && col >= 0 && col < cols()' failed.
+/var/spool/slurmd/job1441956/slurm_script: line 12: 1001499 Aborted                 (core dumped) ./para
+Job Statistics for 1441956:
+           JobID       User               Start                 End    Elapsed     MaxRSS   TotalCPU      State Exit        NodeList                                  ReqTRES 
+---------------- ---------- ------------------- ------------------- ---------- ---------- ---------- ---------- ---- --------------- ---------------------------------------- 
+         1441956   rsjxw007 2021-07-23T10:37:03 2021-07-23T10:38:41   00:01:38             01:26.011     FAILED  6:0   r1pl-hpcf-n21        billing=4,cpu=4,mem=31248M,node=1 
+   1441956.batch            2021-07-23T10:37:03 2021-07-23T10:38:41   00:01:38      1.68M  01:26.010     FAILED  6:0   r1pl-hpcf-n21                                          
+  1441956.extern            2021-07-23T10:37:03 2021-07-23T10:38:41   00:01:38          0  00:00.001  COMPLETED  0:0   r1pl-hpcf-n21                                          
+CPU Efficiency: 21.94% of 00:06:32 core-walltime
