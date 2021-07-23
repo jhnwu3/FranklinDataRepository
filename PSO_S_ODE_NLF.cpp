@@ -595,15 +595,15 @@ int main() {
             /* instantiate all particle rate constants with unifDist */
             if(step == 0){
                 /* temporarily assign specified k constants */
-                if(particle != 1 && particle != 2){
-                    for(int i = 0; i < Npars; i++){
-                        POSMAT(particle, i) = pUnifDist(pGenerator);
-                    }
-                }else if (particle == 1){
-                    POSMAT.row(particle) << 0.515694, 0.0607786, 0.103353, 0.897172, 0.05473, 0.690204; 
-                }else if (particle == 2){
-                    POSMAT.row(particle) << 0.515925, 0.0600155,   0.10289,  0.897077, 0.0548449, 0.0724748;
-                }              
+                //if(particle != 1 && particle != 2){
+                for(int i = 0; i < Npars; i++){
+                    POSMAT(particle, i) = pUnifDist(pGenerator);
+                }
+                // }else if (particle == 1){
+                //     POSMAT.row(particle) << 0.515694, 0.0607786, 0.103353, 0.897172, 0.05473, 0.690204; 
+                // }else if (particle == 2){
+                //     POSMAT.row(particle) << 0.515925, 0.0600155,   0.10289,  0.897077, 0.0548449, 0.0724748;
+                // }              
                 
                 
                 struct K pos;
