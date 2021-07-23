@@ -485,7 +485,7 @@ int main (){
 
     ofstream costOut;
     int numDataPts = 100;
-    int sampleSize = 5000;
+    int sampleSize = 50;
     double alpha = 0.30;
 
     MatrixXd X_0(sampleSize, N_SPECIES);
@@ -495,7 +495,7 @@ int main (){
         X_0.row(i) = gen_multinorm_iVec();
         Y_0.row(i) = gen_multinorm_iVec();
     }
-
+    cout << "X_0" << endl << X_0 << endl;
     Controlled_RK_Stepper_N controlledStepper;
     Nonlinear_ODE6 trueSys(tru);
     Protein_Moments Yt(tf, nMoments);
