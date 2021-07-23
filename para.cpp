@@ -562,67 +562,6 @@ int main (){
     costOut << kCost << "," << cost << endl;
     costOut.close();
     cout << "k sq. dist:" << kCost << "cost:" << cost << " for k:" << pos1.k.transpose() << endl;
-    //  /* ODE solver variables! */
-    // ofstream baseOut;
-    // baseOut.open("baseConc.csv");
-    // Write_File_Plot baseCsv(baseOut);
-    // State_N c0_base = {120 ,41.33, 0, 0, 80, 0}; // baseline
-    // integrate_adaptive(controlledStepper, trueSys, c0_base, t0, tf, dt, baseCsv);
-    //    baseOut.close();
-    // ofstream highOut;
-    // highOut.open("highConc.csv");
-    // Write_File_Plot hiCsv(highOut);
-    // State_N c0_high = {10000, 41.33, 0, 0, 80, 0};
-    // integrate_adaptive(controlledStepper, trueSys, c0_high, t0, tf, dt, hiCsv);
-    // highOut.close();
-
-    // ofstream lowOut;
-    // lowOut.open("lowConc.csv");
-    // Write_File_Plot loCsv(lowOut);
-    // State_N c0_low = {20, 41.33, 0, 0, 80, 0}; // lowered
-    // integrate_adaptive(controlledStepper, trueSys, c0_low, t0, tf, dt, loCsv);
-    // lowOut.close();
-
-    // int runs = 10;
-    // for(int i = 0; i < runs; i++){
-    //     State_N c0 = {(norm(generator)), 41.33, 0, 0, 80, 0};
-    //     string s = to_string(i) + "Protein_Concentrations.csv";
-    //     ofstream fout;
-    //     fout.open(s);
-    //     Write_File_Plot obsCsv(fout);
-    //     integrate_adaptive(controlledStepper, trueSys, c0, t0, tf, dt, obsCsv);
-    //     fout.close();
-    // }
-
-    // ofstream fOut; 
-    // fOut.open("syk_pVav.csv");
-    // Syk_Pvav_Plot fPlot(fOut, tf);
-    // for(int i = 0; i < 100; i++){
-    //     State_N c0 = { (double) i, 250.0, 0, 0, 85, 0};
-    //     integrate_adaptive(controlledStepper, trueSys, c0, t0, tf, dt, fPlot);
-    // }
-    // fOut.close();
-
-    // ofstream plot;
-    // plot.open("Syk60.csv");
-    // pVav_Plot obs(plot);
-    // State_N sykC0 = { 60, 250.0, 0, 0, 85, 0};
-    // integrate_adaptive(controlledStepper, trueSys, sykC0, t0, tf, dt, obs);
-    // plot.close();
-
-    // ofstream plot1;
-    // plot1.open("Syk80.csv");
-    // pVav_Plot obs1(plot1);
-    // sykC0 = {80, 250.0, 0, 0, 85, 0};
-    // integrate_adaptive(controlledStepper, trueSys, sykC0, t0, tf, dt, obs1);
-    // plot1.close();
-
-    // ofstream plot2;
-    // plot2.open("Syk100.csv");
-    // pVav_Plot obs2(plot2);
-    // sykC0 = { 100, 250.0, 0, 0, 85, 0};
-    // integrate_adaptive(controlledStepper, trueSys, sykC0, t0, tf, dt, obs2);
-    // plot2.close();
 
     return EXIT_SUCCESS;
 }
