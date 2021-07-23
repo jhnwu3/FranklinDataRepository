@@ -526,7 +526,13 @@ int main() {
 
     VectorXd wmatup(4);
     wmatup << 0.15, 0.3, .45, .6;
-    
+    MatrixXd X_0(N, Npars);
+    MatrixXd Y_0(N, Npars);
+    for(int i = 0; i < N; i++){
+        X_0.row(i) = gen_multinorm_iVec();
+        Y_0.row(i) = gen_multinorm_iVec();
+    }
+
     /* Solve for Y_t (mu). */
     struct K tru;
     tru.k = VectorXd::Zero(Npars);
@@ -541,7 +547,7 @@ int main() {
     Controlled_RK_Stepper_N controlledStepper;
     for (int i = 0; i < N; i++) {
         //State_N c0 = gen_multi_norm_iSub(); // Y_0 is simulated using norm dist.
-        State_N c0 = {80, 250, 0, 0, 85, 0};
+        State_N c0 = convertInit(Y_0, i);
         integrate_adaptive(controlledStepper, trueSys, c0, t0, tf, dt, YtObs);
     }
     Yt.mVec /= N;
@@ -559,7 +565,7 @@ int main() {
     
     for (int i = 0; i < N; i++) {
         //State_N c0 = gen_multi_norm_iSub();
-        State_N c0 = {80, 250, 0, 0, 85, 0};
+        State_N c0 = convertInit(X_0, i);
         integrate_adaptive(controlledStepper, sys, c0, t0, tf, dt, XtObs);
     }
     Xt.mVec /= N;  
@@ -594,9 +600,9 @@ int main() {
                         POSMAT(particle, i) = pUnifDist(pGenerator);
                     }
                 }else if (particle == 1){
-
+                    POSMAT.row(particle) << 0.515694, 0.0607786, 0.103353, 0.897172, 0.05473, 0.690204; 
                 }else if (particle == 2){
-
+                    POSMAT.row(particle) << 0.515925, 0.0600155,   0.10289,  0.897077, 0.0548449, 0.0724748;
                 }              
                 
                 
@@ -610,7 +616,7 @@ int main() {
                 Mom_ODE_Observer XtObsPSO(XtPSO);
                 for(int i = 0; i < N; i++){
                     //State_N c0 = gen_multi_norm_iSub();
-                    State_N c0 = {80, 250, 0, 0, 85, 0};
+                    State_N c0 = convertInit(X_0, i);
                     integrate_adaptive(controlledStepper, initSys, c0, t0, tf, dt, XtObsPSO);
                 }
                 XtPSO.mVec/=N;
@@ -649,7 +655,7 @@ int main() {
                 
                 for(int i = 0; i < N; i++){
                     //State_N c0 = gen_multi_norm_iSub();
-                    State_N c0 = {80, 250, 0, 0, 85, 0};
+                    State_N c0 = convertInit(X_0, i);
                     // dCom.index = i;
                     // sykVec(i) = c0[0];
                     integrate_adaptive(controlledStepper, stepSys, c0, t0, tf, dt, XtObsPSO1);
@@ -659,8 +665,10 @@ int main() {
                 XtPSO.mVec/=N;
                 //XtPSO.sec /=N; l
                 double cost = calculate_cf2(Yt.mVec, XtPSO.mVec, wt);
-                cout << "particle:" << particle << " position:" << pos.k.transpose() <<" cost:" << cost << endl;
-                cout << "XtPSO.mVec:" << XtPSO.mVec.transpose() << endl;
+                if(particle == 1 || particle == 2){
+                    cout << "particle:" << particle << " position:" << pos.k.transpose() <<" cost:" << cost << endl;
+                    cout << "XtPSO.mVec:" << XtPSO.mVec.transpose() << endl;
+                }
                 /* update gBest and pBest */
                 // #pragma omp critical
                 // {
