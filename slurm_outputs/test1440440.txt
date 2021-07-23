@@ -1,0 +1,16 @@
+warning: Pulling without specifying how to reconcile divergent branches is
+discouraged. You can squelch this message by running one of the following
+commands sometime before your next pull:
+
+  git config pull.rebase false  # merge (the default strategy)
+  git config pull.rebase true   # rebase
+  git config pull.ff only       # fast-forward only
+
+You can replace "git config" with "git config --global" to set a default
+preference for all repositories. You can also pass --rebase, --no-rebase,
+or --ff-only on the command line to override the configured default per
+invocation.
+
+Already up to date.
+make: Nothing to be done for 'all'.
+Yt:  10.6858   76.6146   255.868   217.991  0.425391   282.789   121.939    2955.5     19682   15497.8 0.0688059   24024.4   53.7675   790.078   931.804  0.921293    892.26   5808.02   3848.55   13.1291   6555.62   16753.8   32.4173   21720.3   24.4215   18391.4   36.3798
