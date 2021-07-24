@@ -290,7 +290,7 @@ VectorXd gen_multinorm_iVec(void) {
     VectorXd c0(N_SPECIES);
     VectorXd mu(3);
     mu << 80,
-        250,
+        120,
         85;
     MatrixXd sigma(3, 3);
     sigma << 20, 0, 0,
@@ -485,8 +485,8 @@ int main (){
 
     ofstream costOut;
     int numDataPts = 100;
-    int sampleSize = 50;
-    double alpha = 0.30;
+    int sampleSize = 10;
+    double alpha = 0.1;
 
     MatrixXd X_0(sampleSize, N_SPECIES);
     MatrixXd Y_0(sampleSize, N_SPECIES);
