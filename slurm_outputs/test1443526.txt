@@ -1,0 +1,36 @@
+warning: Pulling without specifying how to reconcile divergent branches is
+discouraged. You can squelch this message by running one of the following
+commands sometime before your next pull:
+
+  git config pull.rebase false  # merge (the default strategy)
+  git config pull.rebase true   # rebase
+  git config pull.ff only       # fast-forward only
+
+You can replace "git config" with "git config --global" to set a default
+preference for all repositories. You can also pass --rebase, --no-rebase,
+or --ff-only on the command line to override the configured default per
+invocation.
+
+Already up to date.
+make: Nothing to be done for 'all'.
+X_0
+81.7076 119.041       0       0 83.6955       0
+76.8247 116.796       0       0 85.9343       0
+91.1387 122.307       0       0 80.2792       0
+74.0641 118.291       0       0 85.5353       0
+80.7296  115.69       0       0 89.4778       0
+79.6525 125.009       0       0   82.68       0
+68.9296 122.939       0       0 87.0637       0
+79.8976 121.712       0       0 80.0521       0
+78.7852 118.947       0       0 90.1659       0
+87.9674  120.29       0       0 87.3571       0
+Yt:   0.205318  0.00239308     0.32851  0.00315318    0.089136    0.469042     6.43337 0.000878696     16.1924  0.00156771      1.2306     33.0095   0.0722364     10.1126   0.0955042     2.77862     14.4388    0.117996  0.00115419   0.0315195    0.168472    0.155662     4.38617     23.1193   0.0405013    0.222249     6.26257
+para: /gpfs0/export/apps/easybuild/software/Eigen/3.3.7-GCCcore-9.3.0/include/Eigen/src/Core/DenseCoeffsBase.h:364: Eigen::DenseCoeffsBase<Derived, 1>::Scalar& Eigen::DenseCoeffsBase<Derived, 1>::operator()(Eigen::Index, Eigen::Index) [with Derived = Eigen::Matrix<double, -1, -1>; Eigen::DenseCoeffsBase<Derived, 1>::Scalar = double; Eigen::Index = long int]: Assertion `row >= 0 && row < rows() && col >= 0 && col < cols()' failed.
+/var/spool/slurmd/job1443526/slurm_script: line 12: 1104749 Aborted                 (core dumped) ./para
+Job Statistics for 1443526:
+           JobID       User               Start                 End    Elapsed     MaxRSS   TotalCPU      State Exit        NodeList                                  ReqTRES 
+---------------- ---------- ------------------- ------------------- ---------- ---------- ---------- ---------- ---- --------------- ---------------------------------------- 
+         1443526   rsjxw007 2021-07-24T11:29:08 2021-07-24T11:29:15   00:00:07             00:05.875     FAILED  6:0   r1pl-hpcf-n21        billing=4,cpu=4,mem=31248M,node=1 
+   1443526.batch            2021-07-24T11:29:08 2021-07-24T11:29:15   00:00:07          0  00:05.873     FAILED  6:0   r1pl-hpcf-n21                                          
+  1443526.extern            2021-07-24T11:29:08 2021-07-24T11:29:15   00:00:07          0  00:00.001  COMPLETED  0:0   r1pl-hpcf-n21                                          
+CPU Efficiency: 21.43% of 00:00:28 core-walltime
