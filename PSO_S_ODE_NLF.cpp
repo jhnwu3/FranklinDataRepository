@@ -288,7 +288,7 @@ State_N gen_multi_norm_iSub(void) {
 
     VectorXd mu(3);
     mu << 80,
-        250,
+        120,
         85;
     MatrixXd sigma(3, 3);
     sigma << 20, 0, 0,
@@ -313,12 +313,12 @@ VectorXd gen_multinorm_iVec(void) {
     VectorXd c0(N_SPECIES);
     VectorXd mu(3);
     mu << 80,
-        250,
+        120,
         85;
     MatrixXd sigma(3, 3);
-    sigma << 20, 0, 0,
-        0, 5, 0,
-        0, 0, 10.0;
+    sigma << 50, 0, 0,
+        0, 100, 0,
+        0, 0, 50.0;
     Multi_Normal_Random_Variable gen(mu, sigma);
     VectorXd c0Vec = gen();
     int j = 0;
@@ -389,16 +389,18 @@ VectorXd comp_vel_vec(const VectorXd& posK, int seed) {
             cout << "pos" << posK.transpose() << endl;
             pos += 0.001;
         }
-    //     double alpha = 4 * pos;
-    //     double beta = 4 - alpha;
-    //    // cout << "alpha:" << alpha << "beta:" << beta << endl;
-    //     std::gamma_distribution<double> aDist(alpha, 1);
-    //     std::gamma_distribution<double> bDist(beta, 1);
+        double alpha = 4 * pos;
+        double beta = 4 - alpha;
+       // cout << "alpha:" << alpha << "beta:" << beta << endl;
+        std::gamma_distribution<double> aDist(alpha, 1);
+        std::gamma_distribution<double> bDist(beta, 1);
 
-    //     double x = aDist(generator);
-    //     double y = bDist(generator);
+        double x = aDist(generator);
+        double y = bDist(generator);
 
-        rPoint(px) = unifDist(generator);//(x / (x + y)); 
+        rPoint(px) = (x / (x + y)); // test if uniform does worse than the beta version.
+        // I will run a beta version, uniform distribution, use larger variances, 50, 100, 50, 
+        // initialize positions close to truek 
     }
     return rPoint;
 }
@@ -488,44 +490,21 @@ int main() {
     MatrixXd GBMAT(0, 0); // iterations of global best vectors
     MatrixXd PBMAT(Nparts, Npars + 1); // particle best matrix + 1 for cost component
     MatrixXd POSMAT(Nparts, Npars); // Position matrix as it goees through it in parallel
-    // VectorXd mvnVec(3);
-    // mvnVec << 4.78334234137469844730960782,
-    //     5.52142091946216110500584912965,
-    //     4.3815581042632114978686130;
-    // MatrixXd covarMat(3, 3);
-    // covarMat << 800.298802814695093876186221, 0, 0,
-    //     0, 7.99968001706564273219830, 0,
-    //     0, 0, 93.7060821340228802149700;
-    // VectorXd mvnVec(3);
-    // mvnVec << 480.0,
-    //     165.32,
-    //     320.0;
-    // MatrixXd covarMat(3, 3);
-    // covarMat << 120.0, 0, 0,
-    //     0, 41.33, 0,
-    //     0, 0, 80.0;
     VectorXd mvnVec(3);
     mvnVec << 80,
-        250,
+        120,
         85;
     MatrixXd covarMat(3, 3);
-    covarMat << 20, 0, 0,
-        0, 5, 0,
-        0, 0, 10.0;
-    // VectorXd mvnVec(3);
-    // mvnVec << 4.78334234137469844730960782,
-    //     5.52142091946216110500584912965,
-    //     4.3815581042632114978686130;
-    // MatrixXd covarMat(3, 3);
-    // covarMat << 0.008298802814695093876186221, 0, 0,
-    //     0, 0.0000799968001706564273219830, 0,
-    //     0, 0, 0.000937060821340228802149700;
+    covarMat << 50, 0, 0,
+        0, 100, 0,
+        0, 0, 50.0;
 
     cout << "mu:" << mvnVec.transpose() << endl;
     cout << "covarMat:" << covarMat << endl << endl;
 
     VectorXd wmatup(4);
     wmatup << 0.15, 0.3, .45, .6;
+    /* Initial Conditions */
     MatrixXd X_0(N, Npars);
     MatrixXd Y_0(N, Npars);
     for(int i = 0; i < N; i++){
@@ -536,7 +515,7 @@ int main() {
     /* Solve for Y_t (mu). */
     struct K tru;
     tru.k = VectorXd::Zero(Npars);
-    tru.k << 5.0, 0.1, 1.0, 8.69, 0.05, 0.70;
+    tru.k << 5.0, 0.1, 1.0, 8.69, 0.05, 0.07;
     tru.k /= (9.69);
     tru.k(1) += 0.05;
     tru.k(4) += 0.05; // make sure not so close to the boundary
@@ -557,7 +536,8 @@ int main() {
     /* Instantiate seedk aka global costs */
     struct K seed;
     seed.k = VectorXd::Zero(Npars); 
-    for (int i = 0; i < Npars; i++) { seed.k(i) = unifDist(gen);}//tru.k(i) + 0.001 * (0.5 - unifDist(gen)); }
+    double alpha = 0.1;
+    for (int i = 0; i < Npars; i++) { seed.k(i) = tru.k(i) + alpha * (0.5 - unifDist(gen));}//tru.k(i) + 0.001 * (0.5 - unifDist(gen)); }
     
     Protein_Moments Xt(tf, nMoments);
     Mom_ODE_Observer XtObs(Xt);
@@ -582,7 +562,7 @@ int main() {
     GBMAT(GBMAT.rows() - 1, Npars) = gCost;
     
     cout << "PSO begins!" << endl;
-
+    
     double sfp = 3.0, sfg = 1.0, sfe = 6.0; // initial particle historical weight, global weight social, inertial
     double sfi = sfe, sfc = sfp, sfs = sfg; // below are the variables being used to reiterate weights
     /* PSO begins */
@@ -597,15 +577,13 @@ int main() {
                 /* temporarily assign specified k constants */
                 //if(particle != 1 && particle != 2){
                 for(int i = 0; i < Npars; i++){
-                    POSMAT(particle, i) = pUnifDist(pGenerator);
+                    POSMAT(particle, i) = tru.k(i) + alpha * (0.5 - unifDist(pGenerator));
                 }
                 // }else if (particle == 1){
                 //     POSMAT.row(particle) << 0.515694, 0.0607786, 0.103353, 0.897172, 0.05473, 0.690204; 
                 // }else if (particle == 2){
                 //     POSMAT.row(particle) << 0.515925, 0.0600155,   0.10289,  0.897077, 0.0548449, 0.0724748;
                 // }              
-                
-                
                 struct K pos;
                 pos.k = VectorXd::Zero(Npars);
                 for(int i = 0; i < Npars; i++){
@@ -633,7 +611,7 @@ int main() {
                 double w1 = sfi * pUnifDist(pGenerator)/ sf2, w2 = sfc * pUnifDist(pGenerator) / sf2, w3 = sfs * pUnifDist(pGenerator)/ sf2;
                 double sumw = w1 + w2 + w3; //w1 = inertial, w2 = pbest, w3 = gbest
                 w1 = w1 / sumw; w2 = w2 / sumw; w3 = w3 / sumw;
-                w1 = 0.05; w2 = 0.90; w3 = 0.05;
+                //w1 = 0.05; w2 = 0.90; w3 = 0.05;
                 struct K pos;
                 pos.k = VectorXd::Zero(Npars);
                 pos.k = POSMAT.row(particle);
@@ -738,3 +716,27 @@ int main() {
 
 
 
+    // VectorXd mvnVec(3);
+    // mvnVec << 4.78334234137469844730960782,
+    //     5.52142091946216110500584912965,
+    //     4.3815581042632114978686130;
+    // MatrixXd covarMat(3, 3);
+    // covarMat << 0.008298802814695093876186221, 0, 0,
+    //     0, 0.0000799968001706564273219830, 0,
+    //     0, 0, 0.000937060821340228802149700;
+    // VectorXd mvnVec(3);
+    // mvnVec << 4.78334234137469844730960782,
+    //     5.52142091946216110500584912965,
+    //     4.3815581042632114978686130;
+    // MatrixXd covarMat(3, 3);
+    // covarMat << 800.298802814695093876186221, 0, 0,
+    //     0, 7.99968001706564273219830, 0,
+    //     0, 0, 93.7060821340228802149700;
+    // VectorXd mvnVec(3);
+    // mvnVec << 480.0,
+    //     165.32,
+    //     320.0;
+    // MatrixXd covarMat(3, 3);
+    // covarMat << 120.0, 0, 0,
+    //     0, 41.33, 0,
+    //     0, 0, 80.0;

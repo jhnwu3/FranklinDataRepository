@@ -485,7 +485,7 @@ int main (){
 
     ofstream costOut;
     int numDataPts = 100;
-    int sampleSize = 10;
+    int sampleSize = 1;
     double alpha = 0.1;
 
     MatrixXd X_0(sampleSize, N_SPECIES);
