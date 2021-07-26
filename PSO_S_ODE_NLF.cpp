@@ -389,16 +389,16 @@ VectorXd comp_vel_vec(const VectorXd& posK, int seed) {
             cout << "pos" << posK.transpose() << endl;
             pos += 0.001;
         }
-        double alpha = 4 * pos;
-        double beta = 4 - alpha;
-       // cout << "alpha:" << alpha << "beta:" << beta << endl;
-        std::gamma_distribution<double> aDist(alpha, 1);
-        std::gamma_distribution<double> bDist(beta, 1);
+    //     double alpha = 4 * pos;
+    //     double beta = 4 - alpha;
+    //    // cout << "alpha:" << alpha << "beta:" << beta << endl;
+    //     std::gamma_distribution<double> aDist(alpha, 1);
+    //     std::gamma_distribution<double> bDist(beta, 1);
 
-        double x = aDist(generator);
-        double y = bDist(generator);
+    //     double x = aDist(generator);
+    //     double y = bDist(generator);
 
-        rPoint(px) = (x / (x + y)); // test if uniform does worse than the beta version.
+        rPoint(px) = unifDist(generator);//(x / (x + y)); // test if uniform does worse than the beta version.
         // I will run a beta version, uniform distribution, use larger variances, 50, 100, 50, 
         // initialize positions close to truek 
     }
@@ -475,7 +475,7 @@ int main() {
     // PSO run parameters
     int Nparts = 300;
     int Nsteps = 40;
-    cout << "note: this run is using beta distribution of updating and is ran in serial!" << endl;
+    cout << "note: this run is using unif distribution of updating and is ran in serial and is ran close to truk!" << endl;
     cout << "sample size:" << N << " Nparts:" << Nparts << " Nsteps:" << Nsteps << endl;
     /* moments */
     int nMoments = (N_SPECIES * (N_SPECIES + 3)) / 2;
@@ -500,7 +500,7 @@ int main() {
         0, 0, 50.0;
 
     cout << "mu:" << mvnVec.transpose() << endl;
-    cout << "covarMat:" << covarMat << endl << endl;
+    cout << "covarMat:" << endl << covarMat << endl << endl;
 
     VectorXd wmatup(4);
     wmatup << 0.15, 0.3, .45, .6;
