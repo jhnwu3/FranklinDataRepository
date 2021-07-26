@@ -291,9 +291,9 @@ State_N gen_multi_norm_iSub(void) {
         120,
         85;
     MatrixXd sigma(3, 3);
-    sigma << 20, 0, 0,
-        0, 5, 0,
-        0, 0, 10.0;
+    sigma << 50, 0, 0,
+        0, 100, 0,
+        0, 0, 50.0;
     Multi_Normal_Random_Variable gen(mu, sigma);
     VectorXd c0Vec = gen();
     int j = 0;
@@ -475,7 +475,7 @@ int main() {
     // PSO run parameters
     int Nparts = 300;
     int Nsteps = 40;
-    
+    cout << "note: this run is using beta distribution of updating" << endl;
     cout << "sample size:" << N << " Nparts:" << Nparts << " Nsteps:" << Nsteps << endl;
     /* moments */
     int nMoments = (N_SPECIES * (N_SPECIES + 3)) / 2;
