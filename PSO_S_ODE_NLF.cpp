@@ -475,7 +475,7 @@ int main() {
     // PSO run parameters
     int Nparts = 300;
     int Nsteps = 40;
-    cout << "note: this run is using beta distribution of updating and is ran in parallel and is ran close to truk!" << endl;
+    cout << "note: this run is using beta distribution of updating and is ran in serial and is ran close to truk!" << endl;
     cout << "sample size:" << N << " Nparts:" << Nparts << " Nsteps:" << Nsteps << endl;
     /* moments */
     int nMoments = (N_SPECIES * (N_SPECIES + 3)) / 2;
@@ -537,7 +537,7 @@ int main() {
     struct K seed;
     seed.k = VectorXd::Zero(Npars); 
 
-    double alpha = 0.1;
+    double alpha = 0.01;
     for (int i = 0; i < Npars; i++) { seed.k(i) = tru.k(i) + alpha * (0.5 - unifDist(gen));}//tru.k(i) + 0.001 * (0.5 - unifDist(gen)); }
     
     Protein_Moments Xt(tf, nMoments);
@@ -568,7 +568,7 @@ int main() {
     double sfi = sfe, sfc = sfp, sfs = sfg; // below are the variables being used to reiterate weights
     /* PSO begins */
     for(int step = 0; step < Nsteps; step++){
-    #pragma omp parallel for 
+    //#pragma omp parallel for 
         for(int particle = 0; particle < Nparts; particle++){
             random_device pRanDev;
             mt19937 pGenerator(pRanDev());
@@ -576,7 +576,6 @@ int main() {
             /* instantiate all particle rate constants with unifDist */
             if(step == 0){
                 /* temporarily assign specified k constants */
-                //if(particle != 1 && particle != 2){
                 for(int i = 0; i < Npars; i++){
                     POSMAT(particle, i) = tru.k(i) + alpha * (0.5 - unifDist(pGenerator));
                 }
@@ -638,8 +637,8 @@ int main() {
                 double cost = calculate_cf2(Yt.mVec, XtPSO.mVec, wt);
                 
                 /* update gBest and pBest */
-                #pragma omp critical
-                {
+                // #pragma omp critical
+                // {
                     // cout << "step:" << step << " from thread:" << omp_get_thread_num() << endl;
                     // cout << "particle:" << particle << endl;
                 if(cost < PBMAT(particle, Npars)){ // particle best cost
@@ -655,7 +654,7 @@ int main() {
                         GBMAT(GBMAT.rows() - 1, Npars) = gCost;
                     }   
                 }
-                }
+                //}
             }
         }
         sfi = sfi - (sfe - sfg) / Nsteps;   // reduce the inertial weight after each step 
@@ -668,10 +667,8 @@ int main() {
     cout << "GBMAT from first PSO:" << endl << endl;
     cout << GBMAT << endl << endl;
     cout << "truk" << tru.k.transpose() << endl;
-    double dist = 0;
-    for(int i = 0; i < Npars; i++){
-        dist += abs((tru.k(i) - GBMAT(GBMAT.rows() - 1, i)));
-    }
+    double dist = calculate_cf1(tru.k, GBMAT.row(GBMAT.rows() - 1));
+    
     cout << "total difference b/w truk and final GBVEC" << dist << endl;
     // compute difference
 
