@@ -475,7 +475,7 @@ int main() {
     // PSO run parameters
     int Nparts = 300;
     int Nsteps = 40;
-    cout << "note: this run is using unif distribution of updating and is ran in serial and is ran close to truk!" << endl;
+    cout << "note: this run is using unif distribution of updating and is ran in parallel and is ran close to truk!" << endl;
     cout << "sample size:" << N << " Nparts:" << Nparts << " Nsteps:" << Nsteps << endl;
     /* moments */
     int nMoments = (N_SPECIES * (N_SPECIES + 3)) / 2;
@@ -567,7 +567,7 @@ int main() {
     double sfi = sfe, sfc = sfp, sfs = sfg; // below are the variables being used to reiterate weights
     /* PSO begins */
     for(int step = 0; step < Nsteps; step++){
-    //#pragma omp parallel for 
+    #pragma omp parallel for 
         for(int particle = 0; particle < Nparts; particle++){
             random_device pRanDev;
             mt19937 pGenerator(pRanDev());
@@ -643,13 +643,10 @@ int main() {
                 XtPSO.mVec/=N;
                 //XtPSO.sec /=N; l
                 double cost = calculate_cf2(Yt.mVec, XtPSO.mVec, wt);
-                if(particle == 1 || particle == 2){
-                    cout << "particle:" << particle << " position:" << pos.k.transpose() <<" cost:" << cost << endl;
-                    cout << "XtPSO.mVec:" << XtPSO.mVec.transpose() << endl;
-                }
+                
                 /* update gBest and pBest */
-                // #pragma omp critical
-                // {
+                #pragma omp critical
+                {
                     // cout << "step:" << step << " from thread:" << omp_get_thread_num() << endl;
                     // cout << "particle:" << particle << endl;
                 if(cost < PBMAT(particle, Npars)){ // particle best cost
@@ -665,7 +662,7 @@ int main() {
                         GBMAT(GBMAT.rows() - 1, Npars) = gCost;
                     }   
                 }
-               // }
+                }
             }
         }
         sfi = sfi - (sfe - sfg) / Nsteps;   // reduce the inertial weight after each step 
