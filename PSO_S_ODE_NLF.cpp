@@ -16,7 +16,7 @@
 #include <boost/numeric/odeint/external/openmp/openmp.hpp>
 
 #define N_SPECIES 6
-#define N 5000 // # of samples to sample over
+#define N 500 // # of samples to sample over
 #define N_DIM 6 // dim of PSO hypercube
 
 using Eigen::MatrixXd;
@@ -473,7 +473,7 @@ int main() {
     int sf2 = 1;
 
     // PSO run parameters
-    int Nparts = 1000;
+    int Nparts = 300;
     int Nsteps = 40;
     cout << "note: this run is using beta distribution of updating and is ran in para and is ran close to truk!" << endl;
     cout << "sample size:" << N << " Nparts:" << Nparts << " Nsteps:" << Nsteps << endl;
