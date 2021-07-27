@@ -475,7 +475,7 @@ int main() {
     // PSO run parameters
     int Nparts = 300;
     int Nsteps = 80;
-    cout << "note: this run is using beta distribution of updating and is ran in serial and is ran close to truk!" << endl;
+    cout << "note: this run is using beta distribution of updating and is ran in para and is ran close to truk!" << endl;
     cout << "sample size:" << N << " Nparts:" << Nparts << " Nsteps:" << Nsteps << endl;
     /* moments */
     int nMoments = (N_SPECIES * (N_SPECIES + 3)) / 2;
