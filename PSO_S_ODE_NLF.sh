@@ -3,7 +3,7 @@
 #SBATCH --job-name=PSO_ODE_Nonlinear
 #SBATCH --nodes=1
 #SBATCH --output=./slurm_outputs/NLF%j.txt
-#SBATCH --ntasks-per-node=20
+#SBATCH --ntasks-per-node=1
 set -e
 echo "PSO_S_ODE_NonLinear"
 ./PSO_S_ODE_NLF

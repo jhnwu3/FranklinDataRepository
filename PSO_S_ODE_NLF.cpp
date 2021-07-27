@@ -474,7 +474,7 @@ int main() {
 
     // PSO run parameters
     int Nparts = 300;
-    int Nsteps = 80;
+    int Nsteps = 10;
     cout << "note: this run is using beta distribution of updating and is ran in para and is ran close to truk!" << endl;
     cout << "sample size:" << N << " Nparts:" << Nparts << " Nsteps:" << Nsteps << endl;
     /* moments */
@@ -570,7 +570,7 @@ int main() {
     double sfi = sfe, sfc = sfp, sfs = sfg; // below are the variables being used to reiterate weights
     /* PSO begins */
     for(int step = 0; step < Nsteps; step++){
-    #pragma omp parallel for 
+    //#pragma omp parallel for 
         for(int particle = 0; particle < Nparts; particle++){
             random_device pRanDev;
             mt19937 pGenerator(pRanDev());
@@ -639,8 +639,8 @@ int main() {
                 double cost = calculate_cf2(Yt.mVec, XtPSO.mVec, wt);
                 
                 /* update gBest and pBest */
-                #pragma omp critical
-                {
+                // #pragma omp critical
+                // {
                     // cout << "step:" << step << " from thread:" << omp_get_thread_num() << endl;
                     // cout << "particle:" << particle << endl;
                 if(cost < PBMAT(particle, Npars)){ // particle best cost
@@ -656,7 +656,7 @@ int main() {
                         GBMAT(GBMAT.rows() - 1, Npars) = gCost;
                     }   
                 }
-                }
+               // }
             }
         }
         sfi = sfi - (sfe - sfg) / Nsteps;   // reduce the inertial weight after each step 
@@ -702,31 +702,3 @@ int main() {
     return 0; // just to close the program at the end.
 }
 
-
-
-
-
-    // VectorXd mvnVec(3);
-    // mvnVec << 4.78334234137469844730960782,
-    //     5.52142091946216110500584912965,
-    //     4.3815581042632114978686130;
-    // MatrixXd covarMat(3, 3);
-    // covarMat << 0.008298802814695093876186221, 0, 0,
-    //     0, 0.0000799968001706564273219830, 0,
-    //     0, 0, 0.000937060821340228802149700;
-    // VectorXd mvnVec(3);
-    // mvnVec << 4.78334234137469844730960782,
-    //     5.52142091946216110500584912965,
-    //     4.3815581042632114978686130;
-    // MatrixXd covarMat(3, 3);
-    // covarMat << 800.298802814695093876186221, 0, 0,
-    //     0, 7.99968001706564273219830, 0,
-    //     0, 0, 93.7060821340228802149700;
-    // VectorXd mvnVec(3);
-    // mvnVec << 480.0,
-    //     165.32,
-    //     320.0;
-    // MatrixXd covarMat(3, 3);
-    // covarMat << 120.0, 0, 0,
-    //     0, 41.33, 0,
-    //     0, 0, 80.0;
