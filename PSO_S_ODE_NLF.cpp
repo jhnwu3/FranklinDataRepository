@@ -669,8 +669,9 @@ int main() {
     cout << "GBMAT from first PSO:" << endl << endl;
     cout << GBMAT << endl << endl;
     cout << "truk" << tru.k.transpose() << endl;
-    double dist = calculate_cf1(tru.k, GBMAT.row(GBMAT.rows() - 1));
-    
+   
+
+    double dist = calculate_cf1(tru.k, GBVEC);
     cout << "total difference b/w truk and final GBVEC" << dist << endl;
     // compute difference
 
