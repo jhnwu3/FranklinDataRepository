@@ -538,7 +538,9 @@ int main() {
     seed.k = VectorXd::Zero(Npars); 
 
     double alpha = 0.01;
-    for (int i = 0; i < Npars; i++) { seed.k(i) = tru.k(i) + alpha * (0.5 - unifDist(gen));}//tru.k(i) + 0.001 * (0.5 - unifDist(gen)); }
+    for (int i = 0; i < Npars; i++) { 
+        seed.k(i) = unifDist(gen); //tru.k(i) + alpha * (0.5 - unifDist(gen));
+    }//tru.k(i) + 0.001 * (0.5 - unifDist(gen)); }
     
     Protein_Moments Xt(tf, nMoments);
     Mom_ODE_Observer XtObs(Xt);
@@ -577,7 +579,7 @@ int main() {
             if(step == 0){
                 /* temporarily assign specified k constants */
                 for(int i = 0; i < Npars; i++){
-                    POSMAT(particle, i) = tru.k(i) + alpha * (0.5 - unifDist(pGenerator));
+                    POSMAT(particle, i) = pUnifDist(pGenerator);//tru.k(i) + alpha * (0.5 - unifDist(pGenerator));
                 }
 
                 struct K pos;
