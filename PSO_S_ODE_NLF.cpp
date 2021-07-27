@@ -474,7 +474,7 @@ int main() {
 
     // PSO run parameters
     int Nparts = 300;
-    int Nsteps = 40;
+    int Nsteps = 80;
     cout << "note: this run is using beta distribution of updating and is ran in serial and is ran close to truk!" << endl;
     cout << "sample size:" << N << " Nparts:" << Nparts << " Nsteps:" << Nsteps << endl;
     /* moments */
@@ -655,8 +655,8 @@ int main() {
                         for (int i = 0; i < Npars; i++) {GBMAT(GBMAT.rows() - 1, i) = GBVEC(i);}
                         GBMAT(GBMAT.rows() - 1, Npars) = gCost;
                     }   
-                }
                 //}
+                }
             }
         }
         sfi = sfi - (sfe - sfg) / Nsteps;   // reduce the inertial weight after each step 
@@ -672,8 +672,8 @@ int main() {
    
 
     double dist = calculate_cf1(tru.k, GBVEC);
-    cout << "total difference b/w truk and final GBVEC" << dist << endl;
-    // compute difference
+    cout << "total difference b/w truk and final GBVEC" << dist << endl; // compute difference
+    
 
     ofstream plot;
 	plot.open("GBMAT.csv");
