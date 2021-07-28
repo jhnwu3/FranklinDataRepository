@@ -615,19 +615,14 @@ int main() {
                 /*solve ODEs and recompute cost */
                 Protein_Moments XtPSO(tf, nMoments);
                 Mom_ODE_Observer XtObsPSO1(XtPSO);
-             
                 Nonlinear_ODE6 stepSys(pos);
        
-                
                 for(int i = 0; i < N; i++){
-                    //State_N c0 = gen_multi_norm_iSub();
                     State_N c0 = convertInit(X_0, i);
                     integrate_adaptive(controlledStepper, stepSys, c0, t0, tf, dt, XtObsPSO1);
                 }
                 
-                //dCom.mVec /= N;
                 XtPSO.mVec/=N;
-                //XtPSO.sec /=N; l
                 double cost = calculate_cf2(Yt.mVec, XtPSO.mVec, wt);
                 
                 /* update gBest and pBest */
