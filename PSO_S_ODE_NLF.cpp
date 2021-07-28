@@ -457,6 +457,7 @@ int main() {
     random_device RanDev;
     mt19937 gen(RanDev());
     uniform_real_distribution<double> unifDist(0.0, 1.0);
+    uniform_real_distribution<double> cUnifDist(0.3, 0.8);
     /*---------------------- Setup ------------------------ */
     
     /* Variables (global) */
@@ -478,6 +479,7 @@ int main() {
     int nMoments = (N_SPECIES * (N_SPECIES + 3)) / 2;
     // nMoments = 2*N_SPECIES;
     // nMoments = N_SPECIES;
+    cout << "using constrained unif dist 0.3 to 0.8" << endl;
     cout << "PSO using "<< nMoments << " moments." << endl;
     cout << "Sample Size:" << N << " Nparts:" << Nparts << " Nsteps:" << Nsteps << endl;
     
@@ -532,7 +534,7 @@ int main() {
     struct K seed;
     seed.k = VectorXd::Zero(Npars); 
     for (int i = 0; i < Npars; i++) { 
-        seed.k(i) = unifDist(gen);//tru.k(i) + alpha * (0.5 - unifDist(gen));
+        seed.k(i) = cUnifDist(gen);//tru.k(i) + alpha * (0.5 - unifDist(gen));
         // if(seed.k(i) < 0){
         //     seed.k(i) = - seed.k(i);
         // }
@@ -573,7 +575,7 @@ int main() {
             if(step == 0){
                 /* temporarily assign specified k constants */
                 for(int i = 0; i < Npars; i++){
-                    POSMAT(particle, i) = unifDist(pGenerator);//tru.k(i) + alpha * (0.5 - unifDist(pGenerator));
+                    POSMAT(particle, i) = cUnifDist(pGenerator);//tru.k(i) + alpha * (0.5 - unifDist(pGenerator));
                     // if(POSMAT(particle, i) < 0){
                     //     POSMAT(particle, i) = -POSMAT(particle,i);
                     // }
