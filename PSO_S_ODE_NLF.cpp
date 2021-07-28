@@ -163,16 +163,16 @@ struct Mom_ODE_Observer
             int upperDiag = 2 * N_SPECIES;
             for (int i = 0; i < N_SPECIES; i++) {
                 pMome.mVec(i) += c[i];
-                for (int j = i; j < N_SPECIES; j++) {
-                    if (i == j) { // diagonal elements
-                        pMome.mVec(N_SPECIES + i) += c[i] * c[j];
-                    }
-                    // else { //upper right diagonal elements
-                    //    // cout << "upperDiag: " << upperDiag << endl; 
-                    //     pMome.mVec(upperDiag) += c[i] * c[j];
-                    //     upperDiag++;
-                    // }
-                }
+                // for (int j = i; j < N_SPECIES; j++) {
+                //     if (i == j) { // diagonal elements
+                //         pMome.mVec(N_SPECIES + i) += c[i] * c[j];
+                //     }
+                //     // else { //upper right diagonal elements
+                //     //    // cout << "upperDiag: " << upperDiag << endl; 
+                //     //     pMome.mVec(upperDiag) += c[i] * c[j];
+                //     //     upperDiag++;
+                //     // }
+                // }
             }
         }
     }
@@ -477,7 +477,7 @@ int main() {
     int Nsteps = 40;
     int nMoments = (N_SPECIES * (N_SPECIES + 3)) / 2;
     nMoments = 2*N_SPECIES;
-    //nMoments = N_SPECIES;
+    nMoments = N_SPECIES;
     cout << "PSO using "<< nMoments << " moments." << endl;
     cout << "Sample Size:" << N << " Nparts:" << Nparts << " Nsteps:" << Nsteps << endl;
     
