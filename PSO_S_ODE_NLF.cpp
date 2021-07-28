@@ -310,12 +310,12 @@ VectorXd gen_multinorm_iVec(void) {
     VectorXd c0(N_SPECIES);
     VectorXd mu(3);
     mu << 80,
-        250,
+        120,
         85;
     MatrixXd sigma(3, 3);
-    sigma << 50, 0, 0,
-        0, 100, 0,
-        0, 0, 50.0;
+    sigma << 5, 0, 0,
+        0, 10, 0,
+        0, 0, 5.0;
     Multi_Normal_Random_Variable gen(mu, sigma);
     VectorXd c0Vec = gen();
     int j = 0;
