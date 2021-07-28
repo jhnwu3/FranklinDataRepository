@@ -309,9 +309,9 @@ State_N gen_multi_norm_iSub(void) {
 VectorXd gen_multinorm_iVec(void) {
     VectorXd c0(N_SPECIES);
     VectorXd mu(3);
-    mu << 80,
-        120,
-        85;
+    mu << 5,
+        10,
+        5;
     MatrixXd sigma(3, 3);
     sigma << 5, 0, 0,
         0, 10, 0,
@@ -486,9 +486,9 @@ int main() {
     MatrixXd PBMAT(Nparts, Npars + 1); // particle best matrix + 1 for cost component
     MatrixXd POSMAT(Nparts, Npars); // Position matrix as it goees through it in parallel
     VectorXd mvnVec(3);
-    mvnVec << 80,
-        120,
-        85;
+    mvnVec << 5,
+        10,
+        5;
     MatrixXd covarMat(3, 3);
     covarMat << 5, 0, 0,
         0, 10, 0,
