@@ -570,7 +570,7 @@ int main() {
     double sfi = sfe, sfc = sfp, sfs = sfg; // below are the variables being used to reiterate weights
     /* PSO begins */
     for(int step = 0; step < Nsteps; step++){
-    //#pragma omp parallel for 
+    #pragma omp parallel for 
         for(int particle = 0; particle < Nparts; particle++){
             random_device pRanDev;
             mt19937 pGenerator(pRanDev());
@@ -639,8 +639,8 @@ int main() {
                 double cost = calculate_cf2(Yt.mVec, XtPSO.mVec, wt);
                 
                 /* update gBest and pBest */
-                // #pragma omp critical
-                // {
+                #pragma omp critical
+                {
                     // cout << "step:" << step << " from thread:" << omp_get_thread_num() << endl;
                     // cout << "particle:" << particle << endl;
                 if(cost < PBMAT(particle, Npars)){ // particle best cost
@@ -656,7 +656,7 @@ int main() {
                         GBMAT(GBMAT.rows() - 1, Npars) = gCost;
                     }   
                 }
-               // }
+               }
             }
         }
         sfi = sfi - (sfe - sfg) / Nsteps;   // reduce the inertial weight after each step 
