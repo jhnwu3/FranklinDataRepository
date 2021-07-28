@@ -478,7 +478,6 @@ int main() {
     int nMoments = (N_SPECIES * (N_SPECIES + 3)) / 2;
     // nMoments = 2*N_SPECIES;
     // nMoments = N_SPECIES;
-    cout << "using alpha:" << alpha << endl;
     cout << "PSO using "<< nMoments << " moments." << endl;
     cout << "Sample Size:" << N << " Nparts:" << Nparts << " Nsteps:" << Nsteps << endl;
     
@@ -533,10 +532,10 @@ int main() {
     struct K seed;
     seed.k = VectorXd::Zero(Npars); 
     for (int i = 0; i < Npars; i++) { 
-        seed.k(i) = tru.k(i) + alpha * (0.5 - unifDist(gen));
-        if(seed.k(i) < 0){
-            seed.k(i) = - seed.k(i);
-        }
+        seed.k(i) = unifDist(gen);//tru.k(i) + alpha * (0.5 - unifDist(gen));
+        // if(seed.k(i) < 0){
+        //     seed.k(i) = - seed.k(i);
+        // }
     }
     
     Protein_Moments Xt(tf, nMoments);
@@ -574,10 +573,10 @@ int main() {
             if(step == 0){
                 /* temporarily assign specified k constants */
                 for(int i = 0; i < Npars; i++){
-                    POSMAT(particle, i) = tru.k(i) + alpha * (0.5 - unifDist(pGenerator));
-                    if(POSMAT(particle, i) < 0){
-                        POSMAT(particle, i) = -POSMAT(particle,i);
-                    }
+                    POSMAT(particle, i) = unifDist(pGenerator);//tru.k(i) + alpha * (0.5 - unifDist(pGenerator));
+                    // if(POSMAT(particle, i) < 0){
+                    //     POSMAT(particle, i) = -POSMAT(particle,i);
+                    // }
                 }
 
                 struct K pos;
