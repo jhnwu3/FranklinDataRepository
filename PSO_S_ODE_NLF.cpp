@@ -487,12 +487,12 @@ int main() {
     MatrixXd POSMAT(Nparts, Npars); // Position matrix as it goees through it in parallel
     VectorXd mvnVec(3);
     mvnVec << 80,
-        250,
+        120,
         85;
     MatrixXd covarMat(3, 3);
-    covarMat << 50, 0, 0,
-        0, 100, 0,
-        0, 0, 50.0;
+    covarMat << 5, 0, 0,
+        0, 10, 0,
+        0, 0, 5;
 
     cout << "mu:" << mvnVec.transpose() << endl;
     cout << "covarMat:" << endl << covarMat << endl << endl;
@@ -588,8 +588,8 @@ int main() {
                 }
                 XtPSO.mVec/=N;
                 double cost = calculate_cf2(Yt.mVec, XtPSO.mVec, wt); 
+                
                 /* instantiate PBMAT */
-            
                 for(int i = 0; i < Npars; i++){
                     PBMAT(particle, i) = POSMAT(particle, i);
                 }
@@ -611,6 +611,7 @@ int main() {
                 }
                 pos.k = w1 * rpoint + w2 * PBVEC + w3 * GBVEC; // update position of particle
                 POSMAT.row(particle) = pos.k;
+
                 /*solve ODEs and recompute cost */
                 Protein_Moments XtPSO(tf, nMoments);
                 Mom_ODE_Observer XtObsPSO1(XtPSO);
