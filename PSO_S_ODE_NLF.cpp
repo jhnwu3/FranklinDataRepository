@@ -472,7 +472,7 @@ int main() {
     /* PSO params */
     double sfp = 3.0, sfg = 1.0, sfe = 6.0; // initial particle historical weight, global weight social, inertial
     double sfi = sfe, sfc = sfp, sfs = sfg; // below are the variables being used to reiterate weights
-    double alpha = 0.01;
+    double alpha = 0.1;
     int Nparts = 300;
     int Nsteps = 40;
     int nMoments = (N_SPECIES * (N_SPECIES + 3)) / 2;
