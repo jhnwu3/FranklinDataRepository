@@ -309,13 +309,13 @@ State_N gen_multi_norm_iSub(void) {
 VectorXd gen_multinorm_iVec(void) {
     VectorXd c0(N_SPECIES);
     VectorXd mu(3);
-    mu << 5,
-        10,
-        5;
+    mu << 80,
+        120,
+        85;
     MatrixXd sigma(3, 3);
-    sigma << 5, 0, 0,
-        0, 10, 0,
-        0, 0, 5.0;
+    sigma << 50, 0, 0,
+        0, 100, 0,
+        0, 0, 50;
     Multi_Normal_Random_Variable gen(mu, sigma);
     VectorXd c0Vec = gen();
     int j = 0;
@@ -486,13 +486,13 @@ int main() {
     MatrixXd PBMAT(Nparts, Npars + 1); // particle best matrix + 1 for cost component
     MatrixXd POSMAT(Nparts, Npars); // Position matrix as it goees through it in parallel
     VectorXd mvnVec(3);
-    mvnVec << 5,
-        10,
-        5;
+    mvnVec << 80,
+        120,
+        85;
     MatrixXd covarMat(3, 3);
-    covarMat << 5, 0, 0,
-        0, 10, 0,
-        0, 0, 5;
+    covarMat << 50, 0, 0,
+        0, 100, 0,
+        0, 0, 50;
 
     cout << "mu:" << mvnVec.transpose() << endl;
     cout << "covarMat:" << endl << covarMat << endl << endl;
@@ -532,7 +532,10 @@ int main() {
     struct K seed;
     seed.k = VectorXd::Zero(Npars); 
     for (int i = 0; i < Npars; i++) { 
-        seed.k(i) = unifDist(gen); //tru.k(i) + alpha * (0.5 - unifDist(gen));
+        seed.k(i) = tru.k(i) + alpha * (0.5 - unifDist(gen));
+        if(seed.k(i) < 0){
+            seed.k(i) = - seed.k(i);
+        }
     }
     
     Protein_Moments Xt(tf, nMoments);
@@ -570,7 +573,10 @@ int main() {
             if(step == 0){
                 /* temporarily assign specified k constants */
                 for(int i = 0; i < Npars; i++){
-                    POSMAT(particle, i) = pUnifDist(pGenerator);//tru.k(i) + alpha * (0.5 - unifDist(pGenerator));
+                    POSMAT(particle, i) = tru.k(i) + alpha * (0.5 - unifDist(pGenerator));
+                    if(POSMAT(particle, i) < 0){
+                        POSMAT(particle, i) = -POSMAT(particle,i);
+                    }
                 }
 
                 struct K pos;
