@@ -478,6 +478,7 @@ int main() {
     int nMoments = (N_SPECIES * (N_SPECIES + 3)) / 2;
     // nMoments = 2*N_SPECIES;
     // nMoments = N_SPECIES;
+    cout << "using alpha:" << alpha << endl;
     cout << "PSO using "<< nMoments << " moments." << endl;
     cout << "Sample Size:" << N << " Nparts:" << Nparts << " Nsteps:" << Nsteps << endl;
     
