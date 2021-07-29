@@ -1,0 +1,29 @@
+PSO_S_ODE_NonLinear
+PSO using 27 moments.
+Sample Size:5000 Nparts:300 Nsteps:40
+mu: 5 10  5
+covarMat:
+ 5  0  0
+ 0 10  0
+ 0  0  5
+
+Yt:-nan -nan -nan -nan -nan -nan -nan -nan -nan -nan -nan -nan -nan -nan -nan -nan -nan -nan -nan -nan -nan -nan -nan -nan -nan -nan -nan
+seedk:  0.625973   0.243203   0.653778   0.973478 0.00917002   0.813911| cost:-nan
+Xt:2.29421 3.34033  2.7026  1.7454 2.83772 2.17084 8.46785 19.5058 8.84723 8.96181 12.1128 5.70831 3.87267 6.35591 5.83803 5.25778 5.10539 8.46178 3.22453  11.689 6.79679 4.13914 7.54856 7.10652 1.83546 3.32455 6.06341
+PSO begins!
+underflow!0.00016142
+pos   0.98462   0.832706   0.699548 0.00016142   0.800464   0.588949
+GBMAT from first PSO:
+
+  0.625973   0.243203   0.653778   0.973478 0.00917002   0.813911       -nan
+
+truk 0.515996 0.0603199  0.103199  0.896801   0.05516 0.0722394
+total difference b/w truk and final GBVEC0.90675
+CODE FINISHED RUNNING IN 1941 s TIME!
+Job Statistics for 1487875:
+           JobID       User               Start                 End    Elapsed     MaxRSS   TotalCPU      State Exit        NodeList                                  ReqTRES 
+---------------- ---------- ------------------- ------------------- ---------- ---------- ---------- ---------- ---- --------------- ---------------------------------------- 
+         1487875   rsjxw007 2021-07-28T15:49:51 2021-07-28T16:22:13   00:32:22             32:13.881  COMPLETED  0:0   r1pl-hpcf-n21         billing=1,cpu=1,mem=7812M,node=1 
+   1487875.batch            2021-07-28T15:49:51 2021-07-28T16:22:13   00:32:22      1.57M  32:13.879  COMPLETED  0:0   r1pl-hpcf-n21                                          
+  1487875.extern            2021-07-28T15:49:51 2021-07-28T16:22:13   00:32:22          0  00:00.001  COMPLETED  0:0   r1pl-hpcf-n21                                          
+CPU Efficiency: 99.59% of 00:32:22 core-walltime
