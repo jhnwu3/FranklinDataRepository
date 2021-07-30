@@ -573,7 +573,7 @@ int main() {
     struct K seed;
     seed.k = VectorXd::Zero(Npars); 
     for (int i = 0; i < Npars; i++) { 
-        seed.k(i) = cUnifDist(gen);//tru.k(i) + alpha * (0.5 - unifDist(gen));
+        seed.k(i) = unifDist(gen);//tru.k(i) + alpha * (0.5 - unifDist(gen));
         // if(seed.k(i) < 0){
         //     seed.k(i) = - seed.k(i);
         // }
@@ -614,7 +614,7 @@ int main() {
             if(step == 0){
                 /* temporarily assign specified k constants */
                 for(int i = 0; i < Npars; i++){
-                    POSMAT(particle, i) = cUnifDist(pGenerator);//tru.k(i) + alpha * (0.5 - unifDist(pGenerator));
+                    POSMAT(particle, i) = unifDist(pGenerator);//tru.k(i) + alpha * (0.5 - unifDist(pGenerator));
                     // if(POSMAT(particle, i) < 0){
                     //     POSMAT(particle, i) = -POSMAT(particle,i);
                     // }
