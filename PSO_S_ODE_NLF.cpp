@@ -511,7 +511,7 @@ int main() {
     int nMoments = (N_SPECIES * (N_SPECIES + 3)) / 2;
     // nMoments = 2*N_SPECIES;
     // nMoments = N_SPECIES;
-    cout << "using constrained unif dist 0.3 to 0.8" << endl;
+    cout << "using constrained unif dist 0.3 to 0.7" << endl;
     cout << "PSO using "<< nMoments << " moments." << endl;
     cout << "Sample Size:" << N << " Nparts:" << Nparts << " Nsteps:" << Nsteps << endl;
     cout << "using tf:" << tf << endl;
