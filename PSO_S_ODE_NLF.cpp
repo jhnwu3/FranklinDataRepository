@@ -514,7 +514,7 @@ int main() {
     cout << "using constrained unif dist 0.3 to 0.8" << endl;
     cout << "PSO using "<< nMoments << " moments." << endl;
     cout << "Sample Size:" << N << " Nparts:" << Nparts << " Nsteps:" << Nsteps << endl;
-    
+    cout << "using tf:" << tf << endl;
     MatrixXd wt = MatrixXd::Identity(nMoments, nMoments); // wt matrix
     MatrixXd GBMAT(0, 0); // iterations of global best vectors
     MatrixXd PBMAT(Nparts, Npars + 1); // particle best matrix + 1 for cost component
