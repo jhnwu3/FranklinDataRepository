@@ -489,7 +489,7 @@ int main() {
     random_device RanDev;
     mt19937 gen(RanDev());
     uniform_real_distribution<double> unifDist(0.0, 1.0);
-    uniform_real_distribution<double> cUnifDist(0.4, 0.6);
+    uniform_real_distribution<double> cUnifDist(0.3, 0.7);
     /*---------------------- Setup ------------------------ */
     
     /* Variables (global) */
