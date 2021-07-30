@@ -16,7 +16,7 @@
 #include <boost/numeric/odeint/external/openmp/openmp.hpp>
 
 #define N_SPECIES 6
-#define N 10000 // # of samples to sample over
+#define N 25000 // # of samples to sample over
 #define N_DIM 6 // dim of PSO hypercube
 
 using Eigen::MatrixXd;
@@ -34,9 +34,6 @@ typedef controlled_runge_kutta< Error_RK_Stepper_N > Controlled_RK_Stepper_N;
 typedef boost::array< double, 3 > State_3;
 typedef runge_kutta_cash_karp54< State_3 > Error_RK_Stepper_3;
 typedef controlled_runge_kutta< Error_RK_Stepper_3 > Controlled_RK_Stepper_3;
-
-const double ke = 0.0001, kme = 20, kf = 0.01, kmf = 18, kd = 0.03, kmd = 1,
-ka2 = 0.01, ka3 = 0.01, C1T = 20, C2T = 5, C3T = 4;
 
 struct Multi_Normal_Random_Variable
 {
@@ -509,8 +506,8 @@ int main() {
     double sfp = 3.0, sfg = 1.0, sfe = 6.0; // initial particle historical weight, global weight social, inertial
     double sfi = sfe, sfc = sfp, sfs = sfg; // below are the variables being used to reiterate weights
     double alpha = 0.2;
-    int Nparts = 1500;
-    int Nsteps = 80;
+    int Nparts = 300;
+    int Nsteps = 40;
     int nMoments = (N_SPECIES * (N_SPECIES + 3)) / 2;
     // nMoments = 2*N_SPECIES;
     // nMoments = N_SPECIES;
@@ -541,12 +538,12 @@ int main() {
     MatrixXd Y_0(N, Npars);
     ifstream X0File("initial-X0.txt");
     ifstream Y0File("initial-Y0.txt");
-    // X_0 = readIntoMatrix(X0File, N, N_SPECIES); // Bill initCond
-    // Y_0 = readIntoMatrix(Y0File, N, N_SPECIES); 
-    for(int i = 0; i < N; i++){
-        X_0.row(i) = gen_multinorm_iVec();
-        Y_0.row(i) = gen_multinorm_iVec();
-    }
+    X_0 = readIntoMatrix(X0File, N, N_SPECIES); // Bill initCond
+    Y_0 = readIntoMatrix(Y0File, N, N_SPECIES); 
+    // for(int i = 0; i < N; i++){
+    //     X_0.row(i) = gen_multinorm_iVec();
+    //     Y_0.row(i) = gen_multinorm_iVec();
+    // }
 
     /* Solve for Y_t (mu). */
     struct K tru;
@@ -555,7 +552,7 @@ int main() {
     tru.k /= (9.69);
     tru.k(1) += 0.05;
     tru.k(4) += 0.05; // make sure not so close to the boundary
-   // tru.k <<  0.51599600,  0.06031990, 0.10319900, 0.89680100, 0.05516000, 0.00722394; // Bill k
+    tru.k <<  0.51599600,  0.06031990, 0.10319900, 0.89680100, 0.05516000, 0.00722394; // Bill k
     Nonlinear_ODE6 trueSys(tru);
     Protein_Moments Yt(tf, nMoments);
     Mom_ODE_Observer YtObs(Yt);
