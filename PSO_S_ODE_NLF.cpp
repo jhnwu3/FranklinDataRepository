@@ -511,6 +511,7 @@ int main() {
     int nMoments = (N_SPECIES * (N_SPECIES + 3)) / 2;
     // nMoments = 2*N_SPECIES;
     // nMoments = N_SPECIES;
+    cout << "This is the Y_0 required!"<< endl;
     cout << "using constrained unif dist 0.3 to 0.7" << endl;
     cout << "PSO using "<< nMoments << " moments." << endl;
     cout << "Sample Size:" << N << " Nparts:" << Nparts << " Nsteps:" << Nsteps << endl;
@@ -537,7 +538,7 @@ int main() {
     MatrixXd X_0(N, Npars);
     MatrixXd Y_0(N, Npars);
     ifstream X0File("X_0.txt");
-    ifstream Y0File("X_0.txt");
+    ifstream Y0File("Y_0.txt");
     X_0 = readIntoMatrix(X0File, N, N_SPECIES); // Bill initCond
     Y_0 = readIntoMatrix(Y0File, N, N_SPECIES); 
     // for(int i = 0; i < N; i++){
