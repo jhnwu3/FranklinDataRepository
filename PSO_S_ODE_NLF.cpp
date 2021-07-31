@@ -16,7 +16,7 @@
 #include <boost/numeric/odeint/external/openmp/openmp.hpp>
 
 #define N_SPECIES 6
-#define N 5000 // # of samples to sample over
+#define N 25000 // # of samples to sample over
 #define N_DIM 6 // dim of PSO hypercube
 
 using Eigen::MatrixXd;
@@ -536,23 +536,23 @@ int main() {
     /* Initial Conditions */
     MatrixXd X_0(N, Npars);
     MatrixXd Y_0(N, Npars);
-    ifstream X0File("initial-X0.txt");
-    ifstream Y0File("initial-Y0.txt");
-    // X_0 = readIntoMatrix(X0File, N, N_SPECIES); // Bill initCond
-    // Y_0 = readIntoMatrix(Y0File, N, N_SPECIES); 
-    for(int i = 0; i < N; i++){
-        X_0.row(i) = gen_multinorm_iVec();
-        Y_0.row(i) = gen_multinorm_iVec();
-    }
+    ifstream X0File("X_0.txt");
+    ifstream Y0File("X_0.txt");
+    X_0 = readIntoMatrix(X0File, N, N_SPECIES); // Bill initCond
+    Y_0 = readIntoMatrix(Y0File, N, N_SPECIES); 
+    // for(int i = 0; i < N; i++){
+    //     X_0.row(i) = gen_multinorm_iVec();
+    //     Y_0.row(i) = gen_multinorm_iVec();
+    // }
 
     /* Solve for Y_t (mu). */
     struct K tru;
     tru.k = VectorXd::Zero(Npars);
-    tru.k << 5.0, 0.1, 1.0, 8.69, 0.05, 0.70;
-    tru.k /= (9.69);
-    tru.k(1) += 0.05;
-    tru.k(4) += 0.05; // make sure not so close to the boundary
-    //tru.k <<  0.51599600,  0.06031990, 0.10319900, 0.89680100, 0.05516000, 0.00722394; // Bill k
+    // tru.k << 5.0, 0.1, 1.0, 8.69, 0.05, 0.70;
+    // tru.k /= (9.69);
+    // tru.k(1) += 0.05;
+    // tru.k(4) += 0.05; // make sure not so close to the boundary
+    tru.k <<  0.51599600,  0.06031990, 0.10319900, 0.89680100, 0.05516000, 0.00722394; // Bill k
     Nonlinear_ODE6 trueSys(tru);
     Protein_Moments Yt(tf, nMoments);
     Mom_ODE_Observer YtObs(Yt);
