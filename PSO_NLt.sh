@@ -7,5 +7,5 @@
 #SBATCH --ntasks-per-node=1
 set -e
 echo "PSO_S_ODE_NonLinear"
-./PSO_NL
-mv GBMAT.csv GBMAT_$(date +%F-%H%M).csv  
+./PSO_NLt
+mv GBMAT.csv data/GBMAT_$(date +%F-%H%M).csv  

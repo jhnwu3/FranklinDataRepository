@@ -3,7 +3,7 @@
 CXX = g++
 
 # target all means all targets currently defined in this file 
-all: PSO para PSO_S PSO_S_ODE_NL PSO_S_ODE_L PSO_S_ODE_NLF
+all: PSO para PSO_NL PSO_NLt
 
 # target dependencies for main PSO program - also equally messy code inside!
 PSO: main.o fileIO.o ODE.o calc.o
@@ -23,32 +23,19 @@ para: para.o
 para.o: para.cpp
 	g++ -c para.cpp -o para.o -fopenmp
 
-# this target is for the executable of Dr. Stewarts PSO alg converted to C++ 
-# mat exponentiation
-PSO_S: PSO_S.o 
-	g++ PSO_S.o -o PSO_S
-# this target is the dependency for PSO.o
-PSO_S.o: PSO_S.cpp
-	g++ -c PSO_S.cpp
+# nonlinear PSO equal weights
+PSO_NL: PSO_NL.o 
+	g++ PSO_NL.o -o PSO_NL -fopenmp
+PSO_NL.o: PSO_NL.cpp
+	g++ -c -O3 -fopenmp PSO_NL.cpp
 
-# PSO_S_ODE but instead of mat exponentation, do nonlinear ODEs!
-PSO_S_ODE_NL: PSO_S_ODE_NL.o
-	g++ PSO_S_ODE_NL.o -o PSO_S_ODE_NL -fopenmp
-PSO_S_ODE_NL.o: PSO_S_ODE_NL.cpp
-	g++ -c -O3 -fopenmp PSO_S_ODE_NL.cpp
-
-PSO_S_ODE_NLF: PSO_S_ODE_NLF.o 
-	g++ PSO_S_ODE_NLF.o -o PSO_S_ODE_NLF -fopenmp
-PSO_S_ODE_NLF.o: PSO_S_ODE_NLF.cpp
-	g++ -c -O3 -fopenmp PSO_S_ODE_NLF.cpp
-
-# PSO_S_ODE but instead of mat exponentation, do nonlinear ODEs!
-PSO_S_ODE_L: PSO_S_ODE_L.o
-	g++ PSO_S_ODE_L.o -o PSO_S_ODE_L -fopenmp
-PSO_S_ODE_L.o: PSO_S_ODE_L.cpp
-	g++ -c -O3 -fopenmp PSO_S_ODE_L.cpp
+# nonlinear PSO unequal wts
+PSO_NLt: PSO_NLt.o 
+	g++ PSO_NLt.o -o PSO_NLt -fopenmp
+PSO_NLt.o: PSO_NLt.cpp
+	g++ -c -O3 -fopenmp PSO_NLt.cpp
 	
 # this target deletes all files produced from the Makefile
 # so that a completely new compile of all items is required
 clean:
-	rm -rf *.o PSO_S PSO PSO_S_ODE
+	rm -rf *.o PSO_S PSO PSO_NL PSO_NLt

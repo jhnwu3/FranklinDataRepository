@@ -7,4 +7,4 @@
 #SBATCH --ntasks-per-node=8
 set -e
 echo "PSO_S_ODE_Linear"
-./PSO_S_ODE_L
+./PSO_L

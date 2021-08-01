@@ -1,9 +1,0 @@
-PSO_S_ODE_Linear
-./PSO_S_ODE_L: /lib64/libstdc++.so.6: version `GLIBCXX_3.4.26' not found (required by ./PSO_S_ODE_L)
-Job Statistics for 1412940:
-           JobID       User               Start                 End    Elapsed     MaxRSS   TotalCPU      State Exit        NodeList                                  ReqTRES 
----------------- ---------- ------------------- ------------------- ---------- ---------- ---------- ---------- ---- --------------- ---------------------------------------- 
-         1412940   rsjxw007 2021-07-02T17:21:00 2021-07-02T17:21:01   00:00:01             00:00.010     FAILED  1:0   r1pl-hpcf-n21         billing=1,cpu=1,mem=7812M,node=1 
-   1412940.batch            2021-07-02T17:21:00 2021-07-02T17:21:01   00:00:01          0  00:00.008     FAILED  1:0   r1pl-hpcf-n21                                          
-  1412940.extern            2021-07-02T17:21:00 2021-07-02T17:21:01   00:00:01          0  00:00.001  COMPLETED  0:0   r1pl-hpcf-n21                                          
-CPU Efficiency: 0.00% of 00:00:01 core-walltime

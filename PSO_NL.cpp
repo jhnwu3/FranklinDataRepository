@@ -129,12 +129,12 @@ public:
     }
 };
 
-struct Data_Components {
+struct Protein_Components {
     int index;
     MatrixXd mat;
     VectorXd mVec;
     double timeToRecord;
-    Data_Components(double tf, int mom, int n) {
+    Protein_Components(double tf, int mom, int n) {
         mVec = VectorXd::Zero(mom);
         mat = MatrixXd::Zero(n, N_SPECIES);
         timeToRecord = tf;
@@ -150,10 +150,10 @@ struct Protein_Moments {
 
 };
 
-struct Mom_ODE_Observer
+struct Moments_Vec_Obs
 {
     struct Protein_Moments& pMome;
-    Mom_ODE_Observer(struct Protein_Moments& pMom) : pMome(pMom) {}
+    Moments_Vec_Obs(struct Protein_Moments& pMom) : pMome(pMom) {}
     void operator()(State_N const& c, const double t) const
     {
         if (t == pMome.timeToRecord) {
@@ -175,17 +175,17 @@ struct Mom_ODE_Observer
     }
 };
 
-struct Data_ODE_Observer
+struct Moments_Mat_Observer
 {
-    struct Data_Components& dComp;
-    Data_ODE_Observer(struct Data_Components& dCom) : dComp(dCom) {}
+    struct Protein_Components& dComp;
+    Moments_Mat_Observer(struct Protein_Components& dCom) : dComp(dCom) {}
     void operator()(State_N const& c, const double t) const
     {
         if (t == dComp.timeToRecord) {
             int upperDiag = 2 * N_SPECIES;
-            for (int i = 0; i < dComp.mat.cols(); i++) { dComp.mat(dComp.index, i) = c[i]; }
             for (int i = 0; i < N_SPECIES; i++) {
                 dComp.mVec(i) += c[i];
+                dComp.mat(dComp.index, i) = c[i];
                 for (int j = i; j < N_SPECIES; j++) {
                     if (i == j) { // diagonal elements
                         dComp.mVec(N_SPECIES + i) += c[i] * c[j];
@@ -200,41 +200,6 @@ struct Data_ODE_Observer
     }
 };
 
-struct Data_ODE_Observer3
-{
-    struct Data_Components& dComp;
-    Data_ODE_Observer3(struct Data_Components& dCom) : dComp(dCom) {}
-    void operator()(State_3 const& c, const double t) const
-    {
-        if (t == dComp.timeToRecord) {
-            for (int i = 0; i < dComp.mat.cols(); i++) { dComp.mat(dComp.index, i) = c[i]; }
-        }
-    }
-};
-struct Data_Components6 {
-    int index;
-    MatrixXd mat;
-    VectorXd sub;
-    double timeToRecord;
-};
-struct Data_ODE_Observer6
-{
-    struct Data_Components6& dComp;
-    Data_ODE_Observer6(struct Data_Components6& dCom) : dComp(dCom) {}
-    void operator()(State_N const& c, const double t) const
-    {
-        if (t == dComp.timeToRecord) {
-            int i = 0, j = 0;
-            while (i < N_SPECIES && j < dComp.sub.size()) {
-                if (i == dComp.sub(j)) {
-                    dComp.mat(dComp.index, j) = c[i];
-                    j++;
-                }
-                i++;
-            }
-        }
-    }
-};
 State_N gen_multi_lognorm_iSub(void) {
     State_N c0;
     VectorXd mu(3);
@@ -556,7 +521,7 @@ int main() {
     tru.k <<  0.51599600,  0.06031990, 0.10319900, 0.89680100, 0.05516000, 0.00722394; // Bill k
     Nonlinear_ODE6 trueSys(tru);
     Protein_Moments Yt(tf, nMoments);
-    Mom_ODE_Observer YtObs(Yt);
+    Moments_Vec_Obs YtObs(Yt);
     Controlled_RK_Stepper_N controlledStepper;
     for (int i = 0; i < N; i++) {
         //State_N c0 = gen_multi_norm_iSub(); // Y_0 is simulated using norm dist.
@@ -578,7 +543,7 @@ int main() {
     }
     
     Protein_Moments Xt(tf, nMoments);
-    Mom_ODE_Observer XtObs(Xt);
+    Moments_Vec_Obs XtObs(Xt);
     Nonlinear_ODE6 sys(seed);
     
     for (int i = 0; i < N; i++) {
@@ -625,7 +590,7 @@ int main() {
                 }
                 Nonlinear_ODE6 initSys(pos);
                 Protein_Moments XtPSO(tf, nMoments);
-                Mom_ODE_Observer XtObsPSO(XtPSO);
+                Moments_Vec_Obs XtObsPSO(XtPSO);
                 for(int i = 0; i < N; i++){
                     //State_N c0 = gen_multi_norm_iSub();
                     State_N c0 = convertInit(X_0, i);
@@ -659,7 +624,7 @@ int main() {
 
                 /*solve ODEs and recompute cost */
                 Protein_Moments XtPSO(tf, nMoments);
-                Mom_ODE_Observer XtObsPSO1(XtPSO);
+                Moments_Vec_Obs XtObsPSO1(XtPSO);
                 Nonlinear_ODE6 stepSys(pos);
        
                 for(int i = 0; i < N; i++){

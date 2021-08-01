@@ -7,4 +7,4 @@
 #SBATCH --ntasks-per-node=8
 set -e
 echo "PSO_S_ODE_NonLinear"
-./PSO_S_ODE_NL
+./PSO_NL3
