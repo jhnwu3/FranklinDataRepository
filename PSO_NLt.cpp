@@ -175,10 +175,10 @@ struct Moments_Vec_Obs
     }
 };
 
-struct Moments_Mat_Observer
+struct Moments_Mat_Obs
 {
     struct Protein_Components& dComp;
-    Moments_Mat_Observer(struct Protein_Components& dCom) : dComp(dCom) {}
+    Moments_Mat_Obs(struct Protein_Components& dCom) : dComp(dCom) {}
     void operator()(State_N const& c, const double t) const
     {
         if (t == dComp.timeToRecord) {
@@ -476,8 +476,8 @@ int main() {
     int nMoments = (N_SPECIES * (N_SPECIES + 3)) / 2;
     // nMoments = 2*N_SPECIES;
     // nMoments = N_SPECIES;
-    cout << "This is the Y_0 required!"<< endl;
-    cout << "using constrained unif dist 0.3 to 0.7" << endl;
+    cout << "Using unequal weights, not targeted PSO (yet)"<< endl;
+    cout << "using unconstrained unifdist" << endl;
     cout << "PSO using "<< nMoments << " moments." << endl;
     cout << "Sample Size:" << N << " Nparts:" << Nparts << " Nsteps:" << Nsteps << endl;
     cout << "using tf:" << tf << endl;
@@ -499,6 +499,8 @@ int main() {
 
     VectorXd wmatup(4);
     wmatup << 0.15, 0.3, .45, .6;
+    VectorXd chkpts = wmatup * Nsteps;
+
     /* Initial Conditions */
     MatrixXd X_0(N, Npars);
     MatrixXd Y_0(N, Npars);
@@ -520,8 +522,8 @@ int main() {
     // tru.k(4) += 0.05; // make sure not so close to the boundary
     tru.k <<  0.51599600,  0.06031990, 0.10319900, 0.89680100, 0.05516000, 0.00722394; // Bill k
     Nonlinear_ODE6 trueSys(tru);
-    Protein_Moments Yt(tf, nMoments);
-    Moments_Vec_Obs YtObs(Yt);
+    Protein_Components Yt(tf, nMoments, N);
+    Moments_Mat_Obs YtObs(Yt);
     Controlled_RK_Stepper_N controlledStepper;
     for (int i = 0; i < N; i++) {
         //State_N c0 = gen_multi_norm_iSub(); // Y_0 is simulated using norm dist.
@@ -536,23 +538,19 @@ int main() {
     struct K seed;
     seed.k = VectorXd::Zero(Npars); 
     for (int i = 0; i < Npars; i++) { 
-        seed.k(i) = unifDist(gen);//tru.k(i) + alpha * (0.5 - unifDist(gen));
-        // if(seed.k(i) < 0){
-        //     seed.k(i) = - seed.k(i);
-        // }
+        seed.k(i) = unifDist(gen);
     }
     
-    Protein_Moments Xt(tf, nMoments);
-    Moments_Vec_Obs XtObs(Xt);
+    Protein_Components Xt(tf, nMoments, N);
+    Moments_Mat_Obs XtObs(Xt);
     Nonlinear_ODE6 sys(seed);
-    
     for (int i = 0; i < N; i++) {
         //State_N c0 = gen_multi_norm_iSub();
         State_N c0 = convertInit(X_0, i);
         integrate_adaptive(controlledStepper, sys, c0, t0, tf, dt, XtObs);
     }
     Xt.mVec /= N;  
-    //Xt.sec /= N;
+
     double costSeedk = calculate_cf2(Yt.mVec, Xt.mVec, wt); 
     cout << "seedk:"<< seed.k.transpose()<< "| cost:" << costSeedk << endl;
     cout << "Xt:" << Xt.mVec.transpose() << endl;
@@ -589,8 +587,8 @@ int main() {
                     pos.k(i) = POSMAT(particle, i);
                 }
                 Nonlinear_ODE6 initSys(pos);
-                Protein_Moments XtPSO(tf, nMoments);
-                Moments_Vec_Obs XtObsPSO(XtPSO);
+                Protein_Components XtPSO(tf, nMoments, N);
+                Moments_Mat_Obs XtObsPSO(XtPSO);
                 for(int i = 0; i < N; i++){
                     //State_N c0 = gen_multi_norm_iSub();
                     State_N c0 = convertInit(X_0, i);
@@ -623,18 +621,52 @@ int main() {
                 POSMAT.row(particle) = pos.k;
 
                 /*solve ODEs and recompute cost */
-                Protein_Moments XtPSO(tf, nMoments);
-                Moments_Vec_Obs XtObsPSO1(XtPSO);
+                Protein_Components XtPSO(tf, nMoments, N);
+                Moments_Mat_Obs XtObsPSO1(XtPSO);
                 Nonlinear_ODE6 stepSys(pos);
        
                 for(int i = 0; i < N; i++){
                     State_N c0 = convertInit(X_0, i);
                     integrate_adaptive(controlledStepper, stepSys, c0, t0, tf, dt, XtObsPSO1);
                 }
-                
                 XtPSO.mVec/=N;
-                double cost = calculate_cf2(Yt.mVec, XtPSO.mVec, wt);
                 
+                /* first moment differences */
+                MatrixXd fmdiffs = Yt.mat - XtPSO.mat; 
+                /* second moment difference computations - @todo make it variable later */
+                MatrixXd smdiffs(N,6);
+                for(int i = 0; i < N_SPECIES; i++){
+                    smdiffs.col(i) = (Yt.mat.col(i).array() * Yt.mat.col(i).array()) - (XtPSO.mat.col(i).array() * XtPSO.mat.col(i).array());
+                }
+                int nCross = nMoments - 2 * N_SPECIES;
+                MatrixXd cpDiff(N, nCross);
+               
+                /* cross differences */
+                int upperDiag = 0;
+                for(int i = 0; i < N_SPECIES; i++){
+                    for(int j = i + 1; j < N_SPECIES; j++){
+                        cpDiff.col(upperDiag) = (Yt.mat.col(i).array() * Yt.mat.col(j).array()) - (XtPSO.mat.col(i).array() * XtPSO.mat.col(j).array());
+                        upperDiag++;
+                    }
+                }
+                MatrixXd aDiff(N, nMoments);
+                for(int i = 0; i < N; i++){
+                    for(int moment = 0; moment < nMoments; moment++){
+                        if(moment < N_SPECIES){
+                            aDiff(i, moment) = fmdiffs(i, moment);
+                        }else if (moment >= N_SPECIES && moment < 2 * N_SPECIES){
+                            aDiff(i, moment) = smdiffs(i, moment - N_SPECIES);
+                        }else{
+                            aDiff(i, moment) = cpDiff(i, moment - (2 * N_SPECIES));
+                        }
+                    }
+                }
+                double cost = 0;
+                VectorXd means = aDiff.colwise().mean();
+                VectorXd variances(nMoments);
+                for(int i = 0; i < nMoments; i++){
+                    variances(i) = (aDiff.col(i).array() - aDiff.col(i).array().mean()).square().sum() / ((double) aDiff.col(i).array().size() - 1);
+                }
                 /* update gBest and pBest */
                 // #pragma omp critical
                 // {
