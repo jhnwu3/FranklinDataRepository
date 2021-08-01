@@ -667,6 +667,9 @@ int main() {
                 for(int i = 0; i < nMoments; i++){
                     variances(i) = (aDiff.col(i).array() - aDiff.col(i).array().mean()).square().sum() / ((double) aDiff.col(i).array().size() - 1);
                 }
+                for(int i = 0 ; i < nMoments; i++){
+                    cost += (means(i) * means(i)) / variances(i);
+                }
                 /* update gBest and pBest */
                 // #pragma omp critical
                 // {
