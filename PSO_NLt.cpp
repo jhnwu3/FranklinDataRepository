@@ -528,6 +528,7 @@ int main() {
     for (int i = 0; i < N; i++) {
         //State_N c0 = gen_multi_norm_iSub(); // Y_0 is simulated using norm dist.
         State_N c0 = convertInit(Y_0, i);
+        Yt.index = i;
         integrate_adaptive(controlledStepper, trueSys, c0, t0, tf, dt, YtObs);
     }
     Yt.mVec /= N;
@@ -547,6 +548,7 @@ int main() {
     for (int i = 0; i < N; i++) {
         //State_N c0 = gen_multi_norm_iSub();
         State_N c0 = convertInit(X_0, i);
+        Xt.index = i;
         integrate_adaptive(controlledStepper, sys, c0, t0, tf, dt, XtObs);
     }
     Xt.mVec /= N;  
@@ -592,6 +594,7 @@ int main() {
                 for(int i = 0; i < N; i++){
                     //State_N c0 = gen_multi_norm_iSub();
                     State_N c0 = convertInit(X_0, i);
+                    XtPSO.index = i;
                     integrate_adaptive(controlledStepper, initSys, c0, t0, tf, dt, XtObsPSO);
                 }
                 XtPSO.mVec/=N;
@@ -627,6 +630,7 @@ int main() {
        
                 for(int i = 0; i < N; i++){
                     State_N c0 = convertInit(X_0, i);
+                    XtPSO.index = i;
                     integrate_adaptive(controlledStepper, stepSys, c0, t0, tf, dt, XtObsPSO1);
                 }
                 XtPSO.mVec/=N;
