@@ -509,9 +509,9 @@ int main() {
     double sfp = 3.0, sfg = 1.0, sfe = 6.0; // initial particle historical weight, global weight social, inertial
     double sfi = sfe, sfc = sfp, sfs = sfg; // below are the variables being used to reiterate weights
     double alpha = 0.2;
-    int nParts = 300;
+    int nParts = 300; // first part PSO
     int nSteps = 40;
-    int nParts2 = 20;
+    int nParts2 = 20; // second part PSO
     int nSteps2 = 200;
     int nMoments = (N_SPECIES * (N_SPECIES + 3)) / 2;
     double uniLowBound = 0.0, uniHiBound = 1.0;
@@ -717,10 +717,8 @@ int main() {
     
   
     /*** targeted PSO ***/
-    nParts = nParts2; // new particle and step parameters
-    nSteps = nSteps2;
-    POSMAT.conservativeResize(nParts, Npars);
-    PBMAT.conservativeResize(nParts, Npars + 1);
+    POSMAT.conservativeResize(nParts2, Npars); // resize memory
+    PBMAT.conservativeResize(nParts2, Npars + 1);
     cout << "targeted PSO has started!" << endl; 
     /* reinstantiate gCost */
     struct K gPos;
@@ -743,9 +741,9 @@ int main() {
     sfp = 3.0, sfg = 1.0, sfe = 6.0; // initial particle historical weight, global weight social, inertial
     sfi = sfe, sfc = sfp, sfs = sfg; // below are the variables being used to reiterate weights
     double nearby = sdbeta;
-    for(int step = 0; step < nSteps; step++){
+    for(int step = 0; step < nSteps2; step++){
     //#pragma omp parallel for 
-        for(int particle = 0; particle < nParts; particle++){
+        for(int particle = 0; particle < nParts2; particle++){
             random_device pRanDev;
             mt19937 pGenerator(pRanDev());
             uniform_real_distribution<double> pUnifDist(0.0, 1.0);
