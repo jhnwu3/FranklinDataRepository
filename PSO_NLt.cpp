@@ -493,15 +493,11 @@ double customMatrixCost(const MatrixXd& Yt, const MatrixXd& Xt, int nMoments){
 int main() {
 
     auto t1 = std::chrono::high_resolution_clock::now();
-    random_device RanDev;
-    mt19937 gen(RanDev());
-    uniform_real_distribution<double> unifDist(0.0, 1.0);
-    uniform_real_distribution<double> cUnifDist(0.3, 0.7);
     /*---------------------- Setup ------------------------ */
     
     /* Variables (global) */
     double t0 = 0, tf = 5.0 * 9.69, dt = 1.0;
-    int Nprots = 3, Npars = 6;
+    int Npars = 6;
     double squeeze = 0.975, sdbeta = 0.15;
     double boundary = 0.001;
     /* SETUP */
@@ -513,20 +509,26 @@ int main() {
     double sfp = 3.0, sfg = 1.0, sfe = 6.0; // initial particle historical weight, global weight social, inertial
     double sfi = sfe, sfc = sfp, sfs = sfg; // below are the variables being used to reiterate weights
     double alpha = 0.2;
-    int Nparts = 300;
-    int Nsteps = 40;
+    int nParts = 300;
+    int nSteps = 40;
+    int nParts2 = 30;
+    int nSteps2 = 60;
     int nMoments = (N_SPECIES * (N_SPECIES + 3)) / 2;
+    double uniLowBound = 0.0, uniHiBound = 1.0;
+    random_device RanDev;
+    mt19937 gen(RanDev());
+    uniform_real_distribution<double> unifDist(uniLowBound, uniHiBound);
     // nMoments = 2*N_SPECIES;
     // nMoments = N_SPECIES;
-    cout << "Using unequal weights, not targeted PSO (yet)"<< endl;
-    cout << "using unconstrained unifdist" << endl;
+    cout << "Using two part PSO"<< endl;
+    cout << "Bounds for Uniform Distribution" << uniLowBound << "," << uniHiBound << endl;
     cout << "PSO using "<< nMoments << " moments." << endl;
-    cout << "Sample Size:" << N << " Nparts:" << Nparts << " Nsteps:" << Nsteps << endl;
+    cout << "Sample Size:" << N << " Nparts:" << nParts << " Nsteps:" << nSteps << endl;
     cout << "using tf:" << tf << endl;
     MatrixXd wt = MatrixXd::Identity(nMoments, nMoments); // wt matrix
     MatrixXd GBMAT(0, 0); // iterations of global best vectors
-    MatrixXd PBMAT(Nparts, Npars + 1); // particle best matrix + 1 for cost component
-    MatrixXd POSMAT(Nparts, Npars); // Position matrix as it goees through it in parallel
+    MatrixXd PBMAT(nParts, Npars + 1); // particle best matrix + 1 for cost component
+    MatrixXd POSMAT(nParts, Npars); // Position matrix as it goees through it in parallel
     VectorXd mvnVec(3);
     mvnVec << 80,
         120,
@@ -541,7 +543,7 @@ int main() {
 
     VectorXd wmatup(4);
     wmatup << 0.15, 0.3, .45, .6;
-    VectorXd chkpts = wmatup * Nsteps;
+    VectorXd chkpts = wmatup * nSteps;
 
     /* Initial Conditions */
     MatrixXd X_0(N, Npars);
@@ -609,9 +611,9 @@ int main() {
     cout << "PSO begins!" << endl;
     
     /* PSO begins */
-    for(int step = 0; step < Nsteps; step++){
+    for(int step = 0; step < nSteps; step++){
     //#pragma omp parallel for 
-        for(int particle = 0; particle < Nparts; particle++){
+        for(int particle = 0; particle < nParts; particle++){
             random_device pRanDev;
             mt19937 pGenerator(pRanDev());
             uniform_real_distribution<double> pUnifDist(0.0, 1.0);
@@ -699,8 +701,8 @@ int main() {
                //}
             }
         }
-        sfi = sfi - (sfe - sfg) / Nsteps;   // reduce the inertial weight after each step 
-        sfs = sfs + (sfe - sfg) / Nsteps;
+        sfi = sfi - (sfe - sfg) / nSteps;   // reduce the inertial weight after each step 
+        sfs = sfs + (sfe - sfg) / nSteps;
     }
     // cout << "POSMAT:" << endl; 
     // cout <<  POSMAT<< endl << endl;
@@ -708,15 +710,17 @@ int main() {
     // cout << PBMAT << endl << endl;
     cout << "GBMAT from first PSO:" << endl << endl;
     cout << GBMAT << endl << endl;
-    cout << "truk" << tru.k.transpose() << endl;
+    cout << "truk: " << tru.k.transpose() << endl;
     double dist = calculate_cf1(tru.k, GBVEC);
-    cout << "total difference b/w truk and final GBVEC" << dist << endl; // compute difference
+    cout << "total difference b/w truk and final GBVEC" << dist << endl << endl; // compute difference
     
   
     /*** targeted PSO ***/
-    Nparts = 30; // new particle and step parameters
-    Nsteps = 60;
-    cout << "targeted PSO has started! using:" << " particles:" <<  Nparts << " Nsteps:" << Nsteps << endl;
+    nParts = nParts2; // new particle and step parameters
+    nSteps = nSteps2;
+    POSMAT.conservativeResize(nParts, Npars);
+    PBMAT.conservativeResize(nParts, nSteps);
+    cout << "targeted PSO has started! using " << " nParts:" <<  nParts << " Nsteps:" << nSteps << endl;
     /* reinstantiate gCost */
     struct K gPos;
     gPos.k = GBVEC;
@@ -738,9 +742,9 @@ int main() {
     sfp = 3.0, sfg = 1.0, sfe = 6.0; // initial particle historical weight, global weight social, inertial
     sfi = sfe, sfc = sfp, sfs = sfg; // below are the variables being used to reiterate weights
     double nearby = sdbeta;
-    for(int step = 0; step < Nsteps; step++){
+    for(int step = 0; step < nSteps; step++){
     //#pragma omp parallel for 
-        for(int particle = 0; particle < Nparts; particle++){
+        for(int particle = 0; particle < nParts; particle++){
             random_device pRanDev;
             mt19937 pGenerator(pRanDev());
             uniform_real_distribution<double> pUnifDist(0.0, 1.0);
@@ -844,10 +848,13 @@ int main() {
                // }
             }
         }
-        sfi = sfi - (sfe - sfg) / Nsteps;   // reduce the inertial weight after each step 
-        sfs = sfs + (sfe - sfg) / Nsteps;
+        sfi = sfi - (sfe - sfg) / nSteps;   // reduce the inertial weight after each step 
+        sfs = sfs + (sfe - sfg) / nSteps;
     }
     cout << "GBMAT after targeted PSO:" << endl << GBMAT << endl;
+    cout << "truk: " << tru.k.transpose() << endl;
+    dist = calculate_cf1(tru.k, GBVEC);
+    cout << "total difference b/w truk and final GBVEC" << dist << endl; // compute difference
 
     ofstream plot;
 	plot.open("GBMAT.csv");
