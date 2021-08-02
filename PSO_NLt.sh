@@ -1,6 +1,6 @@
 #!/bin/bash
 #SBATCH --time=0-80:10:00 
-#SBATCH --job-name=PSO_ODE_Nonlinear
+#SBATCH --job-name=PSO_ODE_Targetted
 #SBATCH --nodes=1
 #SBATCH --output=./slurm_outputs/NLt%j.txt
 #SBATCH --partition=general

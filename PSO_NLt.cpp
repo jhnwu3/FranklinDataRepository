@@ -720,7 +720,7 @@ int main() {
     nParts = nParts2; // new particle and step parameters
     nSteps = nSteps2;
     POSMAT.conservativeResize(nParts, Npars);
-    PBMAT.conservativeResize(nParts, nSteps);
+    PBMAT.conservativeResize(nParts, Npars + 1);
     cout << "targeted PSO has started!" << endl; 
     /* reinstantiate gCost */
     struct K gPos;
