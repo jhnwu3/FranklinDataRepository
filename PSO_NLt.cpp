@@ -509,10 +509,10 @@ int main() {
     double sfp = 3.0, sfg = 1.0, sfe = 6.0; // initial particle historical weight, global weight social, inertial
     double sfi = sfe, sfc = sfp, sfs = sfg; // below are the variables being used to reiterate weights
     double alpha = 0.2;
-    int nParts = 900;
+    int nParts = 300;
     int nSteps = 40;
-    int nParts2 = 30;
-    int nSteps2 = 80;
+    int nParts2 = 20;
+    int nSteps2 = 200;
     int nMoments = (N_SPECIES * (N_SPECIES + 3)) / 2;
     double uniLowBound = 0.0, uniHiBound = 1.0;
     random_device RanDev;
@@ -616,7 +616,7 @@ int main() {
         for(int particle = 0; particle < nParts; particle++){
             random_device pRanDev;
             mt19937 pGenerator(pRanDev());
-            uniform_real_distribution<double> pUnifDist(0.0, 1.0);
+            uniform_real_distribution<double> pUnifDist(uniLowBound, uniHiBound);
             /* instantiate all particle rate constants with unifDist */
             if(step == 0){
                 /* temporarily assign specified k constants */
