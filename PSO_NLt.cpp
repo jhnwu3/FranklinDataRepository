@@ -491,7 +491,6 @@ double customMatrixCost(const MatrixXd& Yt, const MatrixXd& Xt, int nMoments){
 }
 
 int main() {
-
     auto t1 = std::chrono::high_resolution_clock::now();
     /*---------------------- Setup ------------------------ */
     
@@ -509,7 +508,7 @@ int main() {
     double sfp = 3.0, sfg = 1.0, sfe = 6.0; // initial particle historical weight, global weight social, inertial
     double sfi = sfe, sfc = sfp, sfs = sfg; // below are the variables being used to reiterate weights
     double alpha = 0.2;
-    int nParts = 300; // first part PSO
+    int nParts = 900; // first part PSO
     int nSteps = 40;
     int nParts2 = 20; // second part PSO
     int nSteps2 = 200;
@@ -717,7 +716,7 @@ int main() {
     
   
     /*** targeted PSO ***/
-    POSMAT.conservativeResize(nParts2, Npars); // resize memory
+    POSMAT.conservativeResize(nParts2, Npars); // resize matrices to fit targetted PSO
     PBMAT.conservativeResize(nParts2, Npars + 1);
     cout << "targeted PSO has started!" << endl; 
     /* reinstantiate gCost */
