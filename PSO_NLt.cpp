@@ -522,8 +522,9 @@ int main() {
     // nMoments = N_SPECIES;
     cout << "Using two part PSO"<< endl;
     cout << "Bounds for Uniform Distribution" << uniLowBound << "," << uniHiBound << endl;
-    cout << "PSO using "<< nMoments << " moments." << endl;
+    cout << "Blind PSO using "<< nMoments << " moments." << endl;
     cout << "Sample Size:" << N << " Nparts:" << nParts << " Nsteps:" << nSteps << endl;
+    cout << "Targeted PSO updated with.... nParts:" <<  nParts2 << " Nsteps:" << nSteps2 << endl;
     cout << "using tf:" << tf << endl;
     MatrixXd wt = MatrixXd::Identity(nMoments, nMoments); // wt matrix
     MatrixXd GBMAT(0, 0); // iterations of global best vectors
@@ -720,7 +721,7 @@ int main() {
     nSteps = nSteps2;
     POSMAT.conservativeResize(nParts, Npars);
     PBMAT.conservativeResize(nParts, nSteps);
-    cout << "targeted PSO has started! using " << " nParts:" <<  nParts << " Nsteps:" << nSteps << endl;
+    cout << "targeted PSO has started!" << endl; 
     /* reinstantiate gCost */
     struct K gPos;
     gPos.k = GBVEC;
