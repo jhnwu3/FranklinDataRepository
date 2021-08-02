@@ -447,6 +447,48 @@ MatrixXd readIntoMatrix(ifstream& in, int rows, int cols) {
     }
     return mat;
 }
+double customMatrixCost(const MatrixXd& Yt, const MatrixXd& Xt, int nMoments){
+    /* first moment differences */
+    MatrixXd fmdiffs = Yt - Xt; 
+    /* second moment difference computations - @todo make it variable later */
+    MatrixXd smdiffs(N,6);
+    for(int i = 0; i < N_SPECIES; i++){
+        smdiffs.col(i) = (Yt.col(i).array() * Yt.col(i).array()) - (Xt.col(i).array() * Xt.col(i).array());
+    }
+    int nCross = nMoments - 2 * N_SPECIES;
+    MatrixXd cpDiff(N, nCross);
+    
+    /* cross differences */
+    int upperDiag = 0;
+    for(int i = 0; i < N_SPECIES; i++){
+        for(int j = i + 1; j < N_SPECIES; j++){
+            cpDiff.col(upperDiag) = (Yt.col(i).array() * Yt.col(j).array()) - (Xt.col(i).array() * Xt.col(j).array());
+            upperDiag++;
+        }
+    }
+    MatrixXd aDiff(N, nMoments);
+    for(int i = 0; i < N; i++){
+        for(int moment = 0; moment < nMoments; moment++){
+            if(moment < N_SPECIES){
+                aDiff(i, moment) = fmdiffs(i, moment);
+            }else if (moment >= N_SPECIES && moment < 2 * N_SPECIES){
+                aDiff(i, moment) = smdiffs(i, moment - N_SPECIES);
+            }else{
+                aDiff(i, moment) = cpDiff(i, moment - (2 * N_SPECIES));
+            }
+        }
+    }
+    double cost = 0;
+    VectorXd means = aDiff.colwise().mean();
+    VectorXd variances(nMoments);
+    for(int i = 0; i < nMoments; i++){
+        variances(i) = (aDiff.col(i).array() - aDiff.col(i).array().mean()).square().sum() / ((double) aDiff.col(i).array().size() - 1);
+    }
+    for(int i = 0 ; i < nMoments; i++){
+        cost += (means(i) * means(i)) / variances(i);
+    }
+    return cost;
+}
 
 int main() {
 
@@ -635,45 +677,7 @@ int main() {
                 }
                 XtPSO.mVec/=N;
                 
-                /* first moment differences */
-                MatrixXd fmdiffs = Yt.mat - XtPSO.mat; 
-                /* second moment difference computations - @todo make it variable later */
-                MatrixXd smdiffs(N,6);
-                for(int i = 0; i < N_SPECIES; i++){
-                    smdiffs.col(i) = (Yt.mat.col(i).array() * Yt.mat.col(i).array()) - (XtPSO.mat.col(i).array() * XtPSO.mat.col(i).array());
-                }
-                int nCross = nMoments - 2 * N_SPECIES;
-                MatrixXd cpDiff(N, nCross);
-               
-                /* cross differences */
-                int upperDiag = 0;
-                for(int i = 0; i < N_SPECIES; i++){
-                    for(int j = i + 1; j < N_SPECIES; j++){
-                        cpDiff.col(upperDiag) = (Yt.mat.col(i).array() * Yt.mat.col(j).array()) - (XtPSO.mat.col(i).array() * XtPSO.mat.col(j).array());
-                        upperDiag++;
-                    }
-                }
-                MatrixXd aDiff(N, nMoments);
-                for(int i = 0; i < N; i++){
-                    for(int moment = 0; moment < nMoments; moment++){
-                        if(moment < N_SPECIES){
-                            aDiff(i, moment) = fmdiffs(i, moment);
-                        }else if (moment >= N_SPECIES && moment < 2 * N_SPECIES){
-                            aDiff(i, moment) = smdiffs(i, moment - N_SPECIES);
-                        }else{
-                            aDiff(i, moment) = cpDiff(i, moment - (2 * N_SPECIES));
-                        }
-                    }
-                }
-                double cost = 0;
-                VectorXd means = aDiff.colwise().mean();
-                VectorXd variances(nMoments);
-                for(int i = 0; i < nMoments; i++){
-                    variances(i) = (aDiff.col(i).array() - aDiff.col(i).array().mean()).square().sum() / ((double) aDiff.col(i).array().size() - 1);
-                }
-                for(int i = 0 ; i < nMoments; i++){
-                    cost += (means(i) * means(i)) / variances(i);
-                }
+                double cost = calculate_cf2(Yt.mVec, XtPSO.mVec, wt); 
                 /* update gBest and pBest */
                 // #pragma omp critical
                 // {
@@ -708,6 +712,141 @@ int main() {
     double dist = calculate_cf1(tru.k, GBVEC);
     cout << "total difference b/w truk and final GBVEC" << dist << endl; // compute difference
     
+
+    /*** targeted PSO ***/
+
+    /* reinstantiate gCost */
+    struct K gPos;
+    gPos.k = GBVEC;
+    Protein_Components gXt(tf, nMoments, N);
+    Moments_Mat_Obs gXtObs(Xt);
+    Nonlinear_ODE6 gSys(gPos);
+    for (int i = 0; i < N; i++) {
+        //State_N c0 = gen_multi_norm_iSub();
+        State_N c0 = convertInit(X_0, i);
+        gXt.index = i;
+        integrate_adaptive(controlledStepper, gSys, c0, t0, tf, dt, gXtObs);
+    }
+    gXt.mVec /= N;  
+    gCost = customMatrixCost(Yt.mat, gXt.mat, nMoments);
+    GBMAT.conservativeResize(GBMAT.rows() + 1, Npars + 1);
+    for (int i = 0; i < Npars; i++) {GBMAT(GBMAT.rows() - 1, i) = gPos.k(i);}
+    GBMAT(GBMAT.rows() - 1, Npars) = gCost;
+
+    sfp = 3.0, sfg = 1.0, sfe = 6.0; // initial particle historical weight, global weight social, inertial
+    sfi = sfe, sfc = sfp, sfs = sfg; // below are the variables being used to reiterate weights
+    double nearby = sdbeta;
+    for(int step = 0; step < Nsteps; step++){
+    //#pragma omp parallel for 
+        for(int particle = 0; particle < Nparts; particle++){
+            random_device pRanDev;
+            mt19937 pGenerator(pRanDev());
+            uniform_real_distribution<double> pUnifDist(0.0, 1.0);
+            /* instantiate all particle rate constants with unifDist */
+            if(step == 0){
+                /* reinstantiate particles closer towards global best */
+                for(int edim = 0; edim < Npars; edim++){
+                    int wasflipped = 0;
+                    double tmean = GBVEC(edim);
+                    if (GBVEC(edim) > 0.5) {
+                        tmean = 1 - GBVEC(edim);
+                        wasflipped = 1;
+                    }
+                    double myc = (1 - tmean) / tmean;
+                    double alpha = myc / ((1 + myc) * (1 + myc) * (1 + myc)*nearby*nearby);
+                    double beta = myc * alpha;
+
+                    std::gamma_distribution<double> aDist(alpha, 1);
+                    std::gamma_distribution<double> bDist(beta, 1);
+
+                    double x = aDist(pGenerator);
+                    double y = bDist(pGenerator);
+                    double myg = x / (x + y);
+            
+                    if (wasflipped == 1) {
+                        wasflipped = 0;
+                        myg = 1 - myg;
+                    }
+                    POSMAT(particle, edim) = myg;
+                }
+
+                struct K pos;
+                pos.k = VectorXd::Zero(Npars);
+                for(int i = 0; i < Npars; i++){
+                    pos.k(i) = POSMAT(particle, i);
+                }
+                Nonlinear_ODE6 initSys(pos);
+                Protein_Components XtPSO(tf, nMoments, N);
+                Moments_Mat_Obs XtObsPSO(XtPSO);
+                for(int i = 0; i < N; i++){
+                    //State_N c0 = gen_multi_norm_iSub();
+                    State_N c0 = convertInit(X_0, i);
+                    XtPSO.index = i;
+                    integrate_adaptive(controlledStepper, initSys, c0, t0, tf, dt, XtObsPSO);
+                }
+                XtPSO.mVec/=N;
+                double cost = customMatrixCost(Yt.mat, XtPSO.mat, nMoments);
+                /* instantiate PBMAT */
+                for(int i = 0; i < Npars; i++){
+                    PBMAT(particle, i) = POSMAT(particle, i);
+                }
+                PBMAT(particle, Npars) = cost; // add cost to final column
+            }else{ // PSO after instantiations
+                /* using new rate constants, instantiate particle best values */
+                /* step into PSO */
+                double w1 = sfi * pUnifDist(pGenerator)/ sf2, w2 = sfc * pUnifDist(pGenerator) / sf2, w3 = sfs * pUnifDist(pGenerator)/ sf2;
+                double sumw = w1 + w2 + w3; //w1 = inertial, w2 = pbest, w3 = gbest
+                w1 = w1 / sumw; w2 = w2 / sumw; w3 = w3 / sumw;
+                //w1 = 0.05; w2 = 0.90; w3 = 0.05;
+                struct K pos;
+                pos.k = VectorXd::Zero(Npars);
+                pos.k = POSMAT.row(particle);
+                VectorXd rpoint = comp_vel_vec(pos.k, particle);
+                VectorXd PBVEC(Npars);
+                for(int i = 0; i < Npars; i++){
+                    PBVEC(i) = PBMAT(particle, i);
+                }
+                pos.k = w1 * rpoint + w2 * PBVEC + w3 * GBVEC; // update position of particle
+                POSMAT.row(particle) = pos.k;
+                /*solve ODEs and recompute cost */
+                Protein_Components XtPSO(tf, nMoments, N);
+                Moments_Mat_Obs XtObsPSO1(XtPSO);
+                Nonlinear_ODE6 stepSys(pos);
+    
+                for(int i = 0; i < N; i++){
+                    //State_N c0 = gen_multi_norm_iSub();
+                    State_N c0 = convertInit(X_0, i);
+                    XtPSO.index = i;
+                    integrate_adaptive(controlledStepper, stepSys, c0, t0, tf, dt, XtObsPSO1);
+                }
+                XtPSO.mVec/=N;
+                double cost = customMatrixCost(Yt.mat, XtPSO.mat, nMoments);
+                /* update gBest and pBest */
+                // #pragma omp critical
+                // {
+                    // cout << "step:" << step << " from thread:" << omp_get_thread_num() << endl;
+                    // cout << "particle:" << particle << endl;
+                if(cost < PBMAT(particle, Npars)){ // particle best cost
+                    for(int i = 0; i < Npars; i++){
+                        PBMAT(particle, i) = pos.k(i);
+                    }
+                    PBMAT(particle, Npars) = cost;
+                    if(cost < gCost){
+                        gCost = cost;
+                        GBVEC = pos.k;
+                        GBMAT.conservativeResize(GBMAT.rows() + 1, Npars + 1);
+                        for (int i = 0; i < Npars; i++) {GBMAT(GBMAT.rows() - 1, i) = GBVEC(i);}
+                        GBMAT(GBMAT.rows() - 1, Npars) = gCost;
+                    }   
+                }
+               // }
+            }
+        }
+        sfi = sfi - (sfe - sfg) / Nsteps;   // reduce the inertial weight after each step 
+        sfs = sfs + (sfe - sfg) / Nsteps;
+    }
+    cout << "GBMAT after targeted PSO:" << endl << GBMAT << endl;
+
     ofstream plot;
 	plot.open("GBMAT.csv");
 	MatrixXd GBMATWithSteps(GBMAT.rows(), GBMAT.cols() + 1);
