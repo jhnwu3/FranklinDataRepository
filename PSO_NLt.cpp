@@ -509,10 +509,10 @@ int main() {
     double sfp = 3.0, sfg = 1.0, sfe = 6.0; // initial particle historical weight, global weight social, inertial
     double sfi = sfe, sfc = sfp, sfs = sfg; // below are the variables being used to reiterate weights
     double alpha = 0.2;
-    int nParts = 300;
+    int nParts = 900;
     int nSteps = 40;
     int nParts2 = 30;
-    int nSteps2 = 60;
+    int nSteps2 = 80;
     int nMoments = (N_SPECIES * (N_SPECIES + 3)) / 2;
     double uniLowBound = 0.0, uniHiBound = 1.0;
     random_device RanDev;
