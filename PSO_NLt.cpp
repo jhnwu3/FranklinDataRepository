@@ -712,9 +712,11 @@ int main() {
     double dist = calculate_cf1(tru.k, GBVEC);
     cout << "total difference b/w truk and final GBVEC" << dist << endl; // compute difference
     
-
+  
     /*** targeted PSO ***/
-
+    Nparts = 30; // new particle and step parameters
+    Nsteps = 60;
+    cout << "targeted PSO has started! using:" << " particles:" <<  Nparts << " Nsteps:" << Nsteps << endl;
     /* reinstantiate gCost */
     struct K gPos;
     gPos.k = GBVEC;
