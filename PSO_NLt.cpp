@@ -16,7 +16,7 @@
 #include <boost/numeric/odeint/external/openmp/openmp.hpp>
 
 #define N_SPECIES 6
-#define N 100 // # of samples to sample over
+#define N 5000 // # of samples to sample over
 #define N_DIM 6 // dim of PSO hypercube
 
 using Eigen::MatrixXd;
@@ -492,6 +492,10 @@ MatrixXd customWtMat(const MatrixXd& Yt, const MatrixXd& Xt, int nMoments){
     cout << "Chkpt reached!" << endl;
     cout << "new weight matrix:" << endl << wt << endl << endl;
     return wt;
+}
+
+void printToCsv(const MatrixXd& Yt, string& fileName){
+
 }
 
 int main() {
