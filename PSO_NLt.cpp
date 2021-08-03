@@ -508,7 +508,7 @@ int main() {
     double sfp = 3.0, sfg = 1.0, sfe = 6.0; // initial particle historical weight, global weight social, inertial
     double sfi = sfe, sfc = sfp, sfs = sfg; // below are the variables being used to reiterate weights
     double alpha = 0.2;
-    int nParts = 900; // first part PSO
+    int nParts = 300; // first part PSO
     int nSteps = 40;
     int nParts2 = 20; // second part PSO
     int nSteps2 = 200;
@@ -612,7 +612,7 @@ int main() {
     
     /* PSO begins */
     for(int step = 0; step < nSteps; step++){
-    #pragma omp parallel for 
+    //#pragma omp parallel for 
         for(int particle = 0; particle < nParts; particle++){
             random_device pRanDev;
             mt19937 pGenerator(pRanDev());
@@ -681,8 +681,8 @@ int main() {
                 
                 double cost = calculate_cf2(Yt.mVec, XtPSO.mVec, wt); 
                 /* update gBest and pBest */
-                #pragma omp critical
-                {
+                //#pragma omp critical
+               // {
                     // cout << "step:" << step << " from thread:" << omp_get_thread_num() << endl;
                     // cout << "particle:" << particle << endl;
                 if(cost < PBMAT(particle, Npars)){ // particle best cost
@@ -698,7 +698,7 @@ int main() {
                         GBMAT(GBMAT.rows() - 1, Npars) = gCost;
                     }   
                 }
-               }
+              // }
             }
         }
         sfi = sfi - (sfe - sfg) / nSteps;   // reduce the inertial weight after each step 
@@ -741,7 +741,7 @@ int main() {
     sfi = sfe, sfc = sfp, sfs = sfg; // below are the variables being used to reiterate weights
     double nearby = sdbeta;
     for(int step = 0; step < nSteps2; step++){
-    #pragma omp parallel for 
+    //#pragma omp parallel for 
         for(int particle = 0; particle < nParts2; particle++){
             random_device pRanDev;
             mt19937 pGenerator(pRanDev());
@@ -827,8 +827,8 @@ int main() {
                 double cost = customMatrixCost(Yt.mat, XtPSO.mat, nMoments);
 
                 /* update pBest and gBest*/
-                #pragma omp critical
-                {
+                // #pragma omp critical
+                // {
                 if(cost < PBMAT(particle, Npars)){ // update particle best 
                     for(int i = 0; i < Npars; i++){
                         PBMAT(particle, i) = pos.k(i);
@@ -842,7 +842,7 @@ int main() {
                         GBMAT(GBMAT.rows() - 1, Npars) = gCost;
                     }   
                 }
-                }
+                // }
             }
         }
         sfi = sfi - (sfe - sfg) / nSteps;   // reduce the inertial weight after each step 
