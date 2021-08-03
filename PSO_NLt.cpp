@@ -727,8 +727,7 @@ int main() {
     for(int step = 0; step < nSteps2; step++){
         if(step == 0 || step == chkpts(0) || step == chkpts(1) || step == chkpts(2) || step == chkpts(3)){ /* update wt matrix */
             cout << "Updating Weight Matrix!" << endl;
-            cout << "GBVEC AND COST:" << GBMAT.row(GBMAT.rows() - 1).transpose() << endl;
-            cout << "GBVEC:" << GBVEC << "cost:" << gCost << endl;
+            cout << "GBVEC AND COST:" << GBMAT.row(GBMAT.rows() - 1) << endl;
             /* reinstantiate gCost */
             struct K gPos;
             gPos.k = GBVEC;
@@ -803,6 +802,8 @@ int main() {
                     PBMAT(particle, i) = POSMAT(particle, i);
                 }
                 PBMAT(particle, Npars) = cost; // add cost to final column
+                cout << "Here's the new PBMAT:" << endl;
+                cout << PBMAT << endl << endl;
             }else{ // PSO after instantiations
                 /* using new rate constants, instantiate particle best values */
                 /* step into PSO */
