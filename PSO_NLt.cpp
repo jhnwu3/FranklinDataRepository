@@ -518,7 +518,7 @@ int main() {
     int nSteps2 = 200;
     int nMoments = (N_SPECIES * (N_SPECIES + 3)) / 2;
     VectorXd wmatup(4);
-    wmatup << 0.15, 0.3, .45, .6;
+    wmatup << 0.2, 0.4, 0.6, 0.8;
     double uniLowBound = 0.0, uniHiBound = 1.0;
     random_device RanDev;
     mt19937 gen(RanDev());
