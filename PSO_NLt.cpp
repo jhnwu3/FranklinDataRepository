@@ -447,7 +447,7 @@ MatrixXd readIntoMatrix(ifstream& in, int rows, int cols) {
     }
     return mat;
 }
-double customMatrixCost(const MatrixXd& Yt, const MatrixXd& Xt, int nMoments){
+MatrixXd customWtMat(const MatrixXd& Yt, const MatrixXd& Xt, int nMoments){
     /* first moment differences */
     MatrixXd fmdiffs = Yt - Xt; 
     /* second moment difference computations - @todo make it variable later */
@@ -484,10 +484,13 @@ double customMatrixCost(const MatrixXd& Yt, const MatrixXd& Xt, int nMoments){
     for(int i = 0; i < nMoments; i++){
         variances(i) = (aDiff.col(i).array() - aDiff.col(i).array().mean()).square().sum() / ((double) aDiff.col(i).array().size() - 1);
     }
-    for(int i = 0 ; i < nMoments; i++){
-        cost += (means(i) * means(i)) / variances(i);
+    MatrixXd wt(nMoments, nMoments);
+
+    for(int i = 0; i < nMoments; i++){
+        wt(i,i) = variances(i); // cleanup code and make it more vectorized later.
     }
-    return cost;
+
+    return wt;
 }
 
 int main() {
@@ -513,6 +516,8 @@ int main() {
     int nParts2 = 20; // second part PSO
     int nSteps2 = 200;
     int nMoments = (N_SPECIES * (N_SPECIES + 3)) / 2;
+    VectorXd wmatup(4);
+    wmatup << 0.15, 0.3, .45, .6;
     double uniLowBound = 0.0, uniHiBound = 1.0;
     random_device RanDev;
     mt19937 gen(RanDev());
@@ -540,10 +545,6 @@ int main() {
 
     cout << "mu:" << mvnVec.transpose() << endl;
     cout << "covarMat:" << endl << covarMat << endl << endl;
-
-    VectorXd wmatup(4);
-    wmatup << 0.15, 0.3, .45, .6;
-    VectorXd chkpts = wmatup * nSteps;
 
     /* Initial Conditions */
     MatrixXd X_0(N, Npars);
@@ -714,38 +715,42 @@ int main() {
     double dist = calculate_cf1(tru.k, GBVEC);
     cout << "total difference b/w truk and final GBVEC" << dist << endl << endl; // compute difference
     
-  
     /*** targeted PSO ***/
     POSMAT.conservativeResize(nParts2, Npars); // resize matrices to fit targetted PSO
     PBMAT.conservativeResize(nParts2, Npars + 1);
     cout << "targeted PSO has started!" << endl; 
-    /* reinstantiate gCost */
-    struct K gPos;
-    gPos.k = GBVEC;
-    Protein_Components gXt(tf, nMoments, N);
-    Moments_Mat_Obs gXtObs(gXt);
-    Nonlinear_ODE6 gSys(gPos);
-    for (int i = 0; i < N; i++) {
-        //State_N c0 = gen_multi_norm_iSub();
-        State_N c0 = convertInit(X_0, i);
-        gXt.index = i;
-        integrate_adaptive(controlledStepper, gSys, c0, t0, tf, dt, gXtObs);
-    }
-    gXt.mVec /= N;  
-    gCost = customMatrixCost(Yt.mat, gXt.mat, nMoments);
-    GBMAT.conservativeResize(GBMAT.rows() + 1, Npars + 1);
-    for (int i = 0; i < Npars; i++) {GBMAT(GBMAT.rows() - 1, i) = gPos.k(i);}
-    GBMAT(GBMAT.rows() - 1, Npars) = gCost;
-
     sfp = 3.0, sfg = 1.0, sfe = 6.0; // initial particle historical weight, global weight social, inertial
     sfi = sfe, sfc = sfp, sfs = sfg; // below are the variables being used to reiterate weights
     double nearby = sdbeta;
+    VectorXd chkpts = wmatup * nSteps2;
     for(int step = 0; step < nSteps2; step++){
+        if(step == 0 || step == chkpts(0) || step == chkpts(1) || step == chkpts(2) || step == chkpts(3)){
+            cout << "Chkpt reached!" << endl;
+            /* reinstantiate gCost */
+            struct K gPos;
+            gPos.k = GBVEC;
+            Protein_Components gXt(tf, nMoments, N);
+            Moments_Mat_Obs gXtObs(gXt);
+            Nonlinear_ODE6 gSys(gPos);
+            for (int i = 0; i < N; i++) {
+                //State_N c0 = gen_multi_norm_iSub();
+                State_N c0 = convertInit(X_0, i);
+                gXt.index = i;
+                integrate_adaptive(controlledStepper, gSys, c0, t0, tf, dt, gXtObs);
+            }
+            gXt.mVec /= N;  
+            wt = customWtMat(Yt.mat, gXt.mat, nMoments);
+            gCost = calculate_cf2(Yt.mVec, gXt.mVec, wt);
+            GBMAT.conservativeResize(GBMAT.rows() + 1, Npars + 1);
+            for (int i = 0; i < Npars; i++) {GBMAT(GBMAT.rows() - 1, i) = gPos.k(i);}
+            GBMAT(GBMAT.rows() - 1, Npars) = gCost;
+        }
     //#pragma omp parallel for 
         for(int particle = 0; particle < nParts2; particle++){
             random_device pRanDev;
             mt19937 pGenerator(pRanDev());
             uniform_real_distribution<double> pUnifDist(uniLowBound, uniHiBound);
+        
             /* instantiate all particle rate constants with unifDist */
             if(step == 0){
                 /* reinstantiate particles closer towards global best */
@@ -789,7 +794,7 @@ int main() {
                     integrate_adaptive(controlledStepper, initSys, c0, t0, tf, dt, XtObsPSO);
                 }
                 XtPSO.mVec/=N;
-                double cost = customMatrixCost(Yt.mat, XtPSO.mat, nMoments);
+                double cost = calculate_cf2(Yt.mVec, XtPSO.mVec, wt);
                 /* instantiate PBMAT */
                 for(int i = 0; i < Npars; i++){
                     PBMAT(particle, i) = POSMAT(particle, i);
@@ -824,7 +829,7 @@ int main() {
                     integrate_adaptive(controlledStepper, stepSys, c0, t0, tf, dt, XtObsPSO1);
                 }
                 XtPSO.mVec/=N;
-                double cost = customMatrixCost(Yt.mat, XtPSO.mat, nMoments);
+                double cost = calculate_cf2(Yt.mVec, XtPSO.mVec, wt);
 
                 /* update pBest and gBest*/
                 // #pragma omp critical
