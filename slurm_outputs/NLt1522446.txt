@@ -1,0 +1,14 @@
+PSO_S_ODE_NonLinear
+Using two part PSO
+Bounds for Uniform Distribution0,1
+Blind PSO using 27 moments.
+Sample Size:25000 Nparts:300 Nsteps:40
+Targeted PSO updated nParts:20 Nsteps:200
+using tf:48.45
+mu: 80 120  85
+covarMat:
+ 50   0   0
+  0 100   0
+  0   0  50
+
+Yt: 3.99672  3.44981  2.34885 0.128483  5.92715  3.31439  55.4172  98.0831  10.5164 0.019367  134.721  20.9019 0.743675  10.0009  0.68049  11.4251   14.265  12.5962 0.142682  110.822  17.4802 0.312053  23.4247  14.8249 0.474102 0.442573  32.7477
