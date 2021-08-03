@@ -484,7 +484,7 @@ MatrixXd customWtMat(const MatrixXd& Yt, const MatrixXd& Xt, int nMoments){
     for(int i = 0; i < nMoments; i++){
         variances(i) = (aDiff.col(i).array() - aDiff.col(i).array().mean()).square().sum() / ((double) aDiff.col(i).array().size() - 1);
     }
-    MatrixXd wt(nMoments, nMoments);
+    MatrixXd wt = MatrixXd::Zero(nMoments, nMoments);
 
     for(int i = 0; i < nMoments; i++){
         wt(i,i) = 1 / variances(i); // cleanup code and make it more vectorized later.
