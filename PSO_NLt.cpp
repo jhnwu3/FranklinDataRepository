@@ -723,7 +723,7 @@ int main() {
     struct K gPos;
     gPos.k = GBVEC;
     Protein_Components gXt(tf, nMoments, N);
-    Moments_Mat_Obs gXtObs(Xt);
+    Moments_Mat_Obs gXtObs(gXt);
     Nonlinear_ODE6 gSys(gPos);
     for (int i = 0; i < N; i++) {
         //State_N c0 = gen_multi_norm_iSub();
