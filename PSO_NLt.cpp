@@ -16,7 +16,7 @@
 #include <boost/numeric/odeint/external/openmp/openmp.hpp>
 
 #define N_SPECIES 6
-#define N 500 // # of samples to sample over
+#define N 50 // # of samples to sample over
 #define N_DIM 6 // dim of PSO hypercube
 
 using Eigen::MatrixXd;
@@ -487,7 +487,7 @@ MatrixXd customWtMat(const MatrixXd& Yt, const MatrixXd& Xt, int nMoments){
     MatrixXd wt(nMoments, nMoments);
 
     for(int i = 0; i < nMoments; i++){
-        wt(i,i) = variances(i); // cleanup code and make it more vectorized later.
+        wt(i,i) = 1 / variances(i); // cleanup code and make it more vectorized later.
     }
 
     return wt;
