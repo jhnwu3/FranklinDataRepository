@@ -489,8 +489,8 @@ MatrixXd customWtMat(const MatrixXd& Yt, const MatrixXd& Xt, int nMoments){
     for(int i = 0; i < nMoments; i++){
         wt(i,i) = 1 / variances(i); // cleanup code and make it more vectorized later.
     }
-     cout << "Chkpt reached!" << endl;
-     cout << "new weight matrix:" << endl << wt << endl << endl;
+    cout << "Chkpt reached!" << endl;
+    cout << "new weight matrix:" << endl << wt << endl << endl;
     return wt;
 }
 
