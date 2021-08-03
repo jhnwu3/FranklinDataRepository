@@ -489,7 +489,8 @@ MatrixXd customWtMat(const MatrixXd& Yt, const MatrixXd& Xt, int nMoments){
     for(int i = 0; i < nMoments; i++){
         wt(i,i) = 1 / variances(i); // cleanup code and make it more vectorized later.
     }
-
+     cout << "Chkpt reached!" << endl;
+     cout << "new weight matrix:" << endl << wt << endl << endl;
     return wt;
 }
 
@@ -528,7 +529,7 @@ int main() {
     cout << "Bounds for Uniform Distribution" << uniLowBound << "," << uniHiBound << endl;
     cout << "Blind PSO using "<< nMoments << " moments." << endl;
     cout << "Sample Size:" << N << " Nparts:" << nParts << " Nsteps:" << nSteps << endl;
-    cout << "Targeted PSO updated with.... nParts:" <<  nParts2 << " Nsteps:" << nSteps2 << endl;
+    cout << "Targeted PSO updated nParts:" <<  nParts2 << " Nsteps:" << nSteps2 << endl;
     cout << "using tf:" << tf << endl;
     MatrixXd wt = MatrixXd::Identity(nMoments, nMoments); // wt matrix
     MatrixXd GBMAT(0, 0); // iterations of global best vectors
@@ -725,7 +726,6 @@ int main() {
     VectorXd chkpts = wmatup * nSteps2;
     for(int step = 0; step < nSteps2; step++){
         if(step == 0 || step == chkpts(0) || step == chkpts(1) || step == chkpts(2) || step == chkpts(3)){ /* update wt matrix */
-            cout << "Chkpt reached!" << endl;
             /* reinstantiate gCost */
             struct K gPos;
             gPos.k = GBVEC;
