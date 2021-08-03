@@ -726,6 +726,9 @@ int main() {
     VectorXd chkpts = wmatup * nSteps2;
     for(int step = 0; step < nSteps2; step++){
         if(step == 0 || step == chkpts(0) || step == chkpts(1) || step == chkpts(2) || step == chkpts(3)){ /* update wt matrix */
+            cout << "Updating Weight Matrix!" << endl;
+            cout << "GBVEC AND COST:" << GBMAT.row(GBMAT.rows() - 1).transpose() << endl;
+            cout << "GBVEC:" << GBVEC << "cost:" << gCost << endl;
             /* reinstantiate gCost */
             struct K gPos;
             gPos.k = GBVEC;
