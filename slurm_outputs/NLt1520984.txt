@@ -1,5 +1,5 @@
 PSO_S_ODE_NonLinear
-Using two part PSO PARALLEL
+Using two part PSO 
 Bounds for Uniform Distribution0,1
 Blind PSO using 27 moments.
 Sample Size:25000 Nparts:300 Nsteps:40
@@ -919,7 +919,7 @@ GBMAT after targeted PSO:
    0.834699    0.184487   0.0808733    0.752727   0.0489967  0.00314314   0.0112235
    0.795527    0.176108   0.0895172    0.753963   0.0441135   0.0038885  0.00972055
 truk:   0.515996  0.0603199   0.103199   0.896801    0.05516 0.00722394
-total difference b/w truk and final GBVEC0.112267
+total difference b/w truk and final GBVEC 0.112267
 CODE FINISHED RUNNING IN 17001 s TIME!
 Job Statistics for 1520984:
            JobID       User               Start                 End    Elapsed     MaxRSS   TotalCPU      State Exit        NodeList                                  ReqTRES 

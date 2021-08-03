@@ -1,5 +1,5 @@
 PSO_S_ODE_NonLinear
-Using two part PSO PARALLEL
+Using two part PSO 
 Bounds for Uniform Distribution0,1
 Blind PSO using 27 moments.
 Sample Size:25000 Nparts:300 Nsteps:40

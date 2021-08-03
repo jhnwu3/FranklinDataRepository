@@ -519,7 +519,7 @@ int main() {
     uniform_real_distribution<double> unifDist(uniLowBound, uniHiBound);
     // nMoments = 2*N_SPECIES;
     // nMoments = N_SPECIES;
-    cout << "Using two part PSO PARALLEL"<< endl;
+    cout << "Using two part PSO"<< endl;
     cout << "Bounds for Uniform Distribution" << uniLowBound << "," << uniHiBound << endl;
     cout << "Blind PSO using "<< nMoments << " moments." << endl;
     cout << "Sample Size:" << N << " Nparts:" << nParts << " Nsteps:" << nSteps << endl;
@@ -560,11 +560,11 @@ int main() {
     /* Solve for Y_t (mu). */
     struct K tru;
     tru.k = VectorXd::Zero(Npars);
-    // tru.k << 5.0, 0.1, 1.0, 8.69, 0.05, 0.70;
-    // tru.k /= (9.69);
-    // tru.k(1) += 0.05;
-    // tru.k(4) += 0.05; // make sure not so close to the boundary
-    tru.k <<  0.51599600,  0.06031990, 0.10319900, 0.89680100, 0.05516000, 0.00722394; // Bill k
+    tru.k << 5.0, 0.1, 1.0, 8.69, 0.05, 0.70;
+    tru.k /= (9.69);
+    tru.k(1) += 0.05;
+    tru.k(4) += 0.05; // make sure not so close to the boundary
+    //tru.k <<  0.51599600,  0.06031990, 0.10319900, 0.89680100, 0.05516000, 0.00722394; // Bill k
     Nonlinear_ODE6 trueSys(tru);
     Protein_Components Yt(tf, nMoments, N);
     Moments_Mat_Obs YtObs(Yt);
