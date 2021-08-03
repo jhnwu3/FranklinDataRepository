@@ -806,8 +806,6 @@ int main() {
                     PBMAT(particle, i) = POSMAT(particle, i);
                 }
                 PBMAT(particle, Npars) = cost; // add cost to final column
-                cout << "Here's the new PBMAT:" << endl;
-                cout << PBMAT << endl << endl;
             }else{ // PSO after instantiations
                 /* using new rate constants, instantiate particle best values */
                 /* step into PSO */
@@ -860,6 +858,11 @@ int main() {
         }
         sfi = sfi - (sfe - sfg) / nSteps;   // reduce the inertial weight after each step 
         sfs = sfs + (sfe - sfg) / nSteps;
+
+        if(step == 0){
+            cout << "Here's the new PBMAT:" << endl;
+            cout << PBMAT << endl << endl;
+        }
     }
     cout << "GBMAT after targeted PSO:" << endl << GBMAT << endl;
     cout << "truk: " << tru.k.transpose() << endl;
