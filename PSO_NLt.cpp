@@ -444,7 +444,7 @@ MatrixXd customWtMat(const MatrixXd& Yt, const MatrixXd& Xt, int nMoments){
     return wt;
 }
 
-void printToCsv(const MatrixXd& mat, string& fileName){ // prints matrix to csv
+void printToCsv(const MatrixXd& mat, const string& fileName){ // prints matrix to csv
     ofstream plot;
     string csvFile = fileName + ".csv";
 	plot.open(csvFile);
@@ -480,7 +480,7 @@ int main() {
     double sfp = 3.0, sfg = 1.0, sfe = 6.0; // initial particle historical weight, global weight social, inertial
     double sfi = sfe, sfc = sfp, sfs = sfg; // below are the variables being used to reiterate weights
     double alpha = 0.2;
-    int nParts = 900; // first part PSO
+    int nParts = 300; // first part PSO
     int nSteps = 15;
     int nParts2 = 20; // second part PSO
     int nSteps2 = 200;
