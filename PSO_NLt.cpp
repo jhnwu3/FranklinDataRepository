@@ -16,7 +16,7 @@
 #include <boost/numeric/odeint/external/openmp/openmp.hpp>
 
 #define N_SPECIES 6
-#define N 100 // # of samples to sample over
+#define N 25000 // # of samples to sample over
 #define N_DIM 6 // dim of PSO hypercube
 
 using Eigen::MatrixXd;
@@ -689,7 +689,7 @@ int main() {
     double nearby = sdbeta;
     VectorXd chkpts = wmatup * nSteps2;
     for(int step = 0; step < nSteps2; step++){
-        if(step == 0 ){ /* update wt matrix || step == chkpts(0) || step == chkpts(1) || step == chkpts(2) || step == chkpts(3) */
+        if(step == 0 || step == chkpts(2)){ /* update wt matrix || step == chkpts(0) || step == chkpts(1) || step == chkpts(2) || step == chkpts(3) */
             cout << "Updating Weight Matrix!" << endl;
             cout << "GBVEC AND COST:" << GBMAT.row(GBMAT.rows() - 1) << endl;
             /* reinstantiate gCost */
