@@ -16,7 +16,7 @@
 #include <boost/numeric/odeint/external/openmp/openmp.hpp>
 
 #define N_SPECIES 6
-#define N 100 // # of samples to sample over
+#define N 25000 // # of samples to sample over
 #define N_DIM 6 // dim of PSO hypercube
 
 using Eigen::MatrixXd;
@@ -823,6 +823,8 @@ int main() {
         if(step == 0){
             cout << "New PBMAT:" << endl;
             cout << PBMAT << endl << endl;
+            string fName = "PBMAT";
+            printToCsv(PBMAT, fName);
         }
     }
     cout << "GBMAT after targeted PSO:" << endl << GBMAT << endl;
