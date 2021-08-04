@@ -494,8 +494,22 @@ MatrixXd customWtMat(const MatrixXd& Yt, const MatrixXd& Xt, int nMoments){
     return wt;
 }
 
-void printToCsv(const MatrixXd& Yt, string& fileName){
+void printToCsv(const MatrixXd& mat, string& fileName){ // prints matrix to csv
+    ofstream plot;
+    string csvFile = fileName + ".csv";
+	plot.open(csvFile);
 
+    for(int i = 0; i < mat.rows(); i++){
+        for(int j = 0; j < mat.cols(); j++){
+            if(j == 0){
+                plot << mat(i,j);
+            }else{
+                plot << "," << mat(i,j);
+            }
+        }
+        plot << endl;
+    }
+    plot.close();
 }
 
 int main() {
@@ -689,8 +703,6 @@ int main() {
                 /* update gBest and pBest */
             //     #pragma omp critical
             //    {
-                    // cout << "step:" << step << " from thread:" << omp_get_thread_num() << endl;
-                    // cout << "particle:" << particle << endl;
                 if(cost < PBMAT(particle, Npars)){ // particle best cost
                     for(int i = 0; i < Npars; i++){
                         PBMAT(particle, i) = pos.k(i);
@@ -699,22 +711,20 @@ int main() {
                     if(cost < gCost){
                         gCost = cost;
                         GBVEC = pos.k;
-                        GBMAT.conservativeResize(GBMAT.rows() + 1, Npars + 1);
-                        for (int i = 0; i < Npars; i++) {GBMAT(GBMAT.rows() - 1, i) = GBVEC(i);}
-                        GBMAT(GBMAT.rows() - 1, Npars) = gCost;
                     }   
                 }
               //}
             }
         }
+        GBMAT.conservativeResize(GBMAT.rows() + 1, Npars + 1); // Add to GBMAT after resizing
+        for (int i = 0; i < Npars; i++) {GBMAT(GBMAT.rows() - 1, i) = GBVEC(i);}
+        GBMAT(GBMAT.rows() - 1, Npars) = gCost;
+        
         sfi = sfi - (sfe - sfg) / nSteps;   // reduce the inertial weight after each step 
         sfs = sfs + (sfe - sfg) / nSteps;
     }
-    // cout << "POSMAT:" << endl; 
-    // cout <<  POSMAT<< endl << endl;
-    // cout << "PBMAT:" << endl;
-    // cout << PBMAT << endl << endl;
-    cout << "GBMAT from first PSO:" << endl << endl;
+
+    cout << "GBMAT from targeted PSO:" << endl << endl;
     cout << GBMAT << endl << endl;
     cout << "truk: " << tru.k.transpose() << endl;
     double dist = calculate_cf1(tru.k, GBVEC);
@@ -848,19 +858,20 @@ int main() {
                     if(cost < gCost){ // update global 
                         gCost = cost;
                         GBVEC = pos.k;
-                        GBMAT.conservativeResize(GBMAT.rows() + 1, Npars + 1);
-                        for (int i = 0; i < Npars; i++) {GBMAT(GBMAT.rows() - 1, i) = GBVEC(i);}
-                        GBMAT(GBMAT.rows() - 1, Npars) = gCost;
                     }   
                 }
                // }
             }
         }
+        GBMAT.conservativeResize(GBMAT.rows() + 1, Npars + 1); // Add to GBMAT after resizing
+        for (int i = 0; i < Npars; i++) {GBMAT(GBMAT.rows() - 1, i) = GBVEC(i);}
+        GBMAT(GBMAT.rows() - 1, Npars) = gCost;
+
         sfi = sfi - (sfe - sfg) / nSteps;   // reduce the inertial weight after each step 
         sfs = sfs + (sfe - sfg) / nSteps;
 
         if(step == 0){
-            cout << "Here's the new PBMAT:" << endl;
+            cout << "New PBMAT:" << endl;
             cout << PBMAT << endl << endl;
         }
     }
