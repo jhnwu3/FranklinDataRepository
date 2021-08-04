@@ -16,7 +16,7 @@
 #include <boost/numeric/odeint/external/openmp/openmp.hpp>
 
 #define N_SPECIES 6
-#define N 10000 // # of samples to sample over
+#define N 100 // # of samples to sample over
 #define N_DIM 6 // dim of PSO hypercube
 
 using Eigen::MatrixXd;
@@ -517,7 +517,7 @@ int main() {
     /*---------------------- Setup ------------------------ */
     
     /* Variables (global) */
-    double t0 = 0, tf = 5.0 * 9.69, dt = 1.0;
+    double t0 = 0, tf = 3.0 * 9.69, dt = 1.0;
     int Npars = 6;
     double squeeze = 0.975, sdbeta = 0.15;
     double boundary = 0.001;
@@ -530,8 +530,8 @@ int main() {
     double sfp = 3.0, sfg = 1.0, sfe = 6.0; // initial particle historical weight, global weight social, inertial
     double sfi = sfe, sfc = sfp, sfs = sfg; // below are the variables being used to reiterate weights
     double alpha = 0.2;
-    int nParts = 300; // first part PSO
-    int nSteps = 40;
+    int nParts = 900; // first part PSO
+    int nSteps = 15;
     int nParts2 = 20; // second part PSO
     int nSteps2 = 200;
     int nMoments = (N_SPECIES * (N_SPECIES + 3)) / 2;
@@ -719,7 +719,7 @@ int main() {
         GBMAT.conservativeResize(GBMAT.rows() + 1, Npars + 1); // Add to GBMAT after resizing
         for (int i = 0; i < Npars; i++) {GBMAT(GBMAT.rows() - 1, i) = GBVEC(i);}
         GBMAT(GBMAT.rows() - 1, Npars) = gCost;
-        
+
         sfi = sfi - (sfe - sfg) / nSteps;   // reduce the inertial weight after each step 
         sfs = sfs + (sfe - sfg) / nSteps;
     }
