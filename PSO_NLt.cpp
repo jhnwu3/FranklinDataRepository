@@ -823,8 +823,6 @@ int main() {
         if(step == 0){
             cout << "New PBMAT:" << endl;
             cout << PBMAT << endl << endl;
-            string fName = "PBMAT";
-            printToCsv(PBMAT, fName);
         }
     }
     cout << "GBMAT after targeted PSO:" << endl << GBMAT << endl;
