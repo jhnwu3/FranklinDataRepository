@@ -31,10 +31,6 @@ typedef boost::array< double, N_SPECIES > State_N;
 typedef runge_kutta_cash_karp54< State_N > Error_RK_Stepper_N;
 typedef controlled_runge_kutta< Error_RK_Stepper_N > Controlled_RK_Stepper_N;
 
-typedef boost::array< double, 3 > State_3;
-typedef runge_kutta_cash_karp54< State_3 > Error_RK_Stepper_3;
-typedef controlled_runge_kutta< Error_RK_Stepper_3 > Controlled_RK_Stepper_3;
-
 struct Multi_Normal_Random_Variable
 {
     Multi_Normal_Random_Variable(Eigen::MatrixXd const& covar)
@@ -64,35 +60,6 @@ struct K
 {
     VectorXd k;
 };
-
-/* /* 3-var linear ODE system - need to rename! @TODO */
-class Linear_ODE3
-{
-    struct K bill;
-
-public:
-    Linear_ODE3(struct K G) : bill(G) {}
-
-    void operator() (const State_3& c, State_3& dcdt, double t)
-    {
-        MatrixXd kr(3, 3);
-        kr << 0, bill.k(1), bill.k(3),
-            bill.k(2), 0, bill.k(0),
-            0, bill.k(4), 0;
-        dcdt[0] = (kr(0, 0) * c[0] - kr(0, 0) * c[0]) +
-            (kr(0, 1) * c[1] - kr(1, 0) * c[0]) +
-            (kr(0, 2) * c[2] - kr(2, 0) * c[0]);
-
-        dcdt[1] = (kr(1, 0) * c[0] - kr(0, 1) * c[1]) +
-            (kr(1, 1) * c[1] - kr(1, 1) * c[1]) +
-            (kr(1, 2) * c[2] - kr(2, 1) * c[1]);
-
-        dcdt[2] = (kr(2, 0) * c[0] - kr(0, 2) * c[2]) +
-            (kr(2, 1) * c[1] - kr(1, 2) * c[2]) +
-            (kr(2, 2) * c[2] - kr(2, 2) * c[2]);
-    }
-};
-
 
 class Nonlinear_ODE6
 {
@@ -228,23 +195,6 @@ State_N gen_multi_lognorm_iSub(void) {
 
 State_N gen_multi_norm_iSub(void) {
     State_N c0;
-    // VectorXd mu(3);
-    // mu << 4.78334234137469844730960782,
-    //     5.52142091946216110500584912965,
-    //     4.3815581042632114978686130;
-    // MatrixXd sigma(3, 3);
-    // sigma << 0.008298802814695093876186221, 0, 0,
-    //     0, 0.0000799968001706564273219830, 0,
-    //     0, 0, 0.000937060821340228802149700;
-    // VectorXd mu(3);
-    // mu << 4.78334234137469844730960782,
-    //     5.52142091946216110500584912965,
-    //     4.3815581042632114978686130;
-    // MatrixXd sigma(3, 3);
-    // sigma << 800.298802814695093876186221, 0, 0,
-    //     0, 7.99968001706564273219830, 0,
-    //     0, 0, 93.7060821340228802149700;
-
     VectorXd mu(3);
     mu << 80,
         120,
