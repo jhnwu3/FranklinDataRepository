@@ -296,7 +296,7 @@ VectorXd comp_vel_vec(const VectorXd& posK, int seed) {
             while(pos > 1.0){
                 pos -= 0.001;
             }
-        }else if (pos < 0.0001) {
+        }else if (pos < 0.001) {
             cout << "underflow!"<< pos << endl;
             while( pos < 0.001){
                 pos += 0.001;
@@ -626,6 +626,7 @@ int main() {
                     PBVEC(i) = PBMAT(particle, i);
                 }
                 pos.k = w1 * rpoint + w2 * PBVEC + w3 * GBVEC; // update position of particle
+                cout << "Particle:" << particle << " Step:" << step << " Posk:" << pos.k.transpose() << endl;
                 POSMAT.row(particle) = pos.k;
 
                 /*solve ODEs and recompute cost */
@@ -652,6 +653,7 @@ int main() {
                     if(cost < gCost){
                         gCost = cost;
                         GBVEC = pos.k;
+                        cout << "New GBVEC:" << GBVEC.transpose() << " with cost:" << gCost << endl;
                     }   
                 }
               //}
