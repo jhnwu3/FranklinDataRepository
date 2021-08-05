@@ -17,7 +17,7 @@
 #include <boost/numeric/odeint/external/openmp/openmp.hpp>
 
 #define N_SPECIES 6
-#define N 5000 // # of samples to sample over
+#define N 25000 // # of samples to sample over
 #define N_DIM 6 // dim of PSO hypercube
 
 using Eigen::MatrixXd;
@@ -477,10 +477,10 @@ int main() {
     double sfp = 3.0, sfg = 1.0, sfe = 6.0; // initial particle historical weight, global weight social, inertial
     double sfi = sfe, sfc = sfp, sfs = sfg; // below are the variables being used to reiterate weights
     double alpha = 0.2;
-    int nParts = 300; // first part PSO
+    int nParts = 1200; // first part PSO
     int nSteps = 10;
     int nParts2 = 10; // second part PSO
-    int nSteps2 = 200;
+    int nSteps2 = 400;
     int nMoments = (N_SPECIES * (N_SPECIES + 3)) / 2;
     VectorXd wmatup(4);
     wmatup << 0.2, 0.4, 0.6, 0.8;
