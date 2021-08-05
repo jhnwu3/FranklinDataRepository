@@ -685,6 +685,7 @@ int main() {
         if(step == 0 || step == chkpts(2)){ /* update wt matrix || step == chkpts(0) || step == chkpts(1) || step == chkpts(2) || step == chkpts(3) */
             cout << "Updating Weight Matrix!" << endl;
             cout << "GBVEC AND COST:" << GBMAT.row(GBMAT.rows() - 1) << endl;
+            nearby = squeeze * nearby;
             /* reinstantiate gCost */
             struct K gPos;
             gPos.k = GBVEC;
@@ -710,9 +711,8 @@ int main() {
             mt19937 pGenerator(pRanDev());
             uniform_real_distribution<double> pUnifDist(uniLowBound, uniHiBound);
         
-            /* instantiate all particle rate constants with unifDist */
-            if(step == 0){
-                /* reinstantiate particles around global best */
+            if(step == 0 || step == chkpts(2)){
+                /* reinitialize particles around global best */
                 for(int edim = 0; edim < Npars; edim++){
                     int wasflipped = 0;
                     double tmean = GBVEC(edim);
@@ -724,13 +724,27 @@ int main() {
                     double alpha = myc / ((1 + myc) * (1 + myc) * (1 + myc)*nearby*nearby);
                     double beta = myc * alpha;
 
+                    if(alpha < 0.005){
+                        alpha = 0.01;
+                    }
+                    if(beta < 0.005){
+                        beta = 0.01;
+                    }
+
                     std::gamma_distribution<double> aDist(alpha, 1);
                     std::gamma_distribution<double> bDist(beta, 1);
 
                     double x = aDist(pGenerator);
                     double y = bDist(pGenerator);
                     double myg = x / (x + y);
-            
+
+                    if(myg >= 1){
+                        myg = myg - 0.005;
+                    }
+                    if(myg <= 0){
+                        myg = myg + 0.005;
+                    }
+
                     if (wasflipped == 1) {
                         wasflipped = 0;
                         myg = 1 - myg;
@@ -760,7 +774,7 @@ int main() {
                 }
                 PBMAT(particle, Npars) = cost; // add cost to final column
             }else{ 
-                /* using new rate constants, instantiate particle best values */
+                /* using new rate constants, initialize particle best values */
                 /* step into PSO */
                 double w1 = sfi * pUnifDist(pGenerator)/ sf2, w2 = sfc * pUnifDist(pGenerator) / sf2, w3 = sfs * pUnifDist(pGenerator)/ sf2;
                 double sumw = w1 + w2 + w3; //w1 = inertial, w2 = pbest, w3 = gbest
