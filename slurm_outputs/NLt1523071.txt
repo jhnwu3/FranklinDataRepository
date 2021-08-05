@@ -367,3 +367,11 @@ Particle:7 Step:11 Posk:   0.665876 0.000320499   0.0801197     1.11535   0.0419
 overflow!
 Particle:8 Step:11 Posk:  -1.72835 -0.0119757   0.216595    -3.5628  0.0294585    -3.1046
 Particle:9 Step:11 Posk:   0.564363    0.190029   -0.544535     5.39412 -0.00816185   -0.396308
+slurmstepd: error: *** JOB 1523071 ON r1pl-hpcf-n21 CANCELLED AT 2021-08-05T11:05:46 ***
+Job Statistics for 1523071:
+           JobID       User               Start                 End    Elapsed     MaxRSS   TotalCPU      State Exit        NodeList                                  ReqTRES 
+---------------- ---------- ------------------- ------------------- ---------- ---------- ---------- ---------- ---- --------------- ---------------------------------------- 
+         1523071   rsjxw007 2021-08-05T09:20:11 2021-08-05T11:05:46   01:45:35              01:45:01 CANCELLED+  0:0   r1pl-hpcf-n21         billing=1,cpu=1,mem=7812M,node=1 
+   1523071.batch            2021-08-05T09:20:11 2021-08-05T11:05:48   01:45:37     10.37M   01:45:01  CANCELLED 0:15   r1pl-hpcf-n21                                          
+  1523071.extern            2021-08-05T09:20:11 2021-08-05T11:05:46   01:45:35          0  00:00.001  COMPLETED  0:0   r1pl-hpcf-n21                                          
+CPU Efficiency: 99.46% of 01:45:35 core-walltime

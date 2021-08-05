@@ -264,3 +264,11 @@ underflow!-0.571507
 pos  0.369205  0.0992125  -0.571507   0.497967 0.00392412  -0.101449
 underflow!-0.31349
 pos  1.09785  0.244196  -0.31349  0.396033 0.0071618  0.171971
+slurmstepd: error: *** JOB 1523073 ON r1pl-hpcf-n21 CANCELLED AT 2021-08-05T11:05:49 ***
+Job Statistics for 1523073:
+           JobID       User               Start                 End    Elapsed     MaxRSS   TotalCPU      State Exit        NodeList                                  ReqTRES 
+---------------- ---------- ------------------- ------------------- ---------- ---------- ---------- ---------- ---- --------------- ---------------------------------------- 
+         1523073   rsjxw007 2021-08-05T09:24:08 2021-08-05T11:05:49   01:41:41              01:41:03 CANCELLED+  0:0   r1pl-hpcf-n21         billing=1,cpu=1,mem=7812M,node=1 
+   1523073.batch            2021-08-05T09:24:08 2021-08-05T11:05:51   01:41:43     10.38M   01:41:03  CANCELLED 0:15   r1pl-hpcf-n21                                          
+  1523073.extern            2021-08-05T09:24:08 2021-08-05T11:05:49   01:41:41          0  00:00.001  COMPLETED  0:0   r1pl-hpcf-n21                                          
+CPU Efficiency: 99.38% of 01:41:41 core-walltime
