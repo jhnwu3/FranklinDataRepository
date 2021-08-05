@@ -293,14 +293,16 @@ VectorXd comp_vel_vec(const VectorXd& posK, int seed) {
         double pos = rPoint(px);
         if (pos > 1.0) {
             cout << "overflow!" << endl;
-            while(pos > 1.0){
-                pos -= 0.001;
-            }
+            // while(pos > 1.0){
+            //     pos -= 0.001;
+            // }
+            pos -= 0.001;
         }else if (pos < 0.001) {
             cout << "underflow!"<< pos << endl;
-            while( pos < 0.001){
-                pos += 0.001;
-            }
+            // while( pos < 0.001){
+            //     pos += 0.001;
+            // }
+            pos += 0.001;
             cout << "pos" << posK.transpose() << endl; 
         }
         double alpha = 4 * pos;
