@@ -490,7 +490,7 @@ int main() {
     uniform_real_distribution<double> unifDist(uniLowBound, uniHiBound);
     // nMoments = 2*N_SPECIES;
     // nMoments = N_SPECIES;
-    cout << "Using two part PSO" << "Sample Size:" << N << " with:" << nMoments << " moments." << endl;
+    cout << "Using two part PSO " << "Sample Size:" << N << " with:" << nMoments << " moments." << endl;
     cout << "Using Record Time:" << tf << endl;
     cout << "Bounds for Uniform Distribution (" << uniLowBound << "," << uniHiBound << ")"<< endl;
     cout << "Blind PSO --> nParts:" << nParts << " Nsteps:" << nSteps << endl;
