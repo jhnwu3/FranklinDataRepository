@@ -17,7 +17,7 @@
 #include <boost/numeric/odeint/external/openmp/openmp.hpp>
 
 #define N_SPECIES 6
-#define N 100 // # of samples to sample over
+#define N 1000 // # of samples to sample over
 #define N_DIM 6 // dim of PSO hypercube
 
 using Eigen::MatrixXd;
@@ -822,9 +822,7 @@ int main() {
         GBMAT.conservativeResize(GBMAT.rows() + 1, Npars + 1); // Add to GBMAT after each step.
         for (int i = 0; i < Npars; i++) {GBMAT(GBMAT.rows() - 1, i) = GBVEC(i);}
         GBMAT(GBMAT.rows() - 1, Npars) = gCost;
-        cout << endl << endl;
-        cout << "new GBMAT with step:" << step << endl;
-        cout << GBMAT << endl;
+
         sfi = sfi - (sfe - sfg) / nSteps2;   // reduce the inertial weight after each step 
         sfs = sfs + (sfe - sfg) / nSteps2;
 
