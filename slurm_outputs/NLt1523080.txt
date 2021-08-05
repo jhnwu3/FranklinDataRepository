@@ -1,5 +1,5 @@
 PSO_S_ODE_NonLinear
-Using two part PSOSample Size:100 with:27 moments.
+Using two part PSO Sample Size:100 with:27 moments.
 Using Record Time:38.76
 Bounds for Uniform Distribution (0,1)
 Blind PSO --> nParts:300 Nsteps:5
