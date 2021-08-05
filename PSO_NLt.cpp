@@ -476,9 +476,9 @@ int main() {
     double sfi = sfe, sfc = sfp, sfs = sfg; // below are the variables being used to reiterate weights
     double alpha = 0.2;
     int nParts = 300; // first part PSO
-    int nSteps = 15;
+    int nSteps = 5;
     int nParts2 = 20; // second part PSO
-    int nSteps2 = 200;
+    int nSteps2 = 20;
     int nMoments = (N_SPECIES * (N_SPECIES + 3)) / 2;
     VectorXd wmatup(4);
     wmatup << 0.2, 0.4, 0.6, 0.8;
