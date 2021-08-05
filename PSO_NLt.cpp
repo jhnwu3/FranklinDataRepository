@@ -825,8 +825,8 @@ int main() {
         cout << endl << endl;
         cout << "new GBMAT with step:" << step << endl;
         cout << GBMAT << endl;
-        sfi = sfi - (sfe - sfg) / nSteps;   // reduce the inertial weight after each step 
-        sfs = sfs + (sfe - sfg) / nSteps;
+        sfi = sfi - (sfe - sfg) / nSteps2;   // reduce the inertial weight after each step 
+        sfs = sfs + (sfe - sfg) / nSteps2;
 
         if(step == 0){ // quick plug to see PBMAT
             cout << "New PBMAT:" << endl;
