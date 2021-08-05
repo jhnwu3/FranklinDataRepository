@@ -298,10 +298,10 @@ VectorXd comp_vel_vec(const VectorXd& posK, int seed) {
             }
         }else if (pos < 0.0001) {
             cout << "underflow!"<< pos << endl;
-            cout << "pos" << posK.transpose() << endl;
             while( pos < 0.001){
                 pos += 0.001;
             }
+            cout << "pos" << posK.transpose() << endl; 
         }
         double alpha = 4 * pos;
         double beta = 4 - alpha;
