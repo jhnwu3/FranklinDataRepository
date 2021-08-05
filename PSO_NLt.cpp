@@ -626,7 +626,6 @@ int main() {
                     PBVEC(i) = PBMAT(particle, i);
                 }
                 pos.k = w1 * rpoint + w2 * PBVEC + w3 * GBVEC; // update position of particle
-                cout << "Particle:" << particle << " Step:" << step << " Posk:" << pos.k.transpose() << endl;
                 POSMAT.row(particle) = pos.k;
 
                 /*solve ODEs and recompute cost */
@@ -653,7 +652,6 @@ int main() {
                     if(cost < gCost){
                         gCost = cost;
                         GBVEC = pos.k;
-                        cout << "New GBVEC:" << GBVEC.transpose() << " with cost:" << gCost << endl;
                     }   
                 }
               //}
@@ -775,6 +773,7 @@ int main() {
                     PBVEC(i) = PBMAT(particle, i);
                 }
                 pos.k = w1 * rpoint + w2 * PBVEC + w3 * GBVEC; // update position of particle
+                cout << "Particle:" << particle << " Step:" << step << " Posk:" << pos.k.transpose() << endl;
                 POSMAT.row(particle) = pos.k; // back into POSMAT
 
                 /* solve ODEs with new system and recompute cost */
@@ -800,6 +799,7 @@ int main() {
                     if(cost < gCost){ // update global 
                         gCost = cost;
                         GBVEC = pos.k;
+                        cout << "New GBVEC:" << GBVEC.transpose() << " with cost:" << gCost << endl;
                     }   
                 }
                // }
