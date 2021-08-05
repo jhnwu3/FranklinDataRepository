@@ -682,7 +682,7 @@ int main() {
     double nearby = sdbeta;
     VectorXd chkpts = wmatup * nSteps2;
     for(int step = 0; step < nSteps2; step++){
-        if(step == 0 || step == chkpts(2) ){ /* update wt matrix || step == chkpts(0) || step == chkpts(1) || step == chkpts(2) || step == chkpts(3) */
+        if(step == 0 || step == chkpts(0) || step == chkpts(1) || step == chkpts(2) || step == chkpts(3) ){ /* update wt matrix || step == chkpts(0) || step == chkpts(1) || step == chkpts(2) || step == chkpts(3) */
             cout << "Updating Weight Matrix!" << endl;
             cout << "GBVEC AND COST:" << GBMAT.row(GBMAT.rows() - 1) << endl;
             nearby = squeeze * nearby;
@@ -711,7 +711,7 @@ int main() {
             mt19937 pGenerator(pRanDev());
             uniform_real_distribution<double> pUnifDist(uniLowBound, uniHiBound);
         
-            if(step == 0 || step == chkpts(2)){
+            if(step == 0 || step == chkpts(0) || step == chkpts(1) || step == chkpts(2) || step == chkpts(3)){
                 /* reinitialize particles around global best */
                 for(int edim = 0; edim < Npars; edim++){
                     int wasflipped = 0;
