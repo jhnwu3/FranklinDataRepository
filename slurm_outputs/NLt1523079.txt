@@ -200,3 +200,11 @@ new GBMAT with step:7
 0.950889 0.293514 0.503916 0.599839 0.441081 0.317644  1.80425
 0.935165 0.294366 0.443637 0.648014 0.356389 0.350941  1.23158
 overflow!
+slurmstepd: error: *** JOB 1523079 ON r1pl-hpcf-n21 CANCELLED AT 2021-08-05T11:36:44 ***
+Job Statistics for 1523079:
+           JobID       User               Start                 End    Elapsed     MaxRSS   TotalCPU      State Exit        NodeList                                  ReqTRES 
+---------------- ---------- ------------------- ------------------- ---------- ---------- ---------- ---------- ---- --------------- ---------------------------------------- 
+         1523079   rsjxw007 2021-08-05T11:26:15 2021-08-05T11:36:44   00:10:29             09:58.041 CANCELLED+  0:0   r1pl-hpcf-n21         billing=1,cpu=1,mem=7812M,node=1 
+   1523079.batch            2021-08-05T11:26:15 2021-08-05T11:36:45   00:10:30      1.18M  09:58.040  CANCELLED 0:15   r1pl-hpcf-n21                                          
+  1523079.extern            2021-08-05T11:26:15 2021-08-05T11:36:44   00:10:29          0  00:00.001  COMPLETED  0:0   r1pl-hpcf-n21                                          
+CPU Efficiency: 95.07% of 00:10:29 core-walltime
