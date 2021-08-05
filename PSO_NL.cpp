@@ -1,6 +1,3 @@
-// PSO.cpp : Replacing Dr. Stewarts linear 3 ODE's with the nonlinear3 ODE system provided way earlier
-//
-
 #include <iostream>
 #include <fstream>
 #include <boost/math/distributions.hpp>
@@ -9,6 +6,7 @@
 #include <random>
 #include <vector>
 #include <Eigen/Dense>
+#include <Eigen/Core>
 #include <unsupported/Eigen/MatrixFunctions>
 #include <cmath>
 #include <chrono>
@@ -16,7 +14,6 @@
 #include <boost/numeric/odeint/external/openmp/openmp.hpp>
 
 #define N_SPECIES 6
-#define N 25000 // # of samples to sample over
 #define N_DIM 6 // dim of PSO hypercube
 
 using Eigen::MatrixXd;
@@ -30,10 +27,6 @@ using namespace boost::numeric::odeint;
 typedef boost::array< double, N_SPECIES > State_N;
 typedef runge_kutta_cash_karp54< State_N > Error_RK_Stepper_N;
 typedef controlled_runge_kutta< Error_RK_Stepper_N > Controlled_RK_Stepper_N;
-
-typedef boost::array< double, 3 > State_3;
-typedef runge_kutta_cash_karp54< State_3 > Error_RK_Stepper_3;
-typedef controlled_runge_kutta< Error_RK_Stepper_3 > Controlled_RK_Stepper_3;
 
 struct Multi_Normal_Random_Variable
 {
@@ -64,35 +57,6 @@ struct K
 {
     VectorXd k;
 };
-
-/* /* 3-var linear ODE system - need to rename! @TODO */
-class Linear_ODE3
-{
-    struct K bill;
-
-public:
-    Linear_ODE3(struct K G) : bill(G) {}
-
-    void operator() (const State_3& c, State_3& dcdt, double t)
-    {
-        MatrixXd kr(3, 3);
-        kr << 0, bill.k(1), bill.k(3),
-            bill.k(2), 0, bill.k(0),
-            0, bill.k(4), 0;
-        dcdt[0] = (kr(0, 0) * c[0] - kr(0, 0) * c[0]) +
-            (kr(0, 1) * c[1] - kr(1, 0) * c[0]) +
-            (kr(0, 2) * c[2] - kr(2, 0) * c[0]);
-
-        dcdt[1] = (kr(1, 0) * c[0] - kr(0, 1) * c[1]) +
-            (kr(1, 1) * c[1] - kr(1, 1) * c[1]) +
-            (kr(1, 2) * c[2] - kr(2, 1) * c[1]);
-
-        dcdt[2] = (kr(2, 0) * c[0] - kr(0, 2) * c[2]) +
-            (kr(2, 1) * c[1] - kr(1, 2) * c[2]) +
-            (kr(2, 2) * c[2] - kr(2, 2) * c[2]);
-    }
-};
-
 
 class Nonlinear_ODE6
 {
@@ -175,10 +139,10 @@ struct Moments_Vec_Obs
     }
 };
 
-struct Moments_Mat_Observer
+struct Moments_Mat_Obs
 {
     struct Protein_Components& dComp;
-    Moments_Mat_Observer(struct Protein_Components& dCom) : dComp(dCom) {}
+    Moments_Mat_Obs(struct Protein_Components& dCom) : dComp(dCom) {}
     void operator()(State_N const& c, const double t) const
     {
         if (t == dComp.timeToRecord) {
@@ -228,23 +192,6 @@ State_N gen_multi_lognorm_iSub(void) {
 
 State_N gen_multi_norm_iSub(void) {
     State_N c0;
-    // VectorXd mu(3);
-    // mu << 4.78334234137469844730960782,
-    //     5.52142091946216110500584912965,
-    //     4.3815581042632114978686130;
-    // MatrixXd sigma(3, 3);
-    // sigma << 0.008298802814695093876186221, 0, 0,
-    //     0, 0.0000799968001706564273219830, 0,
-    //     0, 0, 0.000937060821340228802149700;
-    // VectorXd mu(3);
-    // mu << 4.78334234137469844730960782,
-    //     5.52142091946216110500584912965,
-    //     4.3815581042632114978686130;
-    // MatrixXd sigma(3, 3);
-    // sigma << 800.298802814695093876186221, 0, 0,
-    //     0, 7.99968001706564273219830, 0,
-    //     0, 0, 93.7060821340228802149700;
-
     VectorXd mu(3);
     mu << 80,
         120,
@@ -342,24 +289,28 @@ VectorXd comp_vel_vec(const VectorXd& posK, int seed) {
         double pos = rPoint(px);
         if (pos > 1.0) {
             cout << "overflow!" << endl;
-            pos += -0.001;
+            // while(pos > 1.0){
+            //     pos -= 0.001;
+            // }
+            pos -= 0.001;
         }else if (pos < 0.001) {
             cout << "underflow!"<< pos << endl;
-            cout << "pos" << posK.transpose() << endl;
+            // while( pos < 0.001){
+            //     pos += 0.001;
+            // }
             pos += 0.001;
+            cout << "pos" << posK.transpose() << endl; 
         }
         double alpha = 4 * pos;
         double beta = 4 - alpha;
        // cout << "alpha:" << alpha << "beta:" << beta << endl;
-        std::gamma_distribution<double> aDist(alpha, 1);
+        std::gamma_distribution<double> aDist(alpha, 1); // beta distribution consisting of gamma distributions
         std::gamma_distribution<double> bDist(beta, 1);
 
         double x = aDist(generator);
         double y = bDist(generator);
 
-        rPoint(px) = (x / (x + y)); // test if uniform does worse than the beta version.
-        // I will run a beta version, uniform distribution, use larger variances, 50, 100, 50, 
-        // initialize positions close to truek 
+        rPoint(px) = (x / (x + y)); 
     }
     return rPoint;
 }
@@ -395,19 +346,11 @@ double calculate_cf1(const VectorXd& trueVec, const VectorXd& estVec) {
     VectorXd diff(trueVec.size());
     diff = trueVec - estVec;
     cost = diff.transpose() * diff.transpose().transpose();
-    // for(int i = 0; i < n; i++){
-    //     cost += (estVec(i) - trueVec(i)) * (estVec(i) - trueVec(i));
-    // }
     return cost;
 }
 double calculate_cf2(const VectorXd& trueVec, const  VectorXd& estVec, const MatrixXd& w) {
     double cost = 0;
     VectorXd diff(trueVec.size());
-    /*for(int i = 0; i < n; i++){
-        for(int j = 0; j < n; j++){
-           cost += (estVec(i) - trueVec(i)) * w(i,j) *(estVec(j) - trueVec(j));
-        }
-    }*/
     diff = trueVec - estVec;
     cost = diff.transpose() * w * (diff.transpose()).transpose();
     return cost;
@@ -447,19 +390,78 @@ MatrixXd readIntoMatrix(ifstream& in, int rows, int cols) {
     }
     return mat;
 }
+MatrixXd customWtMat(const MatrixXd& Yt, const MatrixXd& Xt, int nMoments, int N){
+    /* first moment differences */
+    MatrixXd fmdiffs = Yt - Xt; 
+    /* second moment difference computations - @todo make it variable later */
+    MatrixXd smdiffs(N,6);
+    for(int i = 0; i < N_SPECIES; i++){
+        smdiffs.col(i) = (Yt.col(i).array() * Yt.col(i).array()) - (Xt.col(i).array() * Xt.col(i).array());
+    }
+    int nCross = nMoments - 2 * N_SPECIES;
+    MatrixXd cpDiff(N, nCross);
+    
+    /* cross differences */
+    int upperDiag = 0;
+    for(int i = 0; i < N_SPECIES; i++){
+        for(int j = i + 1; j < N_SPECIES; j++){
+            cpDiff.col(upperDiag) = (Yt.col(i).array() * Yt.col(j).array()) - (Xt.col(i).array() * Xt.col(j).array());
+            upperDiag++;
+        }
+    }
+    MatrixXd aDiff(N, nMoments);
+    for(int i = 0; i < N; i++){
+        for(int moment = 0; moment < nMoments; moment++){
+            if(moment < N_SPECIES){
+                aDiff(i, moment) = fmdiffs(i, moment);
+            }else if (moment >= N_SPECIES && moment < 2 * N_SPECIES){
+                aDiff(i, moment) = smdiffs(i, moment - N_SPECIES);
+            }else{
+                aDiff(i, moment) = cpDiff(i, moment - (2 * N_SPECIES));
+            }
+        }
+    }
+    double cost = 0;
+    VectorXd means = aDiff.colwise().mean();
+    VectorXd variances(nMoments);
+    for(int i = 0; i < nMoments; i++){
+        variances(i) = (aDiff.col(i).array() - aDiff.col(i).array().mean()).square().sum() / ((double) aDiff.col(i).array().size() - 1);
+    }
+    MatrixXd wt = MatrixXd::Zero(nMoments, nMoments);
+
+    for(int i = 0; i < nMoments; i++){
+        wt(i,i) = 1 / variances(i); // cleanup code and make it more vectorized later.
+    }
+    cout << "Chkpt reached!" << endl;
+    cout << "new weight matrix:" << endl << wt << endl << endl;
+    return wt;
+}
+
+void printToCsv(const MatrixXd& mat, const string& fileName){ // prints matrix to csv
+    ofstream plot;
+    string csvFile = fileName + ".csv";
+	plot.open(csvFile);
+
+    for(int i = 0; i < mat.rows(); i++){
+        for(int j = 0; j < mat.cols(); j++){
+            if(j == 0){
+                plot << mat(i,j);
+            }else{
+                plot << "," << mat(i,j);
+            }
+        }
+        plot << endl;
+    }
+    plot.close();
+}
 
 int main() {
-
     auto t1 = std::chrono::high_resolution_clock::now();
-    random_device RanDev;
-    mt19937 gen(RanDev());
-    uniform_real_distribution<double> unifDist(0.0, 1.0);
-    uniform_real_distribution<double> cUnifDist(0.3, 0.7);
     /*---------------------- Setup ------------------------ */
     
     /* Variables (global) */
-    double t0 = 0, tf = 5.0 * 9.69, dt = 1.0;
-    int Nprots = 3, Npars = 6;
+    double t0 = 0, tf = 4.0 * 9.69, dt = 1.0;
+    int Npars = N_DIM;
     double squeeze = 0.975, sdbeta = 0.15;
     double boundary = 0.001;
     /* SETUP */
@@ -471,20 +473,29 @@ int main() {
     double sfp = 3.0, sfg = 1.0, sfe = 6.0; // initial particle historical weight, global weight social, inertial
     double sfi = sfe, sfc = sfp, sfs = sfg; // below are the variables being used to reiterate weights
     double alpha = 0.2;
-    int Nparts = 300;
-    int Nsteps = 40;
+    int N = 25000;
+    int nParts = 900; // first part PSO
+    int nSteps = 10;
+    int nParts2 = 15; // second part PSO
+    int nSteps2 = 150;
     int nMoments = (N_SPECIES * (N_SPECIES + 3)) / 2;
+    VectorXd wmatup(4);
+    wmatup << 0.2, 0.4, 0.6, 0.8;
+    double uniLowBound = 0.0, uniHiBound = 1.0;
+    random_device RanDev;
+    mt19937 gen(RanDev());
+    uniform_real_distribution<double> unifDist(uniLowBound, uniHiBound);
     // nMoments = 2*N_SPECIES;
     // nMoments = N_SPECIES;
-    cout << "This is the Y_0 required!"<< endl;
-    cout << "using constrained unif dist 0.3 to 0.7" << endl;
-    cout << "PSO using "<< nMoments << " moments." << endl;
-    cout << "Sample Size:" << N << " Nparts:" << Nparts << " Nsteps:" << Nsteps << endl;
-    cout << "using tf:" << tf << endl;
+    cout << "Using two part PSO " << "Sample Size:" << N << " with:" << nMoments << " moments." << endl;
+    cout << "Using Record Time:" << tf << endl;
+    cout << "Bounds for Uniform Distribution (" << uniLowBound << "," << uniHiBound << ")"<< endl;
+    cout << "Blind PSO --> nParts:" << nParts << " Nsteps:" << nSteps << endl;
+    cout << "Targeted PSO --> nParts:" <<  nParts2 << " Nsteps:" << nSteps2 << endl;
     MatrixXd wt = MatrixXd::Identity(nMoments, nMoments); // wt matrix
     MatrixXd GBMAT(0, 0); // iterations of global best vectors
-    MatrixXd PBMAT(Nparts, Npars + 1); // particle best matrix + 1 for cost component
-    MatrixXd POSMAT(Nparts, Npars); // Position matrix as it goees through it in parallel
+    MatrixXd PBMAT(nParts, Npars + 1); // particle best matrix + 1 for cost component
+    MatrixXd POSMAT(nParts, Npars); // Position matrix as it goees through it in parallel
     VectorXd mvnVec(3);
     mvnVec << 80,
         120,
@@ -497,8 +508,6 @@ int main() {
     cout << "mu:" << mvnVec.transpose() << endl;
     cout << "covarMat:" << endl << covarMat << endl << endl;
 
-    VectorXd wmatup(4);
-    wmatup << 0.15, 0.3, .45, .6;
     /* Initial Conditions */
     MatrixXd X_0(N, Npars);
     MatrixXd Y_0(N, Npars);
@@ -514,18 +523,19 @@ int main() {
     /* Solve for Y_t (mu). */
     struct K tru;
     tru.k = VectorXd::Zero(Npars);
-    // tru.k << 5.0, 0.1, 1.0, 8.69, 0.05, 0.70;
-    // tru.k /= (9.69);
-    // tru.k(1) += 0.05;
-    // tru.k(4) += 0.05; // make sure not so close to the boundary
-    tru.k <<  0.51599600,  0.06031990, 0.10319900, 0.89680100, 0.05516000, 0.00722394; // Bill k
+    tru.k << 5.0, 0.1, 1.0, 8.69, 0.05, 0.70;
+    tru.k /= (9.69);
+    tru.k(1) += 0.05;
+    tru.k(4) += 0.05; // make sure not so close to the boundary
+    //tru.k <<  0.51599600,  0.06031990, 0.10319900, 0.89680100, 0.05516000, 0.00722394; // Bill k
     Nonlinear_ODE6 trueSys(tru);
-    Protein_Moments Yt(tf, nMoments);
-    Moments_Vec_Obs YtObs(Yt);
+    Protein_Components Yt(tf, nMoments, N);
+    Moments_Mat_Obs YtObs(Yt);
     Controlled_RK_Stepper_N controlledStepper;
     for (int i = 0; i < N; i++) {
         //State_N c0 = gen_multi_norm_iSub(); // Y_0 is simulated using norm dist.
         State_N c0 = convertInit(Y_0, i);
+        Yt.index = i;
         integrate_adaptive(controlledStepper, trueSys, c0, t0, tf, dt, YtObs);
     }
     Yt.mVec /= N;
@@ -536,23 +546,20 @@ int main() {
     struct K seed;
     seed.k = VectorXd::Zero(Npars); 
     for (int i = 0; i < Npars; i++) { 
-        seed.k(i) = unifDist(gen);//tru.k(i) + alpha * (0.5 - unifDist(gen));
-        // if(seed.k(i) < 0){
-        //     seed.k(i) = - seed.k(i);
-        // }
+        seed.k(i) = unifDist(gen);
     }
     
-    Protein_Moments Xt(tf, nMoments);
-    Moments_Vec_Obs XtObs(Xt);
+    Protein_Components Xt(tf, nMoments, N);
+    Moments_Mat_Obs XtObs(Xt);
     Nonlinear_ODE6 sys(seed);
-    
     for (int i = 0; i < N; i++) {
         //State_N c0 = gen_multi_norm_iSub();
         State_N c0 = convertInit(X_0, i);
+        Xt.index = i;
         integrate_adaptive(controlledStepper, sys, c0, t0, tf, dt, XtObs);
     }
     Xt.mVec /= N;  
-    //Xt.sec /= N;
+
     double costSeedk = calculate_cf2(Yt.mVec, Xt.mVec, wt); 
     cout << "seedk:"<< seed.k.transpose()<< "| cost:" << costSeedk << endl;
     cout << "Xt:" << Xt.mVec.transpose() << endl;
@@ -566,21 +573,18 @@ int main() {
     
     cout << "PSO begins!" << endl;
     
-    /* PSO begins */
-    for(int step = 0; step < Nsteps; step++){
-    //#pragma omp parallel for 
-        for(int particle = 0; particle < Nparts; particle++){
+    /* Blind PSO begins */
+    for(int step = 0; step < nSteps; step++){
+    #pragma omp parallel for 
+        for(int particle = 0; particle < nParts; particle++){
             random_device pRanDev;
             mt19937 pGenerator(pRanDev());
-            uniform_real_distribution<double> pUnifDist(0.0, 1.0);
+            uniform_real_distribution<double> pUnifDist(uniLowBound, uniHiBound);
             /* instantiate all particle rate constants with unifDist */
             if(step == 0){
                 /* temporarily assign specified k constants */
                 for(int i = 0; i < Npars; i++){
-                    POSMAT(particle, i) = unifDist(pGenerator);//tru.k(i) + alpha * (0.5 - unifDist(pGenerator));
-                    // if(POSMAT(particle, i) < 0){
-                    //     POSMAT(particle, i) = -POSMAT(particle,i);
-                    // }
+                    POSMAT(particle, i) = pUnifDist(pGenerator);//tru.k(i) + alpha * (0.5 - unifDist(pGenerator));
                 }
 
                 struct K pos;
@@ -589,11 +593,12 @@ int main() {
                     pos.k(i) = POSMAT(particle, i);
                 }
                 Nonlinear_ODE6 initSys(pos);
-                Protein_Moments XtPSO(tf, nMoments);
-                Moments_Vec_Obs XtObsPSO(XtPSO);
+                Protein_Components XtPSO(tf, nMoments, N);
+                Moments_Mat_Obs XtObsPSO(XtPSO);
                 for(int i = 0; i < N; i++){
                     //State_N c0 = gen_multi_norm_iSub();
                     State_N c0 = convertInit(X_0, i);
+                    XtPSO.index = i;
                     integrate_adaptive(controlledStepper, initSys, c0, t0, tf, dt, XtObsPSO);
                 }
                 XtPSO.mVec/=N;
@@ -604,7 +609,7 @@ int main() {
                     PBMAT(particle, i) = POSMAT(particle, i);
                 }
                 PBMAT(particle, Npars) = cost; // add cost to final column
-            }else{ // PSO after instantiations
+            }else{ 
                 /* using new rate constants, instantiate particle best values */
                 /* step into PSO */
                 double w1 = sfi * pUnifDist(pGenerator)/ sf2, w2 = sfc * pUnifDist(pGenerator) / sf2, w3 = sfs * pUnifDist(pGenerator)/ sf2;
@@ -623,23 +628,21 @@ int main() {
                 POSMAT.row(particle) = pos.k;
 
                 /*solve ODEs and recompute cost */
-                Protein_Moments XtPSO(tf, nMoments);
-                Moments_Vec_Obs XtObsPSO1(XtPSO);
+                Protein_Components XtPSO(tf, nMoments, N);
+                Moments_Mat_Obs XtObsPSO1(XtPSO);
                 Nonlinear_ODE6 stepSys(pos);
        
                 for(int i = 0; i < N; i++){
                     State_N c0 = convertInit(X_0, i);
+                    XtPSO.index = i;
                     integrate_adaptive(controlledStepper, stepSys, c0, t0, tf, dt, XtObsPSO1);
                 }
-                
                 XtPSO.mVec/=N;
-                double cost = calculate_cf2(Yt.mVec, XtPSO.mVec, wt);
                 
+                double cost = calculate_cf2(Yt.mVec, XtPSO.mVec, wt); 
                 /* update gBest and pBest */
-                // #pragma omp critical
-                // {
-                    // cout << "step:" << step << " from thread:" << omp_get_thread_num() << endl;
-                    // cout << "particle:" << particle << endl;
+                #pragma omp critical
+               {
                 if(cost < PBMAT(particle, Npars)){ // particle best cost
                     for(int i = 0; i < Npars; i++){
                         PBMAT(particle, i) = pos.k(i);
@@ -648,27 +651,188 @@ int main() {
                     if(cost < gCost){
                         gCost = cost;
                         GBVEC = pos.k;
-                        GBMAT.conservativeResize(GBMAT.rows() + 1, Npars + 1);
-                        for (int i = 0; i < Npars; i++) {GBMAT(GBMAT.rows() - 1, i) = GBVEC(i);}
-                        GBMAT(GBMAT.rows() - 1, Npars) = gCost;
                     }   
                 }
-               //}
+              }
             }
         }
-        sfi = sfi - (sfe - sfg) / Nsteps;   // reduce the inertial weight after each step 
-        sfs = sfs + (sfe - sfg) / Nsteps;
+        GBMAT.conservativeResize(GBMAT.rows() + 1, Npars + 1); // Add to GBMAT after resizing
+        for (int i = 0; i < Npars; i++) {GBMAT(GBMAT.rows() - 1, i) = GBVEC(i);}
+        GBMAT(GBMAT.rows() - 1, Npars) = gCost;
+
+        sfi = sfi - (sfe - sfg) / nSteps;   // reduce the inertial weight after each step 
+        sfs = sfs + (sfe - sfg) / nSteps;
     }
-    // cout << "POSMAT:" << endl; 
-    // cout <<  POSMAT<< endl << endl;
-    // cout << "PBMAT:" << endl;
-    // cout << PBMAT << endl << endl;
-    cout << "GBMAT from first PSO:" << endl << endl;
+
+    cout << "GBMAT from targeted PSO:" << endl << endl;
     cout << GBMAT << endl << endl;
-    cout << "truk" << tru.k.transpose() << endl;
+    cout << "truk: " << tru.k.transpose() << endl;
     double dist = calculate_cf1(tru.k, GBVEC);
-    cout << "total difference b/w truk and final GBVEC" << dist << endl; // compute difference
+    cout << "total difference b/w truk and final GBVEC" << dist << endl << endl; // compute difference
     
+    /*** targeted PSO ***/
+    POSMAT.conservativeResize(nParts2, Npars); // resize matrices to fit targetted PSO
+    PBMAT.conservativeResize(nParts2, Npars + 1);
+    cout << "targeted PSO has started!" << endl; 
+    sfp = 3.0, sfg = 1.0, sfe = 6.0; // initial particle historical weight, global weight social, inertial
+    sfi = sfe, sfc = sfp, sfs = sfg; // below are the variables being used to reiterate weights
+    double nearby = sdbeta;
+    VectorXd chkpts = wmatup * nSteps2;
+    for(int step = 0; step < nSteps2; step++){
+        if(step == 0 || step == chkpts(0) || step == chkpts(1) || step == chkpts(2) || step == chkpts(3) ){ /* update wt matrix || step == chkpts(0) || step == chkpts(1) || step == chkpts(2) || step == chkpts(3) */
+            cout << "Updating Weight Matrix!" << endl;
+            cout << "GBVEC AND COST:" << GBMAT.row(GBMAT.rows() - 1) << endl;
+            nearby = squeeze * nearby;
+            /* reinstantiate gCost */
+            struct K gPos;
+            gPos.k = GBVEC;
+            Protein_Components gXt(tf, nMoments, N);
+            Moments_Mat_Obs gXtObs(gXt);
+            Nonlinear_ODE6 gSys(gPos);
+            for (int i = 0; i < N; i++) {
+                //State_N c0 = gen_multi_norm_iSub();
+                State_N c0 = convertInit(X_0, i);
+                gXt.index = i;
+                integrate_adaptive(controlledStepper, gSys, c0, t0, tf, dt, gXtObs);
+            }
+            gXt.mVec /= N;  
+            wt = customWtMat(Yt.mat, gXt.mat, nMoments, N);
+            gCost = calculate_cf2(Yt.mVec, gXt.mVec, wt);
+            GBMAT.conservativeResize(GBMAT.rows() + 1, Npars + 1);
+            for (int i = 0; i < Npars; i++) {GBMAT(GBMAT.rows() - 1, i) = gPos.k(i);}
+            GBMAT(GBMAT.rows() - 1, Npars) = gCost;
+        }
+    #pragma omp parallel for 
+        for(int particle = 0; particle < nParts2; particle++){
+            random_device pRanDev;
+            mt19937 pGenerator(pRanDev());
+            uniform_real_distribution<double> pUnifDist(uniLowBound, uniHiBound);
+        
+            if(step == 0 || step == chkpts(0) || step == chkpts(1) || step == chkpts(2) || step == chkpts(3)){
+                /* reinitialize particles around global best */
+                for(int edim = 0; edim < Npars; edim++){
+                    int wasflipped = 0;
+                    double tmean = GBVEC(edim);
+                    if (GBVEC(edim) > 0.5) {
+                        tmean = 1 - GBVEC(edim);
+                        wasflipped = 1;
+                    }
+                    double myc = (1 - tmean) / tmean;
+                    double alpha = myc / ((1 + myc) * (1 + myc) * (1 + myc)*nearby*nearby);
+                    double beta = myc * alpha;
+
+                    if(alpha < 0.005){
+                        alpha = 0.01;
+                    }
+                    if(beta < 0.005){
+                        beta = 0.01;
+                    }
+
+                    std::gamma_distribution<double> aDist(alpha, 1);
+                    std::gamma_distribution<double> bDist(beta, 1);
+
+                    double x = aDist(pGenerator);
+                    double y = bDist(pGenerator);
+                    double myg = x / (x + y);
+
+                    if(myg >= 1){
+                        myg = myg - 0.005;
+                    }
+                    if(myg <= 0){
+                        myg = myg + 0.005;
+                    }
+
+                    if (wasflipped == 1) {
+                        wasflipped = 0;
+                        myg = 1 - myg;
+                    }
+                    POSMAT(particle, edim) = myg;
+                }
+
+                /* Write new POSMAT into Ks to be passed into system */
+                struct K pos;
+                pos.k = VectorXd::Zero(Npars);
+                for(int i = 0; i < Npars; i++){
+                    pos.k(i) = POSMAT(particle, i);
+                }
+                Nonlinear_ODE6 initSys(pos);
+                Protein_Components XtPSO(tf, nMoments, N);
+                Moments_Mat_Obs XtObsPSO(XtPSO);
+                for(int i = 0; i < N; i++){
+                    State_N c0 = convertInit(X_0, i);
+                    XtPSO.index = i;
+                    integrate_adaptive(controlledStepper, initSys, c0, t0, tf, dt, XtObsPSO);
+                }
+                XtPSO.mVec/=N;
+                double cost = calculate_cf2(Yt.mVec, XtPSO.mVec, wt);
+                /* instantiate PBMAT */
+                for(int i = 0; i < Npars; i++){
+                    PBMAT(particle, i) = POSMAT(particle, i);
+                }
+                PBMAT(particle, Npars) = cost; // add cost to final column
+            }else{ 
+                /* using new rate constants, initialize particle best values */
+                /* step into PSO */
+                double w1 = sfi * pUnifDist(pGenerator)/ sf2, w2 = sfc * pUnifDist(pGenerator) / sf2, w3 = sfs * pUnifDist(pGenerator)/ sf2;
+                double sumw = w1 + w2 + w3; //w1 = inertial, w2 = pbest, w3 = gbest
+                w1 = w1 / sumw; w2 = w2 / sumw; w3 = w3 / sumw;
+                //w1 = 0.05; w2 = 0.90; w3 = 0.05;
+                struct K pos;
+                pos.k = VectorXd::Zero(Npars);
+                pos.k = POSMAT.row(particle);
+                VectorXd rpoint = comp_vel_vec(pos.k, particle);
+                VectorXd PBVEC(Npars);
+                for(int i = 0; i < Npars; i++){
+                    PBVEC(i) = PBMAT(particle, i);
+                }
+                pos.k = w1 * rpoint + w2 * PBVEC + w3 * GBVEC; // update position of particle
+                POSMAT.row(particle) = pos.k; // back into POSMAT
+
+                /* solve ODEs with new system and recompute cost */
+                Protein_Components XtPSO(tf, nMoments, N);
+                Moments_Mat_Obs XtObsPSO1(XtPSO);
+                Nonlinear_ODE6 stepSys(pos);
+                for(int i = 0; i < N; i++){
+                    State_N c0 = convertInit(X_0, i);
+                    XtPSO.index = i;
+                    integrate_adaptive(controlledStepper, stepSys, c0, t0, tf, dt, XtObsPSO1);
+                }
+                XtPSO.mVec/=N;
+                double cost = calculate_cf2(Yt.mVec, XtPSO.mVec, wt);
+
+                /* update pBest and gBest */
+                #pragma omp critical
+                {
+                if(cost < PBMAT(particle, Npars)){ // update particle best 
+                    for(int i = 0; i < Npars; i++){
+                        PBMAT(particle, i) = pos.k(i);
+                    }
+                    PBMAT(particle, Npars) = cost;
+                    if(cost < gCost){ // update global 
+                        gCost = cost;
+                        GBVEC = pos.k;
+                    }   
+                }
+               }
+            }
+        }
+        GBMAT.conservativeResize(GBMAT.rows() + 1, Npars + 1); // Add to GBMAT after each step.
+        for (int i = 0; i < Npars; i++) {GBMAT(GBMAT.rows() - 1, i) = GBVEC(i);}
+        GBMAT(GBMAT.rows() - 1, Npars) = gCost;
+
+        sfi = sfi - (sfe - sfg) / nSteps2;   // reduce the inertial weight after each step 
+        sfs = sfs + (sfe - sfg) / nSteps2;
+
+        if(step == 0){ // quick plug to see PBMAT
+            cout << "New PBMAT:" << endl;
+            cout << PBMAT << endl << endl;
+        }
+    }
+    cout << "GBMAT after targeted PSO:" << endl << GBMAT << endl;
+    cout << "truk: " << tru.k.transpose() << endl;
+    dist = calculate_cf1(tru.k, GBVEC);
+    cout << "total difference b/w truk and final GBVEC:" << dist << endl; // compute difference
+
     ofstream plot;
 	plot.open("GBMAT.csv");
 	MatrixXd GBMATWithSteps(GBMAT.rows(), GBMAT.cols() + 1);

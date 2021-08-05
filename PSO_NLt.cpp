@@ -1,6 +1,3 @@
-// PSO.cpp : Replacing Dr. Stewarts linear 3 ODE's with the nonlinear3 ODE system provided way earlier
-//
-
 #include <iostream>
 #include <fstream>
 #include <boost/math/distributions.hpp>
@@ -17,7 +14,6 @@
 #include <boost/numeric/odeint/external/openmp/openmp.hpp>
 
 #define N_SPECIES 6
-#define N 25000 // # of samples to sample over
 #define N_DIM 6 // dim of PSO hypercube
 
 using Eigen::MatrixXd;
@@ -394,7 +390,7 @@ MatrixXd readIntoMatrix(ifstream& in, int rows, int cols) {
     }
     return mat;
 }
-MatrixXd customWtMat(const MatrixXd& Yt, const MatrixXd& Xt, int nMoments){
+MatrixXd customWtMat(const MatrixXd& Yt, const MatrixXd& Xt, int nMoments, int N){
     /* first moment differences */
     MatrixXd fmdiffs = Yt - Xt; 
     /* second moment difference computations - @todo make it variable later */
@@ -477,6 +473,7 @@ int main() {
     double sfp = 3.0, sfg = 1.0, sfe = 6.0; // initial particle historical weight, global weight social, inertial
     double sfi = sfe, sfc = sfp, sfs = sfg; // below are the variables being used to reiterate weights
     double alpha = 0.2;
+    int N = 25000;
     int nParts = 900; // first part PSO
     int nSteps = 10;
     int nParts2 = 15; // second part PSO
@@ -699,7 +696,7 @@ int main() {
                 integrate_adaptive(controlledStepper, gSys, c0, t0, tf, dt, gXtObs);
             }
             gXt.mVec /= N;  
-            wt = customWtMat(Yt.mat, gXt.mat, nMoments);
+            wt = customWtMat(Yt.mat, gXt.mat, nMoments, N);
             gCost = calculate_cf2(Yt.mVec, gXt.mVec, wt);
             GBMAT.conservativeResize(GBMAT.rows() + 1, Npars + 1);
             for (int i = 0; i < Npars; i++) {GBMAT(GBMAT.rows() - 1, i) = gPos.k(i);}
