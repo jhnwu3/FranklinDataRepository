@@ -1,0 +1,16 @@
+PSO_S_ODE_NonLinear
+Using two part PSO Sample Size:25000 with:12 moments.
+Using Record Time:48.45
+Bounds for Uniform Distribution (0,1)
+Blind PSO --> nParts:900 Nsteps:15
+Targeted PSO --> nParts:25 Nsteps:500
+mu: 80 120  85
+covarMat:
+ 50   0   0
+  0 100   0
+  0   0  50
+
+Yt: 3.99672  3.44981  2.34885 0.128483  5.92715  3.31439  55.4172  98.0831  10.5164 0.019367  134.721  20.9019
+seedk: 0.44836 0.925841 0.216993 0.465988 0.659171 0.649067| cost:6736.46
+Xt: 3.93564  5.63038  2.47664 0.354522  8.46154 0.827979  51.3565  140.462   12.967 0.157863  201.968  1.44928
+PSO begins!
