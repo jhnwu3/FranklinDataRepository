@@ -1,0 +1,50 @@
+PSO_S_ODE_NonLinear
+Using two part PSO Sample Size:100 with:12 moments.
+Using Record Time:38.76
+Bounds for Uniform Distribution (0,1)
+Blind PSO --> nParts:900 Nsteps:15
+Targeted PSO --> nParts:25 Nsteps:500
+mu: 80 120  85
+covarMat:
+ 50   0   0
+  0 100   0
+  0   0  50
+
+Yt:  3.82376   2.87693   2.47531  0.125707   5.47794   3.43893   49.0986   39.5763   12.9946 0.0187632   70.3053   25.2911
+seedk: 0.845432  0.633696 0.0810283  0.927444  0.372332  0.929406| cost:53840.5
+Xt:   2.54987    6.10904    3.31566  0.0590688    9.48377   0.289069    31.1688    163.998    25.8318 0.00456005    263.191   0.196344
+PSO begins!
+GBMAT from targeted PSO:
+
+ 0.845432  0.633696 0.0810283  0.927444  0.372332  0.929406   53840.5
+ 0.845432  0.633696 0.0810283  0.927444  0.372332  0.929406   53840.5
+ 0.756487  0.309312  0.538319  0.150084  0.331496  0.176993   1860.57
+ 0.756487  0.309312  0.538319  0.150084  0.331496  0.176993   1860.57
+ 0.753431  0.312571  0.535103  0.154989  0.332406  0.181033    1847.6
+ 0.626999  0.120396  0.476144  0.130764  0.247657   0.16194   1845.57
+  0.70378  0.241602  0.503451  0.114056   0.28078  0.170464   1841.32
+ 0.724811  0.241577  0.485904  0.142279  0.352276  0.164152   1838.92
+ 0.741083  0.266036  0.476819  0.137568  0.377914  0.160493   1838.67
+ 0.765483   0.15533  0.519862  0.117642    0.2613  0.175457   1833.75
+ 0.760241  0.110619  0.497828  0.121992  0.322408  0.168762   1830.48
+ 0.801721  0.132269  0.496598  0.118241  0.290014  0.169305   1828.64
+ 0.795574  0.126116  0.490202   0.12016  0.295279  0.167315   1828.32
+ 0.831302  0.127203  0.500274  0.120651  0.290525   0.17065   1827.36
+ 0.808091  0.103851  0.480158  0.111505  0.264836  0.163913    1826.6
+ 0.843959  0.104763  0.473746  0.114778  0.271295  0.162218   1825.17
+
+truk:  0.515996 0.0603199  0.103199  0.896801   0.05516 0.0722394
+total difference b/w truk and final GBVEC0.91321
+
+targeted PSO has started!
+Updating Weight Matrix!
+GBVEC AND COST:0.843959 0.104763 0.473746 0.114778 0.271295 0.162218  1825.17
+PSO_NLt: /gpfs0/export/apps/easybuild/software/Eigen/3.3.7-GCCcore-9.3.0/include/Eigen/src/Core/Block.h:120: Eigen::Block<XprType, BlockRows, BlockCols, InnerPanel>::Block(XprType&, Eigen::Index) [with XprType = Eigen::Matrix<double, -1, -1>; int BlockRows = -1; int BlockCols = 1; bool InnerPanel = true; Eigen::Index = long int]: Assertion `(i>=0) && ( ((BlockRows==1) && (BlockCols==XprType::ColsAtCompileTime) && i<xpr.rows()) ||((BlockRows==XprType::RowsAtCompileTime) && (BlockCols==1) && i<xpr.cols()))' failed.
+/var/spool/slurmd/job1523339/slurm_script: line 10: 755229 Aborted                 (core dumped) ./PSO_NLt
+Job Statistics for 1523339:
+           JobID       User               Start                 End    Elapsed     MaxRSS   TotalCPU      State Exit        NodeList                                  ReqTRES 
+---------------- ---------- ------------------- ------------------- ---------- ---------- ---------- ---------- ---- --------------- ---------------------------------------- 
+         1523339   rsjxw007 2021-08-06T12:13:35 2021-08-06T12:14:22   00:00:47             00:45.516     FAILED  6:0   r1pl-hpcf-n21         billing=1,cpu=1,mem=7812M,node=1 
+   1523339.batch            2021-08-06T12:13:35 2021-08-06T12:14:22   00:00:47      1.18M  00:45.515     FAILED  6:0   r1pl-hpcf-n21                                          
+  1523339.extern            2021-08-06T12:13:35 2021-08-06T12:14:22   00:00:47          0  00:00.001  COMPLETED  0:0   r1pl-hpcf-n21                                          
+CPU Efficiency: 97.87% of 00:00:47 core-walltime
