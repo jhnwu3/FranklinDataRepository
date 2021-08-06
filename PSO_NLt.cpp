@@ -464,7 +464,7 @@ int main() {
     /*---------------------- Setup ------------------------ */
     
     /* Variables (global) */
-    double t0 = 0, tf = 5.0 * 9.69, dt = 1.0;
+    double t0 = 0, tf = 4.0 * 9.69, dt = 1.0;
     int Npars = N_DIM;
     double squeeze = 0.985, sdbeta = 0.085; 
     double boundary = 0.001;
@@ -477,7 +477,7 @@ int main() {
     double sfp = 3.0, sfg = 1.0, sfe = 6.0; // initial particle historical weight, global weight social, inertial
     double sfi = sfe, sfc = sfp, sfs = sfg; // below are the variables being used to reiterate weights
     double alpha = 0.2;
-    int N = 25000;
+    int N = 5000;
     int nParts = 900; // first part PSO
     int nSteps = 15;
     int nParts2 = 25; // second part PSO
@@ -669,7 +669,7 @@ int main() {
         sfs = sfs + (sfe - sfg) / nSteps;
     }
 
-    cout << "GBMAT from targeted PSO:" << endl << endl;
+    cout << "GBMAT from blind PSO:" << endl << endl;
     cout << GBMAT << endl << endl;
     cout << "truk: " << tru.k.transpose() << endl;
     double dist = calculate_cf1(tru.k, GBVEC);
