@@ -128,11 +128,11 @@ struct Moments_Vec_Obs
                     if (i == j) { // diagonal elements
                         pMome.mVec(N_SPECIES + i) += c[i] * c[j];
                     }
-                    else { //upper right diagonal elements
-                       // cout << "upperDiag: " << upperDiag << endl; 
-                        pMome.mVec(upperDiag) += c[i] * c[j];
-                        upperDiag++;
-                    }
+                    // else { //upper right diagonal elements
+                    //    // cout << "upperDiag: " << upperDiag << endl; 
+                    //     pMome.mVec(upperDiag) += c[i] * c[j];
+                    //     upperDiag++;
+                    // }
                 }
             }
         }
@@ -153,11 +153,11 @@ struct Moments_Mat_Obs
                 for (int j = i; j < N_SPECIES; j++) {
                     if (i == j) { // diagonal elements
                         dComp.mVec(N_SPECIES + i) += c[i] * c[j];
-                    }else {
-                        dComp.mVec(upperDiag) += c[i] * c[j];
-                        upperDiag++;
                     }
-            
+                    // else {
+                    //     dComp.mVec(upperDiag) += c[i] * c[j];
+                    //     upperDiag++;
+                    // }
                 }
             }
         }
@@ -394,19 +394,23 @@ MatrixXd customWtMat(const MatrixXd& Yt, const MatrixXd& Xt, int nMoments, int N
     /* first moment differences */
     MatrixXd fmdiffs = Yt - Xt; 
     /* second moment difference computations - @todo make it variable later */
-    MatrixXd smdiffs(N,6);
+    MatrixXd smdiffs(N, N_SPECIES);
     for(int i = 0; i < N_SPECIES; i++){
         smdiffs.col(i) = (Yt.col(i).array() * Yt.col(i).array()) - (Xt.col(i).array() * Xt.col(i).array());
     }
+
+   
     int nCross = nMoments - 2 * N_SPECIES;
     MatrixXd cpDiff(N, nCross);
     
     /* cross differences */
-    int upperDiag = 0;
-    for(int i = 0; i < N_SPECIES; i++){
-        for(int j = i + 1; j < N_SPECIES; j++){
-            cpDiff.col(upperDiag) = (Yt.col(i).array() * Yt.col(j).array()) - (Xt.col(i).array() * Xt.col(j).array());
-            upperDiag++;
+    if(nCross > 0){
+        int upperDiag = 0;
+        for(int i = 0; i < N_SPECIES; i++){
+            for(int j = i + 1; j < N_SPECIES; j++){
+                cpDiff.col(upperDiag) = (Yt.col(i).array() * Yt.col(j).array()) - (Xt.col(i).array() * Xt.col(j).array());
+                upperDiag++;
+            }
         }
     }
     MatrixXd aDiff(N, nMoments);
@@ -460,9 +464,9 @@ int main() {
     /*---------------------- Setup ------------------------ */
     
     /* Variables (global) */
-    double t0 = 0, tf = 4.0 * 9.69, dt = 1.0;
+    double t0 = 0, tf = 3.0 * 9.69, dt = 1.0;
     int Npars = N_DIM;
-    double squeeze = 0.975, sdbeta = 0.15;
+    double squeeze = 0.985, sdbeta = 0.085; 
     double boundary = 0.001;
     /* SETUP */
     int useDiag = 0;
@@ -473,19 +477,20 @@ int main() {
     double sfp = 3.0, sfg = 1.0, sfe = 6.0; // initial particle historical weight, global weight social, inertial
     double sfi = sfe, sfc = sfp, sfs = sfg; // below are the variables being used to reiterate weights
     double alpha = 0.2;
-    int N = 25000;
+    int N = 5000;
     int nParts = 900; // first part PSO
-    int nSteps = 10;
-    int nParts2 = 15; // second part PSO
-    int nSteps2 = 150;
-    int nMoments = (N_SPECIES * (N_SPECIES + 3)) / 2;
+    int nSteps = 15;
+    int nParts2 = 25; // second part PSO
+    int nSteps2 = 500;
+    int nMoments = (N_SPECIES * (N_SPECIES + 3)) / 2; // var + mean + cov
+    nMoments = 2*N_SPECIES; // mean + var only!
     VectorXd wmatup(4);
     wmatup << 0.2, 0.4, 0.6, 0.8;
     double uniLowBound = 0.0, uniHiBound = 1.0;
     random_device RanDev;
     mt19937 gen(RanDev());
     uniform_real_distribution<double> unifDist(uniLowBound, uniHiBound);
-    // nMoments = 2*N_SPECIES;
+    
     // nMoments = N_SPECIES;
     cout << "Using two part PSO " << "Sample Size:" << N << " with:" << nMoments << " moments." << endl;
     cout << "Using Record Time:" << tf << endl;
@@ -527,7 +532,7 @@ int main() {
     tru.k /= (9.69);
     tru.k(1) += 0.05;
     tru.k(4) += 0.05; // make sure not so close to the boundary
-    //tru.k <<  0.51599600,  0.06031990, 0.10319900, 0.89680100, 0.05516000, 0.00722394; // Bill k
+    // tru.k <<  0.51599600,  0.06031990, 0.10319900, 0.89680100, 0.05516000, 0.00722394; // Bill k
     Nonlinear_ODE6 trueSys(tru);
     Protein_Components Yt(tf, nMoments, N);
     Moments_Mat_Obs YtObs(Yt);
@@ -679,7 +684,7 @@ int main() {
     double nearby = sdbeta;
     VectorXd chkpts = wmatup * nSteps2;
     for(int step = 0; step < nSteps2; step++){
-        if(step == 0 || step == chkpts(0) || step == chkpts(1) || step == chkpts(2) || step == chkpts(3) ){ /* update wt matrix || step == chkpts(0) || step == chkpts(1) || step == chkpts(2) || step == chkpts(3) */
+        if(step % 50 == 0 ){ /* update wt matrix || step == chkpts(0) || step == chkpts(1) || step == chkpts(2) || step == chkpts(3) */
             cout << "Updating Weight Matrix!" << endl;
             cout << "GBVEC AND COST:" << GBMAT.row(GBMAT.rows() - 1) << endl;
             nearby = squeeze * nearby;
@@ -708,7 +713,7 @@ int main() {
             mt19937 pGenerator(pRanDev());
             uniform_real_distribution<double> pUnifDist(uniLowBound, uniHiBound);
         
-            if(step == 0 || step == chkpts(0) || step == chkpts(1) || step == chkpts(2) || step == chkpts(3)){
+            if(step % 50 == 0){
                 /* reinitialize particles around global best */
                 for(int edim = 0; edim < Npars; edim++){
                     int wasflipped = 0;
