@@ -4091,3 +4091,9 @@ truk:  0.515996 0.0603199  0.103199  0.896801   0.05516 0.0722394
 total difference b/w truk and final GBVEC:0.252312
 CODE FINISHED RUNNING IN 105 s TIME!
 Job Statistics for 1523332:
+           JobID       User               Start                 End    Elapsed     MaxRSS   TotalCPU      State Exit        NodeList                                  ReqTRES 
+---------------- ---------- ------------------- ------------------- ---------- ---------- ---------- ---------- ---- --------------- ---------------------------------------- 
+         1523332   rsjxw007 2021-08-06T11:58:23 2021-08-06T12:00:09   00:01:46             01:43.651  COMPLETED  0:0   r1pl-hpcf-n21         billing=1,cpu=1,mem=7812M,node=1 
+   1523332.batch            2021-08-06T11:58:23 2021-08-06T12:00:09   00:01:46      1.18M  01:43.650  COMPLETED  0:0   r1pl-hpcf-n21                                          
+  1523332.extern            2021-08-06T11:58:23 2021-08-06T12:00:09   00:01:46          0  00:00.001  COMPLETED  0:0   r1pl-hpcf-n21                                          
+CPU Efficiency: 98.11% of 00:01:46 core-walltime
