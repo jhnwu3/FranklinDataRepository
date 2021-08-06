@@ -128,11 +128,11 @@ struct Moments_Vec_Obs
                     if (i == j) { // diagonal elements
                         pMome.mVec(N_SPECIES + i) += c[i] * c[j];
                     }
-                    else { //upper right diagonal elements
-                       // cout << "upperDiag: " << upperDiag << endl; 
-                        pMome.mVec(upperDiag) += c[i] * c[j];
-                        upperDiag++;
-                    }
+                    // else { //upper right diagonal elements
+                    //    // cout << "upperDiag: " << upperDiag << endl; 
+                    //     pMome.mVec(upperDiag) += c[i] * c[j];
+                    //     upperDiag++;
+                    // }
                 }
             }
         }
@@ -153,11 +153,11 @@ struct Moments_Mat_Obs
                 for (int j = i; j < N_SPECIES; j++) {
                     if (i == j) { // diagonal elements
                         dComp.mVec(N_SPECIES + i) += c[i] * c[j];
-                    }else {
-                        dComp.mVec(upperDiag) += c[i] * c[j];
-                        upperDiag++;
                     }
-            
+                    // else {
+                    //     dComp.mVec(upperDiag) += c[i] * c[j];
+                    //     upperDiag++;
+                    // }
                 }
             }
         }
@@ -473,19 +473,20 @@ int main() {
     double sfp = 3.0, sfg = 1.0, sfe = 6.0; // initial particle historical weight, global weight social, inertial
     double sfi = sfe, sfc = sfp, sfs = sfg; // below are the variables being used to reiterate weights
     double alpha = 0.2;
-    int N = 100;
+    int N = 25000;
     int nParts = 900; // first part PSO
     int nSteps = 15;
     int nParts2 = 25; // second part PSO
     int nSteps2 = 500;
-    int nMoments = (N_SPECIES * (N_SPECIES + 3)) / 2;
+    int nMoments = (N_SPECIES * (N_SPECIES + 3)) / 2; // var + mean + cov
+    nMoments = 2*N_SPECIES; // mean + var only!
     VectorXd wmatup(4);
     wmatup << 0.2, 0.4, 0.6, 0.8;
     double uniLowBound = 0.0, uniHiBound = 1.0;
     random_device RanDev;
     mt19937 gen(RanDev());
     uniform_real_distribution<double> unifDist(uniLowBound, uniHiBound);
-    // nMoments = 2*N_SPECIES;
+    
     // nMoments = N_SPECIES;
     cout << "Using two part PSO " << "Sample Size:" << N << " with:" << nMoments << " moments." << endl;
     cout << "Using Record Time:" << tf << endl;
