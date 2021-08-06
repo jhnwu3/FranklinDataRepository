@@ -394,19 +394,23 @@ MatrixXd customWtMat(const MatrixXd& Yt, const MatrixXd& Xt, int nMoments, int N
     /* first moment differences */
     MatrixXd fmdiffs = Yt - Xt; 
     /* second moment difference computations - @todo make it variable later */
-    MatrixXd smdiffs(N,6);
+    MatrixXd smdiffs(N, N_SPECIES);
     for(int i = 0; i < N_SPECIES; i++){
         smdiffs.col(i) = (Yt.col(i).array() * Yt.col(i).array()) - (Xt.col(i).array() * Xt.col(i).array());
     }
+
+   
     int nCross = nMoments - 2 * N_SPECIES;
     MatrixXd cpDiff(N, nCross);
     
     /* cross differences */
-    int upperDiag = 0;
-    for(int i = 0; i < N_SPECIES; i++){
-        for(int j = i + 1; j < N_SPECIES; j++){
-            cpDiff.col(upperDiag) = (Yt.col(i).array() * Yt.col(j).array()) - (Xt.col(i).array() * Xt.col(j).array());
-            upperDiag++;
+    if(nCross > 0){
+        int upperDiag = 0;
+        for(int i = 0; i < N_SPECIES; i++){
+            for(int j = i + 1; j < N_SPECIES; j++){
+                cpDiff.col(upperDiag) = (Yt.col(i).array() * Yt.col(j).array()) - (Xt.col(i).array() * Xt.col(j).array());
+                upperDiag++;
+            }
         }
     }
     MatrixXd aDiff(N, nMoments);
