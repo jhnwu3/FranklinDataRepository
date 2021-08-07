@@ -128,11 +128,11 @@ struct Moments_Vec_Obs
                     if (i == j) { // diagonal elements
                         pMome.mVec(N_SPECIES + i) += c[i] * c[j];
                     }
-                    // else { //upper right diagonal elements
-                    //    // cout << "upperDiag: " << upperDiag << endl; 
-                    //     pMome.mVec(upperDiag) += c[i] * c[j];
-                    //     upperDiag++;
-                    // }
+                    else { //upper right diagonal elements
+                       // cout << "upperDiag: " << upperDiag << endl; 
+                        pMome.mVec(upperDiag) += c[i] * c[j];
+                        upperDiag++;
+                    }
                 }
             }
         }
@@ -154,10 +154,10 @@ struct Moments_Mat_Obs
                     if (i == j) { // diagonal elements
                         dComp.mVec(N_SPECIES + i) += c[i] * c[j];
                     }
-                    // else {
-                    //     dComp.mVec(upperDiag) += c[i] * c[j];
-                    //     upperDiag++;
-                    // }
+                    else {
+                        dComp.mVec(upperDiag) += c[i] * c[j];
+                        upperDiag++;
+                    }
                 }
             }
         }
@@ -435,7 +435,11 @@ MatrixXd customWtMat(const MatrixXd& Yt, const MatrixXd& Xt, int nMoments, int N
 
     for(int i = 0; i < nMoments; i++){
         wt(i,i) = 1 / variances(i); // cleanup code and make it more vectorized later.
+        if(i >= 17){
+            wt(i,i) = 0;
+        }
     }
+
     cout << "Chkpt reached!" << endl;
     cout << "new weight matrix:" << endl << wt << endl << endl;
     return wt;
@@ -483,7 +487,7 @@ int main() {
     int nParts2 = 25; // second part PSO
     int nSteps2 = 500;
     int nMoments = (N_SPECIES * (N_SPECIES + 3)) / 2; // var + mean + cov
-    nMoments = 2*N_SPECIES; // mean + var only!
+    //nMoments = 2*N_SPECIES; // mean + var only!
     VectorXd wmatup(4);
     wmatup << 0.2, 0.4, 0.6, 0.8;
     double uniLowBound = 0.0, uniHiBound = 1.0;
@@ -498,6 +502,10 @@ int main() {
     cout << "Blind PSO --> nParts:" << nParts << " Nsteps:" << nSteps << endl;
     cout << "Targeted PSO --> nParts:" <<  nParts2 << " Nsteps:" << nSteps2 << endl;
     MatrixXd wt = MatrixXd::Identity(nMoments, nMoments); // wt matrix
+    int covCutOff = 17;
+    for(int i = covCutOff; i < nMoments; i++){
+        wt(i,i) = 0;
+    }
     MatrixXd GBMAT(0, 0); // iterations of global best vectors
     MatrixXd PBMAT(nParts, Npars + 1); // particle best matrix + 1 for cost component
     MatrixXd POSMAT(nParts, Npars); // Position matrix as it goees through it in parallel
