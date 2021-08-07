@@ -481,7 +481,7 @@ int main() {
     int nParts = 900; // first part PSO
     int nSteps = 15;
     int nParts2 = 25; // second part PSO
-    int nSteps2 = 2500;
+    int nSteps2 = 500;
     int nMoments = (N_SPECIES * (N_SPECIES + 3)) / 2; // var + mean + cov
     nMoments = 2*N_SPECIES; // mean + var only!
     VectorXd wmatup(4);
