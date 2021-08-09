@@ -558,10 +558,10 @@ int main() {
     /* Instantiate seedk aka global costs */
     struct K seed;
     seed.k = VectorXd::Zero(Npars); 
-    for (int i = 0; i < Npars; i++) { 
-        seed.k(i) = unifDist(gen);
-    }
-    
+    // for (int i = 0; i < Npars; i++) { 
+    //     seed.k(i) = unifDist(gen);
+    // }
+    seed.k << 0.725225, 0.0591037,  0.157054,  0.802015,  0.079692,  0.107293;
     Protein_Components Xt(tf, nMoments, N);
     Moments_Mat_Obs XtObs(Xt);
     Nonlinear_ODE6 sys(seed);
