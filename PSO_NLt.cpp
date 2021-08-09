@@ -468,7 +468,7 @@ int main() {
     /*---------------------- Setup ------------------------ */
     
     /* Variables (global) */
-    double t0 = 0, tf = 6.0 * 9.69, dt = 1.0;
+    double t0 = 0, tf = 5.0 * 9.69, dt = 1.0;
     int Npars = N_DIM;
     double squeeze = 0.985, sdbeta = 0.085; 
     double boundary = 0.001;
@@ -481,11 +481,11 @@ int main() {
     double sfp = 3.0, sfg = 1.0, sfe = 6.0; // initial particle historical weight, global weight social, inertial
     double sfi = sfe, sfc = sfp, sfs = sfg; // below are the variables being used to reiterate weights
     double alpha = 0.2;
-    int N = 25000;
+    int N = 100;
     int nParts = 900; // first part PSO
-    int nSteps = 15;
+    int nSteps = 2;
     int nParts2 = 25; // second part PSO
-    int nSteps2 = 500;
+    int nSteps2 = 1000;
     int nMoments = (N_SPECIES * (N_SPECIES + 3)) / 2; // var + mean + cov
     //nMoments = 2*N_SPECIES; // mean + var only!
     VectorXd wmatup(4);
@@ -596,10 +596,10 @@ int main() {
             /* instantiate all particle rate constants with unifDist */
             if(step == 0){
                 /* temporarily assign specified k constants */
-                for(int i = 0; i < Npars; i++){
-                    POSMAT(particle, i) = pUnifDist(pGenerator);//tru.k(i) + alpha * (0.5 - unifDist(pGenerator));
-                }
-
+                // for(int i = 0; i < Npars; i++){
+                //     //POSMAT(particle, i) = pUnifDist(pGenerator);//tru.k(i) + alpha * (0.5 - unifDist(pGenerator));
+                // }
+                POSMAT.row(particle) <<  0.725225, 0.0591037,  0.157054,  0.802015,  0.079692,  0.107293;
                 struct K pos;
                 pos.k = VectorXd::Zero(Npars);
                 for(int i = 0; i < Npars; i++){
