@@ -468,7 +468,7 @@ int main() {
     /*---------------------- Setup ------------------------ */
     
     /* Variables (global) */
-    double t0 = 0, tf = 5.0 * 9.69, dt = 1.0;
+    double t0 = 0, tf = 3.0 * 9.69, dt = 1.0;
     int Npars = N_DIM;
     double squeeze = 0.985, sdbeta = 0.085; 
     double boundary = 0.001;
