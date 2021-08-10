@@ -268,6 +268,8 @@ State_N convertInit(const MatrixXd& sample, int index){
     return c0;
 }
 VectorXd comp_vel_vec(const VectorXd& posK, int seed) {
+    double epsi = 0.02;
+    double nan = 0.005;
     VectorXd rPoint;
     rPoint = posK;
     std::random_device rand_dev;
@@ -287,22 +289,22 @@ VectorXd comp_vel_vec(const VectorXd& posK, int seed) {
     for (int smart = 0; smart < ncomp; smart++) {
         int px = wcomp(smart);
         double pos = rPoint(px);
-        if (pos > 1.0) {
+        if (pos > 1.0 - nan) {
             cout << "overflow!" << endl;
             // while(pos > 1.0){
             //     pos -= 0.001;
             // }
-            pos -= 0.001;
-        }else if (pos < 0.001) {
+            pos -= epsi;
+        }else if (pos < nan) {
             cout << "underflow!"<< pos << endl;
             // while( pos < 0.001){
             //     pos += 0.001;
             // }
-            pos += 0.001;
+            pos += epsi;
             cout << "pos" << posK.transpose() << endl; 
         }
-        double alpha = 4 * pos;
-        double beta = 4 - alpha;
+        double alpha = 16 * pos; // Component specific
+        double beta = 16 - alpha; // pos specific
        // cout << "alpha:" << alpha << "beta:" << beta << endl;
         std::gamma_distribution<double> aDist(alpha, 1); // beta distribution consisting of gamma distributions
         std::gamma_distribution<double> bDist(beta, 1);
