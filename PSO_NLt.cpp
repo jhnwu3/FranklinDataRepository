@@ -496,11 +496,13 @@ int main() {
     uniform_real_distribution<double> unifDist(uniLowBound, uniHiBound);
     
     // nMoments = N_SPECIES;
+    
     cout << "Using two part PSO " << "Sample Size:" << N << " with:" << nMoments << " moments." << endl;
     cout << "Using Record Time:" << tf << endl;
     cout << "Bounds for Uniform Distribution (" << uniLowBound << "," << uniHiBound << ")"<< endl;
     cout << "Blind PSO --> nParts:" << nParts << " Nsteps:" << nSteps << endl;
     cout << "Targeted PSO --> nParts:" <<  nParts2 << " Nsteps:" << nSteps2 << endl;
+    cout << "sdbeta:" << sdbeta << endl;
     MatrixXd wt = MatrixXd::Identity(nMoments, nMoments); // wt matrix
     int covCutOff = 17;
     for(int i = covCutOff; i < nMoments; i++){
