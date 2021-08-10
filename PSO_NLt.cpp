@@ -470,7 +470,7 @@ int main() {
     /* Variables (global) */
     double t0 = 0, tf = 5.0 * 9.69, dt = 1.0;
     int Npars = N_DIM;
-    double squeeze = 0.985, sdbeta = 0.085; 
+    double squeeze = 0.985, sdbeta = 0.02; 
     double boundary = 0.001;
     /* SETUP */
     int useDiag = 0;
@@ -481,11 +481,11 @@ int main() {
     double sfp = 3.0, sfg = 1.0, sfe = 6.0; // initial particle historical weight, global weight social, inertial
     double sfi = sfe, sfc = sfp, sfs = sfg; // below are the variables being used to reiterate weights
     double alpha = 0.2;
-    int N = 25000;
+    int N = 5000;
     int nParts = 900; // first part PSO
     int nSteps = 2;
     int nParts2 = 25; // second part PSO
-    int nSteps2 = 1000;
+    int nSteps2 = 500;
     int nMoments = (N_SPECIES * (N_SPECIES + 3)) / 2; // var + mean + cov
     //nMoments = 2*N_SPECIES; // mean + var only!
     VectorXd wmatup(4);
@@ -558,10 +558,10 @@ int main() {
     /* Instantiate seedk aka global costs */
     struct K seed;
     seed.k = VectorXd::Zero(Npars); 
-    // for (int i = 0; i < Npars; i++) { 
-    //     seed.k(i) = unifDist(gen);
-    // }
-    seed.k << 0.725225, 0.0591037,  0.157054,  0.802015,  0.079692,  0.107293;
+    for (int i = 0; i < Npars; i++) { 
+        seed.k(i) = unifDist(gen);
+    }
+    //seed.k << 0.725225, 0.0591037,  0.157054,  0.802015,  0.079692,  0.107293;
     Protein_Components Xt(tf, nMoments, N);
     Moments_Mat_Obs XtObs(Xt);
     Nonlinear_ODE6 sys(seed);
@@ -596,10 +596,10 @@ int main() {
             /* instantiate all particle rate constants with unifDist */
             if(step == 0){
                 /* temporarily assign specified k constants */
-                // for(int i = 0; i < Npars; i++){
-                //     //POSMAT(particle, i) = pUnifDist(pGenerator);//tru.k(i) + alpha * (0.5 - unifDist(pGenerator));
-                // }
-                POSMAT.row(particle) <<  0.725225, 0.0591037,  0.157054,  0.802015,  0.079692,  0.107293;
+                for(int i = 0; i < Npars; i++){
+                    //POSMAT(particle, i) = pUnifDist(pGenerator);//tru.k(i) + alpha * (0.5 - unifDist(pGenerator));
+                }
+                //POSMAT.row(particle) <<  0.725225, 0.0591037,  0.157054,  0.802015,  0.079692,  0.107293;
                 struct K pos;
                 pos.k = VectorXd::Zero(Npars);
                 for(int i = 0; i < Npars; i++){
@@ -692,7 +692,7 @@ int main() {
     double nearby = sdbeta;
     VectorXd chkpts = wmatup * nSteps2;
     for(int step = 0; step < nSteps2; step++){
-        if(step % 50 == 0 ){ /* update wt matrix || step == chkpts(0) || step == chkpts(1) || step == chkpts(2) || step == chkpts(3) */
+        if(step % 50 == 0 ){ /* update wt   matrix || step == chkpts(0) || step == chkpts(1) || step == chkpts(2) || step == chkpts(3) */
             cout << "Updating Weight Matrix!" << endl;
             cout << "GBVEC AND COST:" << GBMAT.row(GBMAT.rows() - 1) << endl;
             nearby = squeeze * nearby;
