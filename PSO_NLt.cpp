@@ -597,7 +597,7 @@ int main() {
             if(step == 0){
                 /* temporarily assign specified k constants */
                 for(int i = 0; i < Npars; i++){
-                    //POSMAT(particle, i) = pUnifDist(pGenerator);//tru.k(i) + alpha * (0.5 - unifDist(pGenerator));
+                    POSMAT(particle, i) = pUnifDist(pGenerator);//tru.k(i) + alpha * (0.5 - unifDist(pGenerator));
                 }
                 //POSMAT.row(particle) <<  0.725225, 0.0591037,  0.157054,  0.802015,  0.079692,  0.107293;
                 struct K pos;
