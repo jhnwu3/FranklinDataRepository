@@ -267,9 +267,8 @@ State_N convertInit(const MatrixXd& sample, int index){
     State_N c0 = {sample(index,0), sample(index,1), 0, 0, sample(index,4), 0};
     return c0;
 }
-VectorXd comp_vel_vec(const VectorXd& posK, int seed) {
-    double epsi = 0.02;
-    double nan = 0.005;
+VectorXd comp_vel_vec(const VectorXd& posK, int seed, double epsi, double nan) {
+    
     VectorXd rPoint;
     rPoint = posK;
     std::random_device rand_dev;
@@ -478,7 +477,8 @@ int main() {
     int useDiag = 0;
     int sf1 = 1;
     int sf2 = 1;
-
+    double epsi = 0.02;
+    double nan = 0.005;
     /* PSO params */
     double sfp = 3.0, sfg = 1.0, sfe = 6.0; // initial particle historical weight, global weight social, inertial
     double sfi = sfe, sfc = sfp, sfs = sfg; // below are the variables being used to reiterate weights
@@ -636,7 +636,7 @@ int main() {
                 struct K pos;
                 pos.k = VectorXd::Zero(Npars);
                 pos.k = POSMAT.row(particle);
-                VectorXd rpoint = comp_vel_vec(pos.k, particle);
+                VectorXd rpoint = comp_vel_vec(pos.k, particle, epsi, nan);
                 VectorXd PBVEC(Npars);
                 for(int i = 0; i < Npars; i++){
                     PBVEC(i) = PBMAT(particle, i);
@@ -738,11 +738,11 @@ int main() {
                     double alpha = myc / ((1 + myc) * (1 + myc) * (1 + myc)*nearby*nearby);
                     double beta = myc * alpha;
 
-                    if(alpha < 0.005){
-                        alpha = 0.01;
+                    if(alpha < nan){
+                        alpha = epsi;
                     }
-                    if(beta < 0.005){
-                        beta = 0.01;
+                    if(beta < nan){
+                        beta = epsi;
                     }
 
                     std::gamma_distribution<double> aDist(alpha, 1);
@@ -753,10 +753,10 @@ int main() {
                     double myg = x / (x + y);
 
                     if(myg >= 1){
-                        myg = myg - 0.005;
+                        myg = myg - epsi;
                     }
                     if(myg <= 0){
-                        myg = myg + 0.005;
+                        myg = myg + epsi;
                     }
 
                     if (wasflipped == 1) {

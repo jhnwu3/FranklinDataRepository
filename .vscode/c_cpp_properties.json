@@ -5,7 +5,8 @@
             "includePath": [
                 "${workspaceFolder}/**",
                 "C:/Users/jhnwu/OneDrive/Documents/Project Folder/Cpp/Libraries/boost_1_76_0/**",
-                "C:/Users/jhnwu/OneDrive/Documents/Project Folder/Cpp/Libraries/eigen-3.3.9/**"
+                "C:/Users/jhnwu/OneDrive/Documents/Project Folder/Cpp/Libraries/eigen-3.3.9/**",
+                "C:/Users/jhnwu/OneDrive/Documents/Project Folder/Cpp/Libraries/boost_1_76_0"
             ],
             "defines": [
                 "_DEBUG",
