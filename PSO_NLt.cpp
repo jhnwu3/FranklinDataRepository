@@ -471,7 +471,7 @@ int main() {
     /* Variables (global) */
     double t0 = 0, tf = 5.0 * 9.69, dt = 1.0;
     int Npars = N_DIM;
-    double squeeze = 0.985, sdbeta = 0.02; 
+    double squeeze = 0.975, sdbeta = 0.10; 
     double boundary = 0.001;
     /* SETUP */
     int useDiag = 0;
@@ -483,7 +483,7 @@ int main() {
     double sfp = 3.0, sfg = 1.0, sfe = 6.0; // initial particle historical weight, global weight social, inertial
     double sfi = sfe, sfc = sfp, sfs = sfg; // below are the variables being used to reiterate weights
     double alpha = 0.2;
-    int N = 5000;
+    int N = 10000;
     int nParts = 900; // first part PSO
     int nSteps = 15;
     int nParts2 = 25; // second part PSO
