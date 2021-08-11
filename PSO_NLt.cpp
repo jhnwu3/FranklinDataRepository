@@ -797,7 +797,7 @@ int main() {
                 struct K pos;
                 pos.k = VectorXd::Zero(Npars);
                 pos.k = POSMAT.row(particle);
-                VectorXd rpoint = comp_vel_vec(pos.k, particle);
+                VectorXd rpoint = comp_vel_vec(pos.k, particle, epsi, nan);
                 VectorXd PBVEC(Npars);
                 for(int i = 0; i < Npars; i++){
                     PBVEC(i) = PBMAT(particle, i);
