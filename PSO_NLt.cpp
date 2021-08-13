@@ -557,8 +557,56 @@ int main() {
     }
     Yt.mVec /= N;
     cout << "Yt:" << Yt.mVec.transpose() << endl;
-    /* PSO costs */
-    double gCost = 20000;
+    
+    /* compute Adiffs at truk temporarily */    
+    Nonlinear_ODE6 trueSys1(tru);
+    Protein_Components XtA(tf, nMoments, N);
+    Moments_Mat_Obs XtObsA(XtA);
+    for (int i = 0; i < N; i++) {
+        //State_N c0 = gen_multi_norm_iSub(); // Y_0 is simulated using norm dist.
+        State_N c0 = convertInit(X_0, i);
+        XtA.index = i;
+        integrate_adaptive(controlledStepper, trueSys1, c0, t0, tf, dt, XtObsA);
+    }
+    XtA.mVec /= N;
+    cout << "Yt:" << Yt.mVec.transpose() << endl;
+
+    /* first moment differences */
+    MatrixXd fmdiffs = Yt.mat - XtA.mat; 
+    /* second moment difference computations - @todo make it variable later */
+    MatrixXd smdiffs(N, N_SPECIES);
+    for(int i = 0; i < N_SPECIES; i++){
+        smdiffs.col(i) = (Yt.mat.col(i).array() * Yt.mat.col(i).array()) - (XtA.mat.col(i).array() * XtA.mat.col(i).array());
+    }
+
+   
+    int nCross = nMoments - 2 * N_SPECIES;
+    MatrixXd cpDiff(N, nCross);
+    
+    /* cross differences */
+    if(nCross > 0){
+        int upperDiag = 0;
+        for(int i = 0; i < N_SPECIES; i++){
+            for(int j = i + 1; j < N_SPECIES; j++){
+                cpDiff.col(upperDiag) = (YtA.mat.col(i).array() * YtA.mat.col(j).array()) - (XtA.mat.col(i).array() * XtA.mat.col(j).array());
+                upperDiag++;
+            }
+        }
+    }
+    MatrixXd aDiff(N, nMoments);
+    for(int i = 0; i < N; i++){
+        for(int moment = 0; moment < nMoments; moment++){
+            if(moment < N_SPECIES){
+                aDiff(i, moment) = fmdiffs(i, moment);
+            }else if (moment >= N_SPECIES && moment < 2 * N_SPECIES){
+                aDiff(i, moment) = smdiffs(i, moment - N_SPECIES);
+            }else{
+                aDiff(i, moment) = cpDiff(i, moment - (2 * N_SPECIES));
+            }
+        }
+    }
+    cout << "ADIFF at Truk:" << endl <<aDiff << endl;
+
     /* Instantiate seedk aka global costs */
     struct K seed;
     seed.k = VectorXd::Zero(Npars); 
@@ -576,12 +624,13 @@ int main() {
         integrate_adaptive(controlledStepper, sys, c0, t0, tf, dt, XtObs);
     }
     Xt.mVec /= N;  
-
     double costSeedk = calculate_cf2(Yt.mVec, Xt.mVec, wt); 
     cout << "seedk:"<< seed.k.transpose()<< "| cost:" << costSeedk << endl;
     cout << "Xt:" << Xt.mVec.transpose() << endl;
     gCost = costSeedk; //initialize costs and GBMAT
+    // global values
     VectorXd GBVEC = seed.k;
+    double gCost = 20000;
     GBMAT.conservativeResize(GBMAT.rows() + 1, Npars + 1);
     for (int i = 0; i < Npars; i++) {
         GBMAT(GBMAT.rows() - 1, i) = seed.k(i);
