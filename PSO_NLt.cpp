@@ -605,8 +605,8 @@ int main() {
             }
         }
     }
-    cout << "ADIFF at Truk:" << endl <<aDiff << endl << endl << endl;
-
+    //cout << "ADIFF at Truk:" << endl <<aDiff << endl << endl << endl;
+    printToCsv(aDiff, "adiff");
     /* Instantiate seedk aka global costs */
     struct K seed;
     seed.k = VectorXd::Zero(Npars); 
