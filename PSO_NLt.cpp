@@ -710,7 +710,7 @@ int main() {
     }
     wt.resize(rank, rank);
     ifstream wtFile("StewartWt.txt");
-    readIntoMatrix(wtFile, rank, rank);
+    wt = readIntoMatrix(wtFile, rank, rank);
     POSMAT.conservativeResize(nParts2, Npars); // resize matrices to fit targetted PSO
     PBMAT.conservativeResize(nParts2, Npars + 1);
     cout << "targeted PSO has started!" << endl; 
