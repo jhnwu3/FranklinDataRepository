@@ -884,7 +884,7 @@ int main() {
     cout << "truk: " << tru.k.transpose() << endl;
     dist = calculate_cf1(tru.k, GBVEC);
     cout << "total difference b/w truk and final GBVEC:" << dist << endl; // compute difference
-
+    cout << "Wt:" << endl << wt << endl;
     ofstream plot;
 	plot.open("GBMAT.csv");
 	MatrixXd GBMATWithSteps(GBMAT.rows(), GBMAT.cols() + 1);
