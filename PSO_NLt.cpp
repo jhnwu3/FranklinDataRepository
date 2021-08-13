@@ -588,7 +588,7 @@ int main() {
         int upperDiag = 0;
         for(int i = 0; i < N_SPECIES; i++){
             for(int j = i + 1; j < N_SPECIES; j++){
-                cpDiff.col(upperDiag) = (YtA.mat.col(i).array() * YtA.mat.col(j).array()) - (XtA.mat.col(i).array() * XtA.mat.col(j).array());
+                cpDiff.col(upperDiag) = (Yt.mat.col(i).array() * Yt.mat.col(j).array()) - (XtA.mat.col(i).array() * XtA.mat.col(j).array());
                 upperDiag++;
             }
         }
