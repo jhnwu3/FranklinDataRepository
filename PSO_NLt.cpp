@@ -483,7 +483,7 @@ int main() {
     double sfp = 3.0, sfg = 1.0, sfe = 6.0; // initial particle historical weight, global weight social, inertial
     double sfi = sfe, sfc = sfp, sfs = sfg; // below are the variables being used to reiterate weights
     double alpha = 0.2;
-    int N = 5000;
+    int N = 100;
     int nParts = 2000; // first part PSO
     int nSteps = 15;
     int nParts2 = 15; // second part PSO
@@ -506,10 +506,10 @@ int main() {
     cout << "Targeted PSO --> nParts:" <<  nParts2 << " Nsteps:" << nSteps2 << endl;
     cout << "sdbeta:" << sdbeta << endl;
     MatrixXd wt = MatrixXd::Identity(nMoments, nMoments); // wt matrix
-    int covCutOff = 17;
-    for(int i = covCutOff; i < nMoments; i++){
-        wt(i,i) = 0;
-    }
+    // int covCutOff = 17;
+    // for(int i = covCutOff; i < nMoments; i++){
+    //     wt(i,i) = 0;
+    // }
     MatrixXd GBMAT(0, 0); // iterations of global best vectors
     MatrixXd PBMAT(nParts, Npars + 1); // particle best matrix + 1 for cost component
     MatrixXd POSMAT(nParts, Npars); // Position matrix as it goees through it in parallel
@@ -571,42 +571,6 @@ int main() {
     XtA.mVec /= N;
     cout << "XtA:" << XtA.mVec.transpose() << endl;
 
-    /* first moment differences */
-    MatrixXd fmdiffs = Yt.mat - XtA.mat; 
-    /* second moment difference computations - @todo make it variable later */
-    MatrixXd smdiffs(N, N_SPECIES);
-    for(int i = 0; i < N_SPECIES; i++){
-        smdiffs.col(i) = (Yt.mat.col(i).array() * Yt.mat.col(i).array()) - (XtA.mat.col(i).array() * XtA.mat.col(i).array());
-    }
-
-   
-    int nCross = nMoments - 2 * N_SPECIES;
-    MatrixXd cpDiff(N, nCross);
-    
-    /* cross differences */
-    if(nCross > 0){
-        int upperDiag = 0;
-        for(int i = 0; i < N_SPECIES; i++){
-            for(int j = i + 1; j < N_SPECIES; j++){
-                cpDiff.col(upperDiag) = (Yt.mat.col(i).array() * Yt.mat.col(j).array()) - (XtA.mat.col(i).array() * XtA.mat.col(j).array());
-                upperDiag++;
-            }
-        }
-    }
-    MatrixXd aDiff(N, nMoments);
-    for(int i = 0; i < N; i++){
-        for(int moment = 0; moment < nMoments; moment++){
-            if(moment < N_SPECIES){
-                aDiff(i, moment) = fmdiffs(i, moment);
-            }else if (moment >= N_SPECIES && moment < 2 * N_SPECIES){
-                aDiff(i, moment) = smdiffs(i, moment - N_SPECIES);
-            }else{
-                aDiff(i, moment) = cpDiff(i, moment - (2 * N_SPECIES));
-            }
-        }
-    }
-    //cout << "ADIFF at Truk:" << endl <<aDiff << endl << endl << endl;
-    printToCsv(aDiff, "adiff");
     /* Instantiate seedk aka global costs */
     struct K seed;
     seed.k = VectorXd::Zero(Npars); 
@@ -737,6 +701,16 @@ int main() {
     cout << "total difference b/w truk and final GBVEC" << dist << endl << endl; // compute difference
     
     /*** targeted PSO ***/
+    int rank = 12;
+    VectorXd subsetCol = VectorXd::Zero(rank);
+    subsetCol << 0,1,2,3,20,14,10,12,7,16,23,25;
+    VectorXd resizedYt = VectorXd::Zero(rank);
+    for(int i = 0; i < rank; i++){
+        resizedYt(i) = Yt.mVec(subsetCol(i));
+    }
+    wt.resize(rank, rank);
+    ifstream wtFile("StewartWt.txt");
+    readIntoMatrix(wtFile, rank, rank);
     POSMAT.conservativeResize(nParts2, Npars); // resize matrices to fit targetted PSO
     PBMAT.conservativeResize(nParts2, Npars + 1);
     cout << "targeted PSO has started!" << endl; 
@@ -762,8 +736,12 @@ int main() {
                 integrate_adaptive(controlledStepper, gSys, c0, t0, tf, dt, gXtObs);
             }
             gXt.mVec /= N;  
-            wt = customWtMat(Yt.mat, gXt.mat, nMoments, N);
-            gCost = calculate_cf2(Yt.mVec, gXt.mVec, wt);
+            VectorXd resizedXt = VectorXd::Zero(rank);
+            for(int i = 0; i < rank;i++){
+                resizedXt(i) = gXt.mVec(subsetCol(i));
+            }
+            //wt = customWtMat(Yt.mat, gXt.mat, nMoments, N);
+            gCost = calculate_cf2(resizedYt, resizedXt, wt);
             GBMAT.conservativeResize(GBMAT.rows() + 1, Npars + 1);
             for (int i = 0; i < Npars; i++) {GBMAT(GBMAT.rows() - 1, i) = gPos.k(i);}
             GBMAT(GBMAT.rows() - 1, Npars) = gCost;
@@ -830,7 +808,11 @@ int main() {
                     integrate_adaptive(controlledStepper, initSys, c0, t0, tf, dt, XtObsPSO);
                 }
                 XtPSO.mVec/=N;
-                double cost = calculate_cf2(Yt.mVec, XtPSO.mVec, wt);
+                VectorXd resizedXt = VectorXd::Zero(rank);
+                for(int i = 0; i < rank;i++){
+                    resizedXt(i) = XtPSO.mVec(subsetCol(i));
+                }
+                double cost = calculate_cf2(resizedYt, resizedXt, wt);
                 /* instantiate PBMAT */
                 for(int i = 0; i < Npars; i++){
                     PBMAT(particle, i) = POSMAT(particle, i);
@@ -864,7 +846,11 @@ int main() {
                     integrate_adaptive(controlledStepper, stepSys, c0, t0, tf, dt, XtObsPSO1);
                 }
                 XtPSO.mVec/=N;
-                double cost = calculate_cf2(Yt.mVec, XtPSO.mVec, wt);
+                VectorXd resizedXt = VectorXd::Zero(rank);
+                for(int i = 0; i < rank;i++){
+                    resizedXt(i) = XtPSO.mVec(subsetCol(i));
+                }
+                double cost = calculate_cf2(resizedYt, resizedXt, wt);
 
                 /* update pBest and gBest */
                 // #pragma omp critical

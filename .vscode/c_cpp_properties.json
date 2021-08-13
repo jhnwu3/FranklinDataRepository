@@ -4,11 +4,8 @@
             "name": "Win32",
             "includePath": [
                 "${workspaceFolder}/**",
-                "C:/Program Files/Libraries/boost_1_76_0/Boost/**",
-                "C:/Program Files/Libraries/eigen-3.3.9/Eigen/**",
-                "C:/Users/jhnwu/OneDrive/Documents/Project Folder/Cpp/Libraries/boost_1_76_0/**",
-                "C:/Users/jhnwu/OneDrive/Documents/Project Folder/Cpp/Libraries/eigen-3.3.9/**",
-                "C:/Users/jhnwu/OneDrive/Documents/Project Folder/Cpp/Libraries/boost_1_76_0"
+                "C:/Program Files/Libraries/boost_1_76_0/**",
+                "C:/Program Files/Libraries/eigen-3.3.9/**"
             ],
             "defines": [
                 "_DEBUG",
@@ -16,7 +13,7 @@
                 "_UNICODE"
             ],
             "windowsSdkVersion": "10.0.18362.0",
-            "compilerPath": "C:/Program Files (x86)/Microsoft Visual Studio/2019/BuildTools/VC/Tools/MSVC/14.27.29110/bin/Hostx64/x64/cl.exe",
+            "compilerPath": "C:/msys64/mingw64/bin/g++.exe",
             "cStandard": "c17",
             "cppStandard": "c++17",
             "intelliSenseMode": "windows-msvc-x64"
