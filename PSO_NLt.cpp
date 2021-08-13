@@ -569,7 +569,7 @@ int main() {
         integrate_adaptive(controlledStepper, trueSys1, c0, t0, tf, dt, XtObsA);
     }
     XtA.mVec /= N;
-    cout << "Yt:" << Yt.mVec.transpose() << endl;
+    cout << "XtA:" << XtA.mVec.transpose() << endl;
 
     /* first moment differences */
     MatrixXd fmdiffs = Yt.mat - XtA.mat; 
