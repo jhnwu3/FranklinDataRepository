@@ -605,7 +605,7 @@ int main() {
             }
         }
     }
-    cout << "ADIFF at Truk:" << endl <<aDiff << endl;
+    cout << "ADIFF at Truk:" << endl <<aDiff << endl << endl << endl;
 
     /* Instantiate seedk aka global costs */
     struct K seed;
