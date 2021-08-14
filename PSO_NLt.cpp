@@ -391,7 +391,7 @@ MatrixXd readIntoMatrix(ifstream& in, int rows, int cols) {
     }
     return mat;
 }
-MatrixXd customWtMat(const MatrixXd& Yt, const MatrixXd& Xt, int nMoments, int N){
+MatrixXd customWtMat(const MatrixXd& Yt, const MatrixXd& Xt, int nMoments, int N, const VectorXd& subCol){
     /* first moment differences */
     MatrixXd fmdiffs = Yt - Xt; 
     /* second moment difference computations - @todo make it variable later */
@@ -432,12 +432,12 @@ MatrixXd customWtMat(const MatrixXd& Yt, const MatrixXd& Xt, int nMoments, int N
     for(int i = 0; i < nMoments; i++){
         variances(i) = (aDiff.col(i).array() - aDiff.col(i).array().mean()).square().sum() / ((double) aDiff.col(i).array().size() - 1);
     }
-    MatrixXd wt = MatrixXd::Zero(nMoments, nMoments);
+    int rank = subCol.size();
+    MatrixXd wt = MatrixXd::Zero(rank, rank);
 
-    for(int i = 0; i < nMoments; i++){
-        wt(i,i) = 1 / variances(i); // cleanup code and make it more vectorized later.
-        if(i >= 17){
-            wt(i,i) = 0;
+    for(int i = 0; i < rank; i++){
+        if(i == subCol(i)){
+            wt(i,i) = 1 / variances(subCol(i)); // cleanup code and make it more vectorized later.
         }
     }
 
@@ -486,12 +486,12 @@ int main() {
     int N = 5000;
     int nParts = 2000; // first part PSO
     int nSteps = 15;
-    int nParts2 = 15; // second part PSO
+    int nParts2 = 25; // second part PSO
     int nSteps2 = 1000;
     int nMoments = (N_SPECIES * (N_SPECIES + 3)) / 2; // var + mean + cov
     //nMoments = 2*N_SPECIES; // mean + var only!
-    VectorXd wmatup(4);
-    wmatup << 0.2, 0.4, 0.6, 0.8;
+    VectorXd wmatup(2);
+    wmatup << 0.1, 0.4;
     double uniLowBound = 0.0, uniHiBound = 1.0;
     random_device RanDev;
     mt19937 gen(RanDev());
@@ -506,6 +506,15 @@ int main() {
     cout << "Targeted PSO --> nParts:" <<  nParts2 << " Nsteps:" << nSteps2 << endl;
     cout << "sdbeta:" << sdbeta << endl;
     MatrixXd wt = MatrixXd::Identity(nMoments, nMoments); // wt matrix
+    // use linear TG PSO subset Cols for blind PSO temporarily!
+    VectorXd tmpSub = VectorXd::Zero(17);
+    tmpSub << 1, 2, 3, 4, 5, 6, 7, 8, 10, 11, 12, 14, 21, 23, 24, 25, 27;
+    tmpSub = tmpSub - VectorXd::Ones(tmpSub.size());
+    for(int i = 0; i < tmpSub.size(); i++){
+        if(i != tmpSub(i)){
+            wt(i,i) = 0;
+        }
+    }
     // int covCutOff = 17;
     // for(int i = covCutOff; i < nMoments; i++){
     //     wt(i,i) = 0;
@@ -701,16 +710,28 @@ int main() {
     cout << "total difference b/w truk and final GBVEC" << dist << endl << endl; // compute difference
     
     /*** targeted PSO ***/
-    int rank = 12;
-    VectorXd subsetCol = VectorXd::Zero(rank);
-    subsetCol << 0,1,2,3,20,14,10,12,7,16,23,25;
+   
+    int rank = 14;
+    VectorXd tgCol(rank); 
+    tgCol << 1, 2, 3, 4, 5, 6, 11, 12, 13, 16, 18, 22, 23, 26;
+    tgCol = tgCol - VectorXd::Ones(tgCol.size());
+    int rank1 = 13;
+    VectorXd reCol1 = VectorXd::Zero(rank1);
+    reCol1 << 1, 2, 3, 4, 5, 6, 7, 13, 14, 16, 19, 20, 21;//0,1,2,3,20,14,10,12,7,16,23,25;
+    reCol1 = reCol1 - VectorXd::Ones(reCol1.size());
+    int rank2 = 12;
+    VectorXd reCol2 = VectorXd::Zero(rank2);
+    reCol2 << 1, 2, 3, 4, 5, 6, 7, 11, 14, 16, 23, 27;
+    reCol2 = reCol2 - VectorXd::Ones(reCol2.size());
     VectorXd resizedYt = VectorXd::Zero(rank);
     for(int i = 0; i < rank; i++){
-        resizedYt(i) = Yt.mVec(subsetCol(i));
+        resizedYt(i) = Yt.mVec(reCol1(i));
     }
-    wt.resize(rank, rank);
+    VectorXd subsetCol = VectorXd::Zero(rank);
     ifstream wtFile("StewartWt.txt");
-    wt = readIntoMatrix(wtFile, rank, rank);
+    // wt.resize(rank, rank);
+    // wt = readIntoMatrix(wtFile, rank, rank);
+
     POSMAT.conservativeResize(nParts2, Npars); // resize matrices to fit targetted PSO
     PBMAT.conservativeResize(nParts2, Npars + 1);
     cout << "targeted PSO has started!" << endl; 
@@ -719,7 +740,7 @@ int main() {
     double nearby = sdbeta;
     VectorXd chkpts = wmatup * nSteps2;
     for(int step = 0; step < nSteps2; step++){
-        if(step % 50 == 0 ){ /* update wt   matrix || step == chkpts(0) || step == chkpts(1) || step == chkpts(2) || step == chkpts(3) */
+        if(step == 0 || step == chkpts(0) || step == chkpts(1) ){ /* update wt   matrix || step == chkpts(0) || step == chkpts(1) || step == chkpts(2) || step == chkpts(3) */
             cout << "Updating Weight Matrix!" << endl;
             cout << "GBVEC AND COST:" << GBMAT.row(GBMAT.rows() - 1) << endl;
             nearby = squeeze * nearby;
@@ -736,11 +757,24 @@ int main() {
                 integrate_adaptive(controlledStepper, gSys, c0, t0, tf, dt, gXtObs);
             }
             gXt.mVec /= N;  
-            VectorXd resizedXt = VectorXd::Zero(rank);
-            for(int i = 0; i < rank;i++){
+
+            /* make sure to set proper subsets each time*/
+            if(step == 0){
+                subsetCol.resize(tgCol.size());
+                subsetCol = tgCol;
+                wt.resize(tgCol.size(), tgCol.size());
+            }else if (step == chkpts(0)){
+                subsetCol.resize(reCol1.size());
+                subsetCol = reCol1;
+            }else if (step == chkpts(1)){
+                subsetCol.resize(reCol2.size());
+                subsetCol = reCol2;
+            }
+            VectorXd resizedXt = VectorXd::Zero(subsetCol.size());
+            for(int i = 0; i < subsetCol.size(); i++){
                 resizedXt(i) = gXt.mVec(subsetCol(i));
             }
-            //wt = customWtMat(Yt.mat, gXt.mat, nMoments, N);
+            wt = customWtMat(Yt.mat, gXt.mat, nMoments, N, subsetCol);
             gCost = calculate_cf2(resizedYt, resizedXt, wt);
             GBMAT.conservativeResize(GBMAT.rows() + 1, Npars + 1);
             for (int i = 0; i < Npars; i++) {GBMAT(GBMAT.rows() - 1, i) = gPos.k(i);}
@@ -752,7 +786,7 @@ int main() {
             mt19937 pGenerator(pRanDev());
             uniform_real_distribution<double> pUnifDist(uniLowBound, uniHiBound);
         
-            if(step % 50 == 0){
+            if(step == 0 || step == chkpts(0) || step == chkpts(1)){
                 /* reinitialize particles around global best */
                 for(int edim = 0; edim < Npars; edim++){
                     int wasflipped = 0;

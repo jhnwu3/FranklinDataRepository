@@ -5,7 +5,9 @@
             "includePath": [
                 "${workspaceFolder}/**",
                 "C:/Program Files/Libraries/boost_1_76_0/**",
-                "C:/Program Files/Libraries/eigen-3.3.9/**"
+                "C:/Program Files/Libraries/eigen-3.3.9/**",
+                "C:/Program Files/Libraries/eigen-3.3.9",
+                "C:/Program Files/Libraries/boost_1_76_0"
             ],
             "defines": [
                 "_DEBUG",
@@ -16,7 +18,7 @@
             "compilerPath": "C:/msys64/mingw64/bin/g++.exe",
             "cStandard": "c17",
             "cppStandard": "c++17",
-            "intelliSenseMode": "windows-msvc-x64"
+            "intelliSenseMode": "windows-gcc-x86"
         }
     ],
     "version": 4
