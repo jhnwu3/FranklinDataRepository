@@ -436,9 +436,7 @@ MatrixXd customWtMat(const MatrixXd& Yt, const MatrixXd& Xt, int nMoments, int N
     MatrixXd wt = MatrixXd::Zero(rank, rank);
 
     for(int i = 0; i < rank; i++){
-        if(i == subCol(i)){
-            wt(i,i) = 1 / variances(subCol(i)); // cleanup code and make it more vectorized later.
-        }
+        wt(i,i) = 1 / variances(subCol(i)); // cleanup code and make it more vectorized later.
     }
 
     cout << "Chkpt reached!" << endl;
@@ -770,6 +768,7 @@ int main() {
                 subsetCol.resize(reCol2.size());
                 subsetCol = reCol2;
             }
+
             resizedYt.resize(subsetCol.size()); // make sure yt is right size
             VectorXd resizedXt = VectorXd::Zero(subsetCol.size());
             for(int i = 0; i < subsetCol.size(); i++){
