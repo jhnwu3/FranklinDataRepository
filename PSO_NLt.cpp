@@ -845,7 +845,7 @@ int main() {
                 }
                 XtPSO.mVec/=N;
                 VectorXd resizedXt = VectorXd::Zero(subsetCol.size());
-                for(int i = 0; i < rank;i++){
+                for(int i = 0; i < subsetCol.size() ;i++){
                     resizedXt(i) = XtPSO.mVec(subsetCol(i));
                 }
                 double cost = calculate_cf2(resizedYt, resizedXt, wt);
@@ -883,7 +883,7 @@ int main() {
                 }
                 XtPSO.mVec/=N;
                 VectorXd resizedXt = VectorXd::Zero(subsetCol.size());
-                for(int i = 0; i < rank;i++){
+                for(int i = 0; i < subsetCol.size(); i++){
                     resizedXt(i) = XtPSO.mVec(subsetCol(i));
                 }
                 double cost = calculate_cf2(resizedYt, resizedXt, wt);
