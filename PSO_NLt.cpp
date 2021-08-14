@@ -725,6 +725,10 @@ int main() {
     VectorXd resizedYt = VectorXd::Zero(rank);
     VectorXd subsetCol = VectorXd::Zero(rank);
     ifstream wtFile("StewartWt.txt");
+    cout << "tgCol:" << tgCol.transpose() << endl;
+    cout << "reCol1:" << reCol1.transpose() << endl;
+    cout << "reCol2:" << reCol2.transpose() << endl;
+
     // wt.resize(rank, rank);
     // wt = readIntoMatrix(wtFile, rank, rank);
 
