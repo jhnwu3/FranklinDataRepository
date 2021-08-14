@@ -844,7 +844,7 @@ int main() {
                     integrate_adaptive(controlledStepper, initSys, c0, t0, tf, dt, XtObsPSO);
                 }
                 XtPSO.mVec/=N;
-                VectorXd resizedXt = VectorXd::Zero(rank);
+                VectorXd resizedXt = VectorXd::Zero(subsetCol.size());
                 for(int i = 0; i < rank;i++){
                     resizedXt(i) = XtPSO.mVec(subsetCol(i));
                 }
@@ -882,7 +882,7 @@ int main() {
                     integrate_adaptive(controlledStepper, stepSys, c0, t0, tf, dt, XtObsPSO1);
                 }
                 XtPSO.mVec/=N;
-                VectorXd resizedXt = VectorXd::Zero(rank);
+                VectorXd resizedXt = VectorXd::Zero(subsetCol.size());
                 for(int i = 0; i < rank;i++){
                     resizedXt(i) = XtPSO.mVec(subsetCol(i));
                 }
