@@ -710,7 +710,6 @@ int main() {
     cout << "total difference b/w truk and final GBVEC" << dist << endl << endl; // compute difference
     
     /*** targeted PSO ***/
-   
     int rank = 14;
     VectorXd tgCol(rank); 
     tgCol << 1, 2, 3, 4, 5, 6, 11, 12, 13, 16, 18, 22, 23, 26;
@@ -724,9 +723,6 @@ int main() {
     reCol2 << 1, 2, 3, 4, 5, 6, 7, 11, 14, 16, 23, 27;
     reCol2 = reCol2 - VectorXd::Ones(reCol2.size());
     VectorXd resizedYt = VectorXd::Zero(rank);
-    for(int i = 0; i < rank; i++){
-        resizedYt(i) = Yt.mVec(reCol1(i));
-    }
     VectorXd subsetCol = VectorXd::Zero(rank);
     ifstream wtFile("StewartWt.txt");
     // wt.resize(rank, rank);
@@ -770,10 +766,13 @@ int main() {
                 subsetCol.resize(reCol2.size());
                 subsetCol = reCol2;
             }
+            resizedYt.resize(subsetCol.size()); // make sure yt is right size
             VectorXd resizedXt = VectorXd::Zero(subsetCol.size());
             for(int i = 0; i < subsetCol.size(); i++){
                 resizedXt(i) = gXt.mVec(subsetCol(i));
+                resizedYt(i) = Yt.mVec(subsetCol(i));
             }
+            wt.resize(subsetCol.size(), subsetCol.size());
             wt = customWtMat(Yt.mat, gXt.mat, nMoments, N, subsetCol);
             gCost = calculate_cf2(resizedYt, resizedXt, wt);
             GBMAT.conservativeResize(GBMAT.rows() + 1, Npars + 1);
