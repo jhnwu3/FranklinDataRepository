@@ -508,9 +508,13 @@ int main() {
     VectorXd tmpSub = VectorXd::Zero(17);
     tmpSub << 1, 2, 3, 4, 5, 6, 7, 8, 10, 11, 12, 14, 21, 23, 24, 25, 27;
     tmpSub = tmpSub - VectorXd::Ones(tmpSub.size());
-    for(int i = 0; i < tmpSub.size(); i++){
-        if(i != tmpSub(i)){
-            wt(i,i) = 0;
+    int tmp = 0;
+    for(int i = 0; i < nMoments; i++){
+        if(i == tmpSub(tmp)){
+            wt(i,i) = 1;
+            tmp++;
+        }else{
+            wt(i, i) = 0;
         }
     }
     // int covCutOff = 17;
