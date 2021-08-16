@@ -267,7 +267,7 @@ State_N convertInit(const MatrixXd& sample, int index){
     State_N c0 = {sample(index,0), sample(index,1), 0, 0, sample(index,4), 0};
     return c0;
 }
-VectorXd comp_vel_vec(const VectorXd& posK, int seed, double epsi, double nan) {
+VectorXd comp_vel_vec(const VectorXd& posK, int seed, double epsi, double nan, int hone) {
     
     VectorXd rPoint;
     rPoint = posK;
@@ -302,8 +302,8 @@ VectorXd comp_vel_vec(const VectorXd& posK, int seed, double epsi, double nan) {
             pos += epsi;
             cout << "pos" << posK.transpose() << endl; 
         }
-        double alpha = 16 * pos; // Component specific
-        double beta = 16 - alpha; // pos specific
+        double alpha = hone * pos; // Component specific
+        double beta = hone - alpha; // pos specific
        // cout << "alpha:" << alpha << "beta:" << beta << endl;
         std::gamma_distribution<double> aDist(alpha, 1); // beta distribution consisting of gamma distributions
         std::gamma_distribution<double> bDist(beta, 1);
@@ -484,9 +484,10 @@ int main() {
     int N = 5000;
     int nParts = 3000; // first part PSO
     int nSteps = 20;
-    int nParts2 = 30; // second part PSO
-    int nSteps2 = 2000;
+    int nParts2 = 60; // second part PSO
+    int nSteps2 = 1000;
     int nMoments = (N_SPECIES * (N_SPECIES + 3)) / 2; // var + mean + cov
+    int hone = 16;
     //nMoments = 2*N_SPECIES; // mean + var only!
     VectorXd wmatup(2);
     wmatup << 0.1, 0.4;
@@ -661,7 +662,7 @@ int main() {
                 struct K pos;
                 pos.k = VectorXd::Zero(Npars);
                 pos.k = POSMAT.row(particle);
-                VectorXd rpoint = comp_vel_vec(pos.k, particle, epsi, nan);
+                VectorXd rpoint = comp_vel_vec(pos.k, particle, epsi, nan, hone);
                 VectorXd PBVEC(Npars);
                 for(int i = 0; i < Npars; i++){
                     PBVEC(i) = PBMAT(particle, i);
@@ -782,6 +783,7 @@ int main() {
             }
             wt.resize(subsetCol.size(), subsetCol.size());
             wt = customWtMat(Yt.mat, gXt.mat, nMoments, N, subsetCol);
+            hone += 4;
             gCost = calculate_cf2(resizedYt, resizedXt, wt);
             GBMAT.conservativeResize(GBMAT.rows() + 1, Npars + 1);
             for (int i = 0; i < Npars; i++) {GBMAT(GBMAT.rows() - 1, i) = gPos.k(i);}
@@ -869,7 +871,7 @@ int main() {
                 struct K pos;
                 pos.k = VectorXd::Zero(Npars);
                 pos.k = POSMAT.row(particle);
-                VectorXd rpoint = comp_vel_vec(pos.k, particle, epsi, nan);
+                VectorXd rpoint = comp_vel_vec(pos.k, particle, epsi, nan, hone);
                 VectorXd PBVEC(Npars);
                 for(int i = 0; i < Npars; i++){
                     PBVEC(i) = PBMAT(particle, i);
