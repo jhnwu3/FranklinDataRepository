@@ -505,18 +505,18 @@ int main() {
     cout << "sdbeta:" << sdbeta << endl;
     MatrixXd wt = MatrixXd::Identity(nMoments, nMoments); // wt matrix
     // use linear TG PSO subset Cols for blind PSO temporarily!
-    VectorXd tmpSub = VectorXd::Zero(17);
-    tmpSub << 1, 2, 3, 4, 5, 6, 7, 8, 10, 11, 12, 14, 21, 23, 24, 25, 27;
-    tmpSub = tmpSub - VectorXd::Ones(tmpSub.size());
-    int tmp = 0;
-    for(int i = 0; i < nMoments; i++){
-        if(i == tmpSub(tmp)){
-            wt(i,i) = 1;
-            tmp++;
-        }else{
-            wt(i, i) = 0;
-        }
-    }
+    // VectorXd tmpSub = VectorXd::Zero(17);
+    // tmpSub << 1, 2, 3, 4, 5, 6, 7, 8, 10, 11, 12, 14, 21, 23, 24, 25, 27;
+    // tmpSub = tmpSub - VectorXd::Ones(tmpSub.size());
+    // int tmp = 0;
+    // for(int i = 0; i < nMoments; i++){
+    //     if(i == tmpSub(tmp)){
+    //         wt(i,i) = 1;
+    //         tmp++;
+    //     }else{
+    //         wt(i, i) = 0;
+    //     }
+    // }
     cout << "wt:" << endl << wt << endl;
     // int covCutOff = 17;
     // for(int i = covCutOff; i < nMoments; i++){
@@ -713,17 +713,17 @@ int main() {
     cout << "total difference b/w truk and final GBVEC" << dist << endl << endl; // compute difference
     
     /*** targeted PSO ***/
-    int rank = 14;
+    int rank = 15;
     VectorXd tgCol(rank); 
-    tgCol << 1, 2, 3, 4, 5, 6, 11, 12, 13, 16, 18, 22, 23, 26;
+    tgCol << 1, 2, 5, 6, 7, 8, 9, 10, 13, 15, 16, 17, 20, 21, 26;
     tgCol = tgCol - VectorXd::Ones(tgCol.size());
     int rank1 = 13;
     VectorXd reCol1 = VectorXd::Zero(rank1);
-    reCol1 << 1, 2, 3, 4, 5, 6, 7, 13, 14, 16, 19, 20, 21;//0,1,2,3,20,14,10,12,7,16,23,25;
+    reCol1 << 1, 3, 5, 6, 7, 10, 11, 13, 15, 16, 21, 25, 26;//0,1,2,3,20,14,10,12,7,16,23,25;
     reCol1 = reCol1 - VectorXd::Ones(reCol1.size());
-    int rank2 = 12;
+    int rank2 = 11;
     VectorXd reCol2 = VectorXd::Zero(rank2);
-    reCol2 << 1, 2, 3, 4, 5, 6, 7, 11, 14, 16, 23, 27;
+    reCol2 << 1, 6, 7, 9, 10, 12, 13, 14, 15, 16, 20;
     reCol2 = reCol2 - VectorXd::Ones(reCol2.size());
     VectorXd resizedYt = VectorXd::Zero(rank);
     VectorXd subsetCol = VectorXd::Zero(rank);
