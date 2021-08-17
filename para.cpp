@@ -559,10 +559,10 @@ int main (){
 
         for(int i = 0; i < nDim; i++){
             distMat(inc, i) = above.k(i);
-            distMat(2 * nInc - inc - 1) = below.k(i);
+            distMat(2 * nInc - inc - 1, i) = below.k(i);
         }
         distMat(inc, nDim) = calculate_cf2(Yt.mVec, XtA.mVec, wt);
-        distMat(2 * nInc - inc - 1) = calculate_cf2(Yt.mVec, XtB.mVec, wt);
+        distMat(2 * nInc - inc - 1, nDim) = calculate_cf2(Yt.mVec, XtB.mVec, wt);
 
         // save data, and then printToCsv for showing.   
     }
