@@ -498,7 +498,8 @@ int main (){
 
     MatrixXd initDiff = Y_0 - X_0;
     VectorXd initDiffMean = initDiff.colwise().mean();
-    cout << "Mean Differences of 6 Concentrations:" << initDiffMean.transpose() << endl;
+    cout << "Mean Differences of 6 Initial Concentrations:" << initDiffMean.transpose() << endl;
+
     Nonlinear_ODE6 trueSys(tru);
     Nonlinear_ODE6 fakeMin(fakeTru);
     Protein_Components Xt(tf, nMoments, N);
@@ -530,6 +531,43 @@ int main (){
     cout << "with control cost:" << calculate_cf2(Yt.mVec, Xt.mVec, wt) << endl;
     cout << "with final PSO cost:" << calculate_cf2(Yt.mVec, XtPSO.mVec, wt) << endl;
     cout << "truk:" << tru.k.transpose() << endl;
-    cout << "final PSO cost:" << fakeTru.k.transpose() << endl;
+    cout << "final PSO:" << fakeTru.k.transpose() << endl;
+
+    int nInc = 20; // number of increments away from truk using truk(i) *= (1.0  (+/-) 0.2 * (inc / nInc))  
+    MatrixXd distMat = MatrixXd::Zero(2 * nInc, nDim + 1);  
+    for(int inc = 0; inc < nInc; inc++){
+        struct K above(nDim);
+        struct K below(nDim);
+        above.k = tru.k * (1.0 + 0.2 * (inc/ nInc) );
+        below.k = tru.k * (1.0 - 0.2 * (inc/ nInc) );
+        Protein_Components XtA(tf, nMoments, N);
+        Protein_Components XtB(tf, nMoments, N);
+        Moments_Mat_Obs XAObs(XtA);
+        Moments_Mat_Obs XBObs(XtB);
+        Nonlinear_ODE6 aSys(above);
+        Nonlinear_ODE6 bSys(below);
+        for(int i = 0; i < N; i++){
+            State_N xA = convertInit(X_0, i);
+            State_N xB = convertInit(X_0, i);
+            XtA.index = i;
+            XtB.index = i;
+            integrate_adaptive(controlledStepper, aSys, xA, t0, tf, dt, XAObs);
+            integrate_adaptive(controlledStepper, bSys, xB, t0, tf, dt, XBObs);
+        }
+        XtA.mVec /= N;
+        XtB.mVec /= N;
+
+        for(int i = 0; i < nDim; i++){
+            distMat(inc, i) = above.k(i);
+            distMat(2 * nInc - inc - 1) = below.k(i);
+        }
+        distMat(inc, nDim) = calculate_cf2(Yt.mVec, XtA.mVec, wt);
+        distMat(2 * nInc - inc - 1) = calculate_cf2(Yt.mVec, XtB.mVec, wt);
+
+        // save data, and then printToCsv for showing.   
+    }
+    cout << "dist data:" << endl;
+    cout << distMat << endl;
+    printToCsv(distMat, "Costs_Nearby_Truk");
     return EXIT_SUCCESS;
 }
