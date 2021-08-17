@@ -481,7 +481,7 @@ int main() {
     double sfp = 3.0, sfg = 1.0, sfe = 6.0; // initial particle historical weight, global weight social, inertial
     double sfi = sfe, sfc = sfp, sfs = sfg; // below are the variables being used to reiterate weights
     double alpha = 0.2;
-    int N = 5000;
+    int N = 25000;
     int nParts = 3000; // first part PSO
     int nSteps = 20;
     int nParts2 = 60; // second part PSO
@@ -504,7 +504,10 @@ int main() {
     cout << "Blind PSO --> nParts:" << nParts << " Nsteps:" << nSteps << endl;
     cout << "Targeted PSO --> nParts:" <<  nParts2 << " Nsteps:" << nSteps2 << endl;
     cout << "sdbeta:" << sdbeta << endl;
-    MatrixXd wt = MatrixXd::Identity(nMoments, nMoments); // wt matrix
+    MatrixXd wt = MatrixXd::Zero(nMoments, nMoments); // wt matrix
+    for(int i = 0; i < N_SPECIES; i++){ // only the first moments
+        wt(i,i) = 1;
+    }
     // use linear TG PSO subset Cols for blind PSO temporarily!
     // VectorXd tmpSub = VectorXd::Zero(17);
     // tmpSub << 1, 2, 3, 4, 5, 6, 7, 8, 10, 11, 12, 14, 21, 23, 24, 25, 27;
