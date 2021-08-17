@@ -1,0 +1,26 @@
+warning: Pulling without specifying how to reconcile divergent branches is
+discouraged. You can squelch this message by running one of the following
+commands sometime before your next pull:
+
+  git config pull.rebase false  # merge (the default strategy)
+  git config pull.rebase true   # rebase
+  git config pull.ff only       # fast-forward only
+
+You can replace "git config" with "git config --global" to set a default
+preference for all repositories. You can also pass --rebase, --no-rebase,
+or --ff-only on the command line to override the configured default per
+invocation.
+
+Already up to date.
+make: Nothing to be done for 'all'.
+Mean Differences of 6 Concentrations:-0.128555  0.146035  0.329666 -0.128555  0.146035  0.329666
+Yt:   3.82226    3.56486    2.40126  0.0821538    6.04828    3.39339    52.6176    106.311    10.8569 0.00795372    143.121    21.6591   0.527792    9.76405   0.416289    10.7081    13.9347    12.6849  0.0871395    119.083    17.6553   0.200744    23.7426    15.3336   0.295837   0.285028    33.2739
+Xt:   3.89295    3.27597    2.45913  0.0839432    5.81905    3.47658    52.4079    99.2772    11.5326 0.00819799    136.236    22.9778   0.540489    9.72297   0.425542     10.689    13.8752     12.414  0.0842392    111.775    17.2813   0.210537    24.1572    16.2776   0.302975   0.298934    33.8578
+with cost:154.288
+Job Statistics for 1556489:
+           JobID       User               Start                 End    Elapsed     MaxRSS   TotalCPU      State Exit        NodeList                                  ReqTRES 
+---------------- ---------- ------------------- ------------------- ---------- ---------- ---------- ---------- ---- --------------- ---------------------------------------- 
+         1556489   rsjxw007 2021-08-17T14:18:01 2021-08-17T14:18:14   00:00:13             00:11.469  COMPLETED  0:0   r1pl-hpcf-n21        billing=4,cpu=4,mem=31248M,node=1 
+   1556489.batch            2021-08-17T14:18:01 2021-08-17T14:18:14   00:00:13          0  00:11.468  COMPLETED  0:0   r1pl-hpcf-n21                                          
+  1556489.extern            2021-08-17T14:18:01 2021-08-17T14:18:14   00:00:13          0  00:00.001  COMPLETED  0:0   r1pl-hpcf-n21                                          
+CPU Efficiency: 21.15% of 00:00:52 core-walltime
