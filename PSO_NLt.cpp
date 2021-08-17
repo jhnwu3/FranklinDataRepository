@@ -574,19 +574,6 @@ int main() {
     Yt.mVec /= N;
     cout << "Yt:" << Yt.mVec.transpose() << endl;
     
-    /* compute Adiffs at truk temporarily */    
-    Nonlinear_ODE6 trueSys1(tru);
-    Protein_Components XtA(tf, nMoments, N);
-    Moments_Mat_Obs XtObsA(XtA);
-    for (int i = 0; i < N; i++) {
-        //State_N c0 = gen_multi_norm_iSub(); // Y_0 is simulated using norm dist.
-        State_N c0 = convertInit(X_0, i);
-        XtA.index = i;
-        integrate_adaptive(controlledStepper, trueSys1, c0, t0, tf, dt, XtObsA);
-    }
-    XtA.mVec /= N;
-    cout << "XtA:" << XtA.mVec.transpose() << endl;
-
     /* Instantiate seedk aka global costs */
     struct K seed;
     seed.k = VectorXd::Zero(Npars); 

@@ -1,5 +1,5 @@
-/* This is a test cpp script to test out openMP and show how to use it to solve ODEs, it solves a simple 3 linear ODE system that we eventually use in the actual ODE.cpp, which
-may or may not be renamed to main.cpp at some point. 
+/* 
+ * Test Script
  */
 
 #include <iostream>
@@ -10,6 +10,7 @@ may or may not be renamed to main.cpp at some point.
 #include <random>
 #include <vector>
 #include <Eigen/Dense>
+#include <Eigen/Core>
 #include <unsupported/Eigen/MatrixFunctions>
 #include <cmath>
 #include <chrono>
@@ -17,7 +18,6 @@ may or may not be renamed to main.cpp at some point.
 #include <boost/numeric/odeint/external/openmp/openmp.hpp>
 
 #define N_SPECIES 6
-#define N 1500 // # of samples to sample over
 #define N_DIM 6 // dim of PSO hypercube
 
 using Eigen::MatrixXd;
@@ -31,13 +31,6 @@ using namespace boost::numeric::odeint;
 typedef boost::array< double, N_SPECIES > State_N;
 typedef runge_kutta_cash_karp54< State_N > Error_RK_Stepper_N;
 typedef controlled_runge_kutta< Error_RK_Stepper_N > Controlled_RK_Stepper_N;
-
-typedef boost::array< double, 3 > State_3;
-typedef runge_kutta_cash_karp54< State_3 > Error_RK_Stepper_3;
-typedef controlled_runge_kutta< Error_RK_Stepper_3 > Controlled_RK_Stepper_3;
-
-const double ke = 0.0001, kme = 20, kf = 0.01, kmf = 18, kd = 0.03, kmd = 1,
-ka2 = 0.01, ka3 = 0.01, C1T = 20, C2T = 5, C3T = 4;
 
 struct Multi_Normal_Random_Variable
 {
@@ -57,7 +50,7 @@ struct Multi_Normal_Random_Variable
 
     Eigen::VectorXd operator()() const
     {
-        static std::mt19937 gen{ std::random_device{}() };
+        static std::mt19937 gen{ std::random_device{}() }; //std::random_device {} ()
         static std::normal_distribution<> dist;
 
         return mean + transform * Eigen::VectorXd{ mean.size() }.unaryExpr([&](auto x) { return dist(gen); });
@@ -68,35 +61,6 @@ struct K
 {
     VectorXd k;
 };
-
-/* /* 3-var linear ODE system - need to rename! @TODO */
-class Linear_ODE3
-{
-    struct K bill;
-
-public:
-    Linear_ODE3(struct K G) : bill(G) {}
-
-    void operator() (const State_3& c, State_3& dcdt, double t)
-    {
-        MatrixXd kr(3, 3);
-        kr << 0, bill.k(1), bill.k(3),
-            bill.k(2), 0, bill.k(0),
-            0, bill.k(4), 0;
-        dcdt[0] = (kr(0, 0) * c[0] - kr(0, 0) * c[0]) +
-            (kr(0, 1) * c[1] - kr(1, 0) * c[0]) +
-            (kr(0, 2) * c[2] - kr(2, 0) * c[0]);
-
-        dcdt[1] = (kr(1, 0) * c[0] - kr(0, 1) * c[1]) +
-            (kr(1, 1) * c[1] - kr(1, 1) * c[1]) +
-            (kr(1, 2) * c[2] - kr(2, 1) * c[1]);
-
-        dcdt[2] = (kr(2, 0) * c[0] - kr(0, 2) * c[2]) +
-            (kr(2, 1) * c[1] - kr(1, 2) * c[2]) +
-            (kr(2, 2) * c[2] - kr(2, 2) * c[2]);
-    }
-};
-
 
 class Nonlinear_ODE6
 {
@@ -133,28 +97,31 @@ public:
     }
 };
 
-struct Data_Components {
+struct Protein_Components {
     int index;
     MatrixXd mat;
     VectorXd mVec;
     double timeToRecord;
+    Protein_Components(double tf, int mom, int n) {
+        mVec = VectorXd::Zero(mom);
+        mat = MatrixXd::Zero(n, N_SPECIES);
+        timeToRecord = tf;
+    }
 };
 struct Protein_Moments {
     VectorXd mVec;
-   // MatrixXd sec;
     double timeToRecord;
     Protein_Moments(double tf, int mom) {
         mVec = VectorXd::Zero(mom);
-        //sec = MatrixXd::Zero(N_SPECIES, N_SPECIES);
         timeToRecord = tf;
     }
 
 };
 
-struct Mom_ODE_Observer
+struct Moments_Vec_Obs
 {
     struct Protein_Moments& pMome;
-    Mom_ODE_Observer(struct Protein_Moments& pMom) : pMome(pMom) {}
+    Moments_Vec_Obs(struct Protein_Moments& pMom) : pMome(pMom) {}
     void operator()(State_N const& c, const double t) const
     {
         if (t == pMome.timeToRecord) {
@@ -164,77 +131,43 @@ struct Mom_ODE_Observer
                 for (int j = i; j < N_SPECIES; j++) {
                     if (i == j) { // diagonal elements
                         pMome.mVec(N_SPECIES + i) += c[i] * c[j];
-                    }else { //upper right diagonal elements
+                    }
+                    else { //upper right diagonal elements
                        // cout << "upperDiag: " << upperDiag << endl; 
                         pMome.mVec(upperDiag) += c[i] * c[j];
                         upperDiag++;
                     }
-                    // pMome.sec(i, j) += c[i] * c[j];
-                    // pMome.sec(j, i) = pMome.sec(i, j);
                 }
             }
         }
     }
 };
-struct Data_ODE_Observer
+
+struct Moments_Mat_Obs
 {
-    struct Data_Components& dComp;
-    Data_ODE_Observer(struct Data_Components& dCom) : dComp(dCom) {}
+    struct Protein_Components& dComp;
+    Moments_Mat_Obs(struct Protein_Components& dCom) : dComp(dCom) {}
     void operator()(State_N const& c, const double t) const
     {
         if (t == dComp.timeToRecord) {
             int upperDiag = 2 * N_SPECIES;
-            for (int i = 0; i < dComp.mat.cols(); i++) { dComp.mat(dComp.index, i) = c[i]; }
             for (int i = 0; i < N_SPECIES; i++) {
                 dComp.mVec(i) += c[i];
+                dComp.mat(dComp.index, i) = c[i];
                 for (int j = i; j < N_SPECIES; j++) {
                     if (i == j) { // diagonal elements
-                        dComp.mVec(N_SPECIES + i) += c[i] * c[j];
-                    }else {
-                        dComp.mVec(upperDiag) += c[i] * c[j];
+                        dComp.mVec(N_SPECIES + i) += c[i] * c[j]; // variances
+                    }
+                    else {
+                        dComp.mVec(upperDiag) += c[i] * c[j]; // covariances
                         upperDiag++;
                     }
-            
                 }
             }
         }
     }
 };
-struct Data_ODE_Observer3
-{
-    struct Data_Components& dComp;
-    Data_ODE_Observer3(struct Data_Components& dCom) : dComp(dCom) {}
-    void operator()(State_3 const& c, const double t) const
-    {
-        if (t == dComp.timeToRecord) {
-            for (int i = 0; i < dComp.mat.cols(); i++) { dComp.mat(dComp.index, i) = c[i]; }
-        }
-    }
-};
-struct Data_Components6 {
-    int index;
-    MatrixXd mat;
-    VectorXd sub;
-    double timeToRecord;
-};
-struct Data_ODE_Observer6
-{
-    struct Data_Components6& dComp;
-    Data_ODE_Observer6(struct Data_Components6& dCom) : dComp(dCom) {}
-    void operator()(State_N const& c, const double t) const
-    {
-        if (t == dComp.timeToRecord) {
-            int i = 0, j = 0;
-            while (i < N_SPECIES && j < dComp.sub.size()) {
-                if (i == dComp.sub(j)) {
-                    dComp.mat(dComp.index, j) = c[i];
-                    j++;
-                }
-                i++;
-            }
-        }
-    }
-};
+
 State_N gen_multi_lognorm_iSub(void) {
     State_N c0;
     VectorXd mu(3);
@@ -264,13 +197,13 @@ State_N gen_multi_lognorm_iSub(void) {
 State_N gen_multi_norm_iSub(void) {
     State_N c0;
     VectorXd mu(3);
-    mu << 4.78334234137469844730960782,
-        5.52142091946216110500584912965,
-        4.3815581042632114978686130;
+    mu << 80,
+        120,
+        85;
     MatrixXd sigma(3, 3);
-    sigma << 0.008298802814695093876186221, 0, 0,
-        0, 0.0000799968001706564273219830, 0,
-        0, 0, 0.000937060821340228802149700;
+    sigma << 50, 0, 0,
+        0, 100, 0,
+        0, 0, 50.0;
     Multi_Normal_Random_Variable gen(mu, sigma);
     VectorXd c0Vec = gen();
     int j = 0;
@@ -293,9 +226,9 @@ VectorXd gen_multinorm_iVec(void) {
         120,
         85;
     MatrixXd sigma(3, 3);
-    sigma << 20, 0, 0,
-        0, 5, 0,
-        0, 0, 10.0;
+    sigma << 50, 0, 0,
+        0, 100, 0,
+        0, 0, 50;
     Multi_Normal_Random_Variable gen(mu, sigma);
     VectorXd c0Vec = gen();
     int j = 0;
@@ -334,12 +267,18 @@ VectorXd gen_multi_lognorm_vecSub(void) {
     }
     return initVec;
 }
-VectorXd comp_vel_vec(const VectorXd& posK) {
+State_N convertInit(const MatrixXd& sample, int index){
+    State_N c0 = {sample(index,0), sample(index,1), 0, 0, sample(index,4), 0};
+    return c0;
+}
+VectorXd comp_vel_vec(const VectorXd& posK, int seed, double epsi, double nan, int hone) {
+    
     VectorXd rPoint;
     rPoint = posK;
     std::random_device rand_dev;
     std::mt19937 generator(rand_dev());
     vector<int> rand;
+    uniform_real_distribution<double> unifDist(0.0, 1.0);
     for (int i = 0; i < N_DIM; i++) {
         rand.push_back(i);
     }
@@ -353,38 +292,47 @@ VectorXd comp_vel_vec(const VectorXd& posK) {
     for (int smart = 0; smart < ncomp; smart++) {
         int px = wcomp(smart);
         double pos = rPoint(px);
-        if (pos > 1.0) {
+        if (pos > 1.0 - nan) {
             cout << "overflow!" << endl;
-            pos += -0.001;
-        }else if (pos < 0.001) {
+            // while(pos > 1.0){
+            //     pos -= 0.001;
+            // }
+            pos -= epsi;
+        }else if (pos < nan) {
             cout << "underflow!"<< pos << endl;
-            cout << "pos" << posK.transpose() << endl;
-            pos += 0.001;
+            // while( pos < 0.001){
+            //     pos += 0.001;
+            // }
+            pos += epsi;
+            cout << "pos" << posK.transpose() << endl; 
         }
-        double alpha = 4 * pos;
-        double beta = 4 - alpha;
+        double alpha = hone * pos; // Component specific
+        double beta = hone - alpha; // pos specific
        // cout << "alpha:" << alpha << "beta:" << beta << endl;
-        std::gamma_distribution<double> aDist(alpha, 1);
+        std::gamma_distribution<double> aDist(alpha, 1); // beta distribution consisting of gamma distributions
         std::gamma_distribution<double> bDist(beta, 1);
 
         double x = aDist(generator);
         double y = bDist(generator);
 
-        rPoint(px) = (x / (x + y));
+        rPoint(px) = (x / (x + y)); 
     }
     return rPoint;
 }
-MatrixXd calculate_omega_weight_matrix(const MatrixXd &sample, const VectorXd &mu, int n){
+MatrixXd calculate_omega_weight_matrix(const MatrixXd &sample, const VectorXd &mu){
     MatrixXd inv = MatrixXd::Zero(mu.size(), mu.size());
     VectorXd X = VectorXd::Zero(mu.size());
-    for(int s = 0; s < n; s++){
+    
+    for(int s = 0; s < sample.rows(); s++){
+        int upperDiag = 2 * N_SPECIES;
         for(int row = 0; row < N_SPECIES; row++){
             X(row) = sample(s, row); 
             for(int col = row; col < N_SPECIES; col++){
                 if( row == col){
                     X(N_SPECIES + row) = sample(s, row) * sample(s, col);
                 }else{
-                    X(2*N_SPECIES + (row + col - 1)) = sample(s,row) * sample(s,col);
+                    X(upperDiag) = sample(s,row) * sample(s,col);
+                    upperDiag++;
                 }
             }
         }
@@ -394,76 +342,129 @@ MatrixXd calculate_omega_weight_matrix(const MatrixXd &sample, const VectorXd &m
             }
         }
     }
-    inv /= n;
-    return inv.inverse();
+    inv /= sample.rows();
+    inv = inv.completeOrthogonalDecomposition().pseudoInverse();
+    return inv;
 }
 double calculate_cf1(const VectorXd& trueVec, const VectorXd& estVec) {
     double cost = 0;
     VectorXd diff(trueVec.size());
     diff = trueVec - estVec;
     cost = diff.transpose() * diff.transpose().transpose();
-    // for(int i = 0; i < n; i++){
-    //     cost += (estVec(i) - trueVec(i)) * (estVec(i) - trueVec(i));
-    // }
     return cost;
 }
 double calculate_cf2(const VectorXd& trueVec, const  VectorXd& estVec, const MatrixXd& w) {
     double cost = 0;
     VectorXd diff(trueVec.size());
-    /*for(int i = 0; i < n; i++){
-        for(int j = 0; j < n; j++){
-           cost += (estVec(i) - trueVec(i)) * w(i,j) *(estVec(j) - trueVec(j));
-        }
-    }*/
     diff = trueVec - estVec;
     cost = diff.transpose() * w * (diff.transpose()).transpose();
     return cost;
 }
 
-void doStuff(){
-    for(int j = 0; j< 20000; j++){
+string findDouble(string line, int startPos) {
+    string doble;
+    int i = startPos;
+    int wDist = 0;
+    while (i < line.length() && !isspace(line.at(i))) {
+        i++;
+        wDist++;
+    }
+    doble = line.substr(startPos, wDist);
+
+    return doble;
+}
+MatrixXd readIntoMatrix(ifstream& in, int rows, int cols) {
+    MatrixXd mat(rows, cols);
+    // use first row to determine how many columns to read.
+    for (int i = 0; i < rows; i++) {
+        string line;
+        if (in.is_open()) {
+            getline(in, line);
+            
+            int wordPos = 0;
+            for (int j = 0; j < cols; j++) {
+                string subs = findDouble(line, wordPos);
+                mat(i, j) = stod(subs);
+                wordPos += subs.length() + 1;
+            }
+        }
+        else {
+            cout << "Error: File Closed!" << endl;
+        }
 
     }
+    return mat;
 }
-struct Write_File_Plot 
-{
-    ostream& fOut;
-    Write_File_Plot (ostream& out) : fOut( out ) {} 
-    void operator()(const State_N &c, const double t){ // write all solved ODE values in GNU plot vals
-        fOut << t;
-        for(int i = 0; i < 6; i++){
-        fOut << "," << c[i];
+MatrixXd customWtMat(const MatrixXd& Yt, const MatrixXd& Xt, int nMoments, int N, const VectorXd& subCol){
+    /* first moment differences */
+    MatrixXd fmdiffs = Yt - Xt; 
+    /* second moment difference computations - @todo make it variable later */
+    MatrixXd smdiffs(N, N_SPECIES);
+    for(int i = 0; i < N_SPECIES; i++){
+        smdiffs.col(i) = (Yt.col(i).array() * Yt.col(i).array()) - (Xt.col(i).array() * Xt.col(i).array());
+    }
+
+   
+    int nCross = nMoments - 2 * N_SPECIES;
+    MatrixXd cpDiff(N, nCross);
+    
+    /* cross differences */
+    if(nCross > 0){
+        int upperDiag = 0;
+        for(int i = 0; i < N_SPECIES; i++){
+            for(int j = i + 1; j < N_SPECIES; j++){
+                cpDiff.col(upperDiag) = (Yt.col(i).array() * Yt.col(j).array()) - (Xt.col(i).array() * Xt.col(j).array());
+                upperDiag++;
+            }
         }
-        fOut << endl;
     }
-}; 
-struct pVav_Plot 
-{
-    ostream& fOut;
-    pVav_Plot (ostream& out) : fOut( out ) {} 
-    void operator()(const State_N &c, const double t){ // write all solved ODE values in GNU plot vals
-        fOut << t;
-        fOut << "," << c[3];
-        fOut << endl;
-    }
-}; 
-struct Syk_Pvav_Plot 
-{
-    ostream& fOut;
-    double tf;
-    Syk_Pvav_Plot (ostream& out, double tf1) : fOut( out ), tf ( tf1) {} 
-    void operator()(const State_N &c, const double t){ // write all solved ODE values in GNU plot vals
-        // fOut << t;
-        // for(int i = 0; i < 6; i++){
-        // fOut << "," << c[i];
-        // }
-        // fOut << endl;
-        if(t == 0){
-            fOut << c[0];
+    MatrixXd aDiff(N, nMoments);
+    for(int i = 0; i < N; i++){
+        for(int moment = 0; moment < nMoments; moment++){
+            if(moment < N_SPECIES){
+                aDiff(i, moment) = fmdiffs(i, moment);
+            }else if (moment >= N_SPECIES && moment < 2 * N_SPECIES){
+                aDiff(i, moment) = smdiffs(i, moment - N_SPECIES);
+            }else{
+                aDiff(i, moment) = cpDiff(i, moment - (2 * N_SPECIES));
+            }
         }
-        if(t == tf){ fOut << "," << c[3] << endl; }
     }
-}; 
+    double cost = 0;
+    VectorXd means = aDiff.colwise().mean();
+    VectorXd variances(nMoments);
+    for(int i = 0; i < nMoments; i++){
+        variances(i) = (aDiff.col(i).array() - aDiff.col(i).array().mean()).square().sum() / ((double) aDiff.col(i).array().size() - 1);
+    }
+    int rank = subCol.size();
+    MatrixXd wt = MatrixXd::Zero(rank, rank);
+
+    for(int i = 0; i < rank; i++){
+        wt(i,i) = 1 / variances(subCol(i)); // cleanup code and make it more vectorized later.
+    }
+
+    cout << "Chkpt reached!" << endl;
+    cout << "new weight matrix:" << endl << wt << endl << endl;
+    return wt;
+}
+
+void printToCsv(const MatrixXd& mat, const string& fileName){ // prints matrix to csv
+    ofstream plot;
+    string csvFile = fileName + ".csv";
+	plot.open(csvFile);
+
+    for(int i = 0; i < mat.rows(); i++){
+        for(int j = 0; j < mat.cols(); j++){
+            if(j == 0){
+                plot << mat(i,j);
+            }else{
+                plot << "," << mat(i,j);
+            }
+        }
+        plot << endl;
+    }
+    plot.close();
+}
 
 /* Test finding min function */
 int main (){
@@ -471,6 +472,7 @@ int main (){
     // ode vars
     int nDim = 6;
     int nMoments = (N_SPECIES * (N_SPECIES + 3)) / 2;
+    int N = 5000;
     double t0 = 0.0, tf = 50.0, dt = 1.0;
     struct K tru;
     tru.k = VectorXd::Zero(nDim);
@@ -482,86 +484,37 @@ int main (){
     mt19937 generator(rand_dev());
     uniform_real_distribution<double> unifDist(0.0, 1.0);
     std::normal_distribution<double> norm(120.0, 120.0);
+    /* Initial Conditions */
+    MatrixXd X_0(N, nDim);
+    MatrixXd Y_0(N, nDim);
+    ifstream X0File("X_0.txt");
+    ifstream Y0File("Y_0.txt");
+    X_0 = readIntoMatrix(X0File, N, N_SPECIES); // Bill initCond
+    Y_0 = readIntoMatrix(Y0File, N, N_SPECIES); 
 
-    ofstream costOut;
-    int numDataPts = 100;
-    int sampleSize = 1;
-    double alpha = 0.1;
-
-    MatrixXd X_0(sampleSize, N_SPECIES);
-    MatrixXd Y_0(sampleSize, N_SPECIES);
-    // fill X_0 and Y_0 from MVN distribution
-    for(int i = 0; i < sampleSize; i++){
-        X_0.row(i) = gen_multinorm_iVec();
-        Y_0.row(i) = gen_multinorm_iVec();
-    }
-    cout << "X_0" << endl << X_0 << endl;
-    Controlled_RK_Stepper_N controlledStepper;
+    MatrixXd initDiff = Y_0 - X_0;
+    VectorXd initDiffMean = initDiff.colwise().mean();
+    cout << "Mean Differences of 6 Concentrations:" << initDiffMean.transpose() << endl;
     Nonlinear_ODE6 trueSys(tru);
-    Protein_Moments Yt(tf, nMoments);
-    Mom_ODE_Observer YtObs(Yt);
-    for (int i = 0; i < sampleSize; i++) {
+    Protein_Components Xt(tf, nMoments, N);
+    Protein_Components Yt(tf, nMoments, N);
+    Moments_Mat_Obs YtObs(Yt);
+    Moments_Mat_Obs XtObs(Xt);
+    Controlled_RK_Stepper_N controlledStepper;
+    for (int i = 0; i < N; i++) {
         //State_N c0 = gen_multi_norm_iSub(); // Y_0 is simulated using norm dist.
-        State_N c0 = {Y_0(i,0), Y_0(i,1), 0, 0, Y_0(i,4), 0};
-        integrate_adaptive(controlledStepper, trueSys, c0, t0, tf, dt, YtObs);
+        State_N y0 = convertInit(Y_0, i);
+        State_N x0 = convertInit(X_0, i);
+        Yt.index = i;
+        Xt.index = i;
+        integrate_adaptive(controlledStepper, trueSys, y0, t0, tf, dt, YtObs);
+        integrate_adaptive(controlledStepper, trueSys, x0, t0, tf, dt, XtObs);
     }
     Yt.mVec /= N;
+    Xt.mVec /= N;
+    
     cout << "Yt:" << Yt.mVec.transpose() << endl;
-
-    string s =  to_string(alpha) + "RateDist_vs_Cost.csv";
-    costOut.open(s);
-    for(int pt = 0; pt < numDataPts; pt++){
-        struct K pos;
-        pos.k = VectorXd::Zero(nDim);
-        for(int i = 0; i < nDim; i++) { pos.k(i) = tru.k(i) + alpha * (0.5 - unifDist(generator)); }
-        double kCost = calculate_cf1(tru.k, pos.k);
-        Protein_Moments Xt(tf, nMoments);
-        Mom_ODE_Observer XtObs(Xt);
-        Nonlinear_ODE6 sys(pos);
-        Controlled_RK_Stepper_N controlledStepper1;
-        for(int s = 0; s < sampleSize; s++){
-            State_N c0 = {X_0(s,0), X_0(s,1), 0, 0, X_0(s,4), 0};
-            integrate_adaptive(controlledStepper1, sys, c0, t0, tf, dt, XtObs);
-        }
-        Xt.mVec /= sampleSize;
-        double cost = calculate_cf2(Yt.mVec, Xt.mVec, wt);
-        costOut << kCost << "," << cost << endl;
-    }
-    struct K pos;
-    pos.k = VectorXd::Zero(nDim);
-    pos.k << 0.515694, 0.0607786, 0.103353, 0.897172, 0.05473, 0.690204; 
-
-    sampleSize = 5000; // reset sample size to 2k just in case.
-    Protein_Moments Xt(tf, nMoments);
-    Mom_ODE_Observer XtObs(Xt);
-    Nonlinear_ODE6 sys(pos);
-    Controlled_RK_Stepper_N controlledStepper1;
-    for(int s = 0; s < sampleSize; s++){
-        State_N c0 = {X_0(s,0), X_0(s,1), 0, 0, X_0(s,4), 0};
-        integrate_adaptive(controlledStepper1, sys, c0, t0, tf, dt, XtObs);
-    }
-    Xt.mVec/=sampleSize;
-    double kCost = calculate_cf1(tru.k, pos.k);
-    double cost = calculate_cf2(Yt.mVec, Xt.mVec, wt);
-    costOut << kCost << "," << cost << endl;
-    cout << "k sq. dist:" << kCost << "cost:" << cost << " for k:" << pos.k.transpose() << endl; 
-    struct K pos1;
-    pos1.k = VectorXd::Zero(nDim);
-    pos1.k << 0.515925, 0.0600155,   0.10289,  0.897077, 0.0548449, 0.0724748;
-    Protein_Moments Xt1(tf, nMoments);
-    Mom_ODE_Observer XtObs1(Xt1);
-    Nonlinear_ODE6 sys1(pos1);
-    Controlled_RK_Stepper_N controlledStepper2;
-    for(int s = 0; s < sampleSize; s++){
-        State_N c0 = {X_0(s,0), X_0(s,1), 0, 0, X_0(s,4), 0};
-        integrate_adaptive(controlledStepper2, sys1, c0, t0, tf, dt, XtObs1);
-    }
-    Xt1.mVec/=sampleSize;
-    kCost = calculate_cf1(tru.k, pos1.k);
-    cost = calculate_cf2(Yt.mVec, Xt1.mVec, wt);
-    costOut << kCost << "," << cost << endl;
-    costOut.close();
-    cout << "k sq. dist:" << kCost << "cost:" << cost << " for k:" << pos1.k.transpose() << endl;
-
+    cout << "Xt:" << Xt.mVec.transpose() << endl;
+    cout << "with cost:" << calculate_cf2(Yt.mVec, Xt.mVec, wt) << endl;
     return EXIT_SUCCESS;
 }
