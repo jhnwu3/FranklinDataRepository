@@ -505,7 +505,7 @@ int main() {
     cout << "Targeted PSO --> nParts:" <<  nParts2 << " Nsteps:" << nSteps2 << endl;
     cout << "sdbeta:" << sdbeta << endl;
     MatrixXd wt = MatrixXd::Zero(nMoments, nMoments); // wt matrix
-    for(int i = 0; i < N_SPECIES; i++){ // only the first moments
+    for(int i = 0; i < 2 * N_SPECIES; i++){ // different number of moments
         wt(i,i) = 1;
     }
     // use linear TG PSO subset Cols for blind PSO temporarily!
