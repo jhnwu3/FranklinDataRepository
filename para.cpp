@@ -60,6 +60,9 @@ struct Multi_Normal_Random_Variable
 struct K
 {
     VectorXd k;
+    K(int nDim){
+        k = VectorXd::Zero(nDim);
+    }
 };
 
 class Nonlinear_ODE6
@@ -474,10 +477,11 @@ int main (){
     int nMoments = (N_SPECIES * (N_SPECIES + 3)) / 2;
     int N = 5000;
     double t0 = 0.0, tf = 50.0, dt = 1.0;
-    struct K tru;
-    tru.k = VectorXd::Zero(nDim);
+    struct K tru(nDim);
     tru.k << 5.0, 0.1, 1.0, 8.69, 0.05, 0.70;
     tru.k /= (9.69);
+    struct K fakeTru(nDim);
+    fakeTru.k << 0.86983, 0.224676,	0.049217, 0.416675,	0.023429, 0.030089;
     MatrixXd wt = MatrixXd::Identity(nMoments, nMoments); // wt matrix
     /* Random Number Generator */
     random_device rand_dev;
@@ -496,8 +500,11 @@ int main (){
     VectorXd initDiffMean = initDiff.colwise().mean();
     cout << "Mean Differences of 6 Concentrations:" << initDiffMean.transpose() << endl;
     Nonlinear_ODE6 trueSys(tru);
+    Nonlinear_ODE6 fakeMin(fakeTru);
     Protein_Components Xt(tf, nMoments, N);
     Protein_Components Yt(tf, nMoments, N);
+    Protein_Components XtPSO(tf, nMoments, N);
+    Moments_Mat_Obs XtObsPSO(XtPSO);
     Moments_Mat_Obs YtObs(Yt);
     Moments_Mat_Obs XtObs(Xt);
     Controlled_RK_Stepper_N controlledStepper;
@@ -505,16 +512,21 @@ int main (){
         //State_N c0 = gen_multi_norm_iSub(); // Y_0 is simulated using norm dist.
         State_N y0 = convertInit(Y_0, i);
         State_N x0 = convertInit(X_0, i);
+        State_N c0 = convertInit(X_0, i);
         Yt.index = i;
         Xt.index = i;
+        XtPSO.index = i;
         integrate_adaptive(controlledStepper, trueSys, y0, t0, tf, dt, YtObs);
         integrate_adaptive(controlledStepper, trueSys, x0, t0, tf, dt, XtObs);
+        integrate_adaptive(controlledStepper, fakeMin, c0, t0, tf, dt, XtObsPSO);
     }
     Yt.mVec /= N;
     Xt.mVec /= N;
-    
-    cout << "Yt:" << Yt.mVec.transpose() << endl;
-    cout << "Xt:" << Xt.mVec.transpose() << endl;
-    cout << "with cost:" << calculate_cf2(Yt.mVec, Xt.mVec, wt) << endl;
+    XtPSO.mVec /= N;
+    cout << " Yt:" << Yt.mVec.transpose() << endl;
+    cout << " Xt:" << Xt.mVec.transpose() << endl;
+    cout << "fXt:" << XtPSO.mVec.transpose() << endl;
+    cout << "with control cost:" << calculate_cf2(Yt.mVec, Xt.mVec, wt) << endl;
+    cout << "with final PSO cost:" << calculate_cf2(Yt.mVec, XtPSO.mVec, wt) << endl;
     return EXIT_SUCCESS;
 }
