@@ -5,7 +5,9 @@
             "includePath": [
                 "${workspaceFolder}/**",
                 "C:/Program Files/Eigen/eigen-3.3.9",
-                "C:/Program Files/Boost/boost_1_60_0"
+                "C:/Program Files/Boost/boost_1_60_0",
+                "C:/Program Files/Libraries/eigen-3.3.9",
+                "C:/Program Files/Libraries/boost_1_76_0"
             ],
             "defines": [
                 "_DEBUG",
@@ -13,7 +15,7 @@
                 "_UNICODE"
             ],
             "windowsSdkVersion": "10.0.18362.0",
-            "compilerPath": "C:/MinGW/bin/gcc.exe",
+            "compilerPath": "C:/msys64/mingw64/bin/g++.exe",
             "cStandard": "c17",
             "cppStandard": "c++17",
             "intelliSenseMode": "windows-gcc-x86"
