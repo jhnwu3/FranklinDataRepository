@@ -529,5 +529,7 @@ int main (){
     cout << "fXt:" << XtPSO.mVec.transpose() << endl;
     cout << "with control cost:" << calculate_cf2(Yt.mVec, Xt.mVec, wt) << endl;
     cout << "with final PSO cost:" << calculate_cf2(Yt.mVec, XtPSO.mVec, wt) << endl;
+    cout << "truk:" << tru.k.transpose() << endl;
+    cout << "final PSO cost:" << fakeTru.k.transpose() << endl;
     return EXIT_SUCCESS;
 }
