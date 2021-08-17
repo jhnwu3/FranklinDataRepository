@@ -1,0 +1,28 @@
+warning: Pulling without specifying how to reconcile divergent branches is
+discouraged. You can squelch this message by running one of the following
+commands sometime before your next pull:
+
+  git config pull.rebase false  # merge (the default strategy)
+  git config pull.rebase true   # rebase
+  git config pull.ff only       # fast-forward only
+
+You can replace "git config" with "git config --global" to set a default
+preference for all repositories. You can also pass --rebase, --no-rebase,
+or --ff-only on the command line to override the configured default per
+invocation.
+
+Already up to date.
+make: Nothing to be done for 'all'.
+Mean Differences of 6 Concentrations:-0.128555  0.146035  0.329666 -0.128555  0.146035  0.329666
+ Yt:   3.82226    3.56486    2.40126  0.0821538    6.04828    3.39339    52.6176    106.311    10.8569 0.00795372    143.121    21.6591   0.527792    9.76405   0.416289    10.7081    13.9347    12.6849  0.0871395    119.083    17.6553   0.200744    23.7426    15.3336   0.295837   0.285028    33.2739
+ Xt:   3.89295    3.27597    2.45913  0.0839432    5.81905    3.47658    52.4079    99.2772    11.5326 0.00819799    136.236    22.9778   0.540489    9.72297   0.425542     10.689    13.8752     12.414  0.0842392    111.775    17.2813   0.210537    24.1572    16.2776   0.302975   0.298934    33.8578
+fXt:  3.96971   3.44362   2.38237  0.127136   5.95312   3.34251   53.4423   102.427   11.0185 0.0191188   140.665   21.2197  0.744212   9.46279  0.676844   10.8839   14.3942   13.1506  0.139099   115.717    16.832  0.310183   24.4793   15.2416  0.468401   0.44879   32.5223
+with control cost:154.288
+with final PSO cost:35.9219
+Job Statistics for 1556494:
+           JobID       User               Start                 End    Elapsed     MaxRSS   TotalCPU      State Exit        NodeList                                  ReqTRES 
+---------------- ---------- ------------------- ------------------- ---------- ---------- ---------- ---------- ---- --------------- ---------------------------------------- 
+         1556494   rsjxw007 2021-08-17T14:36:51 2021-08-17T14:37:10   00:00:19             00:18.048  COMPLETED  0:0   r1pl-hpcf-n21        billing=4,cpu=4,mem=31248M,node=1 
+   1556494.batch            2021-08-17T14:36:51 2021-08-17T14:37:10   00:00:19          0  00:18.046  COMPLETED  0:0   r1pl-hpcf-n21                                          
+  1556494.extern            2021-08-17T14:36:51 2021-08-17T14:37:11   00:00:20          0  00:00.001  COMPLETED  0:0   r1pl-hpcf-n21                                          
+CPU Efficiency: 23.68% of 00:01:16 core-walltime
