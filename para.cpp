@@ -475,7 +475,7 @@ int main (){
     // ode vars
     int nDim = 6;
     int nMoments = (N_SPECIES * (N_SPECIES + 3)) / 2;
-    int N = 5000;
+    int N = 25000;
     double t0 = 0.0, tf = 50.0, dt = 1.0;
     struct K tru(nDim);
     tru.k << 5.0, 0.1, 1.0, 8.69, 0.05, 0.70;
@@ -523,6 +523,7 @@ int main (){
     Yt.mVec /= N;
     Xt.mVec /= N;
     XtPSO.mVec /= N;
+    cout << "using N:" << N << endl;
     cout << " Yt:" << Yt.mVec.transpose() << endl;
     cout << " Xt:" << Xt.mVec.transpose() << endl;
     cout << "fXt:" << XtPSO.mVec.transpose() << endl;
