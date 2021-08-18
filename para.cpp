@@ -542,6 +542,7 @@ int main (){
         below.k = tru.k * (1.0 - 0.2 * (inc/ nInc));
         cout << "above.k:" << above.k.transpose() << endl;
         cout << "below.k:" << below.k.transpose() << endl;
+        cout << "Computation:" << (tru.k * (1.0 + 0.2 * (inc/ nInc))).transpose() << endl;
         Protein_Components XtA(tf, nMoments, N);
         Protein_Components XtB(tf, nMoments, N);
         Moments_Mat_Obs XAObs(XtA);
