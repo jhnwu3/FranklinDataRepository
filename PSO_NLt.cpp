@@ -481,7 +481,7 @@ int main() {
     double sfp = 3.0, sfg = 1.0, sfe = 6.0; // initial particle historical weight, global weight social, inertial
     double sfi = sfe, sfc = sfp, sfs = sfg; // below are the variables being used to reiterate weights
     double alpha = 0.2;
-    int N = 25000;
+    int N = 5000;
     int nParts = 5; // first part PSO
     int nSteps = 2;
     int nParts2 = 60; // second part PSO
