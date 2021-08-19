@@ -482,10 +482,10 @@ int main() {
     double sfi = sfe, sfc = sfp, sfs = sfg; // below are the variables being used to reiterate weights
     double alpha = 0.2;
     int N = 25000;
-    int nParts = 3000; // first part PSO
-    int nSteps = 20;
+    int nParts = 5; // first part PSO
+    int nSteps = 2;
     int nParts2 = 60; // second part PSO
-    int nSteps2 = 1000;
+    int nSteps2 = 10;
     int nMoments = (N_SPECIES * (N_SPECIES + 3)) / 2; // var + mean + cov
     int hone = 16;
     //nMoments = 2*N_SPECIES; // mean + var only!
@@ -578,7 +578,7 @@ int main() {
     struct K seed;
     seed.k = VectorXd::Zero(Npars); 
     for (int i = 0; i < Npars; i++) { 
-        seed.k(i) = unifDist(gen);
+        seed.k(i) = tru.k(i);//unifDist(gen);
     }
     //seed.k << 0.725225, 0.0591037,  0.157054,  0.802015,  0.079692,  0.107293;
     Protein_Components Xt(tf, nMoments, N);
@@ -617,7 +617,7 @@ int main() {
             if(step == 0){
                 /* temporarily assign specified k constants */
                 for(int i = 0; i < Npars; i++){
-                    POSMAT(particle, i) = pUnifDist(pGenerator);//tru.k(i) + alpha * (0.5 - unifDist(pGenerator));
+                    POSMAT(particle, i) = tru.k(i);//pUnifDist(pGenerator);//tru.k(i) + alpha * (0.5 - unifDist(pGenerator));
                 }
                 //POSMAT.row(particle) <<  0.725225, 0.0591037,  0.157054,  0.802015,  0.079692,  0.107293;
                 struct K pos;
