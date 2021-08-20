@@ -487,7 +487,7 @@ int main() {
     int nParts2 = 60; // second part PSO
     int nSteps2 = 10;
     int nMoments = (N_SPECIES * (N_SPECIES + 3)) / 2; // var + mean + cov
-    int hone = 16;
+    int hone = 36;
     //nMoments = 2*N_SPECIES; // mean + var only!
     VectorXd wmatup(2);
     wmatup << 0.1, 0.4;
