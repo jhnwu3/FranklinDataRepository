@@ -776,6 +776,9 @@ int main() {
             // wt = customWtMat(Yt.mat, gXt.mat, nMoments, N, subsetCol);
             
             //gCost = calculate_cf2(resizedYt, resizedXt, wt);
+            VectorXd subset = VectorXd::Zero(nMoments);
+            subset << 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22 ,23, 24, 25, 26;
+            wt = customWtMat(Yt.mat, gXt.mat, nMoments, N, subset);
             hone += 4;
             gCost = calculate_cf2(Yt.mVec, Xt.mVec, wt);
             GBMAT.conservativeResize(GBMAT.rows() + 1, Npars + 1);
