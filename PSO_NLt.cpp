@@ -703,7 +703,9 @@ int main() {
     cout << "truk: " << tru.k.transpose() << endl;
     double dist = calculate_cf1(tru.k, GBVEC);
     cout << "total difference b/w truk and final GBVEC" << dist << endl << endl; // compute difference
-    
+    auto tB = std::chrono::high_resolution_clock::now();
+    auto bDuration = std::chrono::duration_cast<std::chrono::seconds>(tB - t1).count();
+    cout << "blind PSO FINISHED RUNNING IN " << bDuration << " s TIME!" << endl;
     /*** targeted PSO ***/
     // int rank = 15;
     // VectorXd tgCol(rank); 
