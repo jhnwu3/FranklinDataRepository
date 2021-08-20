@@ -469,7 +469,7 @@ int main() {
     /* Variables (global) */
     double t0 = 0, tf = 10.25, dt = 1.0;
     int Npars = N_DIM;
-    double squeeze = 0.775, sdbeta = 0.10; 
+    double squeeze = 0.500, sdbeta = 0.10; 
     double boundary = 0.001;
     /* SETUP */
     int useDiag = 0;
