@@ -467,7 +467,7 @@ int main() {
     /*---------------------- Setup ------------------------ */
     
     /* Variables (global) */
-    double t0 = 0, tf = 5.0 * 9.69, dt = 1.0;
+    double t0 = 0, tf = 10.25, dt = 1.0;
     int Npars = N_DIM;
     double squeeze = 0.975, sdbeta = 0.10; 
     double boundary = 0.001;
@@ -482,10 +482,10 @@ int main() {
     double sfi = sfe, sfc = sfp, sfs = sfg; // below are the variables being used to reiterate weights
     double alpha = 0.2;
     int N = 5000;
-    int nParts = 5000000; // first part PSO
-    int nSteps = 10;
-    int nParts2 = 100; // second part PSO
-    int nSteps2 = 200;
+    int nParts = 5; // first part PSO
+    int nSteps = 2;
+    int nParts2 = 60; // second part PSO
+    int nSteps2 = 10;
     int nMoments = (N_SPECIES * (N_SPECIES + 3)) / 2; // var + mean + cov
     int hone = 16;
     //nMoments = 2*N_SPECIES; // mean + var only!
@@ -578,7 +578,7 @@ int main() {
     struct K seed;
     seed.k = VectorXd::Zero(Npars); 
     for (int i = 0; i < Npars; i++) { 
-        seed.k(i) = tru.k(i);//unifDist(gen);
+        seed.k(i) = tru.k(i); //unifDist(gen);
     }
     //seed.k << 0.725225, 0.0591037,  0.157054,  0.802015,  0.079692,  0.107293;
     Protein_Components Xt(tf, nMoments, N);
