@@ -780,7 +780,7 @@ int main() {
             subset << 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22 ,23, 24, 25, 26;
             wt = customWtMat(Yt.mat, gXt.mat, nMoments, N, subset);
             hone += 4;
-            gCost = calculate_cf2(Yt.mVec, Xt.mVec, wt);
+            gCost = calculate_cf2(Yt.mVec, gXt.mVec, wt);
             GBMAT.conservativeResize(GBMAT.rows() + 1, Npars + 1);
             for (int i = 0; i < Npars; i++) {GBMAT(GBMAT.rows() - 1, i) = gPos.k(i);}
             GBMAT(GBMAT.rows() - 1, Npars) = gCost;
@@ -851,7 +851,7 @@ int main() {
                 // for(int i = 0; i < subsetCol.size() ;i++){
                 //     resizedXt(i) = XtPSO.mVec(subsetCol(i));
                 // }
-                double cost = calculate_cf2(Yt.mVec, Xt.mVec, wt);
+                double cost = calculate_cf2(Yt.mVec, XtPSO.mVec, wt);
                 /* instantiate PBMAT */
                 for(int i = 0; i < Npars; i++){
                     PBMAT(particle, i) = POSMAT(particle, i);
@@ -889,7 +889,7 @@ int main() {
                 // for(int i = 0; i < subsetCol.size(); i++){
                 //     resizedXt(i) = XtPSO.mVec(subsetCol(i));
                 // }
-                double cost = calculate_cf2(Yt.mVec, Xt.mVec, wt);
+                double cost = calculate_cf2(Yt.mVec, XtPSO.mVec, wt);
 
                 /* update pBest and gBest */
                 // #pragma omp critical
