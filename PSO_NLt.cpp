@@ -705,24 +705,24 @@ int main() {
     cout << "total difference b/w truk and final GBVEC" << dist << endl << endl; // compute difference
     
     /*** targeted PSO ***/
-    int rank = 15;
-    VectorXd tgCol(rank); 
-    tgCol << 1, 2, 5, 6, 7, 8, 9, 10, 13, 15, 16, 17, 20, 21, 26;
-    tgCol = tgCol - VectorXd::Ones(tgCol.size());
-    int rank1 = 13;
-    VectorXd reCol1 = VectorXd::Zero(rank1);
-    reCol1 << 1, 3, 5, 6, 7, 10, 11, 13, 15, 16, 21, 25, 26;//0,1,2,3,20,14,10,12,7,16,23,25;
-    reCol1 = reCol1 - VectorXd::Ones(reCol1.size());
-    int rank2 = 11;
-    VectorXd reCol2 = VectorXd::Zero(rank2);
-    reCol2 << 1, 6, 7, 9, 10, 12, 13, 14, 15, 16, 20;
-    reCol2 = reCol2 - VectorXd::Ones(reCol2.size());
-    VectorXd resizedYt = VectorXd::Zero(rank);
-    VectorXd subsetCol = VectorXd::Zero(rank);
-    ifstream wtFile("StewartWt.txt");
-    cout << "tgCol:" << tgCol.transpose() << endl;
-    cout << "reCol1:" << reCol1.transpose() << endl;
-    cout << "reCol2:" << reCol2.transpose() << endl;
+    // int rank = 15;
+    // VectorXd tgCol(rank); 
+    // tgCol << 1, 2, 5, 6, 7, 8, 9, 10, 13, 15, 16, 17, 20, 21, 26;
+    // tgCol = tgCol - VectorXd::Ones(tgCol.size());
+    // int rank1 = 13;
+    // VectorXd reCol1 = VectorXd::Zero(rank1);
+    // reCol1 << 1, 3, 5, 6, 7, 10, 11, 13, 15, 16, 21, 25, 26;//0,1,2,3,20,14,10,12,7,16,23,25;
+    // reCol1 = reCol1 - VectorXd::Ones(reCol1.size());
+    // int rank2 = 11;
+    // VectorXd reCol2 = VectorXd::Zero(rank2);
+    // reCol2 << 1, 6, 7, 9, 10, 12, 13, 14, 15, 16, 20;
+    // reCol2 = reCol2 - VectorXd::Ones(reCol2.size());
+    // VectorXd resizedYt = VectorXd::Zero(rank);
+    // VectorXd subsetCol = VectorXd::Zero(rank);
+    // ifstream wtFile("StewartWt.txt");
+    // cout << "tgCol:" << tgCol.transpose() << endl;
+    // cout << "reCol1:" << reCol1.transpose() << endl;
+    // cout << "reCol2:" << reCol2.transpose() << endl;
 
     // wt.resize(rank, rank);
     // wt = readIntoMatrix(wtFile, rank, rank);
@@ -753,29 +753,31 @@ int main() {
             }
             gXt.mVec /= N;  
 
-            /* make sure to set proper subsets each time*/
-            if(step == 0){
-                subsetCol.resize(tgCol.size());
-                subsetCol = tgCol;
-                wt.resize(tgCol.size(), tgCol.size());
-            }else if (step == chkpts(0)){
-                subsetCol.resize(reCol1.size());
-                subsetCol = reCol1;
-            }else if (step == chkpts(1)){
-                subsetCol.resize(reCol2.size());
-                subsetCol = reCol2;
-            }
+            // /* make sure to set proper subsets each time*/
+            // if(step == 0){
+            //     subsetCol.resize(tgCol.size());
+            //     subsetCol = tgCol;
+            //     wt.resize(tgCol.size(), tgCol.size());
+            // }else if (step == chkpts(0)){
+            //     subsetCol.resize(reCol1.size());
+            //     subsetCol = reCol1;
+            // }else if (step == chkpts(1)){
+            //     subsetCol.resize(reCol2.size());
+            //     subsetCol = reCol2;
+            // }
 
-            resizedYt.resize(subsetCol.size()); // make sure yt is right size
-            VectorXd resizedXt = VectorXd::Zero(subsetCol.size());
-            for(int i = 0; i < subsetCol.size(); i++){
-                resizedXt(i) = gXt.mVec(subsetCol(i));
-                resizedYt(i) = Yt.mVec(subsetCol(i));
-            }
-            wt.resize(subsetCol.size(), subsetCol.size());
-            wt = customWtMat(Yt.mat, gXt.mat, nMoments, N, subsetCol);
+            // resizedYt.resize(subsetCol.size()); // make sure yt is right size
+            // VectorXd resizedXt = VectorXd::Zero(subsetCol.size());
+            // for(int i = 0; i < subsetCol.size(); i++){
+            //     resizedXt(i) = gXt.mVec(subsetCol(i));
+            //     resizedYt(i) = Yt.mVec(subsetCol(i));
+            // }
+            // wt.resize(subsetCol.size(), subsetCol.size());
+            // wt = customWtMat(Yt.mat, gXt.mat, nMoments, N, subsetCol);
+            
+            //gCost = calculate_cf2(resizedYt, resizedXt, wt);
             hone += 4;
-            gCost = calculate_cf2(resizedYt, resizedXt, wt);
+            gCost = calculate_cf2(Yt.mVec, Xt.mVec, wt);
             GBMAT.conservativeResize(GBMAT.rows() + 1, Npars + 1);
             for (int i = 0; i < Npars; i++) {GBMAT(GBMAT.rows() - 1, i) = gPos.k(i);}
             GBMAT(GBMAT.rows() - 1, Npars) = gCost;
@@ -842,11 +844,11 @@ int main() {
                     integrate_adaptive(controlledStepper, initSys, c0, t0, tf, dt, XtObsPSO);
                 }
                 XtPSO.mVec/=N;
-                VectorXd resizedXt = VectorXd::Zero(subsetCol.size());
-                for(int i = 0; i < subsetCol.size() ;i++){
-                    resizedXt(i) = XtPSO.mVec(subsetCol(i));
-                }
-                double cost = calculate_cf2(resizedYt, resizedXt, wt);
+                // VectorXd resizedXt = VectorXd::Zero(subsetCol.size());
+                // for(int i = 0; i < subsetCol.size() ;i++){
+                //     resizedXt(i) = XtPSO.mVec(subsetCol(i));
+                // }
+                double cost = calculate_cf2(Yt.mVec, Xt.mVec, wt);
                 /* instantiate PBMAT */
                 for(int i = 0; i < Npars; i++){
                     PBMAT(particle, i) = POSMAT(particle, i);
@@ -880,11 +882,11 @@ int main() {
                     integrate_adaptive(controlledStepper, stepSys, c0, t0, tf, dt, XtObsPSO1);
                 }
                 XtPSO.mVec/=N;
-                VectorXd resizedXt = VectorXd::Zero(subsetCol.size());
-                for(int i = 0; i < subsetCol.size(); i++){
-                    resizedXt(i) = XtPSO.mVec(subsetCol(i));
-                }
-                double cost = calculate_cf2(resizedYt, resizedXt, wt);
+                // VectorXd resizedXt = VectorXd::Zero(subsetCol.size());
+                // for(int i = 0; i < subsetCol.size(); i++){
+                //     resizedXt(i) = XtPSO.mVec(subsetCol(i));
+                // }
+                double cost = calculate_cf2(Yt.mVec, Xt.mVec, wt);
 
                 /* update pBest and gBest */
                 // #pragma omp critical
