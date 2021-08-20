@@ -469,7 +469,7 @@ int main() {
     /* Variables (global) */
     double t0 = 0, tf = 10.25, dt = 1.0;
     int Npars = N_DIM;
-    double squeeze = 0.975, sdbeta = 0.10; 
+    double squeeze = 0.775, sdbeta = 0.10; 
     double boundary = 0.001;
     /* SETUP */
     int useDiag = 0;
@@ -487,7 +487,7 @@ int main() {
     int nParts2 = 50; // second part PSO
     int nSteps2 = 100;
     int nMoments = (N_SPECIES * (N_SPECIES + 3)) / 2; // var + mean + cov
-    int hone = 16;
+    int hone = 36;
     //nMoments = 2*N_SPECIES; // mean + var only!
     VectorXd wmatup(2);
     wmatup << 0.1, 0.4;
