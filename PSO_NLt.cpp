@@ -483,9 +483,9 @@ int main() {
     double alpha = 0.2;
     int N = 5000;
     int nParts = 50000; // first part PSO
-    int nSteps = 5;
-    int nParts2 = 50; // second part PSO
-    int nSteps2 = 10;
+    int nSteps = 10;
+    int nParts2 = 100; // second part PSO
+    int nSteps2 = 200;
     int nMoments = (N_SPECIES * (N_SPECIES + 3)) / 2; // var + mean + cov
     int hone = 36;
     //nMoments = 2*N_SPECIES; // mean + var only!
