@@ -4,7 +4,7 @@
 #SBATCH --nodes=1
 #SBATCH --output=./slurm_outputs/NLt%j.txt
 #SBATCH --partition=general
-#SBATCH --ntasks-per-node=4
+#SBATCH --ntasks-per-node=2
 set -e
 echo "PSO_S_ODE_NonLinear"
 ./PSO_NLt
