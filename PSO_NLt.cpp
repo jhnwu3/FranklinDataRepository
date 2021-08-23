@@ -465,9 +465,9 @@ void printToCsv(const MatrixXd& mat, const string& fileName){ // prints matrix t
 int main() {
     auto t1 = std::chrono::high_resolution_clock::now();
     /*---------------------- Setup ------------------------ */
-    
+  
     /* Variables (global) */
-    double t0 = 0, tf = 20.5, dt = 1.0;
+    double t0 = 0, tf = 10, dt = 1.0;
     int Npars = N_DIM;
     double squeeze = 0.500, sdbeta = 0.10; 
     double boundary = 0.001;
@@ -482,10 +482,10 @@ int main() {
     double sfi = sfe, sfc = sfp, sfs = sfg; // below are the variables being used to reiterate weights
     double alpha = 0.2;
     int N = 5000;
-    int nParts = 50000; // first part PSO
-    int nSteps = 10;
-    int nParts2 = 100; // second part PSO
-    int nSteps2 = 200;
+    int nParts = 5000; // first part PSO
+    int nSteps = 2;
+    int nParts2 = 50; // second part PSO
+    int nSteps2 = 10;
     int nMoments = (N_SPECIES * (N_SPECIES + 3)) / 2; // var + mean + cov
     int hone = 36;
     //nMoments = 2*N_SPECIES; // mean + var only!
@@ -496,36 +496,15 @@ int main() {
     mt19937 gen(RanDev());
     uniform_real_distribution<double> unifDist(uniLowBound, uniHiBound);
     
-    // nMoments = N_SPECIES;
-    
+    MatrixXd wt = MatrixXd::Identity(nMoments, nMoments); // wt matrix
     cout << "Using two part PSO " << "Sample Size:" << N << " with:" << nMoments << " moments." << endl;
     cout << "Using Record Time:" << tf << endl;
     cout << "Bounds for Uniform Distribution (" << uniLowBound << "," << uniHiBound << ")"<< endl;
     cout << "Blind PSO --> nParts:" << nParts << " Nsteps:" << nSteps << endl;
     cout << "Targeted PSO --> nParts:" <<  nParts2 << " Nsteps:" << nSteps2 << endl;
     cout << "sdbeta:" << sdbeta << endl;
-    MatrixXd wt = MatrixXd::Identity(nMoments, nMoments); // wt matrix
-    // for(int i = 0; i < 2 * N_SPECIES; i++){ // different number of moments
-    //     wt(i,i) = 1;
-    // }
-    // use linear TG PSO subset Cols for blind PSO temporarily!
-    // VectorXd tmpSub = VectorXd::Zero(17);
-    // tmpSub << 1, 2, 3, 4, 5, 6, 7, 8, 10, 11, 12, 14, 21, 23, 24, 25, 27;
-    // tmpSub = tmpSub - VectorXd::Ones(tmpSub.size());
-    // int tmp = 0;
-    // for(int i = 0; i < nMoments; i++){
-    //     if(i == tmpSub(tmp)){
-    //         wt(i,i) = 1;
-    //         tmp++;
-    //     }else{
-    //         wt(i, i) = 0;
-    //     }
-    // }
     cout << "wt:" << endl << wt << endl;
-    // int covCutOff = 17;
-    // for(int i = covCutOff; i < nMoments; i++){
-    //     wt(i,i) = 0;
-    // }
+
     MatrixXd GBMAT(0, 0); // iterations of global best vectors
     MatrixXd PBMAT(nParts, Npars + 1); // particle best matrix + 1 for cost component
     MatrixXd POSMAT(nParts, Npars); // Position matrix as it goees through it in parallel
@@ -561,6 +540,13 @@ int main() {
     tru.k(1) += 0.05;
     tru.k(4) += 0.05; // make sure not so close to the boundary
     // tru.k <<  0.51599600,  0.06031990, 0.10319900, 0.89680100, 0.05516000, 0.00722394; // Bill k
+
+    /* testing here! */
+    VectorXd testVec = VectorXd::Zero(6);
+    testVec << 0.825114,	0.178173,	0.075811,	0.562319,	0.019967,	0.014666,	0.001906;
+    // testVec <<  0.764108,	0.153013,	0.081472,	0.635459,	0.02754,	0.028507,	0.001999;
+    // testVec = tru.k;
+
     Nonlinear_ODE6 trueSys(tru);
     Protein_Components Yt(tf, nMoments, N);
     Moments_Mat_Obs YtObs(Yt);
@@ -577,10 +563,10 @@ int main() {
     /* Instantiate seedk aka global costs */
     struct K seed;
     seed.k = VectorXd::Zero(Npars); 
-    for (int i = 0; i < Npars; i++) { 
-        seed.k(i) = unifDist(gen);
-    }
-    //seed.k << 0.725225, 0.0591037,  0.157054,  0.802015,  0.079692,  0.107293;
+    seed.k = testVec;
+    // for (int i = 0; i < Npars; i++) { 
+    //     seed.k(i) = unifDist(gen);
+    // }
     Protein_Components Xt(tf, nMoments, N);
     Moments_Mat_Obs XtObs(Xt);
     Nonlinear_ODE6 sys(seed);
@@ -616,10 +602,11 @@ int main() {
             /* instantiate all particle rate constants with unifDist */
             if(step == 0){
                 /* temporarily assign specified k constants */
-                for(int i = 0; i < Npars; i++){
-                    POSMAT(particle, i) = pUnifDist(pGenerator);//tru.k(i) + alpha * (0.5 - unifDist(pGenerator));
-                }
-                //POSMAT.row(particle) <<  0.725225, 0.0591037,  0.157054,  0.802015,  0.079692,  0.107293;
+                // for(int i = 0; i < Npars; i++){
+                //     POSMAT(particle, i) = pUnifDist(pGenerator);//tru.k(i) + alpha * (0.5 - unifDist(pGenerator));
+                // }
+                POSMAT.row(particle) = testVec;
+
                 struct K pos;
                 pos.k = VectorXd::Zero(Npars);
                 for(int i = 0; i < Npars; i++){
