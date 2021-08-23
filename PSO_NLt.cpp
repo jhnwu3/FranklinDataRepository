@@ -467,7 +467,7 @@ int main() {
     /*---------------------- Setup ------------------------ */
   
     /* Variables (global) */
-    double t0 = 0, tf = 50, dt = 1.0;
+    double t0 = 0, tf = 10, dt = 1.0;
     int Npars = N_DIM;
     double squeeze = 0.500, sdbeta = 0.10; 
     double boundary = 0.001;
@@ -543,8 +543,8 @@ int main() {
 
     /* testing here! */
     VectorXd testVec = VectorXd::Zero(6);
-    testVec << 0.825114,	0.178173,	0.075811,	0.562319,	0.019967,	0.014666;
-    // testVec <<  0.764108,	0.153013,	0.081472,	0.635459,	0.02754,	0.028507;
+    //testVec << 0.825114,	0.178173,	0.075811,	0.562319,	0.019967,	0.014666;
+     testVec <<  0.764108,	0.153013,	0.081472,	0.635459,	0.02754,	0.028507;
     // testVec = tru.k;
 
     Nonlinear_ODE6 trueSys(tru);
