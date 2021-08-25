@@ -712,28 +712,6 @@ int main() {
     auto bDuration = std::chrono::duration_cast<std::chrono::seconds>(tB - t1).count();
     cout << "blind PSO FINISHED RUNNING IN " << bDuration << " s TIME!" << endl;
     /*** targeted PSO ***/
-    // int rank = 15;
-    // VectorXd tgCol(rank); 
-    // tgCol << 1, 2, 5, 6, 7, 8, 9, 10, 13, 15, 16, 17, 20, 21, 26;
-    // tgCol = tgCol - VectorXd::Ones(tgCol.size());
-    // int rank1 = 13;
-    // VectorXd reCol1 = VectorXd::Zero(rank1);
-    // reCol1 << 1, 3, 5, 6, 7, 10, 11, 13, 15, 16, 21, 25, 26;//0,1,2,3,20,14,10,12,7,16,23,25;
-    // reCol1 = reCol1 - VectorXd::Ones(reCol1.size());
-    // int rank2 = 11;
-    // VectorXd reCol2 = VectorXd::Zero(rank2);
-    // reCol2 << 1, 6, 7, 9, 10, 12, 13, 14, 15, 16, 20;
-    // reCol2 = reCol2 - VectorXd::Ones(reCol2.size());
-    // VectorXd resizedYt = VectorXd::Zero(rank);
-    // VectorXd subsetCol = VectorXd::Zero(rank);
-    // ifstream wtFile("StewartWt.txt");
-    // cout << "tgCol:" << tgCol.transpose() << endl;
-    // cout << "reCol1:" << reCol1.transpose() << endl;
-    // cout << "reCol2:" << reCol2.transpose() << endl;
-
-    // wt.resize(rank, rank);
-    // wt = readIntoMatrix(wtFile, rank, rank);
-
     // POSMAT.conservativeResize(nParts2, Npars); // resize matrices to fit targetted PSO
     // PBMAT.conservativeResize(nParts2, Npars + 1);
     // cout << "targeted PSO has started!" << endl; 
