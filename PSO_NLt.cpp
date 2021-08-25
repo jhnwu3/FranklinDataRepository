@@ -486,7 +486,7 @@ int main() {
     double alpha = 0.2;
     int N = 5000;
     int nParts = 1000; // first part PSO
-    int nSteps = 10;
+    int nSteps = 40;
     int nParts2 = 50; // second part PSO
     int nSteps2 = 10;
     int nMoments = (N_SPECIES * (N_SPECIES + 3)) / 2; // var + mean + cov
