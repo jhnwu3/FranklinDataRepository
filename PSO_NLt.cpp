@@ -551,22 +551,29 @@ int main() {
     testVec = tru.k;
     MatrixXd Yt3Mat = MatrixXd::Zero(N, N_SPECIES);
     VectorXd Yt3Vec = VectorXd::Zero(nMoments); // moment vector of 3 different times
+    VectorXd Xt3VecInit = VectorXd::Zero(nMoments);
     Controlled_RK_Stepper_N controlledStepper;
     for(int t = 0; t < nTimeSteps; t++){
         Nonlinear_ODE6 trueSys(tru);
         Protein_Components Yt(times(t), nMoments, N);
+        Protein_Components Xt(times(t), nMoments, N);
         Moments_Mat_Obs YtObs(Yt);
+        Moments_Mat_Obs XtObs(Xt);
         for (int i = 0; i < N; i++) {
             //State_N c0 = gen_multi_norm_iSub(); // Y_0 is simulated using norm dist.
             State_N c0 = convertInit(Y_0, i);
+            State_N x0 = convertInit(X_0, i);
             Yt.index = i;
             integrate_adaptive(controlledStepper, trueSys, c0, t0, times(t), dt, YtObs);
+            integrate_adaptive(controlledStepper, trueSys, x0, t0, times(t), dt, XtObs);
         }
         Yt.mVec /= N;
+        Xt.mVec /= N;
+        Xt3VecInit += Xt.mVec;
         Yt3Vec += Yt.mVec;
         Yt3Mat += Yt.mat;
     }
-    cout << "Yt:" << Yt3Vec.transpose() << endl;
+    cout << "Yt:" << Yt3Vec.transpose() << "with truk cost:" << calculate_cf2(Yt3Vec, Xt3VecInit, wt) << endl;
     /* Instantiate seedk aka global costs */
     VectorXd sdXt3 = VectorXd::Zero(nMoments);
     struct K seed;
