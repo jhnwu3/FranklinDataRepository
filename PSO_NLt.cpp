@@ -556,7 +556,6 @@ int main() {
         Nonlinear_ODE6 trueSys(tru);
         Protein_Components Yt(times(t), nMoments, N);
         Moments_Mat_Obs YtObs(Yt);
-        
         for (int i = 0; i < N; i++) {
             //State_N c0 = gen_multi_norm_iSub(); // Y_0 is simulated using norm dist.
             State_N c0 = convertInit(Y_0, i);
@@ -627,13 +626,13 @@ int main() {
                 VectorXd Xt3 = VectorXd::Zero(nMoments);
                 for(int t = 0; t < nTimeSteps; t++){
                     Nonlinear_ODE6 initSys(pos);
-                    Protein_Components XtPSO(tf, nMoments, N);
+                    Protein_Components XtPSO(times(t), nMoments, N);
                     Moments_Mat_Obs XtObsPSO(XtPSO);
                     for(int i = 0; i < N; i++){
                         //State_N c0 = gen_multi_norm_iSub();
                         State_N c0 = convertInit(X_0, i);
                         XtPSO.index = i;
-                        integrate_adaptive(controlledStepper, initSys, c0, t0, tf, dt, XtObsPSO);
+                        integrate_adaptive(controlledStepper, initSys, c0, t0, times(t), dt, XtObsPSO);
                     }
                     XtPSO.mVec/=N;
                     Xt3 += XtPSO.mVec;
@@ -666,13 +665,13 @@ int main() {
                 VectorXd Xt3 = VectorXd::Zero(nMoments);
                 for(int t = 0; t < nTimeSteps; t++){
                     /*solve ODEs and recompute cost */
-                    Protein_Components XtPSO(tf, nMoments, N);
+                    Protein_Components XtPSO(times(t), nMoments, N);
                     Moments_Mat_Obs XtObsPSO1(XtPSO);
                     Nonlinear_ODE6 stepSys(pos);
                     for(int i = 0; i < N; i++){
                         State_N c0 = convertInit(X_0, i);
                         XtPSO.index = i;
-                        integrate_adaptive(controlledStepper, stepSys, c0, t0, tf, dt, XtObsPSO1);
+                        integrate_adaptive(controlledStepper, stepSys, c0, t0, times(t), dt, XtObsPSO1);
                     }
                     XtPSO.mVec/=N;
                     Xt3 += XtPSO.mVec;
