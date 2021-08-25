@@ -501,7 +501,7 @@ int main() {
     
     MatrixXd wt = MatrixXd::Identity(nMoments, nMoments); // wt matrix
     cout << "Using two part PSO " << "Sample Size:" << N << " with:" << nMoments << " moments." << endl;
-    cout << "Using Record Time:" << tf << endl;
+    cout << "Using Times:" << times.transpose() << endl;
     cout << "Bounds for Uniform Distribution (" << uniLowBound << "," << uniHiBound << ")"<< endl;
     cout << "Blind PSO --> nParts:" << nParts << " Nsteps:" << nSteps << endl;
     cout << "Targeted PSO --> nParts:" <<  nParts2 << " Nsteps:" << nSteps2 << endl;
@@ -583,7 +583,7 @@ int main() {
             //State_N c0 = gen_multi_norm_iSub();
             State_N c0 = convertInit(X_0, i);
             Xt.index = i;
-            integrate_adaptive(controlledStepper, sys, c0, t0, tf, dt, XtObs);
+            integrate_adaptive(controlledStepper, sys, c0, t0, times(t), dt, XtObs);
         }
         Xt.mVec /= N;  
         sdXt3 += Xt.mVec;
@@ -726,6 +726,7 @@ int main() {
     //         /* reinstantiate gCost */
     //         struct K gPos;
     //         gPos.k = GBVEC;
+    //         MatrixXd gPSOMat = MatrixXd::Zero(N, N_SPECIES);
     //         Protein_Components gXt(tf, nMoments, N);
     //         Moments_Mat_Obs gXtObs(gXt);
     //         Nonlinear_ODE6 gSys(gPos);
@@ -764,7 +765,7 @@ int main() {
     //         subset << 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22 ,23, 24, 25, 26;
     //         wt = customWtMat(Yt3Mat, gXt.mat, nMoments, N, subset);
     //         hone += 4;
-    //         gCost = calculate_cf2(Yt.mVec, gXt.mVec, wt);
+    //         gCost = calculate_cf2(Yt3Vec, gXt.mVec, wt);
     //         GBMAT.conservativeResize(GBMAT.rows() + 1, Npars + 1);
     //         for (int i = 0; i < Npars; i++) {GBMAT(GBMAT.rows() - 1, i) = gPos.k(i);}
     //         GBMAT(GBMAT.rows() - 1, Npars) = gCost;
@@ -907,7 +908,7 @@ int main() {
     cout << "truk: " << tru.k.transpose() << endl;
     dist = calculate_cf1(tru.k, GBVEC);
     cout << "total difference b/w truk and final GBVEC:" << dist << endl; // compute difference
-    cout << "Wt:" << endl << wt << endl;
+    //cout << "Wt:" << endl << wt << endl;
     ofstream plot;
 	plot.open("GBMAT.csv");
 	MatrixXd GBMATWithSteps(GBMAT.rows(), GBMAT.cols() + 1);
