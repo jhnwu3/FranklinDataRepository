@@ -11,6 +11,7 @@
 #include <cmath>
 #include <chrono>
 #include <omp.h>
+#include <Eigen/StdVector>
 #include <boost/numeric/odeint/external/openmp/openmp.hpp>
 
 #define N_SPECIES 6
@@ -485,9 +486,9 @@ int main() {
     double sfi = sfe, sfc = sfp, sfs = sfg; // below are the variables being used to reiterate weights
     double alpha = 0.2;
     int N = 5000;
-    int nParts = 100; // first part PSO
+    int nParts = 10; // first part PSO
     int nSteps = 10;
-    int nParts2 = 20; // second part PSO
+    int nParts2 = 6; // second part PSO
     int nSteps2 = 60;
     int nMoments = (N_SPECIES * (N_SPECIES + 3)) / 2; // var + mean + cov
     int hone = 36;
@@ -499,7 +500,12 @@ int main() {
     mt19937 gen(RanDev());
     uniform_real_distribution<double> unifDist(uniLowBound, uniHiBound);
     
-    MatrixXd wt = MatrixXd::Identity(nMoments, nMoments); // wt matrix
+    MatrixXd wt = MatrixXd::Identity(nMoments, nMoments); // wt matrix - we will just use this for blind PSO for now
+    vector<MatrixXd> weights;
+    for(int i = 0; i < nTimeSteps; i++){
+        weights.push_back(MatrixXd::Identity(nMoments, nMoments));
+    }
+
     cout << "Using two part PSO " << "Sample Size:" << N << " with:" << nMoments << " moments." << endl;
     cout << "Using Times:" << times.transpose() << endl;
     cout << "Bounds for Uniform Distribution (" << uniLowBound << "," << uniHiBound << ")"<< endl;
@@ -573,7 +579,7 @@ int main() {
         Yt3Vec += Yt.mVec;
         Yt3Mat += Yt.mat;
     }
-    cout << "Yt:" << Yt3Vec.transpose() << "with truk cost:" << calculate_cf2(Yt3Vec, Xt3VecInit, wt) << endl;
+    cout << "Yt:" << Yt3Vec.transpose() << endl << "with truk cost:" << calculate_cf2(Yt3Vec, Xt3VecInit, wt) << endl;
     /* Instantiate seedk aka global costs */
     VectorXd sdXt3 = VectorXd::Zero(nMoments);
     struct K seed;
@@ -749,7 +755,6 @@ int main() {
                 gXt3 += gXt.mVec;
             }
             
-
             // /* make sure to set proper subsets each time*/
             // if(step == 0){
             //     subsetCol.resize(tgCol.size());
