@@ -556,6 +556,8 @@ int main() {
     //testVec <<  0.764108,	0.153013,	0.081472,	0.635459,	0.02754,	0.028507;
     testVec = tru.k;
     MatrixXd Yt3Mat = MatrixXd::Zero(N, N_SPECIES);
+    vector<MatrixXd> Yt3Mats;
+    vector<VectorXd> Yt3Vecs;
     VectorXd Yt3Vec = VectorXd::Zero(nMoments); // moment vector of 3 different times
     VectorXd Xt3VecInit = VectorXd::Zero(nMoments);
     Controlled_RK_Stepper_N controlledStepper;
@@ -578,6 +580,8 @@ int main() {
         Xt3VecInit += Xt.mVec;
         Yt3Vec += Yt.mVec;
         Yt3Mat += Yt.mat;
+        Yt3Mats.push_back(Yt.mat);
+        Yt3Vecs.push_back(Yt.mVec);
     }
     cout << "Yt:" << Yt3Vec.transpose() << endl << "with truk cost:" << calculate_cf2(Yt3Vec, Xt3VecInit, wt) << endl;
     /* Instantiate seedk aka global costs */
@@ -726,6 +730,8 @@ int main() {
     /*** targeted PSO ***/
     POSMAT.conservativeResize(nParts2, Npars); // resize matrices to fit targetted PSO
     PBMAT.conservativeResize(nParts2, Npars + 1);
+    VectorXd subset = VectorXd::Zero(nMoments);
+    subset << 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22 ,23, 24, 25, 26;
     cout << "targeted PSO has started!" << endl; 
     sfp = 3.0, sfg = 1.0, sfe = 6.0; // initial particle historical weight, global weight social, inertial
     sfi = sfe, sfc = sfp, sfs = sfg; // below are the variables being used to reiterate weights
@@ -739,8 +745,7 @@ int main() {
             /* reinstantiate gCost */
             struct K gPos;
             gPos.k = GBVEC;
-            MatrixXd gPSOMat = MatrixXd::Zero(N, N_SPECIES);
-            VectorXd gXt3 = VectorXd::Zero(nMoments);
+            
             for(int t = 0; t < nTimeSteps; t++){
                 Protein_Components gXt(times(t), nMoments, N);
                 Moments_Mat_Obs gXtObs(gXt);
@@ -752,7 +757,8 @@ int main() {
                     integrate_adaptive(controlledStepper, gSys, c0, t0, times(t), dt, gXtObs);
                 }
                 gXt.mVec /= N;  
-                gXt3 += gXt.mVec;
+                weights[t] = customWtMat(Yt3Mats[t], gXt.mat, nMoments, N, subset);
+                gCost += calculate_cf2(Yt3Vecs[t], gXt.mVec, weights[t]);
             }
             
             // /* make sure to set proper subsets each time*/
@@ -778,11 +784,10 @@ int main() {
             // wt = customWtMat(Yt.mat, gXt.mat, nMoments, N, subsetCol);
             
             //gCost = calculate_cf2(resizedYt, resizedXt, wt);
-            VectorXd subset = VectorXd::Zero(nMoments);
-            subset << 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22 ,23, 24, 25, 26;
-            wt = customWtMat(Yt3Mat, gPSOMat, nMoments, N, subset);
+            
+            //wt = customWtMat(Yt3Mat, gPSOMat, nMoments, N, subset);
             hone += 4;
-            gCost = calculate_cf2(Yt3Vec, gXt3, wt);
+            //gCost = calculate_cf2(Yt3Vec, gXt3, wt);
             GBMAT.conservativeResize(GBMAT.rows() + 1, Npars + 1);
             for (int i = 0; i < Npars; i++) {GBMAT(GBMAT.rows() - 1, i) = gPos.k(i);}
             GBMAT(GBMAT.rows() - 1, Npars) = gCost;
@@ -840,7 +845,8 @@ int main() {
                 for(int i = 0; i < Npars; i++){
                     pos.k(i) = POSMAT(particle, i);
                 }
-                VectorXd XtPSO3 = VectorXd::Zero(nMoments);
+                //VectorXd XtPSO3 = VectorXd::Zero(nMoments);
+                double cost = 0;
                 for(int t = 0; t < nTimeSteps; t++){
                     Nonlinear_ODE6 initSys(pos);
                     Protein_Components XtPSO(times(t), nMoments, N);
@@ -851,14 +857,14 @@ int main() {
                         integrate_adaptive(controlledStepper, initSys, c0, t0, times(t), dt, XtObsPSO);
                     }
                     XtPSO.mVec/=N;
-                    XtPSO3 += XtPSO.mVec;
+                    cost += calculate_cf2(Yt3Vecs[t], XtPSO.mVec, weights[t]);
                 }
                 
                 // VectorXd resizedXt = VectorXd::Zero(subsetCol.size());
                 // for(int i = 0; i < subsetCol.size() ;i++){
                 //     resizedXt(i) = XtPSO.mVec(subsetCol(i));
                 // }
-                double cost = calculate_cf2(Yt3Vec, XtPSO3, wt);
+                // double cost = calculate_cf2(Yt3Vec, XtPSO3, wt);
                 /* instantiate PBMAT */
                 for(int i = 0; i < Npars; i++){
                     PBMAT(particle, i) = POSMAT(particle, i);
@@ -882,7 +888,8 @@ int main() {
                 pos.k = w1 * rpoint + w2 * PBVEC + w3 * GBVEC; // update position of particle
                 POSMAT.row(particle) = pos.k; // back into POSMAT
 
-                VectorXd XtPSO3 = VectorXd::Zero(nMoments);
+                //VectorXd XtPSO3 = VectorXd::Zero(nMoments);
+                double cost = 0;
                 /* solve ODEs with new system and recompute cost */
                 for(int t = 0; t < nTimeSteps; t++){
                     Protein_Components XtPSO(times(t), nMoments, N);
@@ -894,14 +901,15 @@ int main() {
                         integrate_adaptive(controlledStepper, stepSys, c0, t0, times(t), dt, XtObsPSO1);
                     }
                     XtPSO.mVec/=N;
-                    XtPSO3 += XtPSO.mVec;
+                    cost += calculate_cf2(Yt3Vecs[t], XtPSO.mVec, weights[t]);
+                    //XtPSO3 += XtPSO.mVec;
                 }
                 
                 // VectorXd resizedXt = VectorXd::Zero(subsetCol.size());
                 // for(int i = 0; i < subsetCol.size(); i++){
                 //     resizedXt(i) = XtPSO.mVec(subsetCol(i));
                 // }
-                double cost = calculate_cf2(Yt3Vec, XtPSO3, wt);
+                //double cost = calculate_cf2(Yt3Vec, XtPSO3, wt);
 
                 /* update pBest and gBest */
                 // #pragma omp critical
