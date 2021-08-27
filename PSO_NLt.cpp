@@ -150,6 +150,7 @@ struct Moments_Mat_Obs
             int upperDiag = 2 * N_SPECIES;
             for (int i = 0; i < N_SPECIES; i++) {
                 dComp.mVec(i) += c[i];
+                //cout << "see what's up:" << dComp.mVec.transpose() << endl;
                 dComp.mat(dComp.index, i) = c[i];
                 for (int j = i; j < N_SPECIES; j++) {
                     if (i == j) { // diagonal elements
@@ -561,6 +562,7 @@ int main() {
             State_N c0 = convertInit(Y_0, i);
             State_N x0 = convertInit(X_0, i);
             Yt.index = i;
+            Xt.index = i;
             integrate_adaptive(controlledStepper, trueSys, c0, t0, times(t), dt, YtObs);
             integrate_adaptive(controlledStepper, trueSys, x0, t0, times(t), dt, XtObs);
         }
