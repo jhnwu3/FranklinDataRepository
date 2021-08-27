@@ -746,6 +746,7 @@ int main() {
             struct K gPos;
             gPos.k = GBVEC;
             
+            double cost = 0;
             for(int t = 0; t < nTimeSteps; t++){
                 Protein_Components gXt(times(t), nMoments, N);
                 Moments_Mat_Obs gXtObs(gXt);
@@ -758,9 +759,9 @@ int main() {
                 }
                 gXt.mVec /= N;  
                 weights[t] = customWtMat(Yt3Mats[t], gXt.mat, nMoments, N, subset);
-                gCost += calculate_cf2(Yt3Vecs[t], gXt.mVec, weights[t]);
+                cost += calculate_cf2(Yt3Vecs[t], gXt.mVec, weights[t]);
             }
-            
+            gCost = cost;
             // /* make sure to set proper subsets each time*/
             // if(step == 0){
             //     subsetCol.resize(tgCol.size());
