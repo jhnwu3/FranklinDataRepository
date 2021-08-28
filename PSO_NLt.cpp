@@ -150,6 +150,7 @@ struct Moments_Mat_Obs
             int upperDiag = 2 * N_SPECIES;
             for (int i = 0; i < N_SPECIES; i++) {
                 dComp.mVec(i) += c[i];
+                //cout << "see what's up:" << dComp.mVec.transpose() << endl;
                 dComp.mat(dComp.index, i) = c[i];
                 for (int j = i; j < N_SPECIES; j++) {
                     if (i == j) { // diagonal elements
@@ -486,7 +487,7 @@ int main() {
     double sfi = sfe, sfc = sfp, sfs = sfg; // below are the variables being used to reiterate weights
     double alpha = 0.2;
     int N = 5000;
-    int nParts = 1000; // first part PSO
+    int nParts = 10000; // first part PSO
     int nSteps = 10;
     int nParts2 = 10; // second part PSO
     int nSteps2 = 100;
@@ -517,18 +518,8 @@ int main() {
     MatrixXd GBMAT(0, 0); // iterations of global best vectors
     MatrixXd PBMAT(nParts, Npars + 1); // particle best matrix + 1 for cost component
     MatrixXd POSMAT(nParts, Npars); // Position matrix as it goees through it in parallel
-    VectorXd mvnVec(3);
-    mvnVec << 80,
-        120,
-        85;
-    MatrixXd covarMat(3, 3);
-    covarMat << 50, 0, 0,
-        0, 100, 0,
-        0, 0, 50;
 
-    cout << "mu:" << mvnVec.transpose() << endl;
-    cout << "covarMat:" << endl << covarMat << endl << endl;
-
+    cout << "Reading in data!" << endl;
     /* Initial Conditions */
     MatrixXd X_0(N, Npars);
     MatrixXd Y_0(N, Npars);
@@ -536,12 +527,9 @@ int main() {
     ifstream Y0File("Y_0.txt");
     X_0 = readIntoMatrix(X0File, N, N_SPECIES); // Bill initCond
     Y_0 = readIntoMatrix(Y0File, N, N_SPECIES); 
-    // for(int i = 0; i < N; i++){
-    //     X_0.row(i) = gen_multinorm_iVec();
-    //     Y_0.row(i) = gen_multinorm_iVec();
-    // }
 
     /* Solve for Y_t (mu). */
+    cout << "Loading in Truk!" << endl;
     struct K tru;
     tru.k = VectorXd::Zero(Npars);
     tru.k << 5.0, 0.1, 1.0, 8.69, 0.05, 0.70;
@@ -551,10 +539,12 @@ int main() {
     // tru.k <<  0.51599600,  0.06031990, 0.10319900, 0.89680100, 0.05516000, 0.00722394; // Bill k
 
     /* testing here! */
-    VectorXd testVec = VectorXd::Zero(6);
+    //VectorXd testVec = VectorXd::Zero(6);
     //testVec << 0.825114,	0.178173,	0.075811,	0.562319,	0.019967,	0.014666;
     //testVec <<  0.764108,	0.153013,	0.081472,	0.635459,	0.02754,	0.028507;
-    testVec = tru.k;
+    //testVec = tru.k;
+
+    cout << "Calculating Yt!" << endl;
     MatrixXd Yt3Mat = MatrixXd::Zero(N, N_SPECIES);
     vector<MatrixXd> Yt3Mats;
     vector<VectorXd> Yt3Vecs;
@@ -572,6 +562,7 @@ int main() {
             State_N c0 = convertInit(Y_0, i);
             State_N x0 = convertInit(X_0, i);
             Yt.index = i;
+            Xt.index = i;
             integrate_adaptive(controlledStepper, trueSys, c0, t0, times(t), dt, YtObs);
             integrate_adaptive(controlledStepper, trueSys, x0, t0, times(t), dt, XtObs);
         }
