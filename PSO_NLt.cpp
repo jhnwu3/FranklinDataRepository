@@ -632,7 +632,7 @@ int main() {
                 for(int i = 0; i < Npars; i++){
                     pos.k(i) = POSMAT(particle, i);
                 }
-                VectorXd Xt3 = VectorXd::Zero(nMoments);
+                double cost = 0;
                 for(int t = 0; t < nTimeSteps; t++){
                     Nonlinear_ODE6 initSys(pos);
                     Protein_Components XtPSO(times(t), nMoments, N);
@@ -644,9 +644,9 @@ int main() {
                         integrate_adaptive(controlledStepper, initSys, c0, t0, times(t), dt, XtObsPSO);
                     }
                     XtPSO.mVec/=N;
-                    Xt3 += XtPSO.mVec;
+                    cost += calculate_cf2(Yt3Vecs[t], XtPSO.mVec, wt);
                 }
-                double cost = calculate_cf2(Yt3Vec, Xt3, wt); 
+                
                 
                 /* instantiate PBMAT */
                 for(int i = 0; i < Npars; i++){
@@ -671,7 +671,7 @@ int main() {
                 pos.k = w1 * rpoint + w2 * PBVEC + w3 * GBVEC; // update position of particle
                 POSMAT.row(particle) = pos.k;
 
-                VectorXd Xt3 = VectorXd::Zero(nMoments);
+                double cost = 0;
                 for(int t = 0; t < nTimeSteps; t++){
                     /*solve ODEs and recompute cost */
                     Protein_Components XtPSO(times(t), nMoments, N);
@@ -683,9 +683,9 @@ int main() {
                         integrate_adaptive(controlledStepper, stepSys, c0, t0, times(t), dt, XtObsPSO1);
                     }
                     XtPSO.mVec/=N;
-                    Xt3 += XtPSO.mVec;
+                    cost += calculate_cf2(Yt3Vecs[t], XtPSO.mVec, wt);
                 }
-                double cost = calculate_cf2(Yt3Vec, Xt3, wt); 
+               
                 /* update gBest and pBest */
             //     #pragma omp critical
             //    {
