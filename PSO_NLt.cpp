@@ -548,9 +548,8 @@ int main() {
     MatrixXd Yt3Mat = MatrixXd::Zero(N, N_SPECIES);
     vector<MatrixXd> Yt3Mats;
     vector<VectorXd> Yt3Vecs;
-    VectorXd Yt3Vec = VectorXd::Zero(nMoments); // moment vector of 3 different times
-    VectorXd Xt3VecInit = VectorXd::Zero(nMoments);
     Controlled_RK_Stepper_N controlledStepper;
+    double trukCost = 0;
     for(int t = 0; t < nTimeSteps; t++){
         Nonlinear_ODE6 trueSys(tru);
         Protein_Components Yt(times(t), nMoments, N);
@@ -568,9 +567,7 @@ int main() {
         }
         Yt.mVec /= N;
         Xt.mVec /= N;
-        Xt3VecInit += Xt.mVec;
-        Yt3Vec += Yt.mVec;
-        Yt3Mat += Yt.mat;
+        trukCost += calculate_cf2(Yt.mVec,Xt.mVec, wt);
         Yt3Mats.push_back(Yt.mat);
         Yt3Vecs.push_back(Yt.mVec);
     }
