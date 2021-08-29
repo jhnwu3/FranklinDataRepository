@@ -595,7 +595,7 @@ int main() {
         }
         Xt.mVec /= N;  
         costSeedK += calculate_cf2(Yt3Vecs[t], Xt.mVec, wt);
-        cout << "Xt at seedk:" << Xt.mVec << endl;
+        cout << "Xt at seedk:" << Xt.mVec.transpose()  << endl;
     }
 
     cout << "seedk:"<< seed.k.transpose()<< "| cost:" << costSeedK << endl;
