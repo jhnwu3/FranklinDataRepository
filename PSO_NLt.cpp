@@ -487,10 +487,10 @@ int main() {
     double sfi = sfe, sfc = sfp, sfs = sfg; // below are the variables being used to reiterate weights
     double alpha = 0.2;
     int N = 5000;
-    int nParts = 500; // first part PSO
+    int nParts = 100; // first part PSO
     int nSteps = 20;
-    int nParts2 = 100; // second part PSO
-    int nSteps2 = 400;
+    int nParts2 = 10; // second part PSO
+    int nSteps2 = 200;
     int nMoments = (N_SPECIES * (N_SPECIES + 3)) / 2; // var + mean + cov
     int hone = 36;
     //nMoments = 2*N_SPECIES; // mean + var only!
