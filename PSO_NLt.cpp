@@ -545,7 +545,6 @@ int main() {
     //testVec = tru.k;
 
     cout << "Calculating Yt!" << endl;
-    MatrixXd Yt3Mat = MatrixXd::Zero(N, N_SPECIES);
     vector<MatrixXd> Yt3Mats;
     vector<VectorXd> Yt3Vecs;
     Controlled_RK_Stepper_N controlledStepper;
@@ -567,20 +566,23 @@ int main() {
         }
         Yt.mVec /= N;
         Xt.mVec /= N;
+        if(t == 0){
+            cout << "Yt:" << Yt.mVec.transpose() << endl;
+            cout << "Xt:" << Xt.mVec.transpose() << endl;
+        }
         trukCost += calculate_cf2(Yt.mVec,Xt.mVec, wt);
         Yt3Mats.push_back(Yt.mat);
         Yt3Vecs.push_back(Yt.mVec);
     }
-    cout << "Yt:" << Yt3Vec.transpose() << endl << "with truk cost:" << calculate_cf2(Yt3Vec, Xt3VecInit, wt) << endl;
-    cout << "Xt at truk:" << Xt3VecInit.transpose() << endl;
+    cout << "truk cost:"<< trukCost << endl;
     /* Instantiate seedk aka global costs */
-    VectorXd sdXt3 = VectorXd::Zero(nMoments);
     struct K seed;
     seed.k = VectorXd::Zero(Npars); 
     //seed.k = testVec;
     for (int i = 0; i < Npars; i++) { 
         seed.k(i) = unifDist(gen);
     }
+    double costSeedK = 0;
     for(int t = 0; t < nTimeSteps; t++){
         Protein_Components Xt(times(t), nMoments, N);
         Moments_Mat_Obs XtObs(Xt);
@@ -592,12 +594,13 @@ int main() {
             integrate_adaptive(controlledStepper, sys, c0, t0, times(t), dt, XtObs);
         }
         Xt.mVec /= N;  
-        sdXt3 += Xt.mVec;
+        costSeedK += calculate_cf2(Yt3Vecs[t], Xt.mVec, wt);
+        cout << "Xt at seedk:" << Xt.mVec << endl;
     }
-    double costSeedk = calculate_cf2(Yt3Vec, sdXt3, wt); 
-    cout << "seedk:"<< seed.k.transpose()<< "| cost:" << costSeedk << endl;
-    cout << "Xt at seedk:" << sdXt3.transpose() << endl;
-    double gCost = costSeedk; //initialize costs and GBMAT
+
+    cout << "seedk:"<< seed.k.transpose()<< "| cost:" << costSeedK << endl;
+    
+    double gCost = costSeedK; //initialize costs and GBMAT
     // global values
     VectorXd GBVEC = seed.k;
     
