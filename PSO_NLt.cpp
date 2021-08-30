@@ -937,7 +937,7 @@ int main() {
     cout << "GBMAT after targeted PSO:" << endl << GBMAT << endl;
     trukCost = 0;
     for(int t = 0; t < nTimeSteps; t++){
-        trukCost+= calculate_cf2(Yt3Vecs[t], Xt3Vecs[t], weights[t]);
+        trukCost += calculate_cf2(Yt3Vecs[t], Xt3Vecs[t], weights[t]);
     }
 
     cout << "truk: " << tru.k.transpose() << " with trukCost with new weights:" << trukCost << endl;
