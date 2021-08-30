@@ -470,9 +470,9 @@ int main() {
   
     /* Variables (global) */
     double t0 = 0, tf = 50, dt = 1.0; // time variables
-    int nTimeSteps = 3;
+    int nTimeSteps = 5;
     VectorXd times = VectorXd::Zero(nTimeSteps);
-    times << 10, 30, tf;
+    times << 10, 20, 30, 40, tf;
     int Npars = N_DIM;
     double squeeze = 0.500, sdbeta = 0.10; 
     double boundary = 0.001;
@@ -487,12 +487,12 @@ int main() {
     double sfi = sfe, sfc = sfp, sfs = sfg; // below are the variables being used to reiterate weights
     double alpha = 0.2;
     int N = 5000;
-    int nParts = 100; // first part PSO
-    int nSteps = 20;
-    int nParts2 = 10; // second part PSO
-    int nSteps2 = 200;
+    int nParts = 200; // first part PSO
+    int nSteps = 50;
+    int nParts2 = 20; // second part PSO
+    int nSteps2 = 250;
     int nMoments = (N_SPECIES * (N_SPECIES + 3)) / 2; // var + mean + cov
-    int hone = 36;
+    int hone = 24;
     //nMoments = 2*N_SPECIES; // mean + var only!
     VectorXd wmatup(2);
     wmatup << 0.1, 0.4;
@@ -547,6 +547,7 @@ int main() {
     cout << "Calculating Yt!" << endl;
     vector<MatrixXd> Yt3Mats;
     vector<VectorXd> Yt3Vecs;
+    vector<VectorXd> Xt3Vecs;
     Controlled_RK_Stepper_N controlledStepper;
     double trukCost = 0;
     for(int t = 0; t < nTimeSteps; t++){
@@ -571,6 +572,7 @@ int main() {
             cout << "Xt:" << Xt.mVec.transpose() << endl;
         }
         trukCost += calculate_cf2(Yt.mVec,Xt.mVec, wt);
+        Xt3Vecs.push_back(Xt.mVec);
         Yt3Mats.push_back(Yt.mat);
         Yt3Vecs.push_back(Yt.mVec);
     }
@@ -933,7 +935,12 @@ int main() {
         }
     }
     cout << "GBMAT after targeted PSO:" << endl << GBMAT << endl;
-    cout << "truk: " << tru.k.transpose() << endl;
+    trukCost = 0;
+    for(int t = 0; t < nTimeSteps; t++){
+        trukCost+= calculate_cf2(Yt3Vecs[t], Xt3Vecs[t], weights[t]);
+    }
+
+    cout << "truk: " << tru.k.transpose() << " with trukCost with new weights:" << trukCost << endl;
     dist = calculate_cf1(tru.k, GBVEC);
     cout << "total difference b/w truk and final GBVEC:" << dist << endl; // compute difference
     //cout << "Wt:" << endl << wt << endl;
