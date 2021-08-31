@@ -487,15 +487,15 @@ int main() {
     double sfi = sfe, sfc = sfp, sfs = sfg; // below are the variables being used to reiterate weights
     double alpha = 0.2;
     int N = 5000;
-    int nParts = 200; // first part PSO
+    int nParts = 50; // first part PSO
     int nSteps = 50;
-    int nParts2 = 20; // second part PSO
-    int nSteps2 = 250;
+    int nParts2 = 10; // second part PSO
+    int nSteps2 = 500;
     int nMoments = (N_SPECIES * (N_SPECIES + 3)) / 2; // var + mean + cov
     int hone = 24;
     //nMoments = 2*N_SPECIES; // mean + var only!
-    VectorXd wmatup(2);
-    wmatup << 0.1, 0.4;
+    VectorXd wmatup(4);
+    wmatup << 0.15, 0.35, 0.60, 0.9;
     double uniLowBound = 0.0, uniHiBound = 1.0;
     random_device RanDev;
     mt19937 gen(RanDev());
@@ -732,7 +732,7 @@ int main() {
     double nearby = sdbeta;
     VectorXd chkpts = wmatup * nSteps2;
     for(int step = 0; step < nSteps2; step++){
-        if(step == 0 || step == chkpts(0) || step == chkpts(1) ){ /* update wt   matrix || step == chkpts(0) || step == chkpts(1) || step == chkpts(2) || step == chkpts(3) */
+        if(step == 0 || step == chkpts(0) || step == chkpts(1) || step == chkpts(2) || step == chkpts(3)){ /* update wt   matrix || step == chkpts(0) || step == chkpts(1) || step == chkpts(2) || step == chkpts(3) */
             cout << "Updating Weight Matrix!" << endl;
             cout << "GBVEC AND COST:" << GBMAT.row(GBMAT.rows() - 1) << endl;
             nearby = squeeze * nearby;
@@ -793,7 +793,7 @@ int main() {
             mt19937 pGenerator(pRanDev());
             uniform_real_distribution<double> pUnifDist(uniLowBound, uniHiBound);
         
-            if(step == 0 || step == chkpts(0) || step == chkpts(1)){
+            if(step == 0 || step == chkpts(0) || step == chkpts(1) || step == chkpts(2) || step == chkpts(3)){
                 /* reinitialize particles around global best */
                 for(int edim = 0; edim < Npars; edim++){
                     int wasflipped = 0;
@@ -943,7 +943,67 @@ int main() {
     cout << "truk: " << tru.k.transpose() << " with trukCost with new weights:" << trukCost << endl;
     dist = calculate_cf1(tru.k, GBVEC);
     cout << "total difference b/w truk and final GBVEC:" << dist << endl; // compute difference
-    //cout << "Wt:" << endl << wt << endl;
+    
+    struct K rs1;
+    rs1.k = VectorXd::Zero(Npars); 
+    rs1.k << 0.79719, 0.138687, 0.104211, 0.97094, 0.064014, 0.075424;
+    double costRS1 = 0;
+    for(int t = 0; t < nTimeSteps; t++){
+        Protein_Components Xt(times(t), nMoments, N);
+        Moments_Mat_Obs XtObs(Xt);
+        Nonlinear_ODE6 sys(rs1);
+        for (int i = 0; i < N; i++) {
+            //State_N c0 = gen_multi_norm_iSub();
+            State_N c0 = convertInit(X_0, i);
+            Xt.index = i;
+            integrate_adaptive(controlledStepper, sys, c0, t0, times(t), dt, XtObs);
+        }
+        Xt.mVec /= N;  
+        costRS1 += calculate_cf2(Yt3Vecs[t], Xt.mVec, wt);
+        cout << "Xt at seedk:" << Xt.mVec.transpose()  << endl;
+    }
+    cout << "for Ks:" << rs1.k.transpose() << " has cost:" << costRS1 << endl;
+    struct K rs2;
+    rs2.k = VectorXd::Zero(Npars); 
+    rs2.k << 0.781196, 0.140816, 0.097871, 0.82296, 0.046377, 0.069316;
+    double costRS2 = 0;
+    for(int t = 0; t < nTimeSteps; t++){
+        Protein_Components Xt(times(t), nMoments, N);
+        Moments_Mat_Obs XtObs(Xt);
+        Nonlinear_ODE6 sys(rs2);
+        for (int i = 0; i < N; i++) {
+            //State_N c0 = gen_multi_norm_iSub();
+            State_N c0 = convertInit(X_0, i);
+            Xt.index = i;
+            integrate_adaptive(controlledStepper, sys, c0, t0, times(t), dt, XtObs);
+        }
+        Xt.mVec /= N;  
+        costRS2 += calculate_cf2(Yt3Vecs[t], Xt.mVec, wt);
+        cout << "Xt at seedk:" << Xt.mVec.transpose()  << endl;
+    }
+    cout << "for Ks:" << rs2.k.transpose() << " has cost:" << costRS2 << endl;
+
+
+    struct K rs3;
+    rs3.k = VectorXd::Zero(Npars); 
+    rs3.k << 0.781196, 0.140816, 0.097871, 0.82296, 0.046377, 0.069316;
+    double costRS3 = 0;
+    for(int t = 0; t < nTimeSteps; t++){
+        Protein_Components Xt(times(t), nMoments, N);
+        Moments_Mat_Obs XtObs(Xt);
+        Nonlinear_ODE6 sys(rs3);
+        for (int i = 0; i < N; i++) {
+            //State_N c0 = gen_multi_norm_iSub();
+            State_N c0 = convertInit(X_0, i);
+            Xt.index = i;
+            integrate_adaptive(controlledStepper, sys, c0, t0, times(t), dt, XtObs);
+        }
+        Xt.mVec /= N;  
+        costRS3 += calculate_cf2(Yt3Vecs[t], Xt.mVec, wt);
+        cout << "Xt at seedk:" << Xt.mVec.transpose()  << endl;
+    }
+    cout << "for Ks:" << rs3.k.transpose() << " has cost:" << costRS3 << endl;
+    
     ofstream plot;
 	plot.open("GBMAT.csv");
 	MatrixXd GBMATWithSteps(GBMAT.rows(), GBMAT.cols() + 1);
