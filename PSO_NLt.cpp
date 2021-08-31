@@ -487,10 +487,10 @@ int main() {
     double sfi = sfe, sfc = sfp, sfs = sfg; // below are the variables being used to reiterate weights
     double alpha = 0.2;
     int N = 5000;
-    int nParts = 5; // first part PSO
-    int nSteps = 5;
-    int nParts2 = 1; // second part PSO
-    int nSteps2 = 100;
+    int nParts = 50; // first part PSO
+    int nSteps = 50;
+    int nParts2 = 10; // second part PSO
+    int nSteps2 = 500;
     int nMoments = (N_SPECIES * (N_SPECIES + 3)) / 2; // var + mean + cov
     int hone = 24;
     //nMoments = 2*N_SPECIES; // mean + var only!
@@ -960,7 +960,6 @@ int main() {
         }
         Xt.mVec /= N;  
         costRS1 += calculate_cf2(Yt3Vecs[t], Xt.mVec, weights[t]);
-        cout << "Xt at seedk:" << Xt.mVec.transpose()  << endl;
     }
     cout << "for Ks:" << rs1.k.transpose() << " has cost:" << costRS1 << endl;
     struct K rs2;
@@ -979,7 +978,6 @@ int main() {
         }
         Xt.mVec /= N;  
         costRS2 += calculate_cf2(Yt3Vecs[t], Xt.mVec, weights[t]);
-        cout << "Xt at seedk:" << Xt.mVec.transpose()  << endl;
     }
     cout << "for Ks:" << rs2.k.transpose() << " has cost:" << costRS2 << endl;
 
