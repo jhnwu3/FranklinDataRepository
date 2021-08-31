@@ -959,7 +959,7 @@ int main() {
             integrate_adaptive(controlledStepper, sys, c0, t0, times(t), dt, XtObs);
         }
         Xt.mVec /= N;  
-        costRS1 += calculate_cf2(Yt3Vecs[t], Xt.mVec, wt);
+        costRS1 += calculate_cf2(Yt3Vecs[t], Xt.mVec, weights[t]);
         cout << "Xt at seedk:" << Xt.mVec.transpose()  << endl;
     }
     cout << "for Ks:" << rs1.k.transpose() << " has cost:" << costRS1 << endl;
@@ -978,7 +978,7 @@ int main() {
             integrate_adaptive(controlledStepper, sys, c0, t0, times(t), dt, XtObs);
         }
         Xt.mVec /= N;  
-        costRS2 += calculate_cf2(Yt3Vecs[t], Xt.mVec, wt);
+        costRS2 += calculate_cf2(Yt3Vecs[t], Xt.mVec, weights[t]);
         cout << "Xt at seedk:" << Xt.mVec.transpose()  << endl;
     }
     cout << "for Ks:" << rs2.k.transpose() << " has cost:" << costRS2 << endl;
@@ -999,8 +999,7 @@ int main() {
             integrate_adaptive(controlledStepper, sys, c0, t0, times(t), dt, XtObs);
         }
         Xt.mVec /= N;  
-        costRS3 += calculate_cf2(Yt3Vecs[t], Xt.mVec, wt);
-        cout << "Xt at seedk:" << Xt.mVec.transpose()  << endl;
+        costRS3 += calculate_cf2(Yt3Vecs[t], Xt.mVec, weights[t]);
     }
     cout << "for Ks:" << rs3.k.transpose() << " has cost:" << costRS3 << endl;
     
