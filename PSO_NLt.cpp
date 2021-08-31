@@ -487,10 +487,10 @@ int main() {
     double sfi = sfe, sfc = sfp, sfs = sfg; // below are the variables being used to reiterate weights
     double alpha = 0.2;
     int N = 5000;
-    int nParts = 50; // first part PSO
-    int nSteps = 50;
-    int nParts2 = 10; // second part PSO
-    int nSteps2 = 500;
+    int nParts = 10; // first part PSO
+    int nSteps = 3;
+    int nParts2 = 50; // second part PSO
+    int nSteps2 = 1000;
     int nMoments = (N_SPECIES * (N_SPECIES + 3)) / 2; // var + mean + cov
     int hone = 24;
     //nMoments = 2*N_SPECIES; // mean + var only!
@@ -581,9 +581,10 @@ int main() {
     struct K seed;
     seed.k = VectorXd::Zero(Npars); 
     //seed.k = testVec;
-    for (int i = 0; i < Npars; i++) { 
-        seed.k(i) = unifDist(gen);
-    }
+    // for (int i = 0; i < Npars; i++) { 
+    //     seed.k(i) = unifDist(gen);
+    // }
+    seed.k = tru.k;
     double costSeedK = 0;
     for(int t = 0; t < nTimeSteps; t++){
         Protein_Components Xt(times(t), nMoments, N);
@@ -624,10 +625,10 @@ int main() {
             /* instantiate all particle rate constants with unifDist */
             if(step == 0){
                 /* temporarily assign specified k constants */
-                for(int i = 0; i < Npars; i++){
-                    POSMAT(particle, i) = pUnifDist(pGenerator);//tru.k(i) + alpha * (0.5 - unifDist(pGenerator));
-                }
-                //POSMAT.row(particle) = testVec;
+                // for(int i = 0; i < Npars; i++){
+                //     POSMAT(particle, i) = pUnifDist(pGenerator);//tru.k(i) + alpha * (0.5 - unifDist(pGenerator));
+                // }
+                POSMAT.row(particle) = tru.k;
 
                 struct K pos;
                 pos.k = VectorXd::Zero(Npars);
@@ -984,7 +985,7 @@ int main() {
 
     struct K rs3;
     rs3.k = VectorXd::Zero(Npars); 
-    rs3.k << 0.781196, 0.140816, 0.097871, 0.82296, 0.046377, 0.069316;
+    rs3.k << 0.7891930, 0.1397515, 0.1010410, 0.8969500, 0.0551955, 0.07237007;
     double costRS3 = 0;
     for(int t = 0; t < nTimeSteps; t++){
         Protein_Components Xt(times(t), nMoments, N);
