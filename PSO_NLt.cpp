@@ -487,15 +487,15 @@ int main() {
     double sfi = sfe, sfc = sfp, sfs = sfg; // below are the variables being used to reiterate weights
     double alpha = 0.2;
     int N = 5000;
-    int nParts = 10; // first part PSO
+    int nParts = 5; // first part PSO
     int nSteps = 3;
-    int nParts2 = 50; // second part PSO
-    int nSteps2 = 1000;
+    int nParts2 = 5; // second part PSO
+    int nSteps2 = 10;
     int nMoments = (N_SPECIES * (N_SPECIES + 3)) / 2; // var + mean + cov
     int hone = 24;
     //nMoments = 2*N_SPECIES; // mean + var only!
     VectorXd wmatup(4);
-    wmatup << 0.15, 0.35, 0.60, 0.9;
+    wmatup << 0.2, 0.4, 0.60, 0.9;
     double uniLowBound = 0.0, uniHiBound = 1.0;
     random_device RanDev;
     mt19937 gen(RanDev());
@@ -585,6 +585,7 @@ int main() {
     //     seed.k(i) = unifDist(gen);
     // }
     seed.k = tru.k;
+    seed.k << 0.648691,	0.099861,	0.0993075,	0.8542755,	0.049949,	0.0705955;
     double costSeedK = 0;
     for(int t = 0; t < nTimeSteps; t++){
         Protein_Components Xt(times(t), nMoments, N);
@@ -628,7 +629,7 @@ int main() {
                 // for(int i = 0; i < Npars; i++){
                 //     POSMAT(particle, i) = pUnifDist(pGenerator);//tru.k(i) + alpha * (0.5 - unifDist(pGenerator));
                 // }
-                POSMAT.row(particle) = tru.k;
+                POSMAT.row(particle) << 0.648691,	0.099861,	0.0993075,	0.8542755,	0.049949,	0.0705955;//= tru.k;
 
                 struct K pos;
                 pos.k = VectorXd::Zero(Npars);
@@ -739,6 +740,7 @@ int main() {
             nearby = squeeze * nearby;
             /* reinstantiate gCost */
             struct K gPos;
+            GBVEC << 0.648691,	0.099861,	0.0993075,	0.8542755,	0.049949,	0.0705955;
             gPos.k = GBVEC;
             
             double cost = 0;
