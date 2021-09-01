@@ -782,7 +782,7 @@ int main() {
             // wt = customWtMat(Yt.mat, gXt.mat, nMoments, N, subsetCol);
             
             //gCost = calculate_cf2(resizedYt, resizedXt, wt);
-            
+            cout << "AVERAGE RATE CONSTANT:" << GBVEC.transpose() << " COST:" << gCost;
             //wt = customWtMat(Yt3Mat, gPSOMat, nMoments, N, subset);
             hone += 4;
             //gCost = calculate_cf2(Yt3Vec, gXt3, wt);
