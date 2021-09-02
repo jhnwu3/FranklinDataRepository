@@ -277,19 +277,20 @@ VectorXd comp_vel_vec(const VectorXd& posK, int seed, double epsi, double nan, i
     std::mt19937 generator(rand_dev());
     vector<int> rand;
     uniform_real_distribution<double> unifDist(0.0, 1.0);
-    for (int i = 0; i < N_DIM; i++) {
-        rand.push_back(i);
-    }
-    shuffle(rand.begin(), rand.end(), generator); // shuffle indices as well as possible. 
-    int ncomp = rand.at(0);
-    VectorXd wcomp(ncomp);
-    shuffle(rand.begin(), rand.end(), generator);
-    for (int i = 0; i < ncomp; i++) {
-        wcomp(i) = rand.at(i);
-    }
+    // for (int i = 0; i < N_DIM; i++) {
+    //     rand.push_back(i);
+    // }
+    // shuffle(rand.begin(), rand.end(), generator); // shuffle indices as well as possible. 
+    // int ncomp = rand.at(0);
+    // VectorXd wcomp(ncomp);
+    // shuffle(rand.begin(), rand.end(), generator);
+    // for (int i = 0; i < ncomp; i++) {
+    //     wcomp(i) = rand.at(i);
+    // }
+    int ncomp = posK.size();
     for (int smart = 0; smart < ncomp; smart++) {
-        int px = wcomp(smart);
-        double pos = rPoint(px);
+       // int px = wcomp(smart);
+        double pos = rPoint(smart);
         if (pos > 1.0 - nan) {
             cout << "overflow!" << endl;
             // while(pos > 1.0){
@@ -313,7 +314,7 @@ VectorXd comp_vel_vec(const VectorXd& posK, int seed, double epsi, double nan, i
         double x = aDist(generator);
         double y = bDist(generator);
 
-        rPoint(px) = (x / (x + y)); 
+        rPoint(smart) = (x / (x + y)); 
     }
     return rPoint;
 }
@@ -487,15 +488,15 @@ int main() {
     double sfi = sfe, sfc = sfp, sfs = sfg; // below are the variables being used to reiterate weights
     double alpha = 0.2;
     int N = 5000;
-    int nParts = 5; // first part PSO
-    int nSteps = 3;
-    int nParts2 = 5; // second part PSO
-    int nSteps2 = 10;
+    int nParts = 25; // first part PSO
+    int nSteps = 50;
+    int nParts2 = 10; // second part PSO
+    int nSteps2 = 250;
     int nMoments = (N_SPECIES * (N_SPECIES + 3)) / 2; // var + mean + cov
     int hone = 24;
     //nMoments = 2*N_SPECIES; // mean + var only!
     VectorXd wmatup(4);
-    wmatup << 0.2, 0.4, 0.60, 0.9;
+    wmatup << 0.15, 0.35, 0.60, 0.9;
     double uniLowBound = 0.0, uniHiBound = 1.0;
     random_device RanDev;
     mt19937 gen(RanDev());
@@ -581,11 +582,11 @@ int main() {
     struct K seed;
     seed.k = VectorXd::Zero(Npars); 
     //seed.k = testVec;
-    // for (int i = 0; i < Npars; i++) { 
-    //     seed.k(i) = unifDist(gen);
-    // }
-    seed.k = tru.k;
-    seed.k << 0.648691,	0.099861,	0.0993075,	0.8542755,	0.049949,	0.0705955;
+    for (int i = 0; i < Npars; i++) { 
+        seed.k(i) = unifDist(gen);
+    }
+    // seed.k = tru.k;
+    // seed.k << 0.648691,	0.099861,	0.0993075,	0.8542755,	0.049949,	0.0705955;
     double costSeedK = 0;
     for(int t = 0; t < nTimeSteps; t++){
         Protein_Components Xt(times(t), nMoments, N);
@@ -626,10 +627,10 @@ int main() {
             /* instantiate all particle rate constants with unifDist */
             if(step == 0){
                 /* temporarily assign specified k constants */
-                // for(int i = 0; i < Npars; i++){
-                //     POSMAT(particle, i) = pUnifDist(pGenerator);//tru.k(i) + alpha * (0.5 - unifDist(pGenerator));
-                // }
-                POSMAT.row(particle) << 0.648691,	0.099861,	0.0993075,	0.8542755,	0.049949,	0.0705955;//= tru.k;
+                for(int i = 0; i < Npars; i++){
+                    POSMAT(particle, i) = pUnifDist(pGenerator);//tru.k(i) + alpha * (0.5 - unifDist(pGenerator));
+                }
+                //POSMAT.row(particle) << 0.648691,	0.099861,	0.0993075,	0.8542755,	0.049949,	0.0705955;//= tru.k;
 
                 struct K pos;
                 pos.k = VectorXd::Zero(Npars);
@@ -740,7 +741,7 @@ int main() {
             nearby = squeeze * nearby;
             /* reinstantiate gCost */
             struct K gPos;
-            GBVEC << 0.648691,	0.099861,	0.0993075,	0.8542755,	0.049949,	0.0705955;
+            // GBVEC << 0.648691,	0.099861,	0.0993075,	0.8542755,	0.049949,	0.0705955;
             gPos.k = GBVEC;
             
             double cost = 0;
