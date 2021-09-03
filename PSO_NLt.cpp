@@ -288,7 +288,7 @@ VectorXd comp_vel_vec(const VectorXd& posK, int seed, double epsi, double nan, i
     //     wcomp(i) = rand.at(i);
     // }
     int ncomp = posK.size();
-    if(unifDist(generator) > 0.5){
+    if(unifDist(generator) < 0.75){
         for (int smart = 0; smart < 2; smart++) {
         // int px = wcomp(smart);
             double pos = rPoint(smart);
