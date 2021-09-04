@@ -554,12 +554,18 @@ int main() {
 
     cout << "Reading in data!" << endl;
     /* Initial Conditions */
+    int sizeFile = 25000;
+    MatrixXd X_0_Full(sizeFile, Npars);
+    MatrixXd Y_0_Full(sizeFile, Npars);
     MatrixXd X_0(N, Npars);
     MatrixXd Y_0(N, Npars);
     ifstream X0File("X_0.txt");
     ifstream Y0File("Y_0.txt");
-    X_0 = readIntoMatrix(X0File, N, N_SPECIES); // Bill initCond
-    Y_0 = readIntoMatrix(Y0File, N, N_SPECIES); 
+    
+    X_0_Full = readIntoMatrix(X0File, sizeFile, N_SPECIES);
+    Y_0_Full = readIntoMatrix(Y0File, sizeFile, N_SPECIES);
+    X_0 = X_0_Full.block(5000, 0, 5000, Npars);
+    Y_0 = Y_0_Full.block(5000, 0, 5000, Npars);
 
     /* Solve for Y_t (mu). */
     cout << "Loading in Truk!" << endl;
