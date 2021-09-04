@@ -523,7 +523,7 @@ int main() {
     int nParts = 25; // first part PSO
     int nSteps = 50;
     int nParts2 = 10; // second part PSO
-    int nSteps2 = 2;
+    int nSteps2 = 1000;
     int nMoments = (N_SPECIES * (N_SPECIES + 3)) / 2; // var + mean + cov
     int hone = 24;
     //nMoments = 2*N_SPECIES; // mean + var only!
@@ -566,7 +566,8 @@ int main() {
     Y_0_Full = readIntoMatrix(Y0File, sizeFile, N_SPECIES);
     X_0 = X_0_Full.block(5000, 0, 5000, Npars);
     Y_0 = Y_0_Full.block(5000, 0, 5000, Npars);
-
+    cout << "first row X0:" << X_0.row(0).transpose() << endl;
+    cout << "final row X0:" << X_0.row(N - 1).transpose() << endl;
     /* Solve for Y_t (mu). */
     cout << "Loading in Truk!" << endl;
     struct K tru;
