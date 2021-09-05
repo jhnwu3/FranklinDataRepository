@@ -520,10 +520,10 @@ int main() {
     double sfi = sfe, sfc = sfp, sfs = sfg; // below are the variables being used to reiterate weights
     double alpha = 0.2;
     int N = 5000;
-    int nParts = 1; // first part PSO
-    int nSteps = 1;
-    int nParts2 = 1; // second part PSO
-    int nSteps2 = 1;
+    int nParts = 25; // first part PSO
+    int nSteps = 50;
+    int nParts2 = 10; // second part PSO
+    int nSteps2 = 1000;
     int nMoments = (N_SPECIES * (N_SPECIES + 3)) / 2; // var + mean + cov
     int hone = 24;
     //nMoments = 2*N_SPECIES; // mean + var only!
@@ -564,12 +564,12 @@ int main() {
     
     X_0_Full = readIntoMatrix(X0File, sizeFile, N_SPECIES);
     Y_0_Full = readIntoMatrix(Y0File, sizeFile, N_SPECIES);
-    int startRow = 10000;
+    int startRow = 5000;
     X_0 = X_0_Full.block(startRow, 0, N, Npars);
     Y_0 = Y_0_Full.block(startRow, 0, N, Npars);
     cout << "Using starting row of data:" << startRow << " and " << N << " data pts!" << endl;
     cout << "first row X0:" << X_0.row(0) << endl;
-    cout << "final row X0:" << X_0.row(N - 1) << endl;
+    cout << "final row X0:" << X_0.row(N - 1) << endl << endl << endl << endl;
 
     /* Solve for Y_t (mu). */
     cout << "Loading in Truk!" << endl;
