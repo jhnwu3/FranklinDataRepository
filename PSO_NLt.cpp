@@ -520,10 +520,10 @@ int main() {
     double sfi = sfe, sfc = sfp, sfs = sfg; // below are the variables being used to reiterate weights
     double alpha = 0.2;
     int N = 5000;
-    int nParts = 25; // first part PSO
-    int nSteps = 50;
-    int nParts2 = 10; // second part PSO
-    int nSteps2 = 1000;
+    int nParts = 1; // first part PSO
+    int nSteps = 1;
+    int nParts2 = 1; // second part PSO
+    int nSteps2 = 1;
     int nMoments = (N_SPECIES * (N_SPECIES + 3)) / 2; // var + mean + cov
     int hone = 24;
     //nMoments = 2*N_SPECIES; // mean + var only!
@@ -564,10 +564,13 @@ int main() {
     
     X_0_Full = readIntoMatrix(X0File, sizeFile, N_SPECIES);
     Y_0_Full = readIntoMatrix(Y0File, sizeFile, N_SPECIES);
-    X_0 = X_0_Full.block(20000, 0, 5000, Npars);
-    Y_0 = Y_0_Full.block(20000, 0, 5000, Npars);
-    cout << "first row X0:" << X_0.row(0).transpose() << endl;
-    cout << "final row X0:" << X_0.row(N - 1).transpose() << endl;
+    int startRow = 5000;
+    X_0 = X_0_Full.block(startRow, 0, N, Npars);
+    Y_0 = Y_0_Full.block(startRow, 0, N, Npars);
+    cout << "Using starting row of data:" << startRow << " and " << N << " data pts!" << endl;
+    cout << "first row X0:" << X_0.row(0) << endl;
+    cout << "final row X0:" << X_0.row(N - 1) << endl;
+
     /* Solve for Y_t (mu). */
     cout << "Loading in Truk!" << endl;
     struct K tru;
@@ -577,12 +580,6 @@ int main() {
     tru.k(1) += 0.05;
     tru.k(4) += 0.05; // make sure not so close to the boundary
     // tru.k <<  0.51599600,  0.06031990, 0.10319900, 0.89680100, 0.05516000, 0.00722394; // Bill k
-
-    /* testing here! */
-    //VectorXd testVec = VectorXd::Zero(6);
-    //testVec << 0.825114,	0.178173,	0.075811,	0.562319,	0.019967,	0.014666;
-    //testVec <<  0.764108,	0.153013,	0.081472,	0.635459,	0.02754,	0.028507;
-    //testVec = tru.k;
 
     cout << "Calculating Yt!" << endl;
     vector<MatrixXd> Yt3Mats;
@@ -607,10 +604,6 @@ int main() {
         }
         Yt.mVec /= N;
         Xt.mVec /= N;
-        if(t == 0){
-            cout << "Yt:" << Yt.mVec.transpose() << endl;
-            cout << "Xt:" << Xt.mVec.transpose() << endl;
-        }
         trukCost += calculate_cf2(Yt.mVec,Xt.mVec, wt);
         Xt3Vecs.push_back(Xt.mVec);
         Yt3Mats.push_back(Yt.mat);
@@ -639,7 +632,6 @@ int main() {
         }
         Xt.mVec /= N;  
         costSeedK += calculate_cf2(Yt3Vecs[t], Xt.mVec, wt);
-        cout << "Xt at seedk:" << Xt.mVec.transpose()  << endl;
     }
 
     cout << "seedk:"<< seed.k.transpose()<< "| cost:" << costSeedK << endl;
