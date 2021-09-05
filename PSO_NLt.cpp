@@ -564,8 +564,8 @@ int main() {
     
     X_0_Full = readIntoMatrix(X0File, sizeFile, N_SPECIES);
     Y_0_Full = readIntoMatrix(Y0File, sizeFile, N_SPECIES);
-    X_0 = X_0_Full.block(10000, 0, 5000, Npars);
-    Y_0 = Y_0_Full.block(10000, 0, 5000, Npars);
+    X_0 = X_0_Full.block(15000, 0, 5000, Npars);
+    Y_0 = Y_0_Full.block(15000, 0, 5000, Npars);
     cout << "first row X0:" << X_0.row(0).transpose() << endl;
     cout << "final row X0:" << X_0.row(N - 1).transpose() << endl;
     /* Solve for Y_t (mu). */
