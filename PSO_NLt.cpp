@@ -646,7 +646,6 @@ int main() {
     }
     GBMAT(GBMAT.rows() - 1, Npars) = gCost;
     
-   
     /* Blind PSO begins */
     cout << "PSO begins!" << endl;
     for(int step = 0; step < nSteps; step++){

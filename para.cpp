@@ -277,44 +277,77 @@ VectorXd comp_vel_vec(const VectorXd& posK, int seed, double epsi, double nan, i
     std::mt19937 generator(rand_dev());
     vector<int> rand;
     uniform_real_distribution<double> unifDist(0.0, 1.0);
-    for (int i = 0; i < N_DIM; i++) {
-        rand.push_back(i);
-    }
-    shuffle(rand.begin(), rand.end(), generator); // shuffle indices as well as possible. 
-    int ncomp = rand.at(0);
-    VectorXd wcomp(ncomp);
-    shuffle(rand.begin(), rand.end(), generator);
-    for (int i = 0; i < ncomp; i++) {
-        wcomp(i) = rand.at(i);
-    }
-    for (int smart = 0; smart < ncomp; smart++) {
-        int px = wcomp(smart);
-        double pos = rPoint(px);
-        if (pos > 1.0 - nan) {
-            cout << "overflow!" << endl;
-            // while(pos > 1.0){
-            //     pos -= 0.001;
-            // }
-            pos -= epsi;
-        }else if (pos < nan) {
-            cout << "underflow!"<< pos << endl;
-            // while( pos < 0.001){
-            //     pos += 0.001;
-            // }
-            pos += epsi;
-            cout << "pos" << posK.transpose() << endl; 
+    // for (int i = 0; i < N_DIM; i++) {
+    //     rand.push_back(i);
+    // }
+    // shuffle(rand.begin(), rand.end(), generator); // shuffle indices as well as possible. 
+    // int ncomp = rand.at(0);
+    // VectorXd wcomp(ncomp);
+    // shuffle(rand.begin(), rand.end(), generator);
+    // for (int i = 0; i < ncomp; i++) {
+    //     wcomp(i) = rand.at(i);
+    // }
+    int ncomp = posK.size();
+    if(unifDist(generator) < 0.75){
+        for (int smart = 0; smart < 2; smart++) {
+        // int px = wcomp(smart);
+            double pos = rPoint(smart);
+            if (pos > 1.0 - nan) {
+                cout << "overflow!" << endl;
+                // while(pos > 1.0){
+                //     pos -= 0.001;
+                // }
+                pos -= epsi;
+            }else if (pos < nan) {
+                cout << "underflow!"<< pos << endl;
+                // while( pos < 0.001){
+                //     pos += 0.001;
+                // }
+                pos += epsi;
+                cout << "pos" << posK.transpose() << endl; 
+            }
+            double alpha = hone * pos; // Component specific
+            double beta = hone - alpha; // pos specific
+        // cout << "alpha:" << alpha << "beta:" << beta << endl;
+            std::gamma_distribution<double> aDist(alpha, 1); // beta distribution consisting of gamma distributions
+            std::gamma_distribution<double> bDist(beta, 1);
+
+            double x = aDist(generator);
+            double y = bDist(generator);
+
+            rPoint(smart) = (x / (x + y)); 
         }
-        double alpha = hone * pos; // Component specific
-        double beta = hone - alpha; // pos specific
-       // cout << "alpha:" << alpha << "beta:" << beta << endl;
-        std::gamma_distribution<double> aDist(alpha, 1); // beta distribution consisting of gamma distributions
-        std::gamma_distribution<double> bDist(beta, 1);
+    }else{
+        for (int smart = 0; smart < ncomp; smart++) {
+        // int px = wcomp(smart);
+            double pos = rPoint(smart);
+            if (pos > 1.0 - nan) {
+                cout << "overflow!" << endl;
+                // while(pos > 1.0){
+                //     pos -= 0.001;
+                // }
+                pos -= epsi;
+            }else if (pos < nan) {
+                cout << "underflow!"<< pos << endl;
+                // while( pos < 0.001){
+                //     pos += 0.001;
+                // }
+                pos += epsi;
+                cout << "pos" << posK.transpose() << endl; 
+            }
+            double alpha = hone * pos; // Component specific
+            double beta = hone - alpha; // pos specific
+        // cout << "alpha:" << alpha << "beta:" << beta << endl;
+            std::gamma_distribution<double> aDist(alpha, 1); // beta distribution consisting of gamma distributions
+            std::gamma_distribution<double> bDist(beta, 1);
 
-        double x = aDist(generator);
-        double y = bDist(generator);
+            double x = aDist(generator);
+            double y = bDist(generator);
 
-        rPoint(px) = (x / (x + y)); 
+            rPoint(smart) = (x / (x + y)); 
+        }
     }
+    
     return rPoint;
 }
 MatrixXd calculate_omega_weight_matrix(const MatrixXd &sample, const VectorXd &mu){
@@ -487,10 +520,10 @@ int main() {
     double sfi = sfe, sfc = sfp, sfs = sfg; // below are the variables being used to reiterate weights
     double alpha = 0.2;
     int N = 5000;
-    int nParts = 5; // first part PSO
-    int nSteps = 5;
-    int nParts2 = 1; // second part PSO
-    int nSteps2 = 100;
+    int nParts = 25; // first part PSO
+    int nSteps = 50;
+    int nParts2 = 10; // second part PSO
+    int nSteps2 = 1000;
     int nMoments = (N_SPECIES * (N_SPECIES + 3)) / 2; // var + mean + cov
     int hone = 24;
     //nMoments = 2*N_SPECIES; // mean + var only!
@@ -521,12 +554,22 @@ int main() {
 
     cout << "Reading in data!" << endl;
     /* Initial Conditions */
+    int sizeFile = 25000;
+    MatrixXd X_0_Full(sizeFile, Npars);
+    MatrixXd Y_0_Full(sizeFile, Npars);
     MatrixXd X_0(N, Npars);
     MatrixXd Y_0(N, Npars);
     ifstream X0File("X_0.txt");
     ifstream Y0File("Y_0.txt");
-    X_0 = readIntoMatrix(X0File, N, N_SPECIES); // Bill initCond
-    Y_0 = readIntoMatrix(Y0File, N, N_SPECIES); 
+    
+    X_0_Full = readIntoMatrix(X0File, sizeFile, N_SPECIES);
+    Y_0_Full = readIntoMatrix(Y0File, sizeFile, N_SPECIES);
+    int startRow = 20000;
+    X_0 = X_0_Full.block(startRow, 0, N, Npars);
+    Y_0 = Y_0_Full.block(startRow, 0, N, Npars);
+    cout << "Using starting row of data:" << startRow << " and " << N << " data pts!" << endl;
+    cout << "first row X0:" << X_0.row(0) << endl;
+    cout << "final row X0:" << X_0.row(N - 1) << endl << endl << endl << endl;
 
     /* Solve for Y_t (mu). */
     cout << "Loading in Truk!" << endl;
@@ -537,12 +580,6 @@ int main() {
     tru.k(1) += 0.05;
     tru.k(4) += 0.05; // make sure not so close to the boundary
     // tru.k <<  0.51599600,  0.06031990, 0.10319900, 0.89680100, 0.05516000, 0.00722394; // Bill k
-
-    /* testing here! */
-    //VectorXd testVec = VectorXd::Zero(6);
-    //testVec << 0.825114,	0.178173,	0.075811,	0.562319,	0.019967,	0.014666;
-    //testVec <<  0.764108,	0.153013,	0.081472,	0.635459,	0.02754,	0.028507;
-    //testVec = tru.k;
 
     cout << "Calculating Yt!" << endl;
     vector<MatrixXd> Yt3Mats;
@@ -567,10 +604,6 @@ int main() {
         }
         Yt.mVec /= N;
         Xt.mVec /= N;
-        if(t == 0){
-            cout << "Yt:" << Yt.mVec.transpose() << endl;
-            cout << "Xt:" << Xt.mVec.transpose() << endl;
-        }
         trukCost += calculate_cf2(Yt.mVec,Xt.mVec, wt);
         Xt3Vecs.push_back(Xt.mVec);
         Yt3Mats.push_back(Yt.mat);
@@ -584,6 +617,8 @@ int main() {
     for (int i = 0; i < Npars; i++) { 
         seed.k(i) = unifDist(gen);
     }
+    // seed.k = tru.k;
+    // seed.k << 0.648691,	0.099861,	0.0993075,	0.8542755,	0.049949,	0.0705955;
     double costSeedK = 0;
     for(int t = 0; t < nTimeSteps; t++){
         Protein_Components Xt(times(t), nMoments, N);
@@ -597,7 +632,6 @@ int main() {
         }
         Xt.mVec /= N;  
         costSeedK += calculate_cf2(Yt3Vecs[t], Xt.mVec, wt);
-        cout << "Xt at seedk:" << Xt.mVec.transpose()  << endl;
     }
 
     cout << "seedk:"<< seed.k.transpose()<< "| cost:" << costSeedK << endl;
@@ -612,7 +646,6 @@ int main() {
     }
     GBMAT(GBMAT.rows() - 1, Npars) = gCost;
     
-   
     /* Blind PSO begins */
     cout << "PSO begins!" << endl;
     for(int step = 0; step < nSteps; step++){
@@ -627,7 +660,7 @@ int main() {
                 for(int i = 0; i < Npars; i++){
                     POSMAT(particle, i) = pUnifDist(pGenerator);//tru.k(i) + alpha * (0.5 - unifDist(pGenerator));
                 }
-                //POSMAT.row(particle) = testVec;
+                //POSMAT.row(particle) << 0.648691,	0.099861,	0.0993075,	0.8542755,	0.049949,	0.0705955;//= tru.k;
 
                 struct K pos;
                 pos.k = VectorXd::Zero(Npars);
@@ -738,6 +771,7 @@ int main() {
             nearby = squeeze * nearby;
             /* reinstantiate gCost */
             struct K gPos;
+            // GBVEC << 0.648691,	0.099861,	0.0993075,	0.8542755,	0.049949,	0.0705955;
             gPos.k = GBVEC;
             
             double cost = 0;
@@ -779,7 +813,7 @@ int main() {
             // wt = customWtMat(Yt.mat, gXt.mat, nMoments, N, subsetCol);
             
             //gCost = calculate_cf2(resizedYt, resizedXt, wt);
-            
+            cout << "AVERAGE RATE CONSTANT:" << GBVEC.transpose() << " COST:" << gCost;
             //wt = customWtMat(Yt3Mat, gPSOMat, nMoments, N, subset);
             hone += 4;
             //gCost = calculate_cf2(Yt3Vec, gXt3, wt);
@@ -959,8 +993,7 @@ int main() {
             integrate_adaptive(controlledStepper, sys, c0, t0, times(t), dt, XtObs);
         }
         Xt.mVec /= N;  
-        costRS1 += calculate_cf2(Yt3Vecs[t], Xt.mVec, wt);
-        cout << "Xt at seedk:" << Xt.mVec.transpose()  << endl;
+        costRS1 += calculate_cf2(Yt3Vecs[t], Xt.mVec, weights[t]);
     }
     cout << "for Ks:" << rs1.k.transpose() << " has cost:" << costRS1 << endl;
     struct K rs2;
@@ -978,15 +1011,14 @@ int main() {
             integrate_adaptive(controlledStepper, sys, c0, t0, times(t), dt, XtObs);
         }
         Xt.mVec /= N;  
-        costRS2 += calculate_cf2(Yt3Vecs[t], Xt.mVec, wt);
-        cout << "Xt at seedk:" << Xt.mVec.transpose()  << endl;
+        costRS2 += calculate_cf2(Yt3Vecs[t], Xt.mVec, weights[t]);
     }
     cout << "for Ks:" << rs2.k.transpose() << " has cost:" << costRS2 << endl;
 
 
     struct K rs3;
     rs3.k = VectorXd::Zero(Npars); 
-    rs3.k << 0.781196, 0.140816, 0.097871, 0.82296, 0.046377, 0.069316;
+    rs3.k << 0.7891930, 0.1397515, 0.1010410, 0.8969500, 0.0551955, 0.07237007;
     double costRS3 = 0;
     for(int t = 0; t < nTimeSteps; t++){
         Protein_Components Xt(times(t), nMoments, N);
@@ -999,8 +1031,7 @@ int main() {
             integrate_adaptive(controlledStepper, sys, c0, t0, times(t), dt, XtObs);
         }
         Xt.mVec /= N;  
-        costRS3 += calculate_cf2(Yt3Vecs[t], Xt.mVec, wt);
-        cout << "Xt at seedk:" << Xt.mVec.transpose()  << endl;
+        costRS3 += calculate_cf2(Yt3Vecs[t], Xt.mVec, weights[t]);
     }
     cout << "for Ks:" << rs3.k.transpose() << " has cost:" << costRS3 << endl;
     
