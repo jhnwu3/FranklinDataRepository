@@ -653,7 +653,7 @@ int main() {
         for(int particle = 0; particle < nParts; particle++){
             random_device pRanDev;
             mt19937 pGenerator(pRanDev());
-            uniform_real_distribution<double> pUnifDist(uniLowBound, uniHiBound);
+            uniform_real_distribution<double> pUnifDist(0.0, 1.0);
             /* instantiate all particle rate constants with unifDist */
             if(step == 0){
                 /* temporarily assign specified k constants */
@@ -740,8 +740,6 @@ int main() {
         GBMAT.conservativeResize(GBMAT.rows() + 1, Npars + 1); // Add to GBMAT after resizing
         for (int i = 0; i < Npars; i++) {GBMAT(GBMAT.rows() - 1, i) = GBVEC(i);}
         GBMAT(GBMAT.rows() - 1, Npars) = gCost;
-        cout << "New GBMAT from blind pso!" << endl;
-        cout << GBMAT << endl << endl << endl;
         sfi = sfi - (sfe - sfg) / nSteps;   // reduce the inertial weight after each step 
         sfs = sfs + (sfe - sfg) / nSteps;
     }

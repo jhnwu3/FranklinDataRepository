@@ -6,5 +6,5 @@
 #SBATCH --output=./slurm_outputs/test%j.txt
 #SBATCH --ntasks-per-node=20
 # load all modules, build terminal code, move all outputs into output folders.
-source load.sh
+
 ./para

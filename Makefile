@@ -21,7 +21,7 @@ calc.o: calc.cpp main.hpp calc.hpp
 para: para.o
 	g++ para.o -o para -fopenmp
 para.o: para.cpp
-	g++ -c para.cpp -o para.o -fopenmp
+	g++ -c -O3 para.cpp -o para.o -fopenmp
 
 # nonlinear PSO equal weights
 PSO_NL: PSO_NL.o 
