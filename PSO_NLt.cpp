@@ -474,8 +474,6 @@ MatrixXd customWtMat(const MatrixXd& Yt, const MatrixXd& Xt, int nMoments, int N
         wt(i,i) = 1 / variances(subCol(i)); // cleanup code and make it more vectorized later.
     }
 
-    cout << "Chkpt reached!" << endl;
-    cout << "new weight matrix:" << endl << wt << endl << endl;
     return wt;
 }
 
@@ -740,8 +738,6 @@ int main() {
         GBMAT.conservativeResize(GBMAT.rows() + 1, Npars + 1); // Add to GBMAT after resizing
         for (int i = 0; i < Npars; i++) {GBMAT(GBMAT.rows() - 1, i) = GBVEC(i);}
         GBMAT(GBMAT.rows() - 1, Npars) = gCost;
-        cout << "New GBMAT from blind pso!" << endl;
-        cout << GBMAT << endl << endl << endl;
         sfi = sfi - (sfe - sfg) / nSteps;   // reduce the inertial weight after each step 
         sfs = sfs + (sfe - sfg) / nSteps;
     }
@@ -1053,8 +1049,12 @@ int main() {
         }
         plot << endl;
     }
-
 	plot.close();
+
+    for(int i = 0 ; i < nTimeSteps; i++){
+        cout << "Weight Matrix for time step:" << i << endl;
+        cout << weights[i] << endl << endl;
+    }
     auto t2 = std::chrono::high_resolution_clock::now();
     auto duration = std::chrono::duration_cast<std::chrono::seconds>(t2 - t1).count();
     cout << "CODE FINISHED RUNNING IN " << duration << " s TIME!" << endl;

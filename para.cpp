@@ -653,7 +653,7 @@ int main() {
         for(int particle = 0; particle < nParts; particle++){
             random_device pRanDev;
             mt19937 pGenerator(pRanDev());
-            uniform_real_distribution<double> pUnifDist(0.0, 1.0);
+            uniform_real_distribution<double> pUnifDist(0.0, 1.);
             /* instantiate all particle rate constants with unifDist */
             if(step == 0){
                 /* temporarily assign specified k constants */
