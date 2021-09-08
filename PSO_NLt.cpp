@@ -501,7 +501,7 @@ int main() {
   
     /* Variables (global) */
     double t0 = 0, tf = 50, dt = 1.0; // time variables
-    int nTimeSteps = 5;
+    int nTimeSteps = 1;
     VectorXd times = VectorXd::Zero(nTimeSteps);
     times << 10, 20, 30, 40, tf;
     int Npars = N_DIM;
@@ -615,7 +615,7 @@ int main() {
     for (int i = 0; i < Npars; i++) { 
         seed.k(i) = unifDist(gen);
     }
-    // seed.k = tru.k;
+    seed.k = tru.k;
     // seed.k << 0.648691,	0.099861,	0.0993075,	0.8542755,	0.049949,	0.0705955;
     double costSeedK = 0;
     for(int t = 0; t < nTimeSteps; t++){
@@ -658,7 +658,7 @@ int main() {
                 for(int i = 0; i < Npars; i++){
                     POSMAT(particle, i) = pUnifDist(pGenerator);//tru.k(i) + alpha * (0.5 - unifDist(pGenerator));
                 }
-                //POSMAT.row(particle) << 0.648691,	0.099861,	0.0993075,	0.8542755,	0.049949,	0.0705955;//= tru.k;
+                POSMAT.row(particle) = tru.k;
 
                 struct K pos;
                 pos.k = VectorXd::Zero(Npars);
