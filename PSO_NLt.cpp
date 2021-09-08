@@ -503,7 +503,7 @@ int main() {
     double t0 = 0, tf = 50, dt = 1.0; // time variables
     int nTimeSteps = 1;
     VectorXd times = VectorXd::Zero(nTimeSteps);
-    times << 10, 20, 30, 40, tf;
+    times << tf;
     int Npars = N_DIM;
     double squeeze = 0.500, sdbeta = 0.10; 
     double boundary = 0.001;
@@ -544,7 +544,7 @@ int main() {
     cout << "Blind PSO --> nParts:" << nParts << " Nsteps:" << nSteps << endl;
     cout << "Targeted PSO --> nParts:" <<  nParts2 << " Nsteps:" << nSteps2 << endl;
     cout << "sdbeta:" << sdbeta << endl;
-    cout << "wt:" << endl << wt << endl;
+    // cout << "wt:" << endl << wt << endl;
 
     MatrixXd GBMAT(0, 0); // iterations of global best vectors
     MatrixXd PBMAT(nParts, Npars + 1); // particle best matrix + 1 for cost component
