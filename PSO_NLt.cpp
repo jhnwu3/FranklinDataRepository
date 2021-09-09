@@ -430,6 +430,7 @@ MatrixXd readIntoMatrix(ifstream& in, int rows, int cols) {
         if (in.is_open()) {
             getline(in, line);
             line = removeWhiteSpace(line);
+            cout << "line:" << line << endl;
             int wordPos = 0;
             for (int j = 0; j < cols; j++) {
                 string subs = findDouble(line, wordPos);
