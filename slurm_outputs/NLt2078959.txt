@@ -50178,18 +50178,13 @@ final row X0:1.63756  4.1577 4.69516 1.63756  4.1577 4.69516
 Loading in Truk!
 Calculating Yt!
 truk cost:0.03516
-seedk:0.484197 0.688477 0.110252 0.503732 0.472148 0.344976| cost:160.005
+seedk: 0.248754 0.0699154  0.995761  0.224019    0.6666  0.379001| cost:608677
 PSO begins!
-overflow!
-underflow!0.00322179
-pos0.00322179   0.835539  0.0507288   0.480131   0.360906   0.686493
-slurmstepd: error: *** JOB 2078957 ON r1pl-hpcf-n21 CANCELLED AT 2021-09-09T11:28:34 ***
-underflow!0.00148764
-pos0.00148764  0.0858337   0.656785   0.354178    0.84553   0.653734
-Job Statistics for 2078957:
+slurmstepd: error: *** JOB 2078959 ON r1pl-hpcf-n21 CANCELLED AT 2021-09-09T11:28:39 ***
+Job Statistics for 2078959:
            JobID       User               Start                 End    Elapsed     MaxRSS   TotalCPU      State Exit        NodeList                                  ReqTRES 
 ---------------- ---------- ------------------- ------------------- ---------- ---------- ---------- ---------- ---- --------------- ---------------------------------------- 
-         2078957   rsjxw007 2021-09-09T11:22:20 2021-09-09T11:28:34   00:06:14             05:48.037 CANCELLED+  0:0   r1pl-hpcf-n21         billing=1,cpu=1,mem=7812M,node=1 
-   2078957.batch            2021-09-09T11:22:20 2021-09-09T11:28:35   00:06:15      5.57M  05:48.036  CANCELLED 0:15   r1pl-hpcf-n21                                          
-  2078957.extern            2021-09-09T11:22:20 2021-09-09T11:28:34   00:06:14          0  00:00.001  COMPLETED  0:0   r1pl-hpcf-n21                                          
-CPU Efficiency: 93.05% of 00:06:14 core-walltime
+         2078959   rsjxw007 2021-09-09T11:27:00 2021-09-09T11:28:39   00:01:39             01:19.040 CANCELLED+  0:0   r1pl-hpcf-n21         billing=1,cpu=1,mem=7812M,node=1 
+   2078959.batch            2021-09-09T11:27:00 2021-09-09T11:28:41   00:01:41      5.57M  01:19.038  CANCELLED 0:15   r1pl-hpcf-n21                                          
+  2078959.extern            2021-09-09T11:27:00 2021-09-09T11:28:39   00:01:39          0  00:00.001  COMPLETED  0:0   r1pl-hpcf-n21                                          
+CPU Efficiency: 79.80% of 00:01:39 core-walltime
