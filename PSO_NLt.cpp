@@ -396,7 +396,7 @@ string findDouble(string line, int startPos) {
     string doble;
     int i = startPos;
     int wDist = 0;
-    while (i < line.length() && !isspace(line.at(i))) {
+    while (i < line.length() && !isspace(line.at(i)) && line.at(i) != '\t') {
         i++;
         wDist++;
     }
