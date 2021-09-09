@@ -288,7 +288,7 @@ VectorXd comp_vel_vec(const VectorXd& posK, int seed, double epsi, double nan, i
     //     wcomp(i) = rand.at(i);
     // }
     int ncomp = posK.size();
-    if(unifDist(generator) < 0.75){
+    if(unifDist(generator) < 0.99){
         for (int smart = 0; smart < 2; smart++) {
         // int px = wcomp(smart);
             double pos = rPoint(smart);
@@ -430,7 +430,6 @@ MatrixXd readIntoMatrix(ifstream& in, int rows, int cols) {
         if (in.is_open()) {
             getline(in, line);
             line = removeWhiteSpace(line);
-            cout << "line:" << line << endl;
             int wordPos = 0;
             for (int j = 0; j < cols; j++) {
                 string subs = findDouble(line, wordPos);
@@ -650,6 +649,9 @@ int main() {
     for (int i = 0; i < Npars; i++) { 
         seed.k(i) = unifDist(gen);
     }
+    for(int i = 2; i < Npars; i++){
+        seed.k(i) = tru.k(i);
+    }
    // seed.k = tru.k;
     // seed.k << 0.648691,	0.099861,	0.0993075,	0.8542755,	0.049949,	0.0705955;
     double costSeedK = 0;
@@ -692,7 +694,11 @@ int main() {
                 /* temporarily assign specified k constants */
                 for(int i = 0; i < Npars; i++){
                     POSMAT(particle, i) = pUnifDist(pGenerator);//tru.k(i) + alpha * (0.5 - unifDist(pGenerator));
+                    if(i > 1){
+                        POSMAT(particle, i) = tru.k(i);
+                    }
                 }
+                
               //  POSMAT.row(particle) = tru.k;
 
                 struct K pos;
