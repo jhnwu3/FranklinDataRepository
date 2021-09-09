@@ -415,6 +415,7 @@ MatrixXd readIntoMatrix(ifstream& in, int rows, int cols) {
             int wordPos = 0;
             for (int j = 0; j < cols; j++) {
                 string subs = findDouble(line, wordPos);
+                cout << "word:" << subs << endl;
                 mat(i, j) = stod(subs);
                 wordPos += subs.length() + 1;
             }
@@ -563,6 +564,8 @@ int main() {
     
     X_0_Full = readIntoMatrix(X0File, sizeFile, N_SPECIES);
     Y_0_Full = readIntoMatrix(Y0File, sizeFile, N_SPECIES);
+    X0File.close();
+    Y0File.close();
     int startRow = 0;
     X_0 = X_0_Full.block(startRow, 0, N, Npars);
     Y_0 = Y_0_Full.block(startRow, 0, N, Npars);
