@@ -391,6 +391,24 @@ double calculate_cf2(const VectorXd& trueVec, const  VectorXd& estVec, const Mat
     cost = diff.transpose() * w * (diff.transpose()).transpose();
     return cost;
 }
+string removeWhiteSpace(string current)
+{
+  string myNewString = "";
+  string temp = "x";
+  for (char c : current)
+  {
+    if (temp.back() != ' ' && c == ' ')
+    {
+      myNewString.push_back(' ');
+    }
+    temp.push_back(c);
+    if (c != ' ')
+    {
+      myNewString.push_back(c);
+    }
+  }
+  return myNewString;
+}
 
 string findDouble(string line, int startPos) {
     string doble;
@@ -411,11 +429,10 @@ MatrixXd readIntoMatrix(ifstream& in, int rows, int cols) {
         string line;
         if (in.is_open()) {
             getline(in, line);
-            
+            line = removeWhiteSpace(line);
             int wordPos = 0;
             for (int j = 0; j < cols; j++) {
                 string subs = findDouble(line, wordPos);
-                cout << "word:" << subs << endl;
                 mat(i, j) = stod(subs);
                 wordPos += subs.length() + 1;
             }
