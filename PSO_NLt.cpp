@@ -518,10 +518,10 @@ int main() {
     double sfi = sfe, sfc = sfp, sfs = sfg; // below are the variables being used to reiterate weights
     double alpha = 0.2;
     int N = 5000;
-    int nParts = 25; // first part PSO
-    int nSteps = 50;
-    int nParts2 = 10; // second part PSO
-    int nSteps2 = 1000;
+    int nParts = 500; // first part PSO
+    int nSteps = 10;
+    int nParts2 = 1; // second part PSO
+    int nSteps2 = 100;
     int nMoments = (N_SPECIES * (N_SPECIES + 3)) / 2; // var + mean + cov
     int hone = 24;
     //nMoments = 2*N_SPECIES; // mean + var only!
@@ -532,11 +532,12 @@ int main() {
     mt19937 gen(RanDev());
     uniform_real_distribution<double> unifDist(uniLowBound, uniHiBound);
     
-    MatrixXd wt = MatrixXd::Identity(nMoments, nMoments); // wt matrix - we will just use this for blind PSO for now
     vector<MatrixXd> weights;
     for(int i = 0; i < nTimeSteps; i++){
         weights.push_back(MatrixXd::Identity(nMoments, nMoments));
     }
+    ifstream weightForSingleTime("time1_wt.txt");
+    weights[0] = readIntoMatrix(weightForSingleTime, nMoments, nMoments);
 
     cout << "Using two part PSO " << "Sample Size:" << N << " with:" << nMoments << " moments." << endl;
     cout << "Using Times:" << times.transpose() << endl;
@@ -602,7 +603,7 @@ int main() {
         }
         Yt.mVec /= N;
         Xt.mVec /= N;
-        trukCost += calculate_cf2(Yt.mVec,Xt.mVec, wt);
+        trukCost += calculate_cf2(Yt.mVec,Xt.mVec, weights[t]);
         Xt3Vecs.push_back(Xt.mVec);
         Yt3Mats.push_back(Yt.mat);
         Yt3Vecs.push_back(Yt.mVec);
@@ -615,7 +616,7 @@ int main() {
     for (int i = 0; i < Npars; i++) { 
         seed.k(i) = unifDist(gen);
     }
-    seed.k = tru.k;
+   // seed.k = tru.k;
     // seed.k << 0.648691,	0.099861,	0.0993075,	0.8542755,	0.049949,	0.0705955;
     double costSeedK = 0;
     for(int t = 0; t < nTimeSteps; t++){
@@ -629,7 +630,7 @@ int main() {
             integrate_adaptive(controlledStepper, sys, c0, t0, times(t), dt, XtObs);
         }
         Xt.mVec /= N;  
-        costSeedK += calculate_cf2(Yt3Vecs[t], Xt.mVec, wt);
+        costSeedK += calculate_cf2(Yt3Vecs[t], Xt.mVec, weights[t]);
     }
 
     cout << "seedk:"<< seed.k.transpose()<< "| cost:" << costSeedK << endl;
@@ -658,7 +659,7 @@ int main() {
                 for(int i = 0; i < Npars; i++){
                     POSMAT(particle, i) = pUnifDist(pGenerator);//tru.k(i) + alpha * (0.5 - unifDist(pGenerator));
                 }
-                POSMAT.row(particle) = tru.k;
+              //  POSMAT.row(particle) = tru.k;
 
                 struct K pos;
                 pos.k = VectorXd::Zero(Npars);
@@ -677,7 +678,7 @@ int main() {
                         integrate_adaptive(controlledStepper, initSys, c0, t0, times(t), dt, XtObsPSO);
                     }
                     XtPSO.mVec/=N;
-                    cost += calculate_cf2(Yt3Vecs[t], XtPSO.mVec, wt);
+                    cost += calculate_cf2(Yt3Vecs[t], XtPSO.mVec, weights[t]);
                 }
                 
                 
@@ -716,7 +717,7 @@ int main() {
                         integrate_adaptive(controlledStepper, stepSys, c0, t0, times(t), dt, XtObsPSO1);
                     }
                     XtPSO.mVec/=N;
-                    cost += calculate_cf2(Yt3Vecs[t], XtPSO.mVec, wt);
+                    cost += calculate_cf2(Yt3Vecs[t], XtPSO.mVec, weights[t]);
                 }
                
                 /* update gBest and pBest */
@@ -786,31 +787,6 @@ int main() {
                 cost += calculate_cf2(Yt3Vecs[t], gXt.mVec, weights[t]);
             }
             gCost = cost;
-            // /* make sure to set proper subsets each time*/
-            // if(step == 0){
-            //     subsetCol.resize(tgCol.size());
-            //     subsetCol = tgCol;
-            //     wt.resize(tgCol.size(), tgCol.size());
-            // }else if (step == chkpts(0)){
-            //     subsetCol.resize(reCol1.size());
-            //     subsetCol = reCol1;
-            // }else if (step == chkpts(1)){
-            //     subsetCol.resize(reCol2.size());
-            //     subsetCol = reCol2;
-            // }
-
-            // resizedYt.resize(subsetCol.size()); // make sure yt is right size
-            // VectorXd resizedXt = VectorXd::Zero(subsetCol.size());
-            // for(int i = 0; i < subsetCol.size(); i++){
-            //     resizedXt(i) = gXt.mVec(subsetCol(i));
-            //     resizedYt(i) = Yt.mVec(subsetCol(i));
-            // }
-            // wt.resize(subsetCol.size(), subsetCol.size());
-            // wt = customWtMat(Yt.mat, gXt.mat, nMoments, N, subsetCol);
-            
-            //gCost = calculate_cf2(resizedYt, resizedXt, wt);
-            cout << "AVERAGE RATE CONSTANT:" << GBVEC.transpose() << " COST:" << gCost;
-            //wt = customWtMat(Yt3Mat, gPSOMat, nMoments, N, subset);
             hone += 4;
             //gCost = calculate_cf2(Yt3Vec, gXt3, wt);
             GBMAT.conservativeResize(GBMAT.rows() + 1, Npars + 1);
@@ -912,8 +888,7 @@ int main() {
                 }
                 pos.k = w1 * rpoint + w2 * PBVEC + w3 * GBVEC; // update position of particle
                 POSMAT.row(particle) = pos.k; // back into POSMAT
-
-                //VectorXd XtPSO3 = VectorXd::Zero(nMoments);
+                
                 double cost = 0;
                 /* solve ODEs with new system and recompute cost */
                 for(int t = 0; t < nTimeSteps; t++){
@@ -927,15 +902,8 @@ int main() {
                     }
                     XtPSO.mVec/=N;
                     cost += calculate_cf2(Yt3Vecs[t], XtPSO.mVec, weights[t]);
-                    //XtPSO3 += XtPSO.mVec;
                 }
                 
-                // VectorXd resizedXt = VectorXd::Zero(subsetCol.size());
-                // for(int i = 0; i < subsetCol.size(); i++){
-                //     resizedXt(i) = XtPSO.mVec(subsetCol(i));
-                // }
-                //double cost = calculate_cf2(Yt3Vec, XtPSO3, wt);
-
                 /* update pBest and gBest */
                 // #pragma omp critical
                 // {
