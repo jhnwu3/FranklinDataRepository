@@ -741,6 +741,11 @@ int main() {
         GBMAT(GBMAT.rows() - 1, Npars) = gCost;
         sfi = sfi - (sfe - sfg) / nSteps;   // reduce the inertial weight after each step 
         sfs = sfs + (sfe - sfg) / nSteps;
+
+        // print out desired PBMAT for contour plots
+        if(step == 0){
+            printToCsv(PBMAT, "single_time_point_PBMAT.txt");
+        }
     }
 
     cout << "GBMAT from blind PSO:" << endl << endl;
