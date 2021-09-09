@@ -1,0 +1,11 @@
+PSO_S_ODE_NonLinear
+terminate called after throwing an instance of 'std::invalid_argument'
+  what():  stod
+/var/spool/slurmd/job2078951/slurm_script: line 10: 2000640 Aborted                 (core dumped) ./PSO_NLt
+Job Statistics for 2078951:
+           JobID       User               Start                 End    Elapsed     MaxRSS   TotalCPU      State Exit        NodeList                                  ReqTRES 
+---------------- ---------- ------------------- ------------------- ---------- ---------- ---------- ---------- ---- --------------- ---------------------------------------- 
+         2078951   rsjxw007 2021-09-09T11:02:53 2021-09-09T11:02:54   00:00:01             00:00.060     FAILED  6:0   r1pl-hpcf-n21         billing=1,cpu=1,mem=7812M,node=1 
+   2078951.batch            2021-09-09T11:02:53 2021-09-09T11:02:54   00:00:01          0  00:00.059     FAILED  6:0   r1pl-hpcf-n21                                          
+  2078951.extern            2021-09-09T11:02:53 2021-09-09T11:02:54   00:00:01          0  00:00.001  COMPLETED  0:0   r1pl-hpcf-n21                                          
+CPU Efficiency: 0.00% of 00:00:01 core-walltime
