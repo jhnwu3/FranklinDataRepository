@@ -1,0 +1,6 @@
+PSO_S_ODE_NonLinear
+word:0.0132806
+word:
+terminate called after throwing an instance of 'std::invalid_argument'
+  what():  stod
+/var/spool/slurmd/job2078950/slurm_script: line 10: 2000184 Aborted                 (core dumped) ./PSO_NLt
