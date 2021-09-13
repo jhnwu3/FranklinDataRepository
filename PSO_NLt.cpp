@@ -519,9 +519,9 @@ int main() {
   
     /* Variables (global) */
     double t0 = 0, tf = 50, dt = 1.0; // time variables
-    int nTimeSteps = 1;
+    int nTimeSteps = 5;
     VectorXd times = VectorXd::Zero(nTimeSteps);
-    times << tf;
+    times << 10, 20, 30, 40, tf;
     int Npars = N_DIM;
     double squeeze = 0.500, sdbeta = 0.10; 
     double boundary = 0.001;
@@ -554,22 +554,21 @@ int main() {
     for(int i = 0; i < nTimeSteps; i++){
         weights.push_back(MatrixXd::Identity(nMoments, nMoments));
     }
-    ifstream weightForSingleTime("time1_wt.txt");
-    weights[0] = readIntoMatrix(weightForSingleTime, nMoments, nMoments);
+    // ifstream weightForSingleTime("time1_wt.txt");
+    // weights[0] = readIntoMatrix(weightForSingleTime, nMoments, nMoments);
 
-    // ifstream weight0("time5_wt0.txt");
-    // ifstream weight1("time5_wt1.txt");
-    // ifstream weight2("time5_wt2.txt");
-    // ifstream weight3("time5_wt3.txt");
-    // ifstream weight4("time5_wt4.txt");
+    ifstream weight0("time5_wt0.txt");
+    ifstream weight1("time5_wt1.txt");
+    ifstream weight2("time5_wt2.txt");
+    ifstream weight3("time5_wt3.txt");
+    ifstream weight4("time5_wt4.txt");
 
-    // weights[0] = readIntoMatrix(weight0, nMoments, nMoments);
-    // cout << "first weight"<< endl << weights[0] << endl;
-    // weights[1] = readIntoMatrix(weight1, nMoments, nMoments);
-    // weights[2] = readIntoMatrix(weight2, nMoments, nMoments);
-    // weights[3] = readIntoMatrix(weight3, nMoments, nMoments);
-    // weights[4] = readIntoMatrix(weight4, nMoments, nMoments);
-
+    weights[0] = readIntoMatrix(weight0, nMoments, nMoments);
+    weights[1] = readIntoMatrix(weight1, nMoments, nMoments);
+    weights[2] = readIntoMatrix(weight2, nMoments, nMoments);
+    weights[3] = readIntoMatrix(weight3, nMoments, nMoments);
+    weights[4] = readIntoMatrix(weight4, nMoments, nMoments);
+    cout << "first weight"<< endl << weights[0] << endl;
     cout << "Using two part PSO " << "Sample Size:" << N << " with:" << nMoments << " moments." << endl;
     cout << "Using Times:" << times.transpose() << endl;
     cout << "Bounds for Uniform Distribution (" << uniLowBound << "," << uniHiBound << ")"<< endl;
@@ -784,7 +783,7 @@ int main() {
 
         // print out desired PBMAT for contour plots
         if(step == 0){
-            printToCsv(PBMAT, "single_PBMAT.txt");
+            printToCsv(PBMAT, "five_PBMAT");
         }
     }
 
