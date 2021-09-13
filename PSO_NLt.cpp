@@ -784,7 +784,7 @@ int main() {
 
         // print out desired PBMAT for contour plots
         if(step == 0){
-            printToCsv(PBMAT, "sing_time_point_PBMAT.txt");
+            printToCsv(PBMAT, "single_PBMAT.txt");
         }
     }
 
