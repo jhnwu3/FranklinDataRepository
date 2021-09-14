@@ -783,7 +783,7 @@ int main() {
 
         // print out desired PBMAT for contour plots
         if(step == 0){
-            printToCsv(PBMAT, "five_PBMAT");
+            printToCsv(PBMAT, "single_PBMAT_t30");
         }
     }
 
