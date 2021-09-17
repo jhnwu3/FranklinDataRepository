@@ -502,10 +502,10 @@ int main() {
     /*---------------------- Setup ------------------------ */
   
     /* Variables (global) */
-    double t0 = 0, tf = 50, dt = 1.0; // time variables
-    int nTimeSteps = 5;
+    double t0 = 0, tf = 30, dt = 1.0; // time variables
+    int nTimeSteps = 1;
     VectorXd times = VectorXd::Zero(nTimeSteps);
-    times << 10, 20, 30, 40, tf;
+    times << tf;
     int Npars = N_DIM;
     double squeeze = 0.500, sdbeta = 0.10; 
     double boundary = 0.001;
@@ -534,7 +534,6 @@ int main() {
     mt19937 gen(RanDev());
     uniform_real_distribution<double> unifDist(uniLowBound, uniHiBound);
     
-    MatrixXd wt = MatrixXd::Identity(nMoments, nMoments); // wt matrix - we will just use this for blind PSO for now
     vector<MatrixXd> weights;
     for(int i = 0; i < nTimeSteps; i++){
         weights.push_back(MatrixXd::Identity(nMoments, nMoments));
@@ -546,7 +545,7 @@ int main() {
     cout << "Blind PSO --> nParts:" << nParts << " Nsteps:" << nSteps << endl;
     cout << "Targeted PSO --> nParts:" <<  nParts2 << " Nsteps:" << nSteps2 << endl;
     cout << "sdbeta:" << sdbeta << endl;
-    cout << "wt:" << endl << wt << endl;
+    cout << "wt:" << endl << weights[0] << endl;
 
     MatrixXd GBMAT(0, 0); // iterations of global best vectors
     MatrixXd PBMAT(nParts, Npars + 1); // particle best matrix + 1 for cost component
@@ -604,7 +603,7 @@ int main() {
         }
         Yt.mVec /= N;
         Xt.mVec /= N;
-        trukCost += calculate_cf2(Yt.mVec,Xt.mVec, wt);
+        trukCost += calculate_cf2(Yt.mVec,Xt.mVec, weights[t]);
         Xt3Vecs.push_back(Xt.mVec);
         Yt3Mats.push_back(Yt.mat);
         Yt3Vecs.push_back(Yt.mVec);
@@ -631,7 +630,7 @@ int main() {
             integrate_adaptive(controlledStepper, sys, c0, t0, times(t), dt, XtObs);
         }
         Xt.mVec /= N;  
-        costSeedK += calculate_cf2(Yt3Vecs[t], Xt.mVec, wt);
+        costSeedK += calculate_cf2(Yt3Vecs[t], Xt.mVec, weights[t]);
     }
 
     cout << "seedk:"<< seed.k.transpose()<< "| cost:" << costSeedK << endl;
@@ -679,7 +678,7 @@ int main() {
                         integrate_adaptive(controlledStepper, initSys, c0, t0, times(t), dt, XtObsPSO);
                     }
                     XtPSO.mVec/=N;
-                    cost += calculate_cf2(Yt3Vecs[t], XtPSO.mVec, wt);
+                    cost += calculate_cf2(Yt3Vecs[t], XtPSO.mVec, weights[t]);
                 }
                 
                 
@@ -718,7 +717,7 @@ int main() {
                         integrate_adaptive(controlledStepper, stepSys, c0, t0, times(t), dt, XtObsPSO1);
                     }
                     XtPSO.mVec/=N;
-                    cost += calculate_cf2(Yt3Vecs[t], XtPSO.mVec, wt);
+                    cost += calculate_cf2(Yt3Vecs[t], XtPSO.mVec, weights[t]);
                 }
                
                 /* update gBest and pBest */
