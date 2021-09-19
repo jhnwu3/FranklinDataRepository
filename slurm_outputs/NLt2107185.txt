@@ -1735,3 +1735,11 @@ GBVEC AND COST:  0.928133   0.120278   0.166944   0.980315  0.0198132   0.124791
 overflow!
 Updating Weight Matrix!
 GBVEC AND COST:  0.969359    0.13333   0.167114   0.981183  0.0195228   0.124008 0.00133573
+slurmstepd: error: *** JOB 2107185 ON r1pl-hpcf-n21 CANCELLED AT 2021-09-17T19:38:36 ***
+Job Statistics for 2107185:
+           JobID       User               Start                 End    Elapsed     MaxRSS   TotalCPU      State Exit        NodeList                                  ReqTRES 
+---------------- ---------- ------------------- ------------------- ---------- ---------- ---------- ---------- ---- --------------- ---------------------------------------- 
+         2107185   rsjxw007 2021-09-17T18:32:04 2021-09-17T19:38:36   01:06:32              01:06:20 CANCELLED+  0:0   r1pl-hpcf-n21         billing=1,cpu=1,mem=7812M,node=1 
+   2107185.batch            2021-09-17T18:32:04 2021-09-17T19:38:37   01:06:33      8.28M   01:06:20  CANCELLED 0:15   r1pl-hpcf-n21                                          
+  2107185.extern            2021-09-17T18:32:04 2021-09-17T19:38:36   01:06:32          0  00:00.001  COMPLETED  0:0   r1pl-hpcf-n21                                          
+CPU Efficiency: 99.70% of 01:06:32 core-walltime
