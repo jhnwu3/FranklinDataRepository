@@ -563,7 +563,7 @@ int main() {
     
     X_0_Full = readIntoMatrix(X0File, sizeFile, N_SPECIES);
     Y_0_Full = readIntoMatrix(Y0File, sizeFile, N_SPECIES);
-    int startRow = 0;
+    int startRow = 5000;
     X_0 = X_0_Full.block(startRow, 0, N, Npars);
     Y_0 = Y_0_Full.block(startRow, 0, N, Npars);
     cout << "Using starting row of data:" << startRow << " and " << N << " data pts!" << endl;
