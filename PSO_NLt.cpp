@@ -519,9 +519,9 @@ int main() {
   
     /* Variables (global) */
     double t0 = 0, tf = 30, dt = 1.0; // time variables
-    int nTimeSteps = 1;
+    int nTimeSteps = 3;
     VectorXd times = VectorXd::Zero(nTimeSteps);
-    times <<  tf;
+    times <<  10, tf, 50;
     int Npars = N_DIM;
     double squeeze = 0.500, sdbeta = 0.10; 
     double boundary = 0.001;
@@ -535,7 +535,7 @@ int main() {
     double sfp = 3.0, sfg = 1.0, sfe = 6.0; // initial particle historical weight, global weight social, inertial
     double sfi = sfe, sfc = sfp, sfs = sfg; // below are the variables being used to reiterate weights
     double alpha = 0.2;
-    int N = 15000;
+    int N = 5000;
     int nParts = 25; // first part PSO
     int nSteps = 50;
     int nParts2 = 10; // second part PSO
@@ -1044,7 +1044,7 @@ int main() {
     cout << "for Ks:" << rs3.k.transpose() << " has cost:" << costRS3 << endl;
     
     ofstream plot;
-	plot.open("GBMAT.csv");
+	plot.open("GBMAT_ss" + to_string(N) + "sr" + to_string(startRow) + "t"+ to_string(nTimeSteps) + "t.csv");
 	MatrixXd GBMATWithSteps(GBMAT.rows(), GBMAT.cols() + 1);
 	VectorXd globalIterations(GBMAT.rows());
 	for(int i = 0; i < GBMAT.rows(); i++){
