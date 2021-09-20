@@ -568,7 +568,6 @@ int main() {
     // weights[2] = readIntoMatrix(weight2, nMoments, nMoments);
     // weights[3] = readIntoMatrix(weight3, nMoments, nMoments);
     // weights[4] = readIntoMatrix(weight4, nMoments, nMoments);
-    cout << "first weight"<< endl << weights[0] << endl;
     cout << "Using two part PSO " << "Sample Size:" << N << " with:" << nMoments << " moments." << endl;
     cout << "Using Times:" << times.transpose() << endl;
     cout << "Bounds for Uniform Distribution (" << uniLowBound << "," << uniHiBound << ")"<< endl;
@@ -648,9 +647,9 @@ int main() {
     for (int i = 0; i < Npars; i++) { 
         seed.k(i) = unifDist(gen);
     }
-    for(int i = 2; i < Npars; i++){
-        seed.k(i) = tru.k(i);
-    }
+    // for(int i = 2; i < Npars; i++){
+    //     seed.k(i) = tru.k(i);
+    // }
    // seed.k = tru.k;
     // seed.k << 0.648691,	0.099861,	0.0993075,	0.8542755,	0.049949,	0.0705955;
     double costSeedK = 0;
@@ -693,9 +692,9 @@ int main() {
                 /* temporarily assign specified k constants */
                 for(int i = 0; i < Npars; i++){
                     POSMAT(particle, i) = pUnifDist(pGenerator);//tru.k(i) + alpha * (0.5 - unifDist(pGenerator));
-                    if(i > 1){
-                        POSMAT(particle, i) = tru.k(i);
-                    }
+                    // if(i > 1){
+                    //     POSMAT(particle, i) = tru.k(i);
+                    // }
                 }
                 
               //  POSMAT.row(particle) = tru.k;
