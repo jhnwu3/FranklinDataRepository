@@ -583,6 +583,7 @@ int main() {
     cout << "Reading in data!" << endl;
     /* Initial Conditions */
     int sizeFile = 25000;
+    int startRow = 5000;
     MatrixXd X_0_Full(sizeFile, Npars);
     MatrixXd Y_0_Full(sizeFile, Npars);
     MatrixXd X_0(N, Npars);
@@ -594,7 +595,7 @@ int main() {
     Y_0_Full = readIntoMatrix(Y0File, sizeFile, N_SPECIES);
     X0File.close();
     Y0File.close();
-    int startRow = 0;
+    
     X_0 = X_0_Full.block(startRow, 0, N, Npars);
     Y_0 = Y_0_Full.block(startRow, 0, N, Npars);
     cout << "Using starting row of data:" << startRow << " and " << N << " data pts!" << endl;
