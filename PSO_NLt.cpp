@@ -587,8 +587,8 @@ int main() {
     MatrixXd Y_0_Full(sizeFile, Npars);
     MatrixXd X_0(N, Npars);
     MatrixXd Y_0(N, Npars);
-    ifstream X0File("X_0.txt");
-    ifstream Y0File("Y_0.txt");
+    ifstream X0File("knewX.0.txt");
+    ifstream Y0File("knewY.0.txt");
     
     X_0_Full = readIntoMatrix(X0File, sizeFile, N_SPECIES);
     Y_0_Full = readIntoMatrix(Y0File, sizeFile, N_SPECIES);
