@@ -541,7 +541,7 @@ int main() {
     int nSteps = 50;
     int nParts2 = 10; // second part PSO
     int nSteps2 = 1000;
-    int nMoments = (N_SPECIES * (N_SPECIES + 3)) / 2; // var + mean + cov
+    int nMoments = 2*N_SPECIES;//(N_SPECIES * (N_SPECIES + 3)) / 2; // var + mean + cov
     int hone = 24;
     //nMoments = 2*N_SPECIES; // mean + var only!
     VectorXd wmatup(4);
@@ -1001,10 +1001,6 @@ int main() {
     }
 	plot.close();
 
-    for(int i = 0 ; i < nTimeSteps; i++){
-        cout << "Weight Matrix for time step:" << i << endl;
-        cout << weights[i] << endl << endl;
-    }
     auto t2 = std::chrono::high_resolution_clock::now();
     auto duration = std::chrono::duration_cast<std::chrono::seconds>(t2 - t1).count();
     cout << "CODE FINISHED RUNNING IN " << duration << " s TIME!" << endl;
