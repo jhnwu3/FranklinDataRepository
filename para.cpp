@@ -800,7 +800,10 @@ int main() {
     POSMAT.conservativeResize(nParts2, Npars); // resize matrices to fit targetted PSO
     PBMAT.conservativeResize(nParts2, Npars + 1);
     VectorXd subset = VectorXd::Zero(nMoments);
-    subset << 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11;//, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22 ,23, 24, 25, 26;
+    for(int i = 0; i < nMoments; i++){
+        subset(i) = i;
+    }
+    // subset << 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11;//, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22 ,23, 24, 25, 26;
     cout << "targeted PSO has started!" << endl; 
     sfp = 3.0, sfg = 1.0, sfe = 6.0; // initial particle historical weight, global weight social, inertial
     sfi = sfe, sfc = sfp, sfs = sfg; // below are the variables being used to reiterate weights
