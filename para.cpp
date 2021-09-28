@@ -391,12 +391,30 @@ double calculate_cf2(const VectorXd& trueVec, const  VectorXd& estVec, const Mat
     cost = diff.transpose() * w * (diff.transpose()).transpose();
     return cost;
 }
+string removeWhiteSpace(string current)
+{
+  string myNewString = "";
+  string temp = "x";
+  for (char c : current)
+  {
+    if (temp.back() != ' ' && c == ' ')
+    {
+      myNewString.push_back(' ');
+    }
+    temp.push_back(c);
+    if (c != ' ')
+    {
+      myNewString.push_back(c);
+    }
+  }
+  return myNewString;
+}
 
 string findDouble(string line, int startPos) {
     string doble;
     int i = startPos;
     int wDist = 0;
-    while (i < line.length() && !isspace(line.at(i))) {
+    while (i < line.length() && !isspace(line.at(i)) && line.at(i) != '\t') {
         i++;
         wDist++;
     }
@@ -411,7 +429,7 @@ MatrixXd readIntoMatrix(ifstream& in, int rows, int cols) {
         string line;
         if (in.is_open()) {
             getline(in, line);
-            
+            line = removeWhiteSpace(line);
             int wordPos = 0;
             for (int j = 0; j < cols; j++) {
                 string subs = findDouble(line, wordPos);
@@ -473,9 +491,8 @@ MatrixXd customWtMat(const MatrixXd& Yt, const MatrixXd& Xt, int nMoments, int N
     for(int i = 0; i < rank; i++){
         wt(i,i) = 1 / variances(subCol(i)); // cleanup code and make it more vectorized later.
     }
+    cout << "new wt mat:" << endl << wt << endl;
 
-    cout << "Chkpt reached!" << endl;
-    cout << "new weight matrix:" << endl << wt << endl << endl;
     return wt;
 }
 
@@ -505,7 +522,7 @@ int main() {
     double t0 = 0, tf = 30, dt = 1.0; // time variables
     int nTimeSteps = 3;
     VectorXd times = VectorXd::Zero(nTimeSteps);
-    times << 0, tf, 50;
+    times <<  10, tf, 50;
     int Npars = N_DIM;
     double squeeze = 0.500, sdbeta = 0.10; 
     double boundary = 0.001;
@@ -538,14 +555,27 @@ int main() {
     for(int i = 0; i < nTimeSteps; i++){
         weights.push_back(MatrixXd::Identity(nMoments, nMoments));
     }
+    // ifstream weightForSingleTime("time1_wt.txt");
+    // weights[0] = readIntoMatrix(weightForSingleTime, nMoments, nMoments);
 
+    // ifstream weight0("time5_wt0.txt");
+    // ifstream weight1("time5_wt1.txt");
+    // ifstream weight2("time5_wt2.txt");
+    // ifstream weight3("time5_wt3.txt");
+    // ifstream weight4("time5_wt4.txt");
+
+    // weights[0] = readIntoMatrix(weight0, nMoments, nMoments);
+    // weights[1] = readIntoMatrix(weight1, nMoments, nMoments);
+    // weights[2] = readIntoMatrix(weight2, nMoments, nMoments);
+    // weights[3] = readIntoMatrix(weight3, nMoments, nMoments);
+    // weights[4] = readIntoMatrix(weight4, nMoments, nMoments);
     cout << "Using two part PSO " << "Sample Size:" << N << " with:" << nMoments << " moments." << endl;
     cout << "Using Times:" << times.transpose() << endl;
     cout << "Bounds for Uniform Distribution (" << uniLowBound << "," << uniHiBound << ")"<< endl;
     cout << "Blind PSO --> nParts:" << nParts << " Nsteps:" << nSteps << endl;
     cout << "Targeted PSO --> nParts:" <<  nParts2 << " Nsteps:" << nSteps2 << endl;
     cout << "sdbeta:" << sdbeta << endl;
-    cout << "wt:" << endl << weights[0] << endl;
+    // cout << "wt:" << endl << wt << endl;
 
     MatrixXd GBMAT(0, 0); // iterations of global best vectors
     MatrixXd PBMAT(nParts, Npars + 1); // particle best matrix + 1 for cost component
@@ -554,16 +584,19 @@ int main() {
     cout << "Reading in data!" << endl;
     /* Initial Conditions */
     int sizeFile = 25000;
+    int startRow = 0;
     MatrixXd X_0_Full(sizeFile, Npars);
     MatrixXd Y_0_Full(sizeFile, Npars);
     MatrixXd X_0(N, Npars);
     MatrixXd Y_0(N, Npars);
-    ifstream X0File("X_0.txt");
-    ifstream Y0File("Y_0.txt");
+    ifstream X0File("knewX.0.txt");
+    ifstream Y0File("knewY.0.txt");
     
     X_0_Full = readIntoMatrix(X0File, sizeFile, N_SPECIES);
     Y_0_Full = readIntoMatrix(Y0File, sizeFile, N_SPECIES);
-    int startRow = 20000;
+    X0File.close();
+    Y0File.close();
+    
     X_0 = X_0_Full.block(startRow, 0, N, Npars);
     Y_0 = Y_0_Full.block(startRow, 0, N, Npars);
     cout << "Using starting row of data:" << startRow << " and " << N << " data pts!" << endl;
@@ -603,7 +636,7 @@ int main() {
         }
         Yt.mVec /= N;
         Xt.mVec /= N;
-        trukCost += calculate_cf2(Yt.mVec, Xt.mVec, weights[t]);
+        trukCost += calculate_cf2(Yt.mVec,Xt.mVec, weights[t]);
         Xt3Vecs.push_back(Xt.mVec);
         Yt3Mats.push_back(Yt.mat);
         Yt3Vecs.push_back(Yt.mVec);
@@ -616,7 +649,10 @@ int main() {
     for (int i = 0; i < Npars; i++) { 
         seed.k(i) = unifDist(gen);
     }
-    // seed.k = tru.k;
+    // for(int i = 2; i < Npars; i++){
+    //     seed.k(i) = tru.k(i);
+    // }
+   // seed.k = tru.k;
     // seed.k << 0.648691,	0.099861,	0.0993075,	0.8542755,	0.049949,	0.0705955;
     double costSeedK = 0;
     for(int t = 0; t < nTimeSteps; t++){
@@ -652,14 +688,18 @@ int main() {
         for(int particle = 0; particle < nParts; particle++){
             random_device pRanDev;
             mt19937 pGenerator(pRanDev());
-            uniform_real_distribution<double> pUnifDist(0.0, 1.);
+            uniform_real_distribution<double> pUnifDist(uniLowBound, uniHiBound);
             /* instantiate all particle rate constants with unifDist */
             if(step == 0){
                 /* temporarily assign specified k constants */
                 for(int i = 0; i < Npars; i++){
                     POSMAT(particle, i) = pUnifDist(pGenerator);//tru.k(i) + alpha * (0.5 - unifDist(pGenerator));
+                    // if(i > 1){
+                    //     POSMAT(particle, i) = tru.k(i);
+                    // }
                 }
-                //POSMAT.row(particle) << 0.648691,	0.099861,	0.0993075,	0.8542755,	0.049949,	0.0705955;//= tru.k;
+                
+              //  POSMAT.row(particle) = tru.k;
 
                 struct K pos;
                 pos.k = VectorXd::Zero(Npars);
@@ -741,6 +781,11 @@ int main() {
         GBMAT(GBMAT.rows() - 1, Npars) = gCost;
         sfi = sfi - (sfe - sfg) / nSteps;   // reduce the inertial weight after each step 
         sfs = sfs + (sfe - sfg) / nSteps;
+
+        // print out desired PBMAT for contour plots
+        if(step == 0){
+            printToCsv(PBMAT, "single_PBMAT_t30");
+        }
     }
 
     cout << "GBMAT from blind PSO:" << endl << endl;
@@ -787,33 +832,7 @@ int main() {
                 cost += calculate_cf2(Yt3Vecs[t], gXt.mVec, weights[t]);
             }
             gCost = cost;
-            // /* make sure to set proper subsets each time*/
-            // if(step == 0){
-            //     subsetCol.resize(tgCol.size());
-            //     subsetCol = tgCol;
-            //     wt.resize(tgCol.size(), tgCol.size());
-            // }else if (step == chkpts(0)){
-            //     subsetCol.resize(reCol1.size());
-            //     subsetCol = reCol1;
-            // }else if (step == chkpts(1)){
-            //     subsetCol.resize(reCol2.size());
-            //     subsetCol = reCol2;
-            // }
-
-            // resizedYt.resize(subsetCol.size()); // make sure yt is right size
-            // VectorXd resizedXt = VectorXd::Zero(subsetCol.size());
-            // for(int i = 0; i < subsetCol.size(); i++){
-            //     resizedXt(i) = gXt.mVec(subsetCol(i));
-            //     resizedYt(i) = Yt.mVec(subsetCol(i));
-            // }
-            // wt.resize(subsetCol.size(), subsetCol.size());
-            // wt = customWtMat(Yt.mat, gXt.mat, nMoments, N, subsetCol);
-            
-            //gCost = calculate_cf2(resizedYt, resizedXt, wt);
-            cout << "AVERAGE RATE CONSTANT:" << GBVEC.transpose() << " COST:" << gCost;
-            //wt = customWtMat(Yt3Mat, gPSOMat, nMoments, N, subset);
             hone += 4;
-            //gCost = calculate_cf2(Yt3Vec, gXt3, wt);
             GBMAT.conservativeResize(GBMAT.rows() + 1, Npars + 1);
             for (int i = 0; i < Npars; i++) {GBMAT(GBMAT.rows() - 1, i) = gPos.k(i);}
             GBMAT(GBMAT.rows() - 1, Npars) = gCost;
@@ -886,12 +905,7 @@ int main() {
                     cost += calculate_cf2(Yt3Vecs[t], XtPSO.mVec, weights[t]);
                 }
                 
-                // VectorXd resizedXt = VectorXd::Zero(subsetCol.size());
-                // for(int i = 0; i < subsetCol.size() ;i++){
-                //     resizedXt(i) = XtPSO.mVec(subsetCol(i));
-                // }
-                // double cost = calculate_cf2(Yt3Vec, XtPSO3, wt);
-                /* instantiate PBMAT */
+                /* initialize PBMAT */
                 for(int i = 0; i < Npars; i++){
                     PBMAT(particle, i) = POSMAT(particle, i);
                 }
@@ -913,8 +927,7 @@ int main() {
                 }
                 pos.k = w1 * rpoint + w2 * PBVEC + w3 * GBVEC; // update position of particle
                 POSMAT.row(particle) = pos.k; // back into POSMAT
-
-                //VectorXd XtPSO3 = VectorXd::Zero(nMoments);
+                
                 double cost = 0;
                 /* solve ODEs with new system and recompute cost */
                 for(int t = 0; t < nTimeSteps; t++){
@@ -928,15 +941,8 @@ int main() {
                     }
                     XtPSO.mVec/=N;
                     cost += calculate_cf2(Yt3Vecs[t], XtPSO.mVec, weights[t]);
-                    //XtPSO3 += XtPSO.mVec;
                 }
                 
-                // VectorXd resizedXt = VectorXd::Zero(subsetCol.size());
-                // for(int i = 0; i < subsetCol.size(); i++){
-                //     resizedXt(i) = XtPSO.mVec(subsetCol(i));
-                // }
-                //double cost = calculate_cf2(Yt3Vec, XtPSO3, wt);
-
                 /* update pBest and gBest */
                 #pragma omp critical
                 {
@@ -975,63 +981,6 @@ int main() {
     dist = calculate_cf1(tru.k, GBVEC);
     cout << "total difference b/w truk and final GBVEC:" << dist << endl; // compute difference
     
-    struct K rs1;
-    rs1.k = VectorXd::Zero(Npars); 
-    rs1.k << 0.79719, 0.138687, 0.104211, 0.97094, 0.064014, 0.075424;
-    double costRS1 = 0;
-    for(int t = 0; t < nTimeSteps; t++){
-        Protein_Components Xt(times(t), nMoments, N);
-        Moments_Mat_Obs XtObs(Xt);
-        Nonlinear_ODE6 sys(rs1);
-        for (int i = 0; i < N; i++) {
-            //State_N c0 = gen_multi_norm_iSub();
-            State_N c0 = convertInit(X_0, i);
-            Xt.index = i;
-            integrate_adaptive(controlledStepper, sys, c0, t0, times(t), dt, XtObs);
-        }
-        Xt.mVec /= N;  
-        costRS1 += calculate_cf2(Yt3Vecs[t], Xt.mVec, weights[t]);
-    }
-    cout << "for Ks:" << rs1.k.transpose() << " has cost:" << costRS1 << endl;
-    struct K rs2;
-    rs2.k = VectorXd::Zero(Npars); 
-    rs2.k << 0.781196, 0.140816, 0.097871, 0.82296, 0.046377, 0.069316;
-    double costRS2 = 0;
-    for(int t = 0; t < nTimeSteps; t++){
-        Protein_Components Xt(times(t), nMoments, N);
-        Moments_Mat_Obs XtObs(Xt);
-        Nonlinear_ODE6 sys(rs2);
-        for (int i = 0; i < N; i++) {
-            //State_N c0 = gen_multi_norm_iSub();
-            State_N c0 = convertInit(X_0, i);
-            Xt.index = i;
-            integrate_adaptive(controlledStepper, sys, c0, t0, times(t), dt, XtObs);
-        }
-        Xt.mVec /= N;  
-        costRS2 += calculate_cf2(Yt3Vecs[t], Xt.mVec, weights[t]);
-    }
-    cout << "for Ks:" << rs2.k.transpose() << " has cost:" << costRS2 << endl;
-
-
-    struct K rs3;
-    rs3.k = VectorXd::Zero(Npars); 
-    rs3.k << 0.7891930, 0.1397515, 0.1010410, 0.8969500, 0.0551955, 0.07237007;
-    double costRS3 = 0;
-    for(int t = 0; t < nTimeSteps; t++){
-        Protein_Components Xt(times(t), nMoments, N);
-        Moments_Mat_Obs XtObs(Xt);
-        Nonlinear_ODE6 sys(rs3);
-        for (int i = 0; i < N; i++) {
-            //State_N c0 = gen_multi_norm_iSub();
-            State_N c0 = convertInit(X_0, i);
-            Xt.index = i;
-            integrate_adaptive(controlledStepper, sys, c0, t0, times(t), dt, XtObs);
-        }
-        Xt.mVec /= N;  
-        costRS3 += calculate_cf2(Yt3Vecs[t], Xt.mVec, weights[t]);
-    }
-    cout << "for Ks:" << rs3.k.transpose() << " has cost:" << costRS3 << endl;
-    
     ofstream plot;
 	plot.open("GBMAT_ss" + to_string(N) + "sr" + to_string(startRow) + "t"+ to_string(nTimeSteps) + "t.csv");
 	MatrixXd GBMATWithSteps(GBMAT.rows(), GBMAT.cols() + 1);
@@ -1050,8 +999,12 @@ int main() {
         }
         plot << endl;
     }
-
 	plot.close();
+
+    for(int i = 0 ; i < nTimeSteps; i++){
+        cout << "Weight Matrix for time step:" << i << endl;
+        cout << weights[i] << endl << endl;
+    }
     auto t2 = std::chrono::high_resolution_clock::now();
     auto duration = std::chrono::duration_cast<std::chrono::seconds>(t2 - t1).count();
     cout << "CODE FINISHED RUNNING IN " << duration << " s TIME!" << endl;
