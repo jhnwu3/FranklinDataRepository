@@ -153,10 +153,10 @@ struct Moments_Mat_Obs
                 //cout << "see what's up:" << dComp.mVec.transpose() << endl;
                 dComp.mat(dComp.index, i) = c[i];
                 for (int j = i; j < N_SPECIES; j++) {
-                    if (i == j) { // diagonal elements
+                    if (i == j && (N_SPECIES + i) < dComp.mVec.size()) { // diagonal elements
                         dComp.mVec(N_SPECIES + i) += c[i] * c[j]; // variances
                     }
-                    else {
+                    else if (upperDiag < dComp.mVec.size()){
                         dComp.mVec(upperDiag) += c[i] * c[j]; // covariances
                         upperDiag++;
                     }
