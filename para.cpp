@@ -105,40 +105,6 @@ struct Protein_Components {
         timeToRecord = tf;
     }
 };
-struct Protein_Moments {
-    VectorXd mVec;
-    double timeToRecord;
-    Protein_Moments(double tf, int mom) {
-        mVec = VectorXd::Zero(mom);
-        timeToRecord = tf;
-    }
-
-};
-
-struct Moments_Vec_Obs
-{
-    struct Protein_Moments& pMome;
-    Moments_Vec_Obs(struct Protein_Moments& pMom) : pMome(pMom) {}
-    void operator()(State_N const& c, const double t) const
-    {
-        if (t == pMome.timeToRecord) {
-            int upperDiag = 2 * N_SPECIES;
-            for (int i = 0; i < N_SPECIES; i++) {
-                pMome.mVec(i) += c[i];
-                for (int j = i; j < N_SPECIES; j++) {
-                    if (i == j) { // diagonal elements
-                        pMome.mVec(N_SPECIES + i) += c[i] * c[j];
-                    }
-                    else { //upper right diagonal elements
-                       // cout << "upperDiag: " << upperDiag << endl; 
-                        pMome.mVec(upperDiag) += c[i] * c[j];
-                        upperDiag++;
-                    }
-                }
-            }
-        }
-    }
-};
 
 struct Moments_Mat_Obs
 {
