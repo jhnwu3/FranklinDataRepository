@@ -1013,7 +1013,7 @@ int main() {
     cout << "for Ks:" << rs3.k.transpose() << " has cost:" << costRS3 << endl;
     
     ofstream plot;
-	plot.open("GBMAT_ss" + to_string(N) + "sr" + to_string(startRow) + "t"+ to_string(nTimeSteps) + "t.csv");
+	plot.open("GBMAT.csv");
 	MatrixXd GBMATWithSteps(GBMAT.rows(), GBMAT.cols() + 1);
 	VectorXd globalIterations(GBMAT.rows());
 	for(int i = 0; i < GBMAT.rows(); i++){
