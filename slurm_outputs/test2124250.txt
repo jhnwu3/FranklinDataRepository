@@ -1,0 +1,24 @@
+Using two part PSO Sample Size:5000 with:12 moments.
+Using Times:10 30 50
+Bounds for Uniform Distribution (0,1)
+Blind PSO --> nParts:25 Nsteps:50
+Targeted PSO --> nParts:10 Nsteps:1000
+sdbeta:0.1
+Reading in data!
+Using starting row of data:0 and 5000 data pts!
+first row X0: 8.83545  7.57343 0.396305  2.46161  1.92754  4.22032
+final row X0:1.63756  4.1577 4.69516 3.25708 23.1421 6.12575
+
+
+
+Loading in Truk!
+Calculating Yt!
+para: /gpfs0/export/apps/easybuild/software/Eigen/3.3.7-GCCcore-9.3.0/include/Eigen/src/Core/DenseCoeffsBase.h:425: Eigen::DenseCoeffsBase<Derived, 1>::Scalar& Eigen::DenseCoeffsBase<Derived, 1>::operator()(Eigen::Index) [with Derived = Eigen::Matrix<double, -1, 1>; Eigen::DenseCoeffsBase<Derived, 1>::Scalar = double; Eigen::Index = long int]: Assertion `index >= 0 && index < size()' failed.
+/var/spool/slurmd/job2124250/slurm_script: line 10: 117496 Aborted                 (core dumped) ./para
+Job Statistics for 2124250:
+           JobID       User               Start                 End    Elapsed     MaxRSS   TotalCPU      State Exit        NodeList                                  ReqTRES 
+---------------- ---------- ------------------- ------------------- ---------- ---------- ---------- ---------- ---- --------------- ---------------------------------------- 
+         2124250   rsjxw007 2021-09-28T12:11:22 2021-09-28T12:11:23   00:00:01             00:00.210     FAILED  6:0   r1pl-hpcf-n22     billing=30,cpu=30,mem=234360M,node=1 
+   2124250.batch            2021-09-28T12:11:22 2021-09-28T12:11:23   00:00:01          0  00:00.208     FAILED  6:0   r1pl-hpcf-n22                                          
+  2124250.extern            2021-09-28T12:11:22 2021-09-28T12:11:23   00:00:01          0  00:00.001  COMPLETED  0:0   r1pl-hpcf-n22                                          
+CPU Efficiency: 0.00% of 00:00:30 core-walltime
