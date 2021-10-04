@@ -421,6 +421,9 @@ MatrixXd customWtMat(const MatrixXd& Yt, const MatrixXd& Xt, int nMoments, int N
 
    
     int nCross = nMoments - 2 * N_SPECIES;
+    if (nCross < 0){
+        nCross = 0;
+    }
     MatrixXd cpDiff(N, nCross);
     
     /* cross differences */
