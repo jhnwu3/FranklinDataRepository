@@ -440,7 +440,7 @@ MatrixXd customWtMat(const MatrixXd& Yt, const MatrixXd& Xt, int nMoments, int N
                 aDiff(i, moment) = fmdiffs(i, moment);
             }else if (moment >= N_SPECIES && moment < 2 * N_SPECIES){
                 aDiff(i, moment) = smdiffs(i, moment - N_SPECIES);
-            }else{
+            }else if (moment >= 2 * N_SPECIES){
                 aDiff(i, moment) = cpDiff(i, moment - (2 * N_SPECIES));
             }
         }
