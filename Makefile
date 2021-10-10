@@ -3,7 +3,7 @@
 CXX = g++
 
 # target all means all targets currently defined in this file 
-all: PSO para PSO_NL PSO_NLt
+all: PSO para PSO_NL PSO_NLt contour
 
 # target dependencies for main PSO program - also equally messy code inside!
 PSO: main.o fileIO.o ODE.o calc.o
@@ -22,6 +22,12 @@ para: para.o
 	g++ para.o -o para -fopenmp
 para.o: para.cpp
 	g++ -c -O3 para.cpp -o para.o -fopenmp
+
+# target for contour
+contour: contour.o
+	g++ contour.o -o contour -fopenmp
+contour.o: contour.cpp
+	g++ -c -O3 contour.cpp -o contour.o -fopenmp
 
 # nonlinear PSO equal weights
 PSO_NL: PSO_NL.o 
