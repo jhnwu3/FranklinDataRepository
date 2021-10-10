@@ -575,11 +575,6 @@ int main() {
     cout << "first row X0:" << X_0.row(0) << endl;
     cout << "final row X0:" << X_0.row(N - 1) << endl << endl << endl << endl;
 
-    vector<MatrixXd> weights;
-    for(int i = 0; i < nTimeSteps; i++){
-        weights.push_back(MatrixXd::Identity(nMoments, nMoments));
-    }
-
     struct K tru;
     tru.k << 5.0, 0.1, 1.0, 8.69, 0.05, 0.70;
     
