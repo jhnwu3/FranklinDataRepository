@@ -972,6 +972,11 @@ int main() {
         plot << endl;
     }
 	plot.close();
+    for(int i = 0; i < nTimeSteps; i++){
+        string fileName = "3TimeWeights_" + to_string(i);
+        printToCsv(weights[i], fileName);
+    }
+    
 
     auto t2 = std::chrono::high_resolution_clock::now();
     auto duration = std::chrono::duration_cast<std::chrono::seconds>(t2 - t1).count();
