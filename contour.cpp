@@ -577,7 +577,10 @@ int main() {
 
     struct K tru;
     tru.k << 5.0, 0.1, 1.0, 8.69, 0.05, 0.70;
-    
+    tru.k /= (9.69);
+    tru.k(1) += 0.05;
+    tru.k(4) += 0.05; // make sure not so close to the boundary
+
     /* Solve for 50 x 50 contour plot for equal weights */
     int xDim = 50, yDim = 50;
     double scale = (xDim+yDim) / 2;
@@ -615,6 +618,7 @@ int main() {
                 eqwts(s, i) = rate.k(i);
             }
             eqwts(s, Npars) = cost;
+            s++;
         }
     }
     printToCsv(eqwts, "eqwts_contour");
@@ -736,6 +740,7 @@ int main() {
                 eqwts(s, i) = rate.k(i);
             }
             uneqwts(s, Npars) = cost;
+            s++;
         }
     }
     printToCsv(uneqwts, "uneqwts_contour");
