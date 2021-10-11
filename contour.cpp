@@ -738,7 +738,7 @@ int main() {
                 cost += calculate_cf2(Yt.mVec,Xt.mVec, weights[t]);
             }
             for (int i = 0; i < Npars; i++) {
-                eqwts(s, i) = rate.k(i);
+                uneqwts(s, i) = rate.k(i);
             }
             uneqwts(s, Npars) = cost;
             s++;   
