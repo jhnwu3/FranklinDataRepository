@@ -1,6 +1,6 @@
 #!/bin/bash
 #SBATCH --time=0-80:10:00 
-#SBATCH --job-name=parallelPSO
+#SBATCH --job-name=contour
 #SBATCH --partition=general
 #SBATCH --nodes=1
 #SBATCH --output=./slurm_outputs/contour%j.txt

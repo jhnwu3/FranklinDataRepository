@@ -619,6 +619,7 @@ int main() {
             }
             eqwts(s, Npars) = cost;
             s++;
+            cost = 0;
         }
     }
     printToCsv(eqwts, "eqwts_contour");
@@ -740,7 +741,8 @@ int main() {
                 eqwts(s, i) = rate.k(i);
             }
             uneqwts(s, Npars) = cost;
-            s++;
+            s++;   
+            cost = 0;
         }
     }
     printToCsv(uneqwts, "uneqwts_contour");
