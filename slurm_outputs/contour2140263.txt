@@ -1,0 +1,21 @@
+Using two part PSO Sample Size:5000 with:27 moments.
+Using Times:10 30 50
+Bounds for Uniform Distribution (0,1)
+Blind PSO --> nParts:25 Nsteps:50
+Targeted PSO --> nParts:10 Nsteps:1000
+sdbeta:0.1
+Reading in data!
+Using starting row of data:0 and 5000 data pts!
+first row X0: 8.83545  7.57343 0.396305  2.46161  1.92754  4.22032
+final row X0:1.63756  4.1577 4.69516 3.25708 23.1421 6.12575
+
+
+
+CODE FINISHED RUNNING IN 7197 s TIME!
+Job Statistics for 2140263:
+           JobID       User               Start                 End    Elapsed     MaxRSS   TotalCPU      State Exit        NodeList                                  ReqTRES 
+---------------- ---------- ------------------- ------------------- ---------- ---------- ---------- ---------- ---- --------------- ---------------------------------------- 
+         2140263   rsjxw007 2021-10-12T10:00:02 2021-10-12T12:00:00   01:59:58              01:59:44  COMPLETED  0:0   r1pl-hpcf-n21         billing=1,cpu=1,mem=7812M,node=1 
+   2140263.batch            2021-10-12T10:00:02 2021-10-12T12:00:00   01:59:58      4.66M   01:59:44  COMPLETED  0:0   r1pl-hpcf-n21                                          
+  2140263.extern            2021-10-12T10:00:02 2021-10-12T12:00:00   01:59:58          0  00:00.001  COMPLETED  0:0   r1pl-hpcf-n21                                          
+CPU Efficiency: 99.81% of 01:59:58 core-walltime
