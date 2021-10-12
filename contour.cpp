@@ -758,8 +758,8 @@ int main() {
         for(int y = 0; y < yDim; y++){
             K rate;
             rate.k = tru.k;
-            rate.k(0) = x / scale;
-            rate.k(1) = y / scale;
+            rate.k(0) = xCoords(x);
+            rate.k(1) = yCoords(y);
             for(int t = 0; t < nTimeSteps; t++){
                 Nonlinear_ODE6 trueSys(tru);
                 Nonlinear_ODE6 sys(rate);
