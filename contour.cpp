@@ -747,6 +747,49 @@ int main() {
     }
     printToCsv(uneqwts, "uneqwts_contour");
     
+    MatrixXd zoomedIn = MatrixXd::Zero(xDim*yDim, Npars + 1);
+    VectorXd xCoords = VectorXd::Zero(xDim);
+    VectorXd yCoords = VectorXd::Zero(yDim);
+    xCoords << 0.450,0.452,0.454,0.456,0.458,0.460,0.462,0.464,0.466,0.468,0.470,0.472,0.474,0.476,0.478,0.480,0.482,0.484,0.486,0.488,0.490,0.492,0.494,0.496,0.498,0.500,0.502,0.504,0.506,0.508,0.510,0.512,0.514,0.516,0.518,0.520,0.522,0.524,0.526,0.528,0.530,0.532,0.534,0.536,0.538,0.540,0.542,0.544,0.546,0.548;
+    yCoords << 0.040,0.042,0.044,0.046,0.048,0.050,0.052,0.054,0.056,0.058,0.060,0.062,0.064,0.066,0.068,0.070,0.072,0.074,0.076,0.078,0.080,0.082,0.084,0.086,0.088,0.090,0.092,0.094,0.096,0.098,0.100,0.102,0.104,0.106,0.108,0.110,0.112,0.114,0.116,0.118,0.120,0.122,0.124,0.126,0.128,0.130,0.132,0.134,0.136,0.138;
+    s = 0;
+    cost = 0;
+    for(int x = 0; x < xDim; x++){
+        for(int y = 0; y < yDim; y++){
+            K rate;
+            rate.k = tru.k;
+            rate.k(0) = x / scale;
+            rate.k(1) = y / scale;
+            for(int t = 0; t < nTimeSteps; t++){
+                Nonlinear_ODE6 trueSys(tru);
+                Nonlinear_ODE6 sys(rate);
+                Protein_Components Yt(times(t), nMoments, N);
+                Protein_Components Xt(times(t), nMoments, N);
+                Moments_Mat_Obs YtObs(Yt);
+                Moments_Mat_Obs XtObs(Xt);
+                for (int i = 0; i < N; i++) {
+                    //State_N c0 = gen_multi_norm_iSub(); // Y_0 is simulated using norm dist.
+                    State_N c0 = convertInit(Y_0, i);
+                    State_N x0 = convertInit(X_0, i);
+                    Yt.index = i;
+                    Xt.index = i;
+                    integrate_adaptive(controlledStepper, trueSys, c0, t0, times(t), dt, YtObs);
+                    integrate_adaptive(controlledStepper, sys, x0, t0, times(t), dt, XtObs);
+                }
+                Yt.mVec /= N;
+                Xt.mVec /= N;
+                cost += calculate_cf2(Yt.mVec,Xt.mVec, weights[t]);
+            }
+            for (int i = 0; i < Npars; i++) {
+                zoomedIn(s, i) = rate.k(i);
+            }
+            zoomedIn(s, Npars) = cost;
+            s++;   
+            cost = 0;
+        }
+    }
+    printToCsv(zoomedIn, "uneqwts_zoomIn_contour");
+
 
     auto t2 = std::chrono::high_resolution_clock::now();
     auto duration = std::chrono::duration_cast<std::chrono::seconds>(t2 - t1).count();
