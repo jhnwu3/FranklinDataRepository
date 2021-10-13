@@ -588,41 +588,41 @@ int main() {
     MatrixXd eqwts(xDim*yDim, Npars + 1);
     Controlled_RK_Stepper_N controlledStepper;
     int s = 0;
-    for(int x = 0; x < xDim; x++){
-        for(int y = 0; y < yDim; y++){
-            K rate;
-            rate.k = tru.k;
-            rate.k(0) = x / scale;
-            rate.k(1) = y / scale;
-            for(int t = 0; t < nTimeSteps; t++){
-                Nonlinear_ODE6 trueSys(tru);
-                Nonlinear_ODE6 sys(rate);
-                Protein_Components Yt(times(t), nMoments, N);
-                Protein_Components Xt(times(t), nMoments, N);
-                Moments_Mat_Obs YtObs(Yt);
-                Moments_Mat_Obs XtObs(Xt);
-                for (int i = 0; i < N; i++) {
-                    //State_N c0 = gen_multi_norm_iSub(); // Y_0 is simulated using norm dist.
-                    State_N c0 = convertInit(Y_0, i);
-                    State_N x0 = convertInit(X_0, i);
-                    Yt.index = i;
-                    Xt.index = i;
-                    integrate_adaptive(controlledStepper, trueSys, c0, t0, times(t), dt, YtObs);
-                    integrate_adaptive(controlledStepper, sys, x0, t0, times(t), dt, XtObs);
-                }
-                Yt.mVec /= N;
-                Xt.mVec /= N;
-                cost += calculate_cf2(Yt.mVec,Xt.mVec, weights[t]);
-            }
-            for (int i = 0; i < Npars; i++) {
-                eqwts(s, i) = rate.k(i);
-            }
-            eqwts(s, Npars) = cost;
-            s++;
-            cost = 0;
-        }
-    }
-    printToCsv(eqwts, "eqwts_contour");
+    // for(int x = 0; x < xDim; x++){
+    //     for(int y = 0; y < yDim; y++){
+    //         K rate;
+    //         rate.k = tru.k;
+    //         rate.k(0) = x / scale;
+    //         rate.k(1) = y / scale;
+    //         for(int t = 0; t < nTimeSteps; t++){
+    //             Nonlinear_ODE6 trueSys(tru);
+    //             Nonlinear_ODE6 sys(rate);
+    //             Protein_Components Yt(times(t), nMoments, N);
+    //             Protein_Components Xt(times(t), nMoments, N);
+    //             Moments_Mat_Obs YtObs(Yt);
+    //             Moments_Mat_Obs XtObs(Xt);
+    //             for (int i = 0; i < N; i++) {
+    //                 //State_N c0 = gen_multi_norm_iSub(); // Y_0 is simulated using norm dist.
+    //                 State_N c0 = convertInit(Y_0, i);
+    //                 State_N x0 = convertInit(X_0, i);
+    //                 Yt.index = i;
+    //                 Xt.index = i;
+    //                 integrate_adaptive(controlledStepper, trueSys, c0, t0, times(t), dt, YtObs);
+    //                 integrate_adaptive(controlledStepper, sys, x0, t0, times(t), dt, XtObs);
+    //             }
+    //             Yt.mVec /= N;
+    //             Xt.mVec /= N;
+    //             cost += calculate_cf2(Yt.mVec,Xt.mVec, weights[t]);
+    //         }
+    //         for (int i = 0; i < Npars; i++) {
+    //             eqwts(s, i) = rate.k(i);
+    //         }
+    //         eqwts(s, Npars) = cost;
+    //         s++;
+    //         cost = 0;
+    //     }
+    // }
+    // printToCsv(eqwts, "eqwts_contour");
 
     weights[0] << 0.0137256,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
     0,0.00478114,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
@@ -708,50 +708,52 @@ int main() {
     0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0.0012772,0,
     0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0.000278127;
 
-    s = 0;
-    cost = 0;
-    MatrixXd uneqwts = MatrixXd::Zero(xDim*yDim, Npars + 1);
-    for(int x = 0; x < xDim; x++){
-        for(int y = 0; y < yDim; y++){
-            K rate;
-            rate.k = tru.k;
-            rate.k(0) = x / scale;
-            rate.k(1) = y / scale;
-            for(int t = 0; t < nTimeSteps; t++){
-                Nonlinear_ODE6 trueSys(tru);
-                Nonlinear_ODE6 sys(rate);
-                Protein_Components Yt(times(t), nMoments, N);
-                Protein_Components Xt(times(t), nMoments, N);
-                Moments_Mat_Obs YtObs(Yt);
-                Moments_Mat_Obs XtObs(Xt);
-                for (int i = 0; i < N; i++) {
-                    //State_N c0 = gen_multi_norm_iSub(); // Y_0 is simulated using norm dist.
-                    State_N c0 = convertInit(Y_0, i);
-                    State_N x0 = convertInit(X_0, i);
-                    Yt.index = i;
-                    Xt.index = i;
-                    integrate_adaptive(controlledStepper, trueSys, c0, t0, times(t), dt, YtObs);
-                    integrate_adaptive(controlledStepper, sys, x0, t0, times(t), dt, XtObs);
-                }
-                Yt.mVec /= N;
-                Xt.mVec /= N;
-                cost += calculate_cf2(Yt.mVec,Xt.mVec, weights[t]);
-            }
-            for (int i = 0; i < Npars; i++) {
-                uneqwts(s, i) = rate.k(i);
-            }
-            uneqwts(s, Npars) = cost;
-            s++;   
-            cost = 0;
-        }
-    }
-    printToCsv(uneqwts, "uneqwts_contour");
+    // s = 0;
+    // cost = 0;
+    // MatrixXd uneqwts = MatrixXd::Zero(xDim*yDim, Npars + 1);
+    // for(int x = 0; x < xDim; x++){
+    //     for(int y = 0; y < yDim; y++){
+    //         K rate;
+    //         rate.k = tru.k;
+    //         rate.k(0) = x / scale;
+    //         rate.k(1) = y / scale;
+    //         for(int t = 0; t < nTimeSteps; t++){
+    //             Nonlinear_ODE6 trueSys(tru);
+    //             Nonlinear_ODE6 sys(rate);
+    //             Protein_Components Yt(times(t), nMoments, N);
+    //             Protein_Components Xt(times(t), nMoments, N);
+    //             Moments_Mat_Obs YtObs(Yt);
+    //             Moments_Mat_Obs XtObs(Xt);
+    //             for (int i = 0; i < N; i++) {
+    //                 //State_N c0 = gen_multi_norm_iSub(); // Y_0 is simulated using norm dist.
+    //                 State_N c0 = convertInit(Y_0, i);
+    //                 State_N x0 = convertInit(X_0, i);
+    //                 Yt.index = i;
+    //                 Xt.index = i;
+    //                 integrate_adaptive(controlledStepper, trueSys, c0, t0, times(t), dt, YtObs);
+    //                 integrate_adaptive(controlledStepper, sys, x0, t0, times(t), dt, XtObs);
+    //             }
+    //             Yt.mVec /= N;
+    //             Xt.mVec /= N;
+    //             cost += calculate_cf2(Yt.mVec,Xt.mVec, weights[t]);
+    //         }
+    //         for (int i = 0; i < Npars; i++) {
+    //             uneqwts(s, i) = rate.k(i);
+    //         }
+    //         uneqwts(s, Npars) = cost;
+    //         s++;   
+    //         cost = 0;
+    //     }
+    // }
+    // printToCsv(uneqwts, "uneqwts_contour");
     
     MatrixXd zoomedIn = MatrixXd::Zero(xDim*yDim, Npars + 1);
     VectorXd xCoords = VectorXd::Zero(xDim);
     VectorXd yCoords = VectorXd::Zero(yDim);
-    xCoords << 0.450,0.452,0.454,0.456,0.458,0.460,0.462,0.464,0.466,0.468,0.470,0.472,0.474,0.476,0.478,0.480,0.482,0.484,0.486,0.488,0.490,0.492,0.494,0.496,0.498,0.500,0.502,0.504,0.506,0.508,0.510,0.512,0.514,0.516,0.518,0.520,0.522,0.524,0.526,0.528,0.530,0.532,0.534,0.536,0.538,0.540,0.542,0.544,0.546,0.548;
-    yCoords << 0.040,0.042,0.044,0.046,0.048,0.050,0.052,0.054,0.056,0.058,0.060,0.062,0.064,0.066,0.068,0.070,0.072,0.074,0.076,0.078,0.080,0.082,0.084,0.086,0.088,0.090,0.092,0.094,0.096,0.098,0.100,0.102,0.104,0.106,0.108,0.110,0.112,0.114,0.116,0.118,0.120,0.122,0.124,0.126,0.128,0.130,0.132,0.134,0.136,0.138;
+    xCoords << 0.45600,0.45616,0.45632,0.45648,0.45664,0.45680,0.45696,0.45712,0.45728,0.45744,0.45760,0.45776,0.45792,0.45808,0.45824,0.45840,0.45856,0.45872,0.45888,0.45904,0.45920,0.45936,0.45952,0.45968,0.45984,0.46000,0.46016,0.46032,0.46048,0.46064,0.46080,0.46096,0.46112,0.46128,0.46144,
+    0.46160,0.46176,0.46192,0.46208,0.46224,0.46240,0.46256,0.46272,0.46288,0.46304,0.46320,0.46336,0.46352,0.46368,0.46384;
+    yCoords << 0.03800,0.03816,0.03832,0.03848,0.03864,0.03880,0.03896,0.03912,0.03928,0.03944,0.03960,0.03976,0.03992,0.04008,0.04024,0.04040,0.04056,0.04072,0.04088,0.04104,0.04120,
+    0.04136, 0.04152, 0.04168, 0.04184, 0.04200, 0.04216,0.04232,0.04248,0.04264,0.04280,0.04296,0.04312,0.04328,0.04344,0.04360,0.04376,0.04392,0.04408,0.04424,0.04440,0.04456,0.04472,0.04488,0.04504,0.04520,0.04536,0.04552,0.04568,0.04584;
     s = 0;
     cost = 0;
     for(int x = 0; x < xDim; x++){
