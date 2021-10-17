@@ -120,10 +120,10 @@ struct Moments_Mat_Obs
                 dComp.mat(dComp.index, i) = c[i];
                 for (int j = i; j < N_SPECIES; j++) {
                     if (i == j && (N_SPECIES + i) < dComp.mVec.size()) { // diagonal elements
-                        dComp.mVec(N_SPECIES + i) += c[i] * c[j]; // variances
+                        dComp.mVec(N_SPECIES + i) += c[i] * c[j]; // 2nd moments
                     }
                     else if (upperDiag < dComp.mVec.size()){
-                        dComp.mVec(upperDiag) += c[i] * c[j]; // covariances
+                        dComp.mVec(upperDiag) += c[i] * c[j]; // cross moments
                         upperDiag++;
                     }
                 }
@@ -635,6 +635,7 @@ int main() {
             integrate_adaptive(controlledStepper, sys, c0, t0, times(t), dt, XtObs);
         }
         Xt.mVec /= N;  
+        cout << "XtmVec:" << Xt.mVec.transpose() << endl;
         costSeedK += calculate_cf2(Yt3Vecs[t], Xt.mVec, weights[t]);
     }
 
