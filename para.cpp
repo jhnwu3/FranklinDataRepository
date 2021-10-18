@@ -510,7 +510,7 @@ int main() {
     int nSteps = 50;
     int nParts2 = 10; // second part PSO
     int nSteps2 = 1000;
-    int nMoments = 2*N_SPECIES;//(N_SPECIES * (N_SPECIES + 3)) / 2; // var + mean + cov
+    int nMoments = (N_SPECIES * (N_SPECIES + 3)) / 2; // var + mean + cov
     int hone = 24;
     //nMoments = 2*N_SPECIES; // mean + var only!
     VectorXd wmatup(4);
@@ -521,9 +521,18 @@ int main() {
     uniform_real_distribution<double> unifDist(uniLowBound, uniHiBound);
     
     vector<MatrixXd> weights;
+    bool useOnlySecMom = true;
     for(int i = 0; i < nTimeSteps; i++){
         weights.push_back(MatrixXd::Identity(nMoments, nMoments));
     }
+    if(useOnlySecMom){
+        for(int i = 0; i < nTimeSteps; i++){
+            for(int j = 2*N_SPECIES; j < nMoments; j++){
+                weights[i](j) = 0;
+            }
+        }
+    }
+    
     // ifstream weightForSingleTime("time1_wt.txt");
     // weights[0] = readIntoMatrix(weightForSingleTime, nMoments, nMoments);
 
