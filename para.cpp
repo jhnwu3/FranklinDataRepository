@@ -811,6 +811,11 @@ int main() {
                 }
                 gXt.mVec /= N;  
                 weights[t] = customWtMat(Yt3Mats[t], gXt.mat, nMoments, N, subset);
+                if(useOnlySecMom){
+                    for(int j = 2*N_SPECIES; j < nMoments; j++){
+                        weights[t](j) = 0;
+                    }
+                }
                 cost += calculate_cf2(Yt3Vecs[t], gXt.mVec, weights[t]);
             }
             gCost = cost;
