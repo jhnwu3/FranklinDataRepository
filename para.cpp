@@ -528,7 +528,7 @@ int main() {
     if(useOnlySecMom){
         for(int i = 0; i < nTimeSteps; i++){
             for(int j = 2*N_SPECIES; j < nMoments; j++){
-                weights[i](j) = 0;
+                weights[i](j,j) = 0;
             }
         }
     }
@@ -813,7 +813,7 @@ int main() {
                 weights[t] = customWtMat(Yt3Mats[t], gXt.mat, nMoments, N, subset);
                 if(useOnlySecMom){
                     for(int j = 2*N_SPECIES; j < nMoments; j++){
-                        weights[t](j) = 0;
+                        weights[t](j,j) = 0;
                     }
                 }
                 cost += calculate_cf2(Yt3Vecs[t], gXt.mVec, weights[t]);
