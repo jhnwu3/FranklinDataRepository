@@ -580,7 +580,8 @@ int main() {
     tru.k /= (9.69);
     tru.k(1) += 0.05;
     tru.k(4) += 0.05; // make sure not so close to the boundary
-    tru.k <<  0.991553,   0.425705,   0.101719,   0.953488,  0.0813664,  0.0711588;
+    tru.k << 0.996673, 0.000434062, 0.0740192,  0.795578,  0.00882025, 0.0317506;
+    cout << "using truk:" << tru.k.transpose() << endl;
     /* Solve for 50 x 50 contour plot for equal weights */
     int xDim = 50, yDim = 50;
     double scale = (xDim+yDim) / 2;
