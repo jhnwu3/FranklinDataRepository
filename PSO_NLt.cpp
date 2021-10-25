@@ -67,7 +67,8 @@ public:
 
     void operator() (const VectorXd& c, VectorXd& dcdt, double t)
     {
-         cout << "c:" << c << endl;
+        cout << "c:" << c << endl;
+        cout << "dcdt:" << dcdt << endl;
         dcdt(0) = -(jay.k(0) * c(0) * c(1))  // Syk
             + jay.k(1) * c(2)
             + jay.k(2) * c(2);
