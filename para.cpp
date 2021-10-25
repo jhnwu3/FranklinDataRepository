@@ -232,7 +232,7 @@ VectorXd gen_multi_lognorm_vecSub(void) {
     return initVec;
 }
 State_N convertInit(const MatrixXd& sample, int index){
-    State_N c0 = {sample(index,0), sample(index,1), 0, 0, sample(index,4), 0};
+    State_N c0 = {sample(index,0), sample(index,1), sample(index,2), sample(index,3), sample(index,4), sample(index,5)};
     return c0;
 }
 VectorXd comp_vel_vec(const VectorXd& posK, int seed, double epsi, double nan, int hone) {
@@ -561,14 +561,14 @@ int main() {
 
     cout << "Reading in data!" << endl;
     /* Initial Conditions */
-    int sizeFile = 25000;
+    int sizeFile = 5000;
     int startRow = 0;
     MatrixXd X_0_Full(sizeFile, Npars);
     MatrixXd Y_0_Full(sizeFile, Npars);
     MatrixXd X_0(N, Npars);
     MatrixXd Y_0(N, Npars);
-    ifstream X0File("knewX.0.txt");
-    ifstream Y0File("knewY.0.txt");
+    ifstream X0File("nu-x0.txt");
+    ifstream Y0File("nu-y0.txt");
     
     X_0_Full = readIntoMatrix(X0File, sizeFile, N_SPECIES);
     Y_0_Full = readIntoMatrix(Y0File, sizeFile, N_SPECIES);

@@ -25,8 +25,7 @@ using namespace boost::math;
 using namespace boost::numeric::odeint;
 
 /* typedefs for boost ODE-ints */
-typedef boost::array< double, N_SPECIES > State_N;
-typedef runge_kutta_cash_karp54< State_N > Error_RK_Stepper_N;
+typedef runge_kutta_cash_karp54< Eigen::VectorXd > Error_RK_Stepper_N;
 typedef controlled_runge_kutta< Error_RK_Stepper_N > Controlled_RK_Stepper_N;
 
 struct Multi_Normal_Random_Variable
@@ -66,31 +65,31 @@ class Nonlinear_ODE6
 public:
     Nonlinear_ODE6(struct K G) : jay(G) {}
 
-    void operator() (const State_N& c, State_N& dcdt, double t)
+    void operator() (const VectorXd& c, VectorXd& dcdt, double t)
     {
-        dcdt[0] = -(jay.k(0) * c[0] * c[1])  // Syk
-            + jay.k(1) * c[2]
-            + jay.k(2) * c[2];
+        dcdt[0] = -(jay.k(0) * c(0) * c(1))  // Syk
+            + jay.k(1) * c(2)
+            + jay.k(2) * c(2);
 
-        dcdt[1] = -(jay.k(0) * c[0] * c[1]) // Vav
-            + jay.k(1) * c[2]
-            + jay.k(5) * c[5];
+        dcdt[1] = -(jay.k(0) * c(0) * c(1)) // Vav
+            + jay.k(1) * c(2)
+            + jay.k(5) * c(5);
 
-        dcdt[2] = jay.k(0) * c[0] * c[1] // Syk-Vav
-            - jay.k(1) * c[2]
-            - jay.k(2) * c[2];
+        dcdt[2] = jay.k(0) * c(0) * c(1) // Syk-Vav
+            - jay.k(1) * c(2)
+            - jay.k(2) * c(2);
 
-        dcdt[3] = jay.k(2) * c[2] //pVav
-            - jay.k(3) * c[3] * c[4]
-            + jay.k(4) * c[5];
+        dcdt[3] = jay.k(2) * c(2) //pVav
+            - jay.k(3) * c(3) * c(4)
+            + jay.k(4) * c(5);
 
-        dcdt[4] = -(jay.k(3) * c[3] * c[4]) // SHP1 
-            + jay.k(4) * c[5]
-            + jay.k(5) * c[5];
+        dcdt[4] = -(jay.k(3) * c(3) * c(4)) // SHP1 
+            + jay.k(4) * c(5)
+            + jay.k(5) * c(5);
 
-        dcdt[5] = jay.k(3) * c[3] * c[4]  // SHP1-pVav
-            - jay.k(4) * c[5]
-            - jay.k(5) * c[5];
+        dcdt[5] = jay.k(3) * c(3) * c(4)  // SHP1-pVav
+            - jay.k(4) * c(5)
+            - jay.k(5) * c(5);
     }
 };
 
@@ -110,20 +109,20 @@ struct Moments_Mat_Obs
 {
     struct Protein_Components& dComp;
     Moments_Mat_Obs(struct Protein_Components& dCom) : dComp(dCom) {}
-    void operator()(State_N const& c, const double t) const
+    void operator()(const VectorXd& c, const double t) const
     {
         if (t == dComp.timeToRecord) {
             int upperDiag = 2 * N_SPECIES;
             for (int i = 0; i < N_SPECIES; i++) {
-                dComp.mVec(i) += c[i];
+                dComp.mVec(i) += c(i);
                 //cout << "see what's up:" << dComp.mVec.transpose() << endl;
-                dComp.mat(dComp.index, i) = c[i];
+                dComp.mat(dComp.index, i) = c(i);
                 for (int j = i; j < N_SPECIES; j++) {
                     if (i == j && (N_SPECIES + i) < dComp.mVec.size()) { // diagonal elements
-                        dComp.mVec(N_SPECIES + i) += c[i] * c[j]; // variances
+                        dComp.mVec(N_SPECIES + i) += c[i] * c(j); // variances
                     }
                     else if (upperDiag < dComp.mVec.size()){
-                        dComp.mVec(upperDiag) += c[i] * c[j]; // covariances
+                        dComp.mVec(upperDiag) += c(i) * c(j); // covariances
                         upperDiag++;
                     }
                 }
@@ -132,57 +131,57 @@ struct Moments_Mat_Obs
     }
 };
 
-State_N gen_multi_lognorm_iSub(void) {
-    State_N c0;
-    VectorXd mu(3);
-    mu << 4.78334234137469844730960782,
-        5.52142091946216110500584912965,
-        4.3815581042632114978686130;
-    MatrixXd sigma(3, 3);
-    sigma << 0.008298802814695093876186221, 0, 0,
-        0, 0.0000799968001706564273219830, 0,
-        0, 0, 0.000937060821340228802149700;
-    Multi_Normal_Random_Variable gen(mu, sigma);
-    VectorXd c0Vec = gen();
-    int j = 0;
-    for (int i = 0; i < N_SPECIES; i++) {
-        if (i == 0 || i == 1 || i == 4) { // Syk, Vav, SHP1
-            c0[i] = exp(c0Vec(j));
-            j++;
-        }
-        else {
-            c0[i] = 0;
-        }
-    }
+// State_N gen_multi_lognorm_iSub(void) {
+//     State_N c0;
+//     VectorXd mu(3);
+//     mu << 4.78334234137469844730960782,
+//         5.52142091946216110500584912965,
+//         4.3815581042632114978686130;
+//     MatrixXd sigma(3, 3);
+//     sigma << 0.008298802814695093876186221, 0, 0,
+//         0, 0.0000799968001706564273219830, 0,
+//         0, 0, 0.000937060821340228802149700;
+//     Multi_Normal_Random_Variable gen(mu, sigma);
+//     VectorXd c0Vec = gen();
+//     int j = 0;
+//     for (int i = 0; i < N_SPECIES; i++) {
+//         if (i == 0 || i == 1 || i == 4) { // Syk, Vav, SHP1
+//             c0[i] = exp(c0Vec(j));
+//             j++;
+//         }
+//         else {
+//             c0[i] = 0;
+//         }
+//     }
 
-    return c0;
-}
+//     return c0;
+// }
 
-State_N gen_multi_norm_iSub(void) {
-    State_N c0;
-    VectorXd mu(3);
-    mu << 80,
-        120,
-        85;
-    MatrixXd sigma(3, 3);
-    sigma << 50, 0, 0,
-        0, 100, 0,
-        0, 0, 50.0;
-    Multi_Normal_Random_Variable gen(mu, sigma);
-    VectorXd c0Vec = gen();
-    int j = 0;
-    for (int i = 0; i < N_SPECIES; i++) {
-        if (i == 0 || i == 1 || i == 4) { // Syk, Vav, SHP1
-            c0[i] = c0Vec(j);
-            j++;
-        }
-        else {
-            c0[i] = 0;
-        }
-    }
+// State_N gen_multi_norm_iSub(void) {
+//     State_N c0;
+//     VectorXd mu(3);
+//     mu << 80,
+//         120,
+//         85;
+//     MatrixXd sigma(3, 3);
+//     sigma << 50, 0, 0,
+//         0, 100, 0,
+//         0, 0, 50.0;
+//     Multi_Normal_Random_Variable gen(mu, sigma);
+//     VectorXd c0Vec = gen();
+//     int j = 0;
+//     for (int i = 0; i < N_SPECIES; i++) {
+//         if (i == 0 || i == 1 || i == 4) { // Syk, Vav, SHP1
+//             c0[i] = c0Vec(j);
+//             j++;
+//         }
+//         else {
+//             c0[i] = 0;
+//         }
+//     }
 
-    return c0;
-}
+//     return c0;
+// }
 VectorXd gen_multinorm_iVec(void) {
     VectorXd c0(N_SPECIES);
     VectorXd mu(3);
@@ -231,10 +230,10 @@ VectorXd gen_multi_lognorm_vecSub(void) {
     }
     return initVec;
 }
-State_N convertInit(const MatrixXd& sample, int index){
-    State_N c0 = {sample(index,0), sample(index,1), 0, 0, sample(index,4), 0};
-    return c0;
-}
+// State_N convertInit(const MatrixXd& sample, int index){
+//     State_N c0 = {sample(index,0), sample(index,1), 0, 0, sample(index,4), 0};
+//     return c0;
+// }
 VectorXd comp_vel_vec(const VectorXd& posK, int seed, double epsi, double nan, int hone) {
     
     VectorXd rPoint;
@@ -592,8 +591,8 @@ int main() {
         Moments_Mat_Obs XtObs(Xt);
         for (int i = 0; i < N; i++) {
             //State_N c0 = gen_multi_norm_iSub(); // Y_0 is simulated using norm dist.
-            State_N c0 = convertInit(Y_0, i);
-            State_N x0 = convertInit(X_0, i);
+            VectorXd c0 = Y_0.row(i);
+            VectorXd x0 = X_0.row(i);
             Yt.index = i;
             Xt.index = i;
             integrate_adaptive(controlledStepper, trueSys, c0, t0, times(t), dt, YtObs);
@@ -626,7 +625,7 @@ int main() {
         Nonlinear_ODE6 sys(seed);
         for (int i = 0; i < N; i++) {
             //State_N c0 = gen_multi_norm_iSub();
-            State_N c0 = convertInit(X_0, i);
+            VectorXd c0 = X_0.row(i);
             Xt.index = i;
             integrate_adaptive(controlledStepper, sys, c0, t0, times(t), dt, XtObs);
         }
@@ -678,7 +677,7 @@ int main() {
                     Moments_Mat_Obs XtObsPSO(XtPSO);
                     for(int i = 0; i < N; i++){
                         //State_N c0 = gen_multi_norm_iSub();
-                        State_N c0 = convertInit(X_0, i);
+                        VectorXd c0 = X_0.row(i);
                         XtPSO.index = i;
                         integrate_adaptive(controlledStepper, initSys, c0, t0, times(t), dt, XtObsPSO);
                     }
@@ -717,7 +716,7 @@ int main() {
                     Moments_Mat_Obs XtObsPSO1(XtPSO);
                     Nonlinear_ODE6 stepSys(pos);
                     for(int i = 0; i < N; i++){
-                        State_N c0 = convertInit(X_0, i);
+                        VectorXd c0 = X_0.row(i);
                         XtPSO.index = i;
                         integrate_adaptive(controlledStepper, stepSys, c0, t0, times(t), dt, XtObsPSO1);
                     }
@@ -791,7 +790,7 @@ int main() {
                 Nonlinear_ODE6 gSys(gPos);
                 for (int i = 0; i < N; i++) {
                     //State_N c0 = gen_multi_norm_iSub();
-                    State_N c0 = convertInit(X_0, i);
+                    VectorXd c0 = X_0.row(i);
                     gXt.index = i;
                     integrate_adaptive(controlledStepper, gSys, c0, t0, times(t), dt, gXtObs);
                 }
@@ -866,7 +865,7 @@ int main() {
                     Protein_Components XtPSO(times(t), nMoments, N);
                     Moments_Mat_Obs XtObsPSO(XtPSO);
                     for(int i = 0; i < N; i++){
-                        State_N c0 = convertInit(X_0, i);
+                        VectorXd c0 = X_0.row(i);
                         XtPSO.index = i;
                         integrate_adaptive(controlledStepper, initSys, c0, t0, times(t), dt, XtObsPSO);
                     }
@@ -909,7 +908,7 @@ int main() {
                     Moments_Mat_Obs XtObsPSO1(XtPSO);
                     Nonlinear_ODE6 stepSys(pos);
                     for(int i = 0; i < N; i++){
-                        State_N c0 = convertInit(X_0, i);
+                        VectorXd c0 = X_0.row(i);
                         XtPSO.index = i;
                         integrate_adaptive(controlledStepper, stepSys, c0, t0, times(t), dt, XtObsPSO1);
                     }
@@ -954,63 +953,6 @@ int main() {
     cout << "truk: " << tru.k.transpose() << " with trukCost with new weights:" << trukCost << endl;
     dist = calculate_cf1(tru.k, GBVEC);
     cout << "total difference b/w truk and final GBVEC:" << dist << endl; // compute difference
-    
-    struct K rs1;
-    rs1.k = VectorXd::Zero(Npars); 
-    rs1.k << 0.79719, 0.138687, 0.104211, 0.97094, 0.064014, 0.075424;
-    double costRS1 = 0;
-    for(int t = 0; t < nTimeSteps; t++){
-        Protein_Components Xt(times(t), nMoments, N);
-        Moments_Mat_Obs XtObs(Xt);
-        Nonlinear_ODE6 sys(rs1);
-        for (int i = 0; i < N; i++) {
-            //State_N c0 = gen_multi_norm_iSub();
-            State_N c0 = convertInit(X_0, i);
-            Xt.index = i;
-            integrate_adaptive(controlledStepper, sys, c0, t0, times(t), dt, XtObs);
-        }
-        Xt.mVec /= N;  
-        costRS1 += calculate_cf2(Yt3Vecs[t], Xt.mVec, weights[t]);
-    }
-    cout << "for Ks:" << rs1.k.transpose() << " has cost:" << costRS1 << endl;
-    struct K rs2;
-    rs2.k = VectorXd::Zero(Npars); 
-    rs2.k << 0.781196, 0.140816, 0.097871, 0.82296, 0.046377, 0.069316;
-    double costRS2 = 0;
-    for(int t = 0; t < nTimeSteps; t++){
-        Protein_Components Xt(times(t), nMoments, N);
-        Moments_Mat_Obs XtObs(Xt);
-        Nonlinear_ODE6 sys(rs2);
-        for (int i = 0; i < N; i++) {
-            //State_N c0 = gen_multi_norm_iSub();
-            State_N c0 = convertInit(X_0, i);
-            Xt.index = i;
-            integrate_adaptive(controlledStepper, sys, c0, t0, times(t), dt, XtObs);
-        }
-        Xt.mVec /= N;  
-        costRS2 += calculate_cf2(Yt3Vecs[t], Xt.mVec, weights[t]);
-    }
-    cout << "for Ks:" << rs2.k.transpose() << " has cost:" << costRS2 << endl;
-
-
-    struct K rs3;
-    rs3.k = VectorXd::Zero(Npars); 
-    rs3.k << 0.7891930, 0.1397515, 0.1010410, 0.8969500, 0.0551955, 0.07237007;
-    double costRS3 = 0;
-    for(int t = 0; t < nTimeSteps; t++){
-        Protein_Components Xt(times(t), nMoments, N);
-        Moments_Mat_Obs XtObs(Xt);
-        Nonlinear_ODE6 sys(rs3);
-        for (int i = 0; i < N; i++) {
-            //State_N c0 = gen_multi_norm_iSub();
-            State_N c0 = convertInit(X_0, i);
-            Xt.index = i;
-            integrate_adaptive(controlledStepper, sys, c0, t0, times(t), dt, XtObs);
-        }
-        Xt.mVec /= N;  
-        costRS3 += calculate_cf2(Yt3Vecs[t], Xt.mVec, weights[t]);
-    }
-    cout << "for Ks:" << rs3.k.transpose() << " has cost:" << costRS3 << endl;
     
     ofstream plot;
 	plot.open("GBMAT.csv");
