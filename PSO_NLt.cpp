@@ -13,7 +13,7 @@
 #include <omp.h>
 #include <Eigen/StdVector>
 #include <boost/numeric/odeint/external/openmp/openmp.hpp>
-
+#include <boost/numeric/odeint/external/eigen/eigen_algebra.hpp>
 #define N_SPECIES 6
 #define N_DIM 6 // dim of PSO hypercube
 
