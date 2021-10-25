@@ -25,7 +25,7 @@ using namespace boost::math;
 using namespace boost::numeric::odeint;
 
 /* typedefs for boost ODE-ints */
-typedef runge_kutta_cash_karp54< VectorXd, double, vector_space_algebra > Error_RK_Stepper_N;
+typedef runge_kutta_cash_karp54<VectorXd, double, VectorXd, double, vector_space_algebra > Error_RK_Stepper_N;
 typedef controlled_runge_kutta< Error_RK_Stepper_N > Controlled_RK_Stepper_N;
 
 struct Multi_Normal_Random_Variable
