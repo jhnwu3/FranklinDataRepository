@@ -67,27 +67,27 @@ public:
 
     void operator() (const VectorXd& c, VectorXd& dcdt, double t)
     {
-        dcdt[0] = -(jay.k(0) * c(0) * c(1))  // Syk
+        dcdt(0) = -(jay.k(0) * c(0) * c(1))  // Syk
             + jay.k(1) * c(2)
             + jay.k(2) * c(2);
 
-        dcdt[1] = -(jay.k(0) * c(0) * c(1)) // Vav
+        dcdt(1) = -(jay.k(0) * c(0) * c(1)) // Vav
             + jay.k(1) * c(2)
             + jay.k(5) * c(5);
 
-        dcdt[2] = jay.k(0) * c(0) * c(1) // Syk-Vav
+        dcdt(2) = jay.k(0) * c(0) * c(1) // Syk-Vav
             - jay.k(1) * c(2)
             - jay.k(2) * c(2);
 
-        dcdt[3] = jay.k(2) * c(2) //pVav
+        dcdt(3) = jay.k(2) * c(2) //pVav
             - jay.k(3) * c(3) * c(4)
             + jay.k(4) * c(5);
 
-        dcdt[4] = -(jay.k(3) * c(3) * c(4)) // SHP1 
+        dcdt(4) = -(jay.k(3) * c(3) * c(4)) // SHP1 
             + jay.k(4) * c(5)
             + jay.k(5) * c(5);
 
-        dcdt[5] = jay.k(3) * c(3) * c(4)  // SHP1-pVav
+        dcdt(5) = jay.k(3) * c(3) * c(4)  // SHP1-pVav
             - jay.k(4) * c(5)
             - jay.k(5) * c(5);
     }
