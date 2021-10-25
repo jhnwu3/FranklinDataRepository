@@ -112,6 +112,7 @@ struct Moments_Mat_Obs
     void operator()(const VectorXd& c, const double t) const
     {
         if (t == dComp.timeToRecord) {
+            cout << "c:" << c << endl;
             int upperDiag = 2 * N_SPECIES;
             for (int i = 0; i < N_SPECIES; i++) {
                 dComp.mVec(i) += c(i);
