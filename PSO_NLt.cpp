@@ -68,6 +68,7 @@ public:
     void operator() (const VectorXd& c, VectorXd& dcdt, double t)
     {
         cout << "c:" << c << endl;
+        dcdt = VectorXd::Zero(c.size());
         cout << "dcdt:" << dcdt << endl;
         dcdt(0) = -(jay.k(0) * c(0) * c(1))  // Syk
             + jay.k(1) * c(2)
