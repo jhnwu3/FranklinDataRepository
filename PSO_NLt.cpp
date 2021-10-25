@@ -597,6 +597,7 @@ int main() {
             Xt.index = i;
             integrate_adaptive(controlledStepper, trueSys, c0, t0, times(t), dt, YtObs);
             integrate_adaptive(controlledStepper, trueSys, x0, t0, times(t), dt, XtObs);
+            cout << "i:" << i << endl;
         }
         Yt.mVec /= N;
         Xt.mVec /= N;
