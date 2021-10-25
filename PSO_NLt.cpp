@@ -25,7 +25,7 @@ using namespace boost::math;
 using namespace boost::numeric::odeint;
 
 /* typedefs for boost ODE-ints */
-typedef std::vector<double> state;
+typedef Eigen::VectorXd state;
 typedef runge_kutta_cash_karp54<state, double, state, double, vector_space_algebra > Error_RK_Stepper_N;
 typedef controlled_runge_kutta< Error_RK_Stepper_N > Controlled_RK_Stepper_N;
 
