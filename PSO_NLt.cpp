@@ -605,11 +605,8 @@ int main() {
             State x0 = convertInit(X_0.row(i));
             Yt.index = i;
             Xt.index = i;
-            cout << "i:" << i << endl;
             integrate_adaptive(controlledStepper, trueSys, c0, t0, times(t), dt, YtObs);
-            integrate_adaptive(controlledStepper, trueSys, x0, t0, times(t), dt, XtObs);
-            cout << "i:" << i << endl;
-            
+            integrate_adaptive(controlledStepper, trueSys, x0, t0, times(t), dt, XtObs);   
         }
         Yt.mVec /= N;
         Xt.mVec /= N;
