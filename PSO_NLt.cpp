@@ -25,8 +25,8 @@ using namespace boost::math;
 using namespace boost::numeric::odeint;
 
 /* typedefs for boost ODE-ints */
-typedef std::vector<double> state;
-typedef runge_kutta_cash_karp54<state> Error_RK_Stepper_N;
+typedef std::vector<double> State;
+typedef runge_kutta_cash_karp54<State> Error_RK_Stepper_N;
 typedef controlled_runge_kutta< Error_RK_Stepper_N > Controlled_RK_Stepper_N;
 
 struct Multi_Normal_Random_Variable
@@ -66,10 +66,9 @@ class Nonlinear_ODE6
 public:
     Nonlinear_ODE6(struct K G) : jay(G) {}
 
-    void operator() (const state& c, state& dcdt, double t)
+    void operator() (const State& c, State& dcdt, double t)
     {
-        cout << "c:" << c << endl;
-        cout << "dcdt:" << dcdt << endl;
+
         dcdt[0] = -(jay.k(0) * c[0] * c[1])  // Syk
             + jay.k(1) * c[2]
             + jay.k(2) * c[2];
@@ -112,7 +111,7 @@ struct Moments_Mat_Obs
 {
     struct Protein_Components& dComp;
     Moments_Mat_Obs(struct Protein_Components& dCom) : dComp(dCom) {}
-    void operator()(const state& c, const double t) const
+    void operator()(const State& c, const double t) const
     {
         if (t == dComp.timeToRecord) {
             int upperDiag = 2 * N_SPECIES;
@@ -481,6 +480,14 @@ void printToCsv(const MatrixXd& mat, const string& fileName){ // prints matrix t
     plot.close();
 }
 
+
+State convertInit(const VectorXd &v1){
+    vector<double> v2;
+    v2.resize(v1.size());
+    VectorXd::Map(&v2[0], v1.size()) = v1;
+    return v2;
+}
+
 int main() {
     auto t1 = std::chrono::high_resolution_clock::now();
     /*---------------------- Setup ------------------------ */
@@ -594,8 +601,8 @@ int main() {
         Moments_Mat_Obs XtObs(Xt);
         for (int i = 0; i < N; i++) {
             //State_N c0 = gen_multi_norm_iSub(); // Y_0 is simulated using norm dist.
-            VectorXd c0 = Y_0.row(i);
-            VectorXd x0 = X_0.row(i);
+            State c0 = convertInit(Y_0.row(i));
+            State x0 = convertInit(X_0.row(i));
             Yt.index = i;
             Xt.index = i;
             cout << "i:" << i << endl;
@@ -631,7 +638,7 @@ int main() {
         Nonlinear_ODE6 sys(seed);
         for (int i = 0; i < N; i++) {
             //State_N c0 = gen_multi_norm_iSub();
-            VectorXd c0 = X_0.row(i);
+            State c0 = convertInit(X_0.row(i));
             Xt.index = i;
             integrate_adaptive(controlledStepper, sys, c0, t0, times(t), dt, XtObs);
         }
@@ -683,7 +690,7 @@ int main() {
                     Moments_Mat_Obs XtObsPSO(XtPSO);
                     for(int i = 0; i < N; i++){
                         //State_N c0 = gen_multi_norm_iSub();
-                        VectorXd c0 = X_0.row(i);
+                        State c0 = convertInit(X_0.row(i));
                         XtPSO.index = i;
                         integrate_adaptive(controlledStepper, initSys, c0, t0, times(t), dt, XtObsPSO);
                     }
@@ -722,7 +729,7 @@ int main() {
                     Moments_Mat_Obs XtObsPSO1(XtPSO);
                     Nonlinear_ODE6 stepSys(pos);
                     for(int i = 0; i < N; i++){
-                        VectorXd c0 = X_0.row(i);
+                        State c0 = convertInit(X_0.row(i));
                         XtPSO.index = i;
                         integrate_adaptive(controlledStepper, stepSys, c0, t0, times(t), dt, XtObsPSO1);
                     }
@@ -796,7 +803,7 @@ int main() {
                 Nonlinear_ODE6 gSys(gPos);
                 for (int i = 0; i < N; i++) {
                     //State_N c0 = gen_multi_norm_iSub();
-                    VectorXd c0 = X_0.row(i);
+                    State c0 = convertInit(X_0.row(i));
                     gXt.index = i;
                     integrate_adaptive(controlledStepper, gSys, c0, t0, times(t), dt, gXtObs);
                 }
@@ -871,7 +878,7 @@ int main() {
                     Protein_Components XtPSO(times(t), nMoments, N);
                     Moments_Mat_Obs XtObsPSO(XtPSO);
                     for(int i = 0; i < N; i++){
-                        VectorXd c0 = X_0.row(i);
+                        State c0 = convertInit(X_0.row(i));
                         XtPSO.index = i;
                         integrate_adaptive(controlledStepper, initSys, c0, t0, times(t), dt, XtObsPSO);
                     }
@@ -914,7 +921,7 @@ int main() {
                     Moments_Mat_Obs XtObsPSO1(XtPSO);
                     Nonlinear_ODE6 stepSys(pos);
                     for(int i = 0; i < N; i++){
-                        VectorXd c0 = X_0.row(i);
+                        State c0 = convertInit(X_0.row(i));
                         XtPSO.index = i;
                         integrate_adaptive(controlledStepper, stepSys, c0, t0, times(t), dt, XtObsPSO1);
                     }
