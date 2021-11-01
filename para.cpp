@@ -806,6 +806,7 @@ int main() {
         if(step == 0){
             printToCsv(PBMAT, "single_PBMAT_t30");
         }
+        cout << "current:" << GBVEC.transpose()<<" "<< gCost << endl;
     }
 
     cout << "GBMAT from blind PSO:" << endl << endl;
@@ -998,9 +999,7 @@ int main() {
             cout << "New PBMAT:" << endl;
             cout << PBMAT << endl << endl;
         }
-        cout << "---------" << endl;
-        cout << "current:" << GBVEC.transpose() << endl;
-        cout << "cost: " << gCost << endl;
+        cout << "current:" << GBVEC.transpose()<<" "<< gCost << endl;
     }
     cout << "GBMAT after targeted PSO:" << endl << GBMAT << endl;
     trukCost = 0;
