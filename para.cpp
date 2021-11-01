@@ -488,10 +488,10 @@ int main() {
     /*---------------------- Setup ------------------------ */
   
     /* Variables (global) */
-    double t0 = 0, tf = 30, dt = 1.0; // time variables
+    double t0 = 0, tf = 15, dt = 1.0; 
     int nTimeSteps = 3;
     VectorXd times = VectorXd::Zero(nTimeSteps);
-    times <<  10, tf, 50;
+    times <<  1.5, tf, 50; // ultra early, early, medium, late
     int Npars = N_DIM;
     double squeeze = 0.500, sdbeta = 0.10; 
     double boundary = 0.001;
@@ -567,8 +567,8 @@ int main() {
     MatrixXd Y_0_Full(sizeFile, Npars);
     MatrixXd X_0(N, Npars);
     MatrixXd Y_0(N, Npars);
-    ifstream X0File("nu-x0.txt");
-    ifstream Y0File("nu-y0.txt");
+    ifstream X0File("nu-initial-x.txt");
+    ifstream Y0File("nu-initial-y.txt");
     
     X_0_Full = readIntoMatrix(X0File, sizeFile, N_SPECIES);
     Y_0_Full = readIntoMatrix(Y0File, sizeFile, N_SPECIES);
@@ -585,10 +585,10 @@ int main() {
     cout << "Loading in Truk!" << endl;
     struct K tru;
     tru.k = VectorXd::Zero(Npars);
-    tru.k << 5.0, 0.1, 1.0, 8.69, 0.05, 0.70;
-    tru.k /= (9.69);
-    tru.k(1) += 0.05;
-    tru.k(4) += 0.05; // make sure not so close to the boundary
+    tru.k << 0.1, 0.1, 0.95, 0.17, 0.05, 0.18;
+    // tru.k /= (9.69);
+    // tru.k(1) += 0.05;
+    // tru.k(4) += 0.05; // make sure not so close to the boundary
     // tru.k <<  0.51599600,  0.06031990, 0.10319900, 0.89680100, 0.05516000, 0.00722394; // Bill k
 
     cout << "Calculating Yt!" << endl;
