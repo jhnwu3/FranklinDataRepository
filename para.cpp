@@ -550,7 +550,7 @@ int main() {
     int nParts = 125; // first part PSO
     int nSteps = 10;
     int nParts2 = 10; // second part PSO
-    int nSteps2 = 100;
+    int nSteps2 = 250;
     int nMoments = (N_SPECIES * (N_SPECIES + 3)) / 2; // var + mean + cov
     int hone = 24;
     //nMoments = 2*N_SPECIES; // mean + var only!
