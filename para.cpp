@@ -618,6 +618,15 @@ int main() {
     
     X_0 = X_0_Full.block(startRow, 0, N, Npars);
     Y_0 = Y_0_Full.block(startRow, 0, N, Npars);
+
+    VectorXd tmp = X_0.col(0);
+    X_0.col(0) = X_0.col(1);
+    X_0.col(1) = tmp;
+
+    tmp = Y_0.col(0);
+    Y_0.col(0) = Y_0.col(1);
+    Y_0.col(1) = tmp;
+
     cout << "Using starting row of data:" << startRow << " and " << N << " data pts!" << endl;
     cout << "first row X0:" << X_0.row(0) << endl;
     cout << "final row X0:" << X_0.row(N - 1) << endl << endl << endl << endl;
