@@ -532,7 +532,7 @@ int main() {
     double t0 = 0, tf = 15, dt = 1.0; 
     int nTimeSteps = 5;
     VectorXd times = VectorXd::Zero(nTimeSteps);
-    times <<  3, 12, 17, 35, 50; // ultra early, early, medium, late
+    times <<  1, 3, 12, 17, 35; // ultra early, early, medium, late
     int Npars = N_DIM;
     double squeeze = 0.500, sdbeta = 0.10; 
     double boundary = 0.001;
@@ -546,11 +546,11 @@ int main() {
     double sfp = 3.0, sfg = 1.0, sfe = 6.0; // initial particle historical weight, global weight social, inertial
     double sfi = sfe, sfc = sfp, sfs = sfg; // below are the variables being used to reiterate weights
     double alpha = 0.2;
-    int N = 100;
-    int nParts = 125; // first part PSO
+    int N = 5000;
+    int nParts = 100; // first part PSO
     int nSteps = 10;
     int nParts2 = 10; // second part PSO
-    int nSteps2 = 250;
+    int nSteps2 = 100;
     int nMoments = (N_SPECIES * (N_SPECIES + 3)) / 2; // var + mean + cov
     int hone = 24;
     //nMoments = 2*N_SPECIES; // mean + var only!
