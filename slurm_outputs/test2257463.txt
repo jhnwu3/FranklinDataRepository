@@ -855,6 +855,7 @@ GBMAT after targeted PSO:
    0.177481    0.839506    0.972045    0.282352    0.201722    0.190315   0.0513251
    0.177387    0.842302       0.972    0.283777    0.198331    0.190291   0.0510179
    0.177526    0.841802    0.971859    0.282449    0.199329    0.190363   0.0503912
+   0            1             2        3               4        5 
 truk:  0.1  0.1 0.95 0.17 0.05 0.18 with trukCost with new weights:0.0106362
 total difference b/w truk and final GBVEC:0.591809
 CODE FINISHED RUNNING IN 3148 s TIME!
