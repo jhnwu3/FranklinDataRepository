@@ -619,6 +619,8 @@ int main() {
     X_0 = X_0_Full.block(startRow, 0, N, Npars);
     Y_0 = Y_0_Full.block(startRow, 0, N, Npars);
 
+
+    // swap syk and vav to right locations
     VectorXd tmp = X_0.col(0);
     X_0.col(0) = X_0.col(1);
     X_0.col(1) = tmp;
@@ -626,6 +628,16 @@ int main() {
     tmp = Y_0.col(0);
     Y_0.col(0) = Y_0.col(1);
     Y_0.col(1) = tmp;
+
+    // swap shp1 and shp1-vav in the right initial conditions
+    tmp = X_0.col(4);
+    X_0.col(4) = X_0.col(3);
+    X_0.col(3) = tmp;
+    tmp = Y_0.col(4);
+    Y_0.col(4) = Y_0.col(3);
+    Y_0.col(3) = tmp;
+
+
 
     cout << "Using starting row of data:" << startRow << " and " << N << " data pts!" << endl;
     cout << "first row X0:" << X_0.row(0) << endl;

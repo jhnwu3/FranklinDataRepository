@@ -557,7 +557,7 @@ int main() {
 
     cout << "Reading in data!" << endl;
     /* Initial Conditions */
-    int sizeFile = 25000;
+    int sizeFile = 5000;
     int startRow = 0;
     MatrixXd X_0_Full(sizeFile, Npars);
     MatrixXd Y_0_Full(sizeFile, Npars);
