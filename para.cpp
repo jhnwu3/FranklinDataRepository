@@ -532,7 +532,7 @@ int main() {
     double t0 = 0, tf = 15, dt = 1.0; 
     int nTimeSteps = 5;
     VectorXd times = VectorXd::Zero(nTimeSteps);
-    times <<  1, 3, 12, 17, 35; // ultra early, early, medium, late
+    times <<  2, 10, 20, 30, 45; // ultra early, early, medium, late
     int Npars = N_DIM;
     double squeeze = 0.500, sdbeta = 0.10; 
     double boundary = 0.001;
