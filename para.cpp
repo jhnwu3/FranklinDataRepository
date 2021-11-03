@@ -253,11 +253,11 @@ VectorXd comp_vel_vec(const VectorXd& posK, int seed, double epsi, double nan, i
     // for (int i = 0; i < ncomp; i++) {
     //     wcomp(i) = rand.at(i);
     // }
-    VectorXd adaptive = VectorXd::Zero(3);
-    adaptive << 1,3,4;
+    VectorXd adaptive = VectorXd::Zero(4);
+    adaptive << 0,1,3,4;
     int ncomp = posK.size();
-    if(unifDist(generator) < 0.75){
-        for (int smart = 0; smart < 3; smart++) {
+    if(unifDist(generator) < 0.80){
+        for (int smart = 0; smart < 4; smart++) {
         // int px = wcomp(smart);
             int px = adaptive(smart);
             double pos = rPoint(px);
@@ -695,7 +695,7 @@ int main() {
     // for(int i = 2; i < Npars; i++){
     //     seed.k(i) = tru.k(i);
     // }
-    seed.k = tru.k;
+    //seed.k = tru.k;
     // seed.k << 0.648691,	0.099861,	0.0993075,	0.8542755,	0.049949,	0.0705955;
     double costSeedK = 0;
     for(int t = 0; t < nTimeSteps; t++){
@@ -743,7 +743,7 @@ int main() {
                     // }
                 }
                 
-                POSMAT.row(particle) = tru.k;
+                //POSMAT.row(particle) = tru.k;
 
                 struct K pos;
                 pos.k = VectorXd::Zero(Npars);
