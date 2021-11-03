@@ -550,7 +550,7 @@ int main() {
     double sfi = sfe, sfc = sfp, sfs = sfg; // below are the variables being used to reiterate weights
     double alpha = 0.2;
     int N = 5000;
-    int nParts = 400; // first part PSO
+    int nParts = 100; // first part PSO
     int nSteps = 15;
     int nParts2 = 8; // second part PSO
     int nSteps2 = 100;
@@ -611,8 +611,8 @@ int main() {
     MatrixXd Y_0_Full(sizeFile, Npars);
     MatrixXd X_0(N, Npars);
     MatrixXd Y_0(N, Npars);
-    ifstream X0File("nu-initial-x.txt");
-    ifstream Y0File("nu-initial-y.txt");
+    ifstream X0File("noo-initial-x.txt");
+    ifstream Y0File("noo-initial-y.txt");
     
     X_0_Full = readIntoMatrix(X0File, sizeFile, N_SPECIES);
     Y_0_Full = readIntoMatrix(Y0File, sizeFile, N_SPECIES);
@@ -621,26 +621,6 @@ int main() {
     
     X_0 = X_0_Full.block(startRow, 0, N, Npars);
     Y_0 = Y_0_Full.block(startRow, 0, N, Npars);
-
-
-    // swap syk and vav to right locations
-    VectorXd tmp = X_0.col(0);
-    X_0.col(0) = X_0.col(1);
-    X_0.col(1) = tmp;
-
-    tmp = Y_0.col(0);
-    Y_0.col(0) = Y_0.col(1);
-    Y_0.col(1) = tmp;
-
-    // swap shp1 and shp1-vav in the right initial conditions
-    tmp = X_0.col(4);
-    X_0.col(4) = X_0.col(3);
-    X_0.col(3) = tmp;
-    tmp = Y_0.col(4);
-    Y_0.col(4) = Y_0.col(3);
-    Y_0.col(3) = tmp;
-
-
 
     cout << "Using starting row of data:" << startRow << " and " << N << " data pts!" << endl;
     cout << "first row X0:" << X_0.row(0) << endl;
