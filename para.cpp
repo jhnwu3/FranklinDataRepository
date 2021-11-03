@@ -550,10 +550,10 @@ int main() {
     double sfi = sfe, sfc = sfp, sfs = sfg; // below are the variables being used to reiterate weights
     double alpha = 0.2;
     int N = 5000;
-    int nParts = 1000; // first part PSO
-    int nSteps = 10;
-    int nParts2 = 10; // second part PSO
-    int nSteps2 = 1000;
+    int nParts = 100; // first part PSO
+    int nSteps = 8;
+    int nParts2 = 8; // second part PSO
+    int nSteps2 = 100;
     int nMoments = (N_SPECIES * (N_SPECIES + 3)) / 2; // var + mean + cov
     int hone = 24;
     //nMoments = 2*N_SPECIES; // mean + var only!
@@ -743,7 +743,7 @@ int main() {
                     // }
                 }
                 
-              //  POSMAT.row(particle) = tru.k;
+                POSMAT.row(particle) = tru.k;
 
                 struct K pos;
                 pos.k = VectorXd::Zero(Npars);
