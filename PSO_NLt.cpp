@@ -1016,7 +1016,7 @@ int main() {
     cout << "total difference b/w truk and final GBVEC:" << dist << endl; // compute difference
     
     ofstream plot;
-	plot.open("GBMATP.csv");
+	plot.open("GBMAT.csv");
 	MatrixXd GBMATWithSteps(GBMAT.rows(), GBMAT.cols() + 1);
 	VectorXd globalIterations(GBMAT.rows());
 	for(int i = 0; i < GBMAT.rows(); i++){
