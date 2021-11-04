@@ -675,7 +675,7 @@ int main() {
     // for(int i = 2; i < Npars; i++){
     //     seed.k(i) = tru.k(i);
     // }
-    //seed.k = tru.k;
+    seed.k = tru.k;
     // seed.k << 0.648691,	0.099861,	0.0993075,	0.8542755,	0.049949,	0.0705955;
     double costSeedK = 0;
     for(int t = 0; t < nTimeSteps; t++){
@@ -723,7 +723,7 @@ int main() {
                     // }
                 }
                 
-                //POSMAT.row(particle) = tru.k;
+                POSMAT.row(particle) = tru.k;
 
                 struct K pos;
                 pos.k = VectorXd::Zero(Npars);
