@@ -731,3 +731,10 @@ GBMAT after targeted PSO:
 truk:  0.1  0.1 0.95 0.17 0.05 0.18 with trukCost with new weights:0.0279467
 total difference b/w truk and final GBVEC:0.000415864
 CODE FINISHED RUNNING IN 580 s TIME!
+Job Statistics for 2287660:
+           JobID       User               Start                 End    Elapsed     MaxRSS   TotalCPU      State Exit        NodeList                                  ReqTRES 
+---------------- ---------- ------------------- ------------------- ---------- ---------- ---------- ---------- ---- --------------- ---------------------------------------- 
+         2287660   rsjxw007 2021-11-04T11:40:51 2021-11-04T11:50:32   00:09:41              02:58:56  COMPLETED  0:0   r1pl-hpcf-n25     billing=30,cpu=30,mem=234360M,node=1 
+   2287660.batch            2021-11-04T11:40:51 2021-11-04T11:50:32   00:09:41     21.61M   02:58:56  COMPLETED  0:0   r1pl-hpcf-n25                                          
+  2287660.extern            2021-11-04T11:40:51 2021-11-04T11:50:32   00:09:41          0  00:00.001  COMPLETED  0:0   r1pl-hpcf-n25                                          
+CPU Efficiency: 61.60% of 04:50:30 core-walltime
