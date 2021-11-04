@@ -552,7 +552,7 @@ int main() {
     int N = 5000;
     int nParts = 5; // first part PSO
     int nSteps = 2;
-    int nParts2 = 5; // second part PSO
+    int nParts2 = 50; // second part PSO
     int nSteps2 = 20;
     int nMoments = (N_SPECIES * (N_SPECIES + 3)) / 2; // var + mean + cov
     int hone = 24;
