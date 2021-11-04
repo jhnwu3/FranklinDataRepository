@@ -253,13 +253,13 @@ VectorXd comp_vel_vec(const VectorXd& posK, int seed, double epsi, double nan, i
     // for (int i = 0; i < ncomp; i++) {
     //     wcomp(i) = rand.at(i);
     // }
-    VectorXd adaptive = VectorXd::Zero(4);
-    adaptive << 0,1,3,4;
+    VectorXd nonAdaptive = VectorXd::Zero(2);
+    nonAdaptive << 2,5;
     int ncomp = posK.size();
-    if(unifDist(generator) < 0.80){
-        for (int smart = 0; smart < 4; smart++) {
+    if(unifDist(generator) < 0.10){
+        for (int smart = 0; smart < 2; smart++) {
         // int px = wcomp(smart);
-            int px = adaptive(smart);
+            int px = nonAdaptive(smart);
             double pos = rPoint(px);
             if (pos > 1.0 - nan) {
                 cout << "overflow!" << endl;
@@ -551,7 +551,7 @@ int main() {
     double alpha = 0.2;
     int N = 5000;
     int nParts = 5; // first part PSO
-    int nSteps = 3;
+    int nSteps = 2;
     int nParts2 = 5; // second part PSO
     int nSteps2 = 20;
     int nMoments = (N_SPECIES * (N_SPECIES + 3)) / 2; // var + mean + cov
