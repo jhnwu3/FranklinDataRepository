@@ -253,13 +253,13 @@ VectorXd comp_vel_vec(const VectorXd& posK, int seed, double epsi, double nan, i
     // for (int i = 0; i < ncomp; i++) {
     //     wcomp(i) = rand.at(i);
     // }
-    VectorXd nonAdaptive = VectorXd::Zero(2);
-    nonAdaptive << 2,5;
+    VectorXd adaptive = VectorXd::Zero(4);
+    adaptive << 0,1,3,4;
     int ncomp = posK.size();
-    if(unifDist(generator) < 0.10){
-        for (int smart = 0; smart < 2; smart++) {
+    if(unifDist(generator) < 0.80){
+        for (int smart = 0; smart < adaptive.size(); smart++) {
         // int px = wcomp(smart);
-            int px = nonAdaptive(smart);
+            int px = adaptive(smart);
             double pos = rPoint(px);
             if (pos > 1.0 - nan) {
                 cout << "overflow!" << endl;
