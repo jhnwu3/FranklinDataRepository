@@ -533,9 +533,9 @@ int main() {
   
     /* Variables (global) */
     double t0 = 0, tf = 15, dt = 1.0; 
-    int nTimeSteps = 5;
+    int nTimeSteps = 7;
     VectorXd times = VectorXd::Zero(nTimeSteps);
-    times <<  2, 10, 20, 30, 40; // ultra early, early, medium, late
+    times <<  1, 2, 10, 15, 20, 30, 40; // ultra early, early, medium, late
     int Npars = N_DIM;
     double squeeze = 0.500, sdbeta = 0.10; 
     double boundary = 0.001;
