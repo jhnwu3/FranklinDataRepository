@@ -34,3 +34,17 @@ pos  0.287008   0.662383   0.188697    0.85356 0.00260343   0.741065
 overflow!
 underflow!0.00487657
 pos 0.0584466   0.256127   0.561114 0.00487657   0.465296   0.828485
+overflow!
+underflow!0.000324585
+pos0.000324585    0.570956    0.853818    0.499556    0.229372    0.106911
+overflow!
+underflow!0.00145878
+pos   0.483314     0.16741    0.980528  0.00145878    0.368384 0.000830668
+slurmstepd: error: *** JOB 2286317 ON r1pl-hpcf-n23 CANCELLED AT 2021-11-04T15:04:10 DUE TO TIME LIMIT ***
+Job Statistics for 2286317:
+           JobID       User               Start                 End    Elapsed     MaxRSS   TotalCPU      State Exit        NodeList                                  ReqTRES 
+---------------- ---------- ------------------- ------------------- ---------- ---------- ---------- ---------- ---- --------------- ---------------------------------------- 
+         2286317   rsjxw007 2021-11-04T09:53:55 2021-11-04T15:04:10   05:10:15              05:08:21    TIMEOUT  0:0   r1pl-hpcf-n23         billing=1,cpu=1,mem=7812M,node=1 
+   2286317.batch            2021-11-04T09:53:55 2021-11-04T15:04:12   05:10:17      3.51M   05:08:21  CANCELLED 0:15   r1pl-hpcf-n23                                          
+  2286317.extern            2021-11-04T09:53:55 2021-11-04T15:04:11   05:10:16          0  00:00.001  COMPLETED  0:0   r1pl-hpcf-n23                                          
+CPU Efficiency: 99.39% of 05:10:15 core-walltime
