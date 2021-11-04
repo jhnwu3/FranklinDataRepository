@@ -550,12 +550,12 @@ int main() {
     double sfi = sfe, sfc = sfp, sfs = sfg; // below are the variables being used to reiterate weights
     double alpha = 0.2;
     int N = 5000;
-    int nParts = 5; // first part PSO
-    int nSteps = 3;
-    int nParts2 = 15; // second part PSO
-    int nSteps2 = 20;
+    int nParts = 200; // first part PSO
+    int nSteps = 20;
+    int nParts2 = 10; // second part PSO
+    int nSteps2 = 50;
     int nMoments = (N_SPECIES * (N_SPECIES + 3)) / 2; // var + mean + cov
-    int hone = 24;
+    int hone = 32;
     //nMoments = 2*N_SPECIES; // mean + var only!
     VectorXd wmatup(4);
     wmatup << 0.15, 0.35, 0.60, 0.9;
