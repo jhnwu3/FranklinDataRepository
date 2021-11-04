@@ -551,8 +551,8 @@ int main() {
     double alpha = 0.2;
     int N = 5000;
     int nParts = 5; // first part PSO
-    int nSteps = 1;
-    int nParts2 = 20; // second part PSO
+    int nSteps = 3;
+    int nParts2 = 15; // second part PSO
     int nSteps2 = 20;
     int nMoments = (N_SPECIES * (N_SPECIES + 3)) / 2; // var + mean + cov
     int hone = 24;
