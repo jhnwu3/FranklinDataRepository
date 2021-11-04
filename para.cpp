@@ -533,9 +533,9 @@ int main() {
   
     /* Variables (global) */
     double t0 = 0, tf = 15, dt = 1.0; 
-    int nTimeSteps = 4;
+    int nTimeSteps = 5;
     VectorXd times = VectorXd::Zero(nTimeSteps);
-    times <<  2, 10, 20, 30; // ultra early, early, medium, late
+    times <<  2, 10, 20, 30, 40; // ultra early, early, medium, late
     int Npars = N_DIM;
     double squeeze = 0.500, sdbeta = 0.10; 
     double boundary = 0.001;
@@ -552,7 +552,7 @@ int main() {
     int N = 5000;
     int nParts = 5; // first part PSO
     int nSteps = 1;
-    int nParts2 = 50; // second part PSO
+    int nParts2 = 20; // second part PSO
     int nSteps2 = 20;
     int nMoments = (N_SPECIES * (N_SPECIES + 3)) / 2; // var + mean + cov
     int hone = 24;
