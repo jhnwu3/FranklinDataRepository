@@ -253,8 +253,8 @@ VectorXd comp_vel_vec(const VectorXd& posK, int seed, double epsi, double nan, i
     // for (int i = 0; i < ncomp; i++) {
     //     wcomp(i) = rand.at(i);
     // }
-    VectorXd adaptive = VectorXd::Zero(4);
-    adaptive << 0,1,3,4;
+    VectorXd adaptive = VectorXd::Zero(3);
+    adaptive << 1,3,4;
     int ncomp = posK.size();
     if(unifDist(generator) < 0.80){
         for (int smart = 0; smart < adaptive.size(); smart++) {
@@ -533,9 +533,9 @@ int main() {
   
     /* Variables (global) */
     double t0 = 0, tf = 15, dt = 1.0; 
-    int nTimeSteps = 7;
+    int nTimeSteps = 9;
     VectorXd times = VectorXd::Zero(nTimeSteps);
-    times <<  1, 2, 10, 15, 20, 30, 40; // ultra early, early, medium, late
+    times << 2, 5, 10, 15, 20, 25, 30, 35, 40; // ultra early, early, medium, late
     int Npars = N_DIM;
     double squeeze = 0.500, sdbeta = 0.10; 
     double boundary = 0.001;
@@ -553,12 +553,12 @@ int main() {
     int nParts = 200; // first part PSO
     int nSteps = 20;
     int nParts2 = 10; // second part PSO
-    int nSteps2 = 50;
+    int nSteps2 = 100;
     int nMoments = (N_SPECIES * (N_SPECIES + 3)) / 2; // var + mean + cov
     int hone = 32;
     //nMoments = 2*N_SPECIES; // mean + var only!
-    VectorXd wmatup(4);
-    wmatup << 0.15, 0.35, 0.60, 0.9;
+    VectorXd wmatup(9);
+    wmatup << 0.10, 0.20, 0.30, 0.40, 0.50, 0.60, 0.70, 0.80, 0.9;
     double uniLowBound = 0.0, uniHiBound = 1.0;
     random_device RanDev;
     mt19937 gen(RanDev());
@@ -834,8 +834,9 @@ int main() {
     sfi = sfe, sfc = sfp, sfs = sfg; // below are the variables being used to reiterate weights
     double nearby = sdbeta;
     VectorXd chkpts = wmatup * nSteps2;
+    int chkptNo = 0;
     for(int step = 0; step < nSteps2; step++){
-        if(step == 0 || step == chkpts(0) || step == chkpts(1) || step == chkpts(2) || step == chkpts(3)){ /* update wt   matrix || step == chkpts(0) || step == chkpts(1) || step == chkpts(2) || step == chkpts(3) */
+        if(step == 0 || step == chkpts(chkptNo)){ /* update wt   matrix || step == chkpts(0) || step == chkpts(1) || step == chkpts(2) || step == chkpts(3) */
             cout << "Updating Weight Matrix!" << endl;
             cout << "GBVEC AND COST:" << GBMAT.row(GBMAT.rows() - 1) << endl;
             nearby = squeeze * nearby;
@@ -865,10 +866,13 @@ int main() {
                 cost += calculate_cf2(Yt3Vecs[t], gXt.mVec, weights[t]);
             }
             gCost = cost;
-            hone += 4;
+            hone += 2;
             GBMAT.conservativeResize(GBMAT.rows() + 1, Npars + 1);
             for (int i = 0; i < Npars; i++) {GBMAT(GBMAT.rows() - 1, i) = gPos.k(i);}
             GBMAT(GBMAT.rows() - 1, Npars) = gCost;
+            if(step > 0){
+                chkptNo++;
+            }
         }
     #pragma omp parallel for 
         for(int particle = 0; particle < nParts2; particle++){
