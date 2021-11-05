@@ -557,7 +557,8 @@ int main() {
     int nMoments = (N_SPECIES * (N_SPECIES + 3)) / 2; // var + mean + cov
     int hone = 32;
     //nMoments = 2*N_SPECIES; // mean + var only!
-    VectorXd wmatup(9);
+    int nRestarts = 9;
+    VectorXd wmatup(nRestarts);
     wmatup << 0.10, 0.20, 0.30, 0.40, 0.50, 0.60, 0.70, 0.80, 0.9;
     double uniLowBound = 0.0, uniHiBound = 1.0;
     random_device RanDev;
@@ -870,7 +871,7 @@ int main() {
             GBMAT.conservativeResize(GBMAT.rows() + 1, Npars + 1);
             for (int i = 0; i < Npars; i++) {GBMAT(GBMAT.rows() - 1, i) = gPos.k(i);}
             GBMAT(GBMAT.rows() - 1, Npars) = gCost;
-            if(step > 0){
+            if(step > 0 && chkptNo < nRestarts - 1){
                 chkptNo++;
             }
         }
@@ -880,7 +881,7 @@ int main() {
             mt19937 pGenerator(pRanDev());
             uniform_real_distribution<double> pUnifDist(uniLowBound, uniHiBound);
         
-            if(step == 0 || step == chkpts(0) || step == chkpts(1) || step == chkpts(2) || step == chkpts(3)){
+            if(step == 0 || step == chkpts(chkptNo)){
                 /* reinitialize particles around global best */
                 for(int edim = 0; edim < Npars; edim++){
                     int wasflipped = 0;
