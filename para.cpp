@@ -256,7 +256,7 @@ VectorXd comp_vel_vec(const VectorXd& posK, int seed, double epsi, double nan, i
     VectorXd adaptive = VectorXd::Zero(3);
     adaptive << 1,3,4;
     int ncomp = posK.size();
-    if(unifDist(generator) < 0.80){
+    if(unifDist(generator) < 0.67){
         for (int smart = 0; smart < adaptive.size(); smart++) {
         // int px = wcomp(smart);
             int px = adaptive(smart);
