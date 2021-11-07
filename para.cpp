@@ -673,6 +673,7 @@ int main() {
     for (int i = 0; i < Npars; i++) { 
         seed.k(i) = unifDist(gen);
     }
+    seed.k <<  0.117469,	0.253878,	0.974913,	0.371298,	0.316016,	0.189586;
     // for(int i = 2; i < Npars; i++){
     //     seed.k(i) = tru.k(i);
     // }
@@ -723,7 +724,7 @@ int main() {
                     //     POSMAT(particle, i) = tru.k(i);
                     // }
                 }
-                
+                POSMAT.row(particle) << 0.117469,	0.253878,	0.974913,	0.371298,	0.316016,	0.189586;
                 //POSMAT.row(particle) = tru.k;
 
                 struct K pos;
