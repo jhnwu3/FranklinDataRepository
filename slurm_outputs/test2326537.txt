@@ -1,0 +1,26 @@
+Using two part PSO Sample Size:1000 with:27 moments.
+Using Times: 2 10 20 30 40
+Bounds for Uniform Distribution (0,1)
+Blind PSO --> nParts:10 Nsteps:100
+Targeted PSO --> nParts:10 Nsteps:50
+sdbeta:0.1
+Reading in data!
+Using starting row of data:0 and 1000 data pts!
+first row X0:260.559 2143.24 4.86708 4.95832 65.2493 4.94309
+final row X0:202.654 2564.61 5.64186 5.51605 254.556 6.71794
+
+
+
+Loading in Truk!
+Calculating Yt!
+truk cost:3.34387e+09
+para: /gpfs0/export/apps/easybuild/software/Eigen/3.3.7-GCCcore-9.3.0/include/Eigen/src/Core/CommaInitializer.h:68: Eigen::CommaInitializer<MatrixType>& Eigen::CommaInitializer<MatrixType>::operator,(const Scalar&) [with XprType = Eigen::Matrix<double, -1, 1>; Eigen::CommaInitializer<MatrixType>::Scalar = double]: Assertion `m_row<m_xpr.rows() && "Too many rows passed to comma initializer (operator<<)"' failed.
+/var/spool/slurmd/job2326537/slurm_script: line 10: 2119941 Aborted                 (core dumped) ./para
+mv: cannot stat 'GBMATP.csv': No such file or directory
+Job Statistics for 2326537:
+           JobID       User               Start                 End    Elapsed     MaxRSS   TotalCPU      State Exit        NodeList                                  ReqTRES 
+---------------- ---------- ------------------- ------------------- ---------- ---------- ---------- ---------- ---- --------------- ---------------------------------------- 
+         2326537   rsjxw007 2021-11-08T16:52:29 2021-11-08T16:52:36   00:00:07             00:06.069     FAILED  1:0   r1pl-hpcf-n21     billing=30,cpu=30,mem=234360M,node=1 
+   2326537.batch            2021-11-08T16:52:29 2021-11-08T16:52:36   00:00:07          0  00:06.068     FAILED  1:0   r1pl-hpcf-n21                                          
+  2326537.extern            2021-11-08T16:52:29 2021-11-08T16:52:37   00:00:08          0  00:00.001  COMPLETED  0:0   r1pl-hpcf-n21                                          
+CPU Efficiency: 2.86% of 00:03:30 core-walltime
