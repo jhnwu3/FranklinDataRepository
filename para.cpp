@@ -253,7 +253,7 @@ VectorXd comp_vel_vec(const VectorXd& posK, int seed, double epsi, double nan, i
     // for (int i = 0; i < ncomp; i++) {
     //     wcomp(i) = rand.at(i);
     // }
-    VectorXd adaptive = VectorXd::Zero(3);
+    VectorXd adaptive = VectorXd::Zero(3); // vector of targeted rate constants
     adaptive << 1,3,4;
     int ncomp = posK.size();
     if(unifDist(generator) < 0.67){
@@ -673,10 +673,10 @@ int main() {
     for (int i = 0; i < Npars; i++) { 
         seed.k(i) = unifDist(gen);
     }
-    seed.k <<  0.117469,	0.253878,	0.974913,	0.371298,	0.316016,	0.189586;
-    seed.k << 0.64739,	0.580361,	0.868318,	0.303867,	0.0700224,	0.253784;
-    seed.k << 0.120422,	0.335517,	0.954238,	0.141993,	0.019816,	0.177543;
-    seed.k << 0.096645,	0.102921,	0.941543,	0.13903,	0.018572,	0.173536;
+    // seed.k <<  0.117469,	0.253878,	0.974913,	0.371298,	0.316016,	0.189586;
+    // seed.k << 0.64739,	0.580361,	0.868318,	0.303867,	0.0700224,	0.253784;
+    // seed.k << 0.120422,	0.335517,	0.954238,	0.141993,	0.019816,	0.177543;
+    // seed.k << 0.096645,	0.102921,	0.941543,	0.13903,	0.018572,	0.173536;
     // for(int i = 2; i < Npars; i++){
     //     seed.k(i) = tru.k(i);
     // }
