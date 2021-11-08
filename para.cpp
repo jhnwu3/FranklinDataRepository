@@ -533,9 +533,9 @@ int main() {
   
     /* Variables (global) */
     double t0 = 0, tf = 15, dt = 1.0; 
-    int nTimeSteps = 9;
+    int nTimeSteps = 5;
     VectorXd times = VectorXd::Zero(nTimeSteps);
-    times << 2, 5, 10, 15, 20, 25, 30, 35, 40; // ultra early, early, medium, late
+    times << 2, 10, 20, 30, 40; // ultra early, early, medium, late
     int Npars = N_DIM;
     double squeeze = 0.500, sdbeta = 0.10; 
     double boundary = 0.001;
@@ -673,7 +673,7 @@ int main() {
     for (int i = 0; i < Npars; i++) { 
         seed.k(i) = unifDist(gen);
     }
-    seed.k <<  0.117469,	0.253878,	0.974913,	0.371298,	0.316016,	0.189586;
+    // seed.k <<  0.117469,	0.253878,	0.974913,	0.371298,	0.316016,	0.189586;
     // for(int i = 2; i < Npars; i++){
     //     seed.k(i) = tru.k(i);
     // }
@@ -724,7 +724,7 @@ int main() {
                     //     POSMAT(particle, i) = tru.k(i);
                     // }
                 }
-                POSMAT.row(particle) << 0.117469,	0.253878,	0.974913,	0.371298,	0.316016,	0.189586;
+                // POSMAT.row(particle) << 0.117469,	0.253878,	0.974913,	0.371298,	0.316016,	0.189586;
                 //POSMAT.row(particle) = tru.k;
 
                 struct K pos;
