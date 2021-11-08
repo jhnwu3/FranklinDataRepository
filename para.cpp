@@ -607,7 +607,7 @@ int main() {
     cout << "Reading in data!" << endl;
     /* Initial Conditions */
     int sizeFile = 25000;
-    int startRow = 500;
+    int startRow = 0;
     MatrixXd X_0_Full(sizeFile, Npars);
     MatrixXd Y_0_Full(sizeFile, Npars);
     MatrixXd X_0(N, Npars);
@@ -673,6 +673,7 @@ int main() {
     for (int i = 0; i < Npars; i++) { 
         seed.k(i) = unifDist(gen);
     }
+    seed.k << 0.270536,	0.981999,	0.988012,	0.201166,	0.078759,	0.206342;
     // seed.k <<  0.117469,	0.253878,	0.974913,	0.371298,	0.316016,	0.189586;
     // seed.k << 0.64739,	0.580361,	0.868318,	0.303867,	0.0700224,	0.253784;
     // seed.k << 0.120422,	0.335517,	0.954238,	0.141993,	0.019816,	0.177543;
@@ -732,7 +733,7 @@ int main() {
                 // POSMAT.row(particle) << 0.120422,	0.335517,	0.954238,	0.141993,	0.019816,	0.177543;
                 // POSMAT.row(particle) = seed.k;
                 // POSMAT.row(particle) = tru.k;
-
+                POSMAT.row(particle) << 0.270536,	0.981999,	0.988012,	0.201166,	0.078759,	0.206342;
                 struct K pos;
                 pos.k = VectorXd::Zero(Npars);
                 for(int i = 0; i < Npars; i++){
