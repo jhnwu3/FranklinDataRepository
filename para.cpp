@@ -730,7 +730,7 @@ int main() {
                 // POSMAT.row(particle) << 0.117469,	0.253878,	0.974913,	0.371298,	0.316016,	0.189586;
                 // POSMAT.row(particle) << 0.64739,	0.580361,	0.868318,	0.303867,	0.0700224,	0.253784;
                 // POSMAT.row(particle) << 0.120422,	0.335517,	0.954238,	0.141993,	0.019816,	0.177543;
-                POSMAT.row(particle) = seed.k;
+                // POSMAT.row(particle) = seed.k;
                 // POSMAT.row(particle) = tru.k;
 
                 struct K pos;
