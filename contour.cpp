@@ -491,10 +491,10 @@ int main() {
     /*---------------------- Setup ------------------------ */
   
     /* Variables (global) */
-    double t0 = 0, tf = 30, dt = 1.0; // time variables
-    int nTimeSteps = 3;
+    double t0 = 0, tf = 15, dt = 1.0; 
+    int nTimeSteps = 5;
     VectorXd times = VectorXd::Zero(nTimeSteps);
-    times <<  10, tf, 50;
+    times << 2, 10, 20, 30, 40; // ultra early, early, medium, late
     int Npars = N_DIM;
     double squeeze = 0.500, sdbeta = 0.10; 
     double boundary = 0.001;
@@ -508,7 +508,7 @@ int main() {
     double sfp = 3.0, sfg = 1.0, sfe = 6.0; // initial particle historical weight, global weight social, inertial
     double sfi = sfe, sfc = sfp, sfs = sfg; // below are the variables being used to reiterate weights
     double alpha = 0.2;
-    int N = 5000;
+    int N = 1000;
     int nParts = 25; // first part PSO
     int nSteps = 50;
     int nParts2 = 10; // second part PSO
@@ -561,8 +561,8 @@ int main() {
     MatrixXd Y_0_Full(sizeFile, Npars);
     MatrixXd X_0(N, Npars);
     MatrixXd Y_0(N, Npars);
-    ifstream X0File("knewX.0.txt");
-    ifstream Y0File("knewY.0.txt");
+    ifstream X0File("noo25-initial-x.txt");
+    ifstream Y0File("noo25-initial-y.txt");
     
     X_0_Full = readIntoMatrix(X0File, sizeFile, N_SPECIES);
     Y_0_Full = readIntoMatrix(Y0File, sizeFile, N_SPECIES);
@@ -576,11 +576,12 @@ int main() {
     cout << "final row X0:" << X_0.row(N - 1) << endl << endl << endl << endl;
 
     struct K tru;
-    tru.k << 5.0, 0.1, 1.0, 8.69, 0.05, 0.70;
-    tru.k /= (9.69);
-    tru.k(1) += 0.05;
-    tru.k(4) += 0.05; // make sure not so close to the boundary
-    tru.k << 0.996673, 0.000434062, 0.0740192,  0.795578,  0.00882025, 0.0317506;
+    tru.k << 0.1, 0.1, 0.95, 0.17, 0.05, 0.18;
+    // tru.k << 5.0, 0.1, 1.0, 8.69, 0.05, 0.70;
+    // tru.k /= (9.69);
+    // tru.k(1) += 0.05;
+    // tru.k(4) += 0.05; // make sure not so close to the boundary
+    // tru.k << 0.996673, 0.000434062, 0.0740192,  0.795578,  0.00882025, 0.0317506;
     cout << "using truk:" << tru.k.transpose() << endl;
     /* Solve for 50 x 50 contour plot for equal weights */
     int xDim = 50, yDim = 50;
