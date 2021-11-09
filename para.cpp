@@ -550,7 +550,7 @@ int main() {
     double sfi = sfe, sfc = sfp, sfs = sfg; // below are the variables being used to reiterate weights
     double alpha = 0.2;
     int N = 714;
-    int nParts = 2000; // first part PSO
+    int nParts = 10; // first part PSO
     int nSteps = 2000;
     int nParts2 = 10; // second part PSO
     int nSteps2 = 50;
