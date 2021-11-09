@@ -550,8 +550,8 @@ int main() {
     double sfi = sfe, sfc = sfp, sfs = sfg; // below are the variables being used to reiterate weights
     double alpha = 0.2;
     int N = 714;
-    int nParts = 100; // first part PSO
-    int nSteps = 10;
+    int nParts = 10; // first part PSO
+    int nSteps = 2000;
     int nParts2 = 10; // second part PSO
     int nSteps2 = 50;
     int nMoments = (N_SPECIES * (N_SPECIES + 3)) / 2; // var + mean + cov
@@ -673,7 +673,7 @@ int main() {
     for (int i = 0; i < Npars; i++) { 
         seed.k(i) = unifDist(gen);
     }
-    seed.k << 0.111838,	0.199481,	0.977847,	0.37924,	0.337451,	0.185211;
+    //seed.k << 0.111838,	0.199481,	0.977847,	0.37924,	0.337451,	0.185211;
     //seed.k << 0.110739,	0.181288,	0.987559,	0.449202,	0.430807,	0.188297;
     // seed.k <<    0.147545,    0.583654,    0.963787,    0.142228,   0.0114306,     0.18105;
     // seed.k << 0.270536,	0.981999,	0.988012,	0.201166,	0.078759,	0.206342;
@@ -732,7 +732,7 @@ int main() {
                     // }
                 }
 
-                POSMAT.row(particle) = seed.k;
+                //POSMAT.row(particle) = seed.k;
                 // POSMAT.row(particle) = tru.k;
                 // POSMAT.row(particle) << 0.270536,	0.981999,	0.988012,	0.201166,	0.078759,	0.206342;
                 struct K pos;
