@@ -546,7 +546,7 @@ int main() {
     /* PSO params */
      double sfp = 3.0, sfg = 1.0, sfe = 6.0; // initial particle historical weight, global weight social, inertial
     double alpha = 0.2;
-    int nRuns = 15;
+    int nRuns = 50;
     int N = 5000;
     int nParts = 50; // first part PSO
     int nSteps = 10;
