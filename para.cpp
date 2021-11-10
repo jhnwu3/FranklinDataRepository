@@ -1014,7 +1014,10 @@ int main() {
             printToCsv(GBMAT,"GBMATP");
         }
         cout << "YOYOYOYO" << endl;
-        GBVECS.row(run) << GBVEC, gCost;
+        for(int i = 0; i < Npars; i++){
+            GBVECS(i) = GBVEC(i);
+        }
+        GBVECS(Npars) = gCost;
     }
 
     printToCsv(GBVECS,"runs");
