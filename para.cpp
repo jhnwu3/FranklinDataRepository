@@ -551,16 +551,16 @@ int main() {
     double alpha = 0.2;
     int nRuns = 50;
     int N = 5000;
-    int nParts = 100; // first part PSO
-    int nSteps = 20;
+    int nParts = 50; // first part PSO
+    int nSteps = 10;
     int nParts2 = 10; // second part PSO
-    int nSteps2 = 200;
+    int nSteps2 = 60;
     int nMoments = (N_SPECIES * (N_SPECIES + 3)) / 2; // var + mean + cov
     int hone = 28;
     //nMoments = 2*N_SPECIES; // mean + var only!
     int nRestarts = 2;
     VectorXd wmatup(nRestarts);
-    wmatup << 0.33, 0.66;
+    wmatup << 0.30, 0.65;
     double uniLowBound = 0.0, uniHiBound = 1.0;
     random_device RanDev;
     mt19937 gen(RanDev());
