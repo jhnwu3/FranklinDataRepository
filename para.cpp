@@ -549,17 +549,17 @@ int main() {
     double sfp = 3.0, sfg = 1.0, sfe = 6.0; // initial particle historical weight, global weight social, inertial
     double sfi = sfe, sfc = sfp, sfs = sfg; // below are the variables being used to reiterate weights
     double alpha = 0.2;
-    int N = 714;
-    int nParts = 10; // first part PSO
-    int nSteps = 2000;
-    int nParts2 = 10; // second part PSO
-    int nSteps2 = 50;
+    int N = 1250;
+    int nParts = 2000; // first part PSO
+    int nSteps = 100;
+    int nParts2 = 20; // second part PSO
+    int nSteps2 = 500;
     int nMoments = (N_SPECIES * (N_SPECIES + 3)) / 2; // var + mean + cov
-    int hone = 32;
+    int hone = 28;
     //nMoments = 2*N_SPECIES; // mean + var only!
-    int nRestarts = 9;
+    int nRestarts = 4;
     VectorXd wmatup(nRestarts);
-    wmatup << 0.10, 0.20, 0.30, 0.40, 0.50, 0.60, 0.70, 0.80, 0.9;
+    wmatup << 0.20, 0.40, 0.60, 0.80;
     double uniLowBound = 0.0, uniHiBound = 1.0;
     random_device RanDev;
     mt19937 gen(RanDev());
