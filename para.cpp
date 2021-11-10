@@ -1016,7 +1016,7 @@ int main() {
         for(int i = 0; i < Npars; i++){
             GBVECS(run, i) = GBVEC(i);
         }
-        GBVECS(Npars) = gCost;
+        GBVECS(run, Npars) = gCost;
     }
 
     printToCsv(GBVECS,"runs");
@@ -1032,7 +1032,6 @@ int main() {
         printToCsv(weights[i], fileName);
     }
     
-
     auto t2 = std::chrono::high_resolution_clock::now();
     auto duration = std::chrono::duration_cast<std::chrono::seconds>(t2 - t1).count();
     cout << "CODE FINISHED RUNNING IN " << duration << " s TIME!" << endl;
