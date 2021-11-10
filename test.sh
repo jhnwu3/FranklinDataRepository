@@ -9,3 +9,4 @@
 
 ./para
 mv GBMATP.csv data/GBMAT_para_$(date +%F-%H%M).csv  
+mv runs.csv data/run$(date +%F-%H%M).csv  
