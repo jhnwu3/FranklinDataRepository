@@ -1013,9 +1013,8 @@ int main() {
         if(run == nRuns - 1){
             printToCsv(GBMAT,"GBMATP");
         }
-        cout << "GBVEC:" << GBVEC.transpose() << endl;
         for(int i = 0; i < Npars; i++){
-            GBVECS(i) = GBVEC(i);
+            GBVECS(run, i) = GBVEC(i);
         }
         GBVECS(Npars) = gCost;
     }
