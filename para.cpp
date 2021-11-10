@@ -661,6 +661,7 @@ int main() {
     }
     cout << "truk cost:"<< trukCost << endl;
 
+    MatrixXd GBVECS = MatrixXd::Zero(nRuns, Npars + 1);
     for(int run = 0; run < nRuns; run++){
         // make sure to reset GBMAT, POSMAT, AND PBMAT EVERY RUN!
         double sfi = sfe, sfc = sfp, sfs = sfg; // below are the variables being used to reiterate weights
