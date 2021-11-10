@@ -810,11 +810,6 @@ int main() {
             GBMAT(GBMAT.rows() - 1, Npars) = gCost;
             sfi = sfi - (sfe - sfg) / nSteps;   // reduce the inertial weight after each step 
             sfs = sfs + (sfe - sfg) / nSteps;
-
-            // print out desired PBMAT for contour plots
-            if(step == 0){
-                printToCsv(PBMAT, "single_PBMAT_t30");
-            }
             cout << "current:" << GBVEC.transpose()<<" "<< gCost << endl;
         }
 
@@ -1018,6 +1013,7 @@ int main() {
         if(run == nRuns - 1){
             printToCsv(GBMAT,"GBMATP");
         }
+        cout << "YOYOYOYO" << endl;
         GBVECS.row(run) << GBVEC, gCost;
     }
 
