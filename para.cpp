@@ -558,9 +558,9 @@ int main() {
     int nMoments = (N_SPECIES * (N_SPECIES + 3)) / 2; // var + mean + cov
     int hone = 28;
     //nMoments = 2*N_SPECIES; // mean + var only!
-    int nRestarts = 4;
+    int nRestarts = 2;
     VectorXd wmatup(nRestarts);
-    wmatup << 0.20, 0.40, 0.60, 0.80;
+    wmatup << 0.33, 0.66;
     double uniLowBound = 0.0, uniHiBound = 1.0;
     random_device RanDev;
     mt19937 gen(RanDev());
