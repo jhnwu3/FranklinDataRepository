@@ -1018,7 +1018,10 @@ int main() {
         if(run == nRuns - 1){
             printToCsv(GBMAT,"GBMATP");
         }
+        GBVECS.row(run) << GBVEC, gCost;
     }
+
+    printToCsv(GBVECS,"runs");
     trukCost = 0;
     for(int t = 0; t < nTimeSteps; t++){
         trukCost += calculate_cf2(Yt3Vecs[t], Xt3Vecs[t], weights[t]);
