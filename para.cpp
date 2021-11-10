@@ -546,12 +546,12 @@ int main() {
     /* PSO params */
      double sfp = 3.0, sfg = 1.0, sfe = 6.0; // initial particle historical weight, global weight social, inertial
     double alpha = 0.2;
-    int nRuns = 50;
+    int nRuns = 2;
     int N = 5000;
-    int nParts = 50; // first part PSO
-    int nSteps = 10;
-    int nParts2 = 10; // second part PSO
-    int nSteps2 = 60;
+    int nParts = 2; // first part PSO
+    int nSteps = 2;
+    int nParts2 = 2; // second part PSO
+    int nSteps2 = 2;
     int nMoments = (N_SPECIES * (N_SPECIES + 3)) / 2; // var + mean + cov
     int hone = 28;
     //nMoments = 2*N_SPECIES; // mean + var only!
