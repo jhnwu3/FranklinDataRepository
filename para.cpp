@@ -546,12 +546,12 @@ int main() {
     /* PSO params */
      double sfp = 3.0, sfg = 1.0, sfe = 6.0; // initial particle historical weight, global weight social, inertial
     double alpha = 0.2;
-    int nRuns = 2;
+    int nRuns = 15;
     int N = 5000;
-    int nParts = 2; // first part PSO
-    int nSteps = 2;
-    int nParts2 = 2; // second part PSO
-    int nSteps2 = 2;
+    int nParts = 50; // first part PSO
+    int nSteps = 10;
+    int nParts2 = 10; // second part PSO
+    int nSteps2 = 60;
     int nMoments = (N_SPECIES * (N_SPECIES + 3)) / 2; // var + mean + cov
     int hone = 28;
     //nMoments = 2*N_SPECIES; // mean + var only!
@@ -866,7 +866,7 @@ int main() {
                     cost += calculate_cf2(Yt3Vecs[t], gXt.mVec, weights[t]);
                 }
                 gCost = cost;
-                hone += 2;
+                hone += 4;
                 GBMAT.conservativeResize(GBMAT.rows() + 1, Npars + 1);
                 for (int i = 0; i < Npars; i++) {GBMAT(GBMAT.rows() - 1, i) = gPos.k(i);}
                 GBMAT(GBMAT.rows() - 1, Npars) = gCost;
