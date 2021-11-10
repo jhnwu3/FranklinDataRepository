@@ -665,7 +665,7 @@ int main() {
     for(int run = 0; run < nRuns; run++){
         // make sure to reset GBMAT, POSMAT, AND PBMAT EVERY RUN!
         double sfi = sfe, sfc = sfp, sfs = sfg; // below are the variables being used to reiterate weights
-        MatrixXd GBMAT(0, 0); // iterations of global best vectors
+        MatrixXd GBMAT = MatrixXd::Zero(0,0); // iterations of global best vectors
         MatrixXd PBMAT = MatrixXd::Zero(nParts, Npars + 1); // particle best matrix + 1 for cost component
         MatrixXd POSMAT = MatrixXd::Zero(nParts, Npars); // Position matrix as it goees through it in parallel
         // reset weight matrices back to identity
