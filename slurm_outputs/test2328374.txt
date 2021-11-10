@@ -1,0 +1,60 @@
+Using two part PSO Sample Size:5000 with:27 moments.
+Using Times: 2 10 20 30 40
+Bounds for Uniform Distribution (0,1)
+Blind PSO --> nParts:2 Nsteps:2
+Targeted PSO --> nParts:2 Nsteps:2
+sdbeta:0.1
+Reading in data!
+Using starting row of data:0 and 5000 data pts!
+first row X0:260.559 2143.24 4.86708 4.95832 65.2493 4.94309
+final row X0:123.826 1849.08 5.06107  6.0168   161.9  5.1619
+
+
+
+Loading in Truk!
+Calculating Yt!
+truk cost:7.7049e+09
+XtmVec:   0.395368     1624.71     210.214     83.9931     49.7147     159.788     2.14875 2.91226e+06     50799.7     18671.8     6640.14     28082.9     509.024     107.994     66.5366     13.0151     69.4699      330374      120243     86929.8      258289     24336.4     8393.75     36066.5     772.834     13124.2     7999.08
+XtmVec:   19.0309    1155.43    191.578    547.606    25.4172    184.085    4302.59 1.8515e+06    40805.8     613325    3370.26    37510.5    454.538    2954.72    29053.8     15.703    3178.96     207059     338471    43664.5     218299     121333     3857.9    37490.1    797.454      93118     4920.2
+XtmVec:    47.7656     878.611     162.843     852.194     24.4508     185.052     9008.82 1.42113e+06       29425 1.30511e+06     3345.77     37922.3     390.508     6292.01     82168.9      27.634     7971.78      144907      256822     42023.2      170626      138292     3661.33       32882     800.766      147016     4726.55
+XtmVec:    58.0061     756.745     152.603     984.063     24.2131     185.289       10056 1.24842e+06     25865.9  1.6372e+06     3343.65     38024.6     368.182     7547.99      102311     31.7827     9735.37      120722      196320     41616.9      148328      144616     3612.55       31163     801.694      171435     4676.45
+XtmVec:    62.0114     690.632     148.597     1054.08     24.1084     185.394     10336.3 1.15777e+06     24509.9 1.81781e+06     3342.95       38070     359.358     8085.79      110146     33.5065     10467.4      108291      158843     41436.6      135743      150020     3591.49     30450.4     802.116      184910     4654.08
+seedk: 0.396176 0.0273537   0.93251  0.235646  0.300873   0.71862| cost:1.72653e+13
+PSO begins!
+current: 0.396176 0.0273537   0.93251  0.235646  0.300873   0.71862 1.72653e+13
+current: 0.396176 0.0273537   0.93251  0.235646  0.300873   0.71862 1.72653e+13
+GBMAT from blind PSO:
+
+   0.396176   0.0273537     0.93251    0.235646    0.300873     0.71862 1.72653e+13
+   0.396176   0.0273537     0.93251    0.235646    0.300873     0.71862 1.72653e+13
+   0.396176   0.0273537     0.93251    0.235646    0.300873     0.71862 1.72653e+13
+
+truk:  0.1  0.1 0.95 0.17 0.05 0.18
+total difference b/w truk and final GBVEC0.450662
+
+blind PSO FINISHED RUNNING IN 155 s TIME!
+targeted PSO has started!
+Updating Weight Matrix!
+GBVEC AND COST:   0.396176   0.0273537     0.93251    0.235646    0.300873     0.71862 1.72653e+13
+New PBMAT:
+ 0.392503  0.020351  0.921848  0.200449   0.31677  0.726521   81.9984
+ 0.392394 0.0369785  0.856605  0.325068  0.308406  0.698601   68.0458
+
+GBMAT after targeted PSO:
+   0.396176   0.0273537     0.93251    0.235646    0.300873     0.71862 1.72653e+13
+   0.396176   0.0273537     0.93251    0.235646    0.300873     0.71862 1.72653e+13
+   0.396176   0.0273537     0.93251    0.235646    0.300873     0.71862 1.72653e+13
+   0.396176   0.0273537     0.93251    0.235646    0.300873     0.71862     68.9287
+   0.396176   0.0273537     0.93251    0.235646    0.300873     0.71862     68.9287
+   0.396176   0.0273537     0.93251    0.235646    0.300873     0.71862     68.9287
+YOYOYOYO
+para: /gpfs0/export/apps/easybuild/software/Eigen/3.3.7-GCCcore-9.3.0/include/Eigen/src/Core/Block.h:146: Eigen::Block<XprType, BlockRows, BlockCols, InnerPanel>::Block(XprType&, Eigen::Index, Eigen::Index, Eigen::Index, Eigen::Index) [with XprType = Eigen::Block<Eigen::Matrix<double, -1, -1>, 1, -1, false>; int BlockRows = -1; int BlockCols = -1; bool InnerPanel = false; Eigen::Index = long int]: Assertion `startRow >= 0 && blockRows >= 0 && startRow <= xpr.rows() - blockRows && startCol >= 0 && blockCols >= 0 && startCol <= xpr.cols() - blockCols' failed.
+/var/spool/slurmd/job2328374/slurm_script: line 10: 2254819 Aborted                 (core dumped) ./para
+mv: cannot stat 'GBMATP.csv': No such file or directory
+Job Statistics for 2328374:
+           JobID       User               Start                 End    Elapsed     MaxRSS   TotalCPU      State Exit        NodeList                                  ReqTRES 
+---------------- ---------- ------------------- ------------------- ---------- ---------- ---------- ---------- ---- --------------- ---------------------------------------- 
+         2328374   rsjxw007 2021-11-10T16:23:23 2021-11-10T16:27:43   00:04:20             05:50.210     FAILED  1:0   r1pl-hpcf-n21     billing=30,cpu=30,mem=234360M,node=1 
+   2328374.batch            2021-11-10T16:23:23 2021-11-10T16:27:43   00:04:20      8.01M  05:50.208     FAILED  1:0   r1pl-hpcf-n21                                          
+  2328374.extern            2021-11-10T16:23:23 2021-11-10T16:27:43   00:04:20          0  00:00.001  COMPLETED  0:0   r1pl-hpcf-n21                                          
+CPU Efficiency: 4.49% of 02:10:00 core-walltime
