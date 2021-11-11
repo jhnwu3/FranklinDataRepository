@@ -723,7 +723,6 @@ int main() {
             State_N c0 = convertInit(Y_0, i);
             Yt.index = i;
             integrate_adaptive(controlledStepper, trueSys, c0, t0, times(t), dt, YtObs);
-
         }
         Yt.mVec /= N;
         Yt3Vecs.push_back(Yt.mVec);
