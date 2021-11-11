@@ -546,8 +546,8 @@ int main() {
     /* PSO params */
      double sfp = 3.0, sfg = 1.0, sfe = 6.0; // initial particle historical weight, global weight social, inertial
     double alpha = 0.2;
-    int nRuns = 1;
-    int N = 5000;
+    int nRuns = 20;
+    int N = 1250;
     int nParts = 50; // first part PSO
     int nSteps = 10;
     int nParts2 = 10; // second part PSO
@@ -590,6 +590,7 @@ int main() {
     // weights[2] = readIntoMatrix(weight2, nMoments, nMoments);
     // weights[3] = readIntoMatrix(weight3, nMoments, nMoments);
     // weights[4] = readIntoMatrix(weight4, nMoments, nMoments);
+    cout << "nRuns:" << nRuns << endl;
     cout << "Using two part PSO " << "Sample Size:" << N << " with:" << nMoments << " moments." << endl;
     cout << "Using Times:" << times.transpose() << endl;
     cout << "Bounds for Uniform Distribution (" << uniLowBound << "," << uniHiBound << ")"<< endl;
