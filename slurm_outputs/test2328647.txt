@@ -1,0 +1,23 @@
+Using two part PSO Sample Size:5000 with:27 moments.
+Using Times: 2 10 20 30 40
+Bounds for Uniform Distribution (0,1)
+Blind PSO --> nParts:50 Nsteps:10
+Targeted PSO --> nParts:10 Nsteps:60
+sdbeta:0.1
+Reading in data!
+Using starting row of data:0 and 5000 data pts!
+first row X0:260.559 2143.24 4.86708 4.95832 65.2493 4.94309
+final row X0:123.826 1849.08 5.06107  6.0168   161.9  5.1619
+
+
+
+Loading in Truk!
+Calculating Yt!
+slurmstepd: error: *** JOB 2328647 ON r1pl-hpcf-n21 CANCELLED AT 2021-11-11T10:33:35 ***
+Job Statistics for 2328647:
+           JobID       User               Start                 End    Elapsed     MaxRSS   TotalCPU      State Exit        NodeList                                  ReqTRES 
+---------------- ---------- ------------------- ------------------- ---------- ---------- ---------- ---------- ---- --------------- ---------------------------------------- 
+         2328647   rsjxw007 2021-11-11T10:33:31 2021-11-11T10:33:35   00:00:04             00:00.046 CANCELLED+  0:0   r1pl-hpcf-n21     billing=30,cpu=30,mem=234360M,node=1 
+   2328647.batch            2021-11-11T10:33:31 2021-11-11T10:33:37   00:00:06          0  00:00.044  CANCELLED 0:15   r1pl-hpcf-n21                                          
+  2328647.extern            2021-11-11T10:33:31 2021-11-11T10:33:35   00:00:04          0  00:00.001  COMPLETED  0:0   r1pl-hpcf-n21                                          
+CPU Efficiency: 0.00% of 00:02:00 core-walltime
