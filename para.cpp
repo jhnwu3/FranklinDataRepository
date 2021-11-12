@@ -504,6 +504,8 @@ MatrixXd customWtMat(const MatrixXd& Yt, const MatrixXd& Xt, int nMoments, int N
     for(int i = 0; i < rank; i++){
         wt(i,i) = 1 / variances(subCol(i)); // cleanup code and make it more vectorized later.
     }
+    cout << "Weights:" << endl;
+    cout << wt << endl;
     return wt;
 }
 
@@ -546,11 +548,11 @@ int main() {
     /* PSO params */
      double sfp = 3.0, sfg = 1.0, sfe = 6.0; // initial particle historical weight, global weight social, inertial
     double alpha = 0.2;
-    int nRuns = 20;
+    int nRuns = 30;
     int N = 1250;
-    int nParts = 50; // first part PSO
-    int nSteps = 10;
-    int nParts2 = 10; // second part PSO
+    int nParts = 50; // blind PSO
+    int nSteps = 30;
+    int nParts2 = 10; // targeted PSO
     int nSteps2 = 60;
     int nMoments = (N_SPECIES * (N_SPECIES + 3)) / 2; // var + mean + cov
     int hone = 28;

@@ -728,7 +728,7 @@ int main() {
         Yt3Vecs.push_back(Yt.mVec);
     }
     struct K seed;
-    seed.k << 0.1644879, 0.7158613,	0.9269728,	0.4682917,	0.4687825,	0.1781085;
+    seed.k << 0.1606231,	0.7023215,	0.9279846,	0.4319656,	0.4223924,	0.1699614;
 
 
     /* Solve for Cost of specified rates*/
@@ -749,7 +749,30 @@ int main() {
     }
     cout << "For K:"<< seed.k.transpose() << "cost:" << costSeedK << endl;
 
-
+    seed.k << 0.2951832,	0.7574683,	0.9560433,	0.5271406,	0.4600613,	0.179017;
+    // change to the second moments only
+    for(int i = 0; i < nTimeSteps; i++){
+        for(int j = 2*N_SPECIES; j < nMoments; j++){
+            weights[i](j,j) = 0;
+        }
+    }
+    
+    costSeedK = 0;
+    for(int t = 0; t < nTimeSteps; t++){
+        Protein_Components Xt(times(t), nMoments, N);
+        Moments_Mat_Obs XtObs(Xt);
+        Nonlinear_ODE6 sys(seed);
+        for (int i = 0; i < N; i++) {
+            //State_N c0 = gen_multi_norm_iSub();
+            State_N c0 = convertInit(X_0, i);
+            Xt.index = i;
+            integrate_adaptive(controlledStepper, sys, c0, t0, times(t), dt, XtObs);
+        }
+        Xt.mVec /= N;  
+        cout << "XtmVec:" << Xt.mVec.transpose() << endl;
+        costSeedK += calculate_cf2(Yt3Vecs[t], Xt.mVec, weights[t]);
+    }
+    cout << "For K:"<< seed.k.transpose() << "cost:" << costSeedK << endl;
     /* Solve for 50 x 50 contour plot for equal weights */
     // int xDim = 50, yDim = 50;
     // double scale = (xDim+yDim) / 2;
