@@ -237,12 +237,12 @@ State_N convertInit(const MatrixXd& sample, int index){
 }
 VectorXd comp_vel_vec(const VectorXd& posK, int seed, double epsi, double nan, int hone) {
     
-    VectorXd rPoint;
-    rPoint = posK;
-    std::random_device rand_dev;
-    std::mt19937 generator(rand_dev());
-    vector<int> rand;
-    uniform_real_distribution<double> unifDist(0.0, 1.0);
+    // VectorXd rPoint;
+    // rPoint = posK;
+    // std::random_device rand_dev;
+    // std::mt19937 generator(rand_dev());
+    // vector<int> rand;
+    // uniform_real_distribution<double> unifDist(0.0, 1.0);
     // for (int i = 0; i < N_DIM; i++) {
     //     rand.push_back(i);
     // }
