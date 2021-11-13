@@ -728,7 +728,7 @@ int main() {
         Yt3Vecs.push_back(Yt.mVec);
     }
     struct K seed;
-    seed.k << 0.1606231,	0.7023215,	0.9279846,	0.4319656,	0.4223924,	0.1699614;
+    seed.k << 0.1659069,	0.6838229,	0.9585955,	0.4651133,	0.4573598,	0.1806655;
 
 
     /* Solve for Cost of specified rates*/
@@ -749,7 +749,7 @@ int main() {
     }
     cout << "For K:"<< seed.k.transpose() << "cost:" << costSeedK << endl;
 
-    seed.k << 0.2951832,	0.7574683,	0.9560433,	0.5271406,	0.4600613,	0.179017;
+    seed.k << 0.2498351, 0.7010353,	0.9587309,	0.5199925,	0.4305584,	0.179396;
     // change to the second moments only
     for(int i = 0; i < nTimeSteps; i++){
         for(int j = 2*N_SPECIES; j < nMoments; j++){
