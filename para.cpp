@@ -572,7 +572,7 @@ int main() {
     int nParts2 = 10; // targeted PSO
     int nSteps2 = 21;
     int nMoments = (N_SPECIES * (N_SPECIES + 3)) / 2; // var + mean + cov
-    int hone = 24;
+    int hone = 28;
     //nMoments = 2*N_SPECIES; // mean + var only!
     int nRestarts = 2;
     VectorXd wmatup(nRestarts);
