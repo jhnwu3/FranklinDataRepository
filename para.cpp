@@ -454,7 +454,7 @@ MatrixXd readIntoMatrix(ifstream& in, int rows, int cols) {
     }
     return mat;
 }
-MatrixXd customWtMat(const MatrixXd& Yt, const MatrixXd& Xt, int nMoments, int N, const VectorXd& subCol){
+MatrixXd customWtMat(const MatrixXd& Yt, const MatrixXd& Xt, int nMoments, int N){
     /* first moment differences */
     MatrixXd fmdiffs = Yt - Xt; 
     /* second moment difference computations - @todo make it variable later */
@@ -463,7 +463,7 @@ MatrixXd customWtMat(const MatrixXd& Yt, const MatrixXd& Xt, int nMoments, int N
         smdiffs.col(i) = (Yt.col(i).array() * Yt.col(i).array()) - (Xt.col(i).array() * Xt.col(i).array());
     }
 
-   
+    /* If no cross moments, then have a check for it */
     int nCross = nMoments - 2 * N_SPECIES;
     if (nCross < 0){
         nCross = 0;
@@ -498,12 +498,24 @@ MatrixXd customWtMat(const MatrixXd& Yt, const MatrixXd& Xt, int nMoments, int N
     for(int i = 0; i < nMoments; i++){
         variances(i) = (aDiff.col(i).array() - aDiff.col(i).array().mean()).square().sum() / ((double) aDiff.col(i).array().size() - 1);
     }
-    int rank = subCol.size();
-    MatrixXd wt = MatrixXd::Zero(rank, rank);
-
-    for(int i = 0; i < rank; i++){
-        wt(i,i) = 1 / variances(subCol(i)); // cleanup code and make it more vectorized later.
+    VectorXd covariances(nMoments - 1);
+    
+    for(int i = 0; i < nMoments - 1; i++){
+        int j = i + 1;
+        covariances(i) = (aDiff.col(i).array() - aDiff.col(j).array().mean()).square().sum() / ((double) aDiff.col(i).array().size() - 1);
     }
+
+    MatrixXd wt = MatrixXd::Zero(nMoments, nMoments);
+   
+    for(int i = 0; i < nMoments; i++){
+        wt(i,i) = variances(i); // cleanup code and make it more vectorized later.
+    }
+    for(int i = 0; i < nMoments - 1; i++){
+        int j = i + 1;
+        wt(i,j) = covariances(i);
+        wt(j,i) = covariances(i);
+    }
+    wt = wt.llt().solve(MatrixXd::Identity(nMoments, nMoments));
     cout << "Weights:" << endl;
     cout << wt << endl;
     return wt;
@@ -567,6 +579,9 @@ int main() {
     
     vector<MatrixXd> weights;
     bool useOnlySecMom = false;
+    if(useOnlySecMom){
+        cout << "USING NONMIXED MOMENTS!!" << endl;
+    }
     for(int i = 0; i < nTimeSteps; i++){
         weights.push_back(MatrixXd::Identity(nMoments, nMoments));
     }
@@ -827,10 +842,7 @@ int main() {
         /*** targeted PSO ***/
         POSMAT.conservativeResize(nParts2, Npars); // resize matrices to fit targetted PSO
         PBMAT.conservativeResize(nParts2, Npars + 1);
-        VectorXd subset = VectorXd::Zero(nMoments);
-        for(int i = 0; i < nMoments; i++){
-            subset(i) = i;
-        }
+
         // subset << 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11;//, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22 ,23, 24, 25, 26;
         cout << "targeted PSO has started!" << endl; 
         sfp = 3.0, sfg = 1.0, sfe = 6.0; // initial particle historical weight, global weight social, inertial
@@ -860,7 +872,7 @@ int main() {
                         integrate_adaptive(controlledStepper, gSys, c0, t0, times(t), dt, gXtObs);
                     }
                     gXt.mVec /= N;  
-                    weights[t] = customWtMat(Yt3Mats[t], gXt.mat, nMoments, N, subset);
+                    weights[t] = customWtMat(Yt3Mats[t], gXt.mat, nMoments, N);
                     if(useOnlySecMom){
                         for(int j = 2*N_SPECIES; j < nMoments; j++){
                             weights[t](j,j) = 0;
