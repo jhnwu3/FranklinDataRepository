@@ -562,10 +562,10 @@ int main() {
     double alpha = 0.2;
     int nRuns = 30;
     int N = 1250;
-    int nParts = 200; // blind PSO
-    int nSteps = 20;
-    int nParts2 = 10; // targeted PSO
-    int nSteps2 = 60;
+    int nParts = 1; // blind PSO
+    int nSteps = 1;
+    int nParts2 = 1; // targeted PSO
+    int nSteps2 = 2;
     int nMoments = (N_SPECIES * (N_SPECIES + 3)) / 2; // var + mean + cov
     int hone = 24;
     //nMoments = 2*N_SPECIES; // mean + var only!
@@ -581,17 +581,18 @@ int main() {
     bool useOnlySecMom = false;
     if(useOnlySecMom){
         cout << "USING NONMIXED MOMENTS!!" << endl;
+        nMoments = 2 * N_SPECIES;
     }
     for(int i = 0; i < nTimeSteps; i++){
         weights.push_back(MatrixXd::Identity(nMoments, nMoments));
     }
-    if(useOnlySecMom){
-        for(int i = 0; i < nTimeSteps; i++){
-            for(int j = 2*N_SPECIES; j < nMoments; j++){
-                weights[i](j,j) = 0;
-            }
-        }
-    }
+    // if(useOnlySecMom){
+    //     for(int i = 0; i < nTimeSteps; i++){
+    //         for(int j = 2*N_SPECIES; j < nMoments; j++){
+    //             weights[i](j,j) = 0;
+    //         }
+    //     }
+    // }
 
     // ifstream weightForSingleTime("time1_wt.txt");
     // weights[0] = readIntoMatrix(weightForSingleTime, nMoments, nMoments);
@@ -873,11 +874,11 @@ int main() {
                     }
                     gXt.mVec /= N;  
                     weights[t] = customWtMat(Yt3Mats[t], gXt.mat, nMoments, N);
-                    if(useOnlySecMom){
-                        for(int j = 2*N_SPECIES; j < nMoments; j++){
-                            weights[t](j,j) = 0;
-                        }
-                    }
+                    // if(useOnlySecMom){
+                    //     for(int j = 2*N_SPECIES; j < nMoments; j++){
+                    //         weights[t](j,j) = 0;
+                    //     }
+                    // }
                     cost += calculate_cf2(Yt3Vecs[t], gXt.mVec, weights[t]);
                 }
                 gCost = cost;
