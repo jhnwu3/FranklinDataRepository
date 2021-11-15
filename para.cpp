@@ -237,94 +237,13 @@ State_N convertInit(const MatrixXd& sample, int index){
 }
 VectorXd comp_vel_vec(const VectorXd& posK, int seed, double epsi, double nan, int hone) {
     
-    // VectorXd rPoint;
-    // rPoint = posK;
-    // std::random_device rand_dev;
-    // std::mt19937 generator(rand_dev());
-    // vector<int> rand;
-    // uniform_real_distribution<double> unifDist(0.0, 1.0);
-    // for (int i = 0; i < N_DIM; i++) {
-    //     rand.push_back(i);
-    // }
-    // shuffle(rand.begin(), rand.end(), generator); // shuffle indices as well as possible. 
-    // int ncomp = rand.at(0);
-    // VectorXd wcomp(ncomp);
-    // shuffle(rand.begin(), rand.end(), generator);
-    // for (int i = 0; i < ncomp; i++) {
-    //     wcomp(i) = rand.at(i);
-    // }
-    // VectorXd adaptive = VectorXd::Zero(3); // vector of targeted rate constants
-    // adaptive << 1,3,4;
-    // int ncomp = posK.size();
-    // if(unifDist(generator) < 0.67){
-    //     for (int smart = 0; smart < adaptive.size(); smart++) {
-    //     // int px = wcomp(smart);
-    //         int px = adaptive(smart);
-    //         double pos = rPoint(px);
-    //         if (pos > 1.0 - nan) {
-    //             cout << "overflow!" << endl;
-    //             // while(pos > 1.0){
-    //             //     pos -= 0.001;
-    //             // }
-    //             pos -= epsi;
-    //         }else if (pos < nan) {
-    //             cout << "underflow!"<< pos << endl;
-    //             // while( pos < 0.001){
-    //             //     pos += 0.001;
-    //             // }
-    //             pos += epsi;
-    //             cout << "pos" << posK.transpose() << endl; 
-    //         }
-    //         double alpha = hone * pos; // Component specific
-    //         double beta = hone - alpha; // pos specific
-    //     // cout << "alpha:" << alpha << "beta:" << beta << endl;
-    //         std::gamma_distribution<double> aDist(alpha, 1); // beta distribution consisting of gamma distributions
-    //         std::gamma_distribution<double> bDist(beta, 1);
-
-    //         double x = aDist(generator);
-    //         double y = bDist(generator);
-
-    //         rPoint(px) = (x / (x + y)); 
-    //     }
-    // }else{
-    //     for (int smart = 0; smart < ncomp; smart++) {
-    //     // int px = wcomp(smart);
-    //         double pos = rPoint(smart);
-    //         if (pos > 1.0 - nan) {
-    //             cout << "overflow!" << endl;
-    //             // while(pos > 1.0){
-    //             //     pos -= 0.001;
-    //             // }
-    //             pos -= epsi;
-    //         }else if (pos < nan) {
-    //             cout << "underflow!"<< pos << endl;
-    //             // while( pos < 0.001){
-    //             //     pos += 0.001;
-    //             // }
-    //             pos += epsi;
-    //             cout << "pos" << posK.transpose() << endl; 
-    //         }
-    //         double alpha = hone * pos; // Component specific
-    //         double beta = hone - alpha; // pos specific
-    //     // cout << "alpha:" << alpha << "beta:" << beta << endl;
-    //         std::gamma_distribution<double> aDist(alpha, 1); // beta distribution consisting of gamma distributions
-    //         std::gamma_distribution<double> bDist(beta, 1);
-
-    //         double x = aDist(generator);
-    //         double y = bDist(generator);
-
-    //         rPoint(smart) = (x / (x + y)); 
-    //     }
-    // }
-    
-    // return rPoint;
     VectorXd rPoint;
     rPoint = posK;
     std::random_device rand_dev;
     std::mt19937 generator(rand_dev());
     vector<int> rand;
     uniform_real_distribution<double> unifDist(0.0, 1.0);
-    for (int i = 0; i < posK.size(); i++) {
+    for (int i = 0; i < N_DIM; i++) {
         rand.push_back(i);
     }
     shuffle(rand.begin(), rand.end(), generator); // shuffle indices as well as possible. 
@@ -334,31 +253,112 @@ VectorXd comp_vel_vec(const VectorXd& posK, int seed, double epsi, double nan, i
     for (int i = 0; i < ncomp; i++) {
         wcomp(i) = rand.at(i);
     }
-    
-    for (int smart = 0; smart < ncomp; smart++) {
-        int px = wcomp(smart);
-        double pos = rPoint(px);
-        if (pos > 1.0 - nan) {
-            cout << "overflow!" << endl;
-            pos -= epsi;
-        }else if (pos < nan) {
-            cout << "underflow!"<< pos << endl;
-            pos += epsi;
-            cout << "pos" << posK.transpose() << endl; 
+    VectorXd adaptive = VectorXd::Zero(3); // vector of targeted rate constants
+    adaptive << 1,3,4;
+    int ncomp = posK.size();
+    if(unifDist(generator) < 0.67){
+        for (int smart = 0; smart < adaptive.size(); smart++) {
+        // int px = wcomp(smart);
+            int px = adaptive(smart);
+            double pos = rPoint(px);
+            if (pos > 1.0 - nan) {
+                cout << "overflow!" << endl;
+                // while(pos > 1.0){
+                //     pos -= 0.001;
+                // }
+                pos -= epsi;
+            }else if (pos < nan) {
+                cout << "underflow!"<< pos << endl;
+                // while( pos < 0.001){
+                //     pos += 0.001;
+                // }
+                pos += epsi;
+                cout << "pos" << posK.transpose() << endl; 
+            }
+            double alpha = hone * pos; // Component specific
+            double beta = hone - alpha; // pos specific
+        // cout << "alpha:" << alpha << "beta:" << beta << endl;
+            std::gamma_distribution<double> aDist(alpha, 1); // beta distribution consisting of gamma distributions
+            std::gamma_distribution<double> bDist(beta, 1);
+
+            double x = aDist(generator);
+            double y = bDist(generator);
+
+            rPoint(px) = (x / (x + y)); 
         }
-        double alpha = hone * pos; // Component specific
-        double beta = hone - alpha; // pos specific
-    // cout << "alpha:" << alpha << "beta:" << beta << endl;
-        std::gamma_distribution<double> aDist(alpha, 1); // beta distribution consisting of gamma distributions
-        std::gamma_distribution<double> bDist(beta, 1);
+    }else{
+        for (int smart = 0; smart < ncomp; smart++) {
+        // int px = wcomp(smart);
+            double pos = rPoint(smart);
+            if (pos > 1.0 - nan) {
+                cout << "overflow!" << endl;
+                // while(pos > 1.0){
+                //     pos -= 0.001;
+                // }
+                pos -= epsi;
+            }else if (pos < nan) {
+                cout << "underflow!"<< pos << endl;
+                // while( pos < 0.001){
+                //     pos += 0.001;
+                // }
+                pos += epsi;
+                cout << "pos" << posK.transpose() << endl; 
+            }
+            double alpha = hone * pos; // Component specific
+            double beta = hone - alpha; // pos specific
+        // cout << "alpha:" << alpha << "beta:" << beta << endl;
+            std::gamma_distribution<double> aDist(alpha, 1); // beta distribution consisting of gamma distributions
+            std::gamma_distribution<double> bDist(beta, 1);
 
-        double x = aDist(generator);
-        double y = bDist(generator);
+            double x = aDist(generator);
+            double y = bDist(generator);
 
-        rPoint(px) = (x / (x + y)); 
+            rPoint(smart) = (x / (x + y)); 
+        }
     }
     
     return rPoint;
+    // VectorXd rPoint;
+    // rPoint = posK;
+    // std::random_device rand_dev;
+    // std::mt19937 generator(rand_dev());
+    // vector<int> rand;
+    // uniform_real_distribution<double> unifDist(0.0, 1.0);
+    // for (int i = 0; i < posK.size(); i++) {
+    //     rand.push_back(i);
+    // }
+    // shuffle(rand.begin(), rand.end(), generator); // shuffle indices as well as possible. 
+    // int ncomp = rand.at(0);
+    // VectorXd wcomp(ncomp);
+    // shuffle(rand.begin(), rand.end(), generator);
+    // for (int i = 0; i < ncomp; i++) {
+    //     wcomp(i) = rand.at(i);
+    // }
+    
+    // for (int smart = 0; smart < ncomp; smart++) {
+    //     int px = wcomp(smart);
+    //     double pos = rPoint(px);
+    //     if (pos > 1.0 - nan) {
+    //         cout << "overflow!" << endl;
+    //         pos -= epsi;
+    //     }else if (pos < nan) {
+    //         cout << "underflow!"<< pos << endl;
+    //         pos += epsi;
+    //         cout << "pos" << posK.transpose() << endl; 
+    //     }
+    //     double alpha = hone * pos; // Component specific
+    //     double beta = hone - alpha; // pos specific
+    // // cout << "alpha:" << alpha << "beta:" << beta << endl;
+    //     std::gamma_distribution<double> aDist(alpha, 1); // beta distribution consisting of gamma distributions
+    //     std::gamma_distribution<double> bDist(beta, 1);
+
+    //     double x = aDist(generator);
+    //     double y = bDist(generator);
+
+    //     rPoint(px) = (x / (x + y)); 
+    // }
+    
+    // return rPoint;
 }
 MatrixXd calculate_omega_weight_matrix(const MatrixXd &sample, const VectorXd &mu){
     MatrixXd inv = MatrixXd::Zero(mu.size(), mu.size());
