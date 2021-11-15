@@ -560,7 +560,7 @@ int main() {
     /* PSO params */
      double sfp = 3.0, sfg = 1.0, sfe = 6.0; // initial particle historical weight, global weight social, inertial
     double alpha = 0.2;
-    int nRuns = 30;
+    int nRuns = 1;
     int N = 1250;
     int nParts = 1; // blind PSO
     int nSteps = 1;
@@ -620,7 +620,7 @@ int main() {
     cout << "Reading in data!" << endl;
     /* Initial Conditions */
     int sizeFile = 25000;
-    int startRow = 3750;
+    int startRow = 0;
     MatrixXd X_0_Full(sizeFile, Npars);
     MatrixXd Y_0_Full(sizeFile, Npars);
     MatrixXd X_0(N, Npars);
