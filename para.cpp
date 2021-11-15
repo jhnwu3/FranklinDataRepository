@@ -704,7 +704,7 @@ int main() {
         for (int i = 0; i < Npars; i++) { 
             seed.k(i) = unifDist(gen);
         }
-        seed.k = tru.k;
+        seed.k << 0.098598,	0.100714,	0.950519,	0.155835,	0.034803,	0.178066;
         double costSeedK = 0;
         for(int t = 0; t < nTimeSteps; t++){
             Protein_Components Xt(times(t), nMoments, N);
@@ -942,7 +942,7 @@ int main() {
                         integrate_adaptive(controlledStepper, gSys, c0, t0, times(t), dt, gXtObs);
                     }
                     gXt.mVec /= N;  
-                    // weights[t] = customWtMat(Yt3Mats[t], gXt.mat, nMoments, N);
+                    weights[t] = customWtMat(Yt3Mats[t], gXt.mat, nMoments, N);
                     // if(useOnlySecMom){
                     //     for(int j = 2*N_SPECIES; j < nMoments; j++){
                     //         weights[t](j,j) = 0;
