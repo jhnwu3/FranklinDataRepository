@@ -515,6 +515,7 @@ MatrixXd customWtMat(const MatrixXd& Yt, const MatrixXd& Xt, int nMoments, int N
         wt(i,j) = covariances(i);
         wt(j,i) = covariances(i);
     }
+    cout << "Weights Before Inversion:" << wt << endl;
     wt = wt.llt().solve(MatrixXd::Identity(nMoments, nMoments));
     cout << "Weights:" << endl;
     cout << wt << endl;
