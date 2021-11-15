@@ -1,0 +1,32 @@
+USING NONMIXED MOMENTS!!
+nRuns:1
+Using two part PSO Sample Size:1250 with:12 moments.
+Using Times: 2 10 20 30 40
+Bounds for Uniform Distribution (0,1)
+Blind PSO --> nParts:50 Nsteps:10
+Targeted PSO --> nParts:10 Nsteps:21
+sdbeta:0.1
+Reading in data!
+Using starting row of data:0 and 1250 data pts!
+first row X0:260.559 2143.24 4.86708 4.95832 65.2493 4.94309
+final row X0:249.987 2396.05 5.91041 5.47538  172.01 5.00391
+
+
+
+Loading in Truk!
+Calculating Yt!
+truk cost:5.62102e+09
+XtmVec:    0.31653     1781.88     210.357     10.5167     111.334     100.035    0.135516 3.44241e+06     50979.6     504.415     19589.5       11145
+XtmVec:  0.632314    1647.91    210.041    99.5521    66.0832    145.285    20.5344 3.0304e+06    50693.8    43360.2    10404.5    23290.4
+XtmVec:    4.22362     1546.79      206.45     202.366      64.186     147.183     1001.35 2.80294e+06       48216      168848     10199.1     23917.7
+XtmVec:    9.95708     1467.55     200.716     287.086     63.9283      147.44      1996.7 2.65959e+06     45057.2      322441     10193.8     24006.3
+XtmVec:     15.025     1410.13     195.648     349.468     63.8227     147.546     2820.53 2.56385e+06     42607.6      453666       10193     24042.7
+seedk: 0.45433 0.723932 0.373524 0.205021 0.104609 0.458942| cost:5.91627e+13
+PSO begins!
+current: 0.45433 0.723932 0.373524 0.205021 0.104609 0.458942 5.91627e+13
+overflow!
+underflow!overflow!
+0.0024753
+pos 0.419594  0.080606  0.176652  0.581191  0.671392 0.0024753
+overflow!
+overflow!
