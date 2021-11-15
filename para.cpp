@@ -498,29 +498,29 @@ MatrixXd customWtMat(const MatrixXd& Yt, const MatrixXd& Xt, int nMoments, int N
     for(int i = 0; i < nMoments; i++){
         variances(i) = (aDiff.col(i).array() - aDiff.col(i).array().mean()).square().sum() / ((double) aDiff.col(i).array().size() - 1);
     }
-    // VectorXd covariances(nMoments - 1);
+    VectorXd covariances(nMoments - 1);
     
-    // for(int i = 0; i < nMoments - 1; i++){
-    //     int j = i + 1;
-    //     covariances(i) = ( (aDiff.col(i).array() - aDiff.col(i).array().mean()).array() * (aDiff.col(j).array() - aDiff.col(j).array().mean()).array() ).sum() / ((double) aDiff.col(i).array().size() - 1);
-    // }
+    for(int i = 0; i < nMoments - 1; i++){
+        int j = i + 1;
+        covariances(i) = ( (aDiff.col(i).array() - aDiff.col(i).array().mean()).array() * (aDiff.col(j).array() - aDiff.col(j).array().mean()).array() ).sum() / ((double) aDiff.col(i).array().size() - 1);
+    }
 
     MatrixXd wt = MatrixXd::Zero(nMoments, nMoments);
    
-    // for(int i = 0; i < nMoments; i++){
-    //     wt(i,i) = variances(i); // cleanup code and make it more vectorized later.
-    // }
-    // for(int i = 0; i < nMoments - 1; i++){
-    //     int j = i + 1;
-    //     wt(i,j) = covariances(i);
-    //     wt(j,i) = covariances(i);
-    // }
-    
-    // cout << "Weights Before Inversion:" << endl << wt << endl;
-    // wt = wt.llt().solve(MatrixXd::Identity(nMoments, nMoments));
     for(int i = 0; i < nMoments; i++){
-        wt(i,i) = 1 / variances(i); // cleanup code and make it more vectorized later.
+        wt(i,i) = variances(i); // cleanup code and make it more vectorized later.
     }
+    for(int i = 0; i < nMoments - 1; i++){
+        int j = i + 1;
+        wt(i,j) = covariances(i);
+        wt(j,i) = covariances(i);
+    }
+    
+    cout << "Weights Before Inversion:" << endl << wt << endl;
+    wt = wt.llt().solve(MatrixXd::Identity(nMoments, nMoments));
+    // for(int i = 0; i < nMoments; i++){
+    //     wt(i,i) = 1 / variances(i); // cleanup code and make it more vectorized later.
+    // }
     cout << "Weights:" << endl;
     cout << wt << endl;
     return wt;
