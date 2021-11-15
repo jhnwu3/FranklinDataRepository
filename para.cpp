@@ -502,7 +502,7 @@ MatrixXd customWtMat(const MatrixXd& Yt, const MatrixXd& Xt, int nMoments, int N
     
     for(int i = 0; i < nMoments - 1; i++){
         int j = i + 1;
-        covariances(i) = ( (aDiff.col(i).array() - aDiff.col(i).array().mean()).array() * (aDiff.col(i).array() - aDiff.col(i).array().mean()).array() ).sum() / ((double) aDiff.col(i).array().size() - 1);
+        covariances(i) = ( (aDiff.col(i).array() - aDiff.col(i).array().mean()).array() * (aDiff.col(j).array() - aDiff.col(j).array().mean()).array() ).sum() / ((double) aDiff.col(i).array().size() - 1);
     }
 
     MatrixXd wt = MatrixXd::Zero(nMoments, nMoments);
