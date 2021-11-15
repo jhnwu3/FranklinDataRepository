@@ -699,7 +699,7 @@ int main() {
         for (int i = 0; i < Npars; i++) { 
             seed.k(i) = unifDist(gen);
         }
-
+        seed.k = tru.k;
         double costSeedK = 0;
         for(int t = 0; t < nTimeSteps; t++){
             Protein_Components Xt(times(t), nMoments, N);
@@ -746,7 +746,7 @@ int main() {
                         // }
                     }
 
-                    //POSMAT.row(particle) = seed.k;
+                    POSMAT.row(particle) = seed.k;
                     // POSMAT.row(particle) = tru.k;
                     // POSMAT.row(particle) << 0.270536,	0.981999,	0.988012,	0.201166,	0.078759,	0.206342;
                     struct K pos;
