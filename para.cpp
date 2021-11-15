@@ -243,16 +243,16 @@ VectorXd comp_vel_vec(const VectorXd& posK, int seed, double epsi, double nan, i
     std::mt19937 generator(rand_dev());
     vector<int> rand;
     uniform_real_distribution<double> unifDist(0.0, 1.0);
-    for (int i = 0; i < N_DIM; i++) {
-        rand.push_back(i);
-    }
-    shuffle(rand.begin(), rand.end(), generator); // shuffle indices as well as possible. 
-    int ncomp = rand.at(0);
-    VectorXd wcomp(ncomp);
-    shuffle(rand.begin(), rand.end(), generator);
-    for (int i = 0; i < ncomp; i++) {
-        wcomp(i) = rand.at(i);
-    }
+    // for (int i = 0; i < N_DIM; i++) {
+    //     rand.push_back(i);
+    // }
+    // shuffle(rand.begin(), rand.end(), generator); // shuffle indices as well as possible. 
+    // int ncomp = rand.at(0);
+    // VectorXd wcomp(ncomp);
+    // shuffle(rand.begin(), rand.end(), generator);
+    // for (int i = 0; i < ncomp; i++) {
+    //     wcomp(i) = rand.at(i);
+    // }
     VectorXd adaptive = VectorXd::Zero(3); // vector of targeted rate constants
     adaptive << 1,3,4;
     int ncomp = posK.size();
