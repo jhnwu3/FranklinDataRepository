@@ -566,9 +566,9 @@ int main() {
      double sfp = 3.0, sfg = 1.0, sfe = 6.0; // initial particle historical weight, global weight social, inertial
     double alpha = 0.2;
     int nRuns = 1;
-    int N = 1250;
-    int nParts = 200; // blind PSO
-    int nSteps = 25;
+    int N = 5000;
+    int nParts = 100; // blind PSO
+    int nSteps = 20;
     int nParts2 = 10; // targeted PSO
     int nSteps2 = 100;
     int nMoments = (N_SPECIES * (N_SPECIES + 3)) / 2; // var + mean + cov
