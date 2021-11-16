@@ -942,7 +942,7 @@ int main() {
                         integrate_adaptive(controlledStepper, gSys, c0, t0, times(t), dt, gXtObs);
                     }
                     gXt.mVec /= N;  
-                    // weights[t] = customWtMat(Yt3Mats[t], gXt.mat, nMoments, N);
+                    weights[t] = customWtMat(Yt3Mats[t], gXt.mat, nMoments, N);
                     // if(useOnlySecMom){
                     //     for(int j = 2*N_SPECIES; j < nMoments; j++){
                     //         weights[t](j,j) = 0;
