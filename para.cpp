@@ -552,7 +552,7 @@ int main() {
     double t0 = 0, tf = 15, dt = 1.0; 
     int nTimeSteps = 5;
     VectorXd times = VectorXd::Zero(nTimeSteps);
-    times << 0.5, 1, 2, 10, 20; // ultra early, early, medium, late
+    times << 2, 10, 20, 30, 40; // ultra early, early, medium, late
     int Npars = N_DIM;
     double squeeze = 0.500, sdbeta = 0.10; 
     double boundary = 0.001;
@@ -567,7 +567,7 @@ int main() {
     double alpha = 0.2;
     int nRuns = 1;
     int N = 500;
-    int nParts = 100; // blind PSO  1000:10
+    int nParts = 1000; // blind PSO  1000:10
     int nSteps = 10;
     int nParts2 = 1; // targeted PSO
     int nSteps2 = 2;
@@ -746,7 +746,7 @@ int main() {
         }
         Yt.mVec /= N;
         Xt.mVec /= N;
-        trukCost += calculate_cf2(Yt.mVec,Xt.mVec, weights[t]) / nTimeSteps;
+        trukCost += calculate_cf2(Yt.mVec,Xt.mVec, weights[t]);
         Xt3Vecs.push_back(Xt.mVec);
         Yt3Mats.push_back(Yt.mat);
         Yt3Vecs.push_back(Yt.mVec);
@@ -850,7 +850,7 @@ int main() {
             }
             Xt.mVec /= N;  
             cout << "XtmVec:" << Xt.mVec.transpose() << endl;
-            costSeedK += calculate_cf2(Yt3Vecs[t], Xt.mVec, weights[t]) / nTimeSteps;
+            costSeedK += calculate_cf2(Yt3Vecs[t], Xt.mVec, weights[t]);
         }
 
         cout << "seedk:"<< seed.k.transpose()<< "| cost:" << costSeedK << endl;
@@ -942,7 +942,7 @@ int main() {
                             integrate_adaptive(controlledStepper, stepSys, c0, t0, times(t), dt, XtObsPSO1);
                         }
                         XtPSO.mVec/=N;
-                        cost += calculate_cf2(Yt3Vecs[t], XtPSO.mVec, weights[t]) / nTimeSteps;
+                        cost += calculate_cf2(Yt3Vecs[t], XtPSO.mVec, weights[t]);
                     }
                 
                     /* update gBest and pBest */
