@@ -778,7 +778,6 @@ int main() {
     double scale = (xDim+yDim) / 2;
     double cost = 0;
     MatrixXd eqwts(xDim*yDim, Npars + 1);
-    Controlled_RK_Stepper_N controlledStepper;
     int s = 0;
     for(int x = 0; x < xDim; x++){
         for(int y = 0; y < yDim; y++){
@@ -941,7 +940,7 @@ int main() {
     }
     printToCsv(uneqwts, "uneqwts_contour");
     
-    
+
     // MatrixXd zoomedIn = MatrixXd::Zero(xDim*yDim, Npars + 1);
     // VectorXd xCoords = VectorXd::Zero(xDim);
     // VectorXd yCoords = VectorXd::Zero(yDim);
