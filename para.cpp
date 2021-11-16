@@ -552,7 +552,7 @@ int main() {
     double t0 = 0, tf = 15, dt = 1.0; 
     int nTimeSteps = 5;
     VectorXd times = VectorXd::Zero(nTimeSteps);
-    times << 2, 10, 20, 30, 40; // ultra early, early, medium, late
+    times << 0.5, 2, 10, 20, 30; // ultra early, early, medium, late
     int Npars = N_DIM;
     double squeeze = 0.500, sdbeta = 0.10; 
     double boundary = 0.001;
@@ -903,7 +903,7 @@ int main() {
                             integrate_adaptive(controlledStepper, initSys, c0, t0, times(t), dt, XtObsPSO);
                         }
                         XtPSO.mVec/=N;
-                        cost += calculate_cf2(Yt3Vecs[t], XtPSO.mVec, weights[t]) / nTimeSteps;
+                        cost += calculate_cf2(Yt3Vecs[t], XtPSO.mVec, weights[t]);
                     }
                     
                     
