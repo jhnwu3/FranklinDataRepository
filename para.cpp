@@ -566,9 +566,9 @@ int main() {
      double sfp = 3.0, sfg = 1.0, sfe = 6.0; // initial particle historical weight, global weight social, inertial
     double alpha = 0.2;
     int nRuns = 1;
-    int N = 5000;
-    int nParts = 1; // blind PSO  1000:10
-    int nSteps = 1;
+    int N = 500;
+    int nParts = 100; // blind PSO  1000:10
+    int nSteps = 10;
     int nParts2 = 1; // targeted PSO
     int nSteps2 = 2;
     int nMoments = (N_SPECIES * (N_SPECIES + 3)) / 2; // var + mean + cov
@@ -591,6 +591,74 @@ int main() {
     for(int i = 0; i < nTimeSteps; i++){
         weights.push_back(MatrixXd::Identity(nMoments, nMoments));
     }
+    weights[0] <<0.10697,0.00286477,0.0560647,-0.0317621,-0.0445589,0.00495941,-2.00699e-06,-6.16071e-11,-2.80581e-09,1.21374e-09,6.88116e-10,-2.06854e-11,
+    0.00286477,9.38468e-05,0.00183662,-0.00104049,-0.0014597,0.000162465,-6.57469e-08,-2.01818e-12,-9.19151e-11,3.97608e-11,2.25419e-11,-6.77631e-13,
+    0.0560647,0.00183662,0.0366777,-0.0207789,-0.0291506,0.00324446,-1.31298e-06,-4.03036e-11,-1.83557e-09,7.94033e-10,4.50168e-10,-1.35325e-11,
+    -0.0317621,-0.00104049,-0.0207789,0.0118,0.0165541,-0.00184247,7.45619e-07,2.28877e-11,1.04239e-09,-4.50917e-10,-2.55642e-10,7.68483e-12,
+    -0.0445589,-0.0014597,-0.0291506,0.0165541,0.0235194,-0.00261771,1.05935e-06,3.25179e-11,1.48098e-09,-6.40645e-10,-3.63206e-10,1.09183e-11,
+    0.00495941,0.000162465,0.00324446,-0.00184247,-0.00261771,0.000413975,-1.67529e-07,-5.14251e-12,-2.34208e-10,1.01314e-10,5.74389e-11,-1.72667e-12,
+    -2.00699e-06,-6.57469e-08,-1.31298e-06,7.45619e-07,1.05935e-06,-1.67529e-07,3.92714e-07,1.20548e-11,5.4902e-10,-2.37496e-10,-1.34646e-10,4.04757e-12,
+    -6.16071e-11,-2.01818e-12,-4.03036e-11,2.28877e-11,3.25179e-11,-5.14251e-12,1.20548e-11,1.92102e-13,8.74903e-12,-3.78467e-12,-2.14567e-12,6.45009e-14,
+    -2.80581e-09,-9.19151e-11,-1.83557e-09,1.04239e-09,1.48098e-09,-2.34208e-10,5.4902e-10,8.74903e-12,1.68792e-09,-7.30165e-10,-4.13958e-10,1.2444e-11,
+    1.21374e-09,3.97608e-11,7.94033e-10,-4.50917e-10,-6.40645e-10,1.01314e-10,-2.37496e-10,-3.78467e-12,-7.30165e-10,3.83666e-10,2.17515e-10,-6.5387e-12,
+    6.88116e-10,2.25419e-11,4.50168e-10,-2.55642e-10,-3.63206e-10,5.74389e-11,-1.34646e-10,-2.14567e-12,-4.13958e-10,2.17515e-10,3.13604e-09,-9.42722e-11,
+    -2.06854e-11,-6.77631e-13,-1.35325e-11,7.68483e-12,1.09183e-11,-1.72667e-12,4.04757e-12,6.45009e-14,1.2444e-11,-6.5387e-12,-9.42722e-11,5.99071e-10;
+
+    weights[1] << 6.07665e-05,7.56214e-06,-1.82441e-05,1.96504e-07,1.68261e-06,-2.31252e-08,-2.39347e-12,-2.39666e-14,4.55913e-14,-1.10389e-16,-9.32386e-16,6.76446e-18,
+    7.56214e-06,2.62038e-06,-6.32182e-06,6.80914e-08,5.83046e-07,-8.01321e-09,-8.29369e-13,-8.30476e-15,1.5798e-14,-3.82512e-17,-3.23085e-16,2.34398e-18,
+    -1.82441e-05,-6.32182e-06,0.000145739,-1.56973e-06,-1.34411e-05,1.84731e-07,1.91197e-11,1.91452e-13,-3.64196e-13,8.81815e-16,7.44816e-15,-5.40365e-17,
+    1.96504e-07,6.80914e-08,-1.56973e-06,1.98461e-06,1.69936e-05,-2.33555e-07,-2.4173e-11,-2.42052e-13,4.60452e-13,-1.11488e-15,-9.4167e-15,6.83182e-17,
+    1.68261e-06,5.83046e-07,-1.34411e-05,1.69936e-05,0.00961031,-0.000132081,-1.36704e-08,-1.36887e-10,2.60397e-10,-6.30491e-13,-5.32538e-12,3.86357e-14,
+    -2.31252e-08,-8.01321e-09,1.84731e-07,-2.33555e-07,-0.000132081,7.89916e-05,8.17565e-09,8.18656e-11,-1.55732e-10,3.77068e-13,3.18486e-12,-2.31062e-14,
+    -2.39347e-12,-8.29369e-13,1.91197e-11,-2.4173e-11,-1.36704e-08,8.17565e-09,3.44482e-10,3.44942e-12,-6.56177e-12,1.58878e-14,1.34195e-13,-9.73582e-16,
+    -2.39666e-14,-8.30476e-15,1.91452e-13,-2.42052e-13,-1.36887e-10,8.18656e-11,3.44942e-12,5.10859e-13,-9.71799e-13,2.35298e-15,1.98742e-14,-1.44188e-16,
+    4.55913e-14,1.5798e-14,-3.64196e-13,4.60452e-13,2.60397e-10,-1.55732e-10,-6.56177e-12,-9.71799e-13,1.66721e-09,-4.03675e-12,-3.4096e-11,2.47367e-13,
+    -1.10389e-16,-3.82512e-17,8.81815e-16,-1.11488e-15,-6.30491e-13,3.77068e-13,1.58878e-14,2.35298e-15,-4.03675e-12,2.72583e-13,2.30234e-12,-1.67035e-14,
+    -9.32386e-16,-3.23085e-16,7.44816e-15,-9.4167e-15,-5.32538e-12,3.18486e-12,1.34195e-13,1.98742e-14,-3.4096e-11,2.30234e-12,7.00819e-08,-5.08445e-10,
+    6.76446e-18,2.34398e-18,-5.40365e-17,6.83182e-17,3.86357e-14,-2.31062e-14,-9.73582e-16,-1.44188e-16,2.47367e-13,-1.67035e-14,-5.08445e-10,2.73523e-10;
+
+
+    weights[2] <<8.14592e-05,2.0546e-05,-9.3966e-05,-7.05591e-07,-8.61796e-06,7.61065e-08,1.34891e-11,2.62126e-13,-5.36688e-12,-1.11234e-16,-3.04599e-15,1.63608e-17,
+    2.0546e-05,1.23055e-05,-5.62784e-05,-4.22594e-07,-5.16149e-06,4.55819e-08,8.07894e-12,1.56993e-13,-3.21434e-12,-6.66206e-17,-1.82431e-15,9.79884e-18,
+    -9.3966e-05,-5.62784e-05,0.000582398,4.37322e-06,5.34138e-05,-4.71705e-07,-8.3605e-11,-1.62465e-12,3.32637e-11,6.89425e-16,1.88789e-14,-1.01403e-16,
+    -7.05591e-07,-4.22594e-07,4.37322e-06,1.93245e-06,2.36026e-05,-2.08438e-07,-3.69436e-11,-7.17902e-13,1.46986e-11,3.04645e-16,8.34226e-15,-4.48084e-17,
+    -8.61796e-06,-5.16149e-06,5.34138e-05,2.36026e-05,0.0209139,-0.000184694,-3.27352e-08,-6.36123e-10,1.30243e-08,2.69941e-13,7.39196e-12,-3.97041e-14,
+    7.61065e-08,4.55819e-08,-4.71705e-07,-2.08438e-07,-0.000184694,7.80818e-05,1.38392e-08,2.68929e-10,-5.50617e-09,-1.14121e-13,-3.12505e-12,1.67854e-14,
+    1.34891e-11,8.07894e-12,-8.3605e-11,-3.69436e-11,-3.27352e-08,1.38392e-08,3.44154e-10,6.68773e-12,-1.36927e-10,-2.83796e-15,-7.77136e-14,4.1742e-16,
+    2.62126e-13,1.56993e-13,-1.62465e-12,-7.17902e-13,-6.36123e-10,2.68929e-10,6.68773e-12,2.64192e-12,-5.40918e-11,-1.12111e-15,-3.07e-14,1.64897e-16,
+    -5.36688e-12,-3.21434e-12,3.32637e-11,1.46986e-11,1.30243e-08,-5.50617e-09,-1.36927e-10,-5.40918e-11,1.14225e-08,2.36743e-13,6.48286e-12,-3.48211e-14,
+    -1.11234e-16,-6.66206e-17,6.89425e-16,3.04645e-16,2.69941e-13,-1.14121e-13,-2.83796e-15,-1.12111e-15,2.36743e-13,1.42858e-13,3.91195e-12,-2.10121e-14,
+    -3.04599e-15,-1.82431e-15,1.88789e-14,8.34226e-15,7.39196e-12,-3.12505e-12,-7.77136e-14,-3.07e-14,6.48286e-12,3.91195e-12,1.92329e-07,-1.03305e-09,
+    1.63608e-17,9.79884e-18,-1.01403e-16,-4.48084e-17,-3.97041e-14,1.67854e-14,4.1742e-16,1.64897e-16,-3.48211e-14,-2.10121e-14,-1.03305e-09,2.66698e-10;
+
+
+    weights[3] <<8.09574e-05,2.01789e-05,-8.61975e-05,-3.58452e-07,-4.73831e-06,3.77063e-08,6.53837e-12,1.36791e-13,-3.78602e-12,-6.5875e-17,-2.61153e-15,1.30799e-17,
+    2.01789e-05,2.37142e-05,-0.000101299,-4.21254e-07,-5.56847e-06,4.43125e-08,7.6839e-12,1.60757e-13,-4.44934e-12,-7.74164e-17,-3.06908e-15,1.53715e-17,
+    -8.61975e-05,-0.000101299,0.00136819,5.68963e-06,7.52101e-05,-5.98503e-07,-1.03782e-10,-2.17125e-12,6.00947e-11,1.04562e-15,4.14523e-14,-2.07614e-16,
+    -3.58452e-07,-4.21254e-07,5.68963e-06,1.91036e-06,2.52526e-05,-2.00954e-07,-3.4846e-11,-7.29022e-13,2.01774e-11,3.51078e-16,1.39181e-14,-6.97087e-17,
+    -4.73831e-06,-5.56847e-06,7.52101e-05,2.52526e-05,0.024241,-0.000192904,-3.34501e-08,-6.99818e-10,1.93691e-08,3.37014e-13,1.33605e-11,-6.69162e-14,
+    3.77063e-08,4.43125e-08,-5.98503e-07,-2.00954e-07,-0.000192904,7.77761e-05,1.34866e-08,2.82156e-10,-7.80935e-09,-1.35879e-13,-5.38676e-12,2.69796e-14,
+    6.53837e-12,7.6839e-12,-1.03782e-10,-3.4846e-11,-3.34501e-08,1.34866e-08,3.55822e-10,7.44426e-12,-2.06038e-10,-3.58496e-15,-1.42121e-13,7.11815e-16,
+    1.36791e-13,1.60757e-13,-2.17125e-12,-7.29022e-13,-6.99818e-10,2.82156e-10,7.44426e-12,7.92824e-12,-2.19433e-10,-3.81803e-15,-1.51361e-13,7.58094e-16,
+    -3.78602e-12,-4.44934e-12,6.00947e-11,2.01774e-11,1.93691e-08,-7.80935e-09,-2.06038e-10,-2.19433e-10,5.41029e-08,9.41365e-13,3.73193e-11,-1.86914e-13,
+    -6.5875e-17,-7.74164e-17,1.04562e-15,3.51078e-16,3.37014e-13,-1.35879e-13,-3.58496e-15,-3.81803e-15,9.41365e-13,1.22545e-13,4.85816e-12,-2.43321e-14,
+    -2.61153e-15,-3.06908e-15,4.14523e-14,1.39181e-14,1.33605e-11,-5.38676e-12,-1.42121e-13,-1.51361e-13,3.73193e-11,4.85816e-12,2.32447e-07,-1.16421e-09,
+    1.30799e-17,1.53715e-17,-2.07614e-16,-6.97087e-17,-6.69162e-14,2.69796e-14,7.11815e-16,7.58094e-16,-1.86914e-13,-2.43321e-14,-1.16421e-09,2.65506e-10;
+
+
+    weights[4] <<7.75146e-05,1.68771e-05,-5.02021e-05,-1.91826e-07,-2.53906e-06,1.95824e-08,3.27367e-12,5.84189e-14,-1.62126e-12,-9.1908e-17,-3.75614e-15,1.85584e-17,
+    1.68771e-05,3.8561e-05,-0.000114702,-4.38285e-07,-5.80127e-06,4.47421e-08,7.47972e-12,1.33476e-13,-3.70428e-12,-2.09992e-16,-8.58207e-15,4.24025e-17,
+    -5.02021e-05,-0.000114702,0.00188363,7.19748e-06,9.5268e-05,-7.34751e-07,-1.22831e-10,-2.19194e-12,6.08313e-11,3.44848e-15,1.40934e-13,-6.9633e-16,
+    -1.91826e-07,-4.38285e-07,7.19748e-06,1.89835e-06,2.51272e-05,-1.93792e-07,-3.23971e-11,-5.78128e-13,1.60444e-11,9.09544e-16,3.71717e-14,-1.83659e-16,
+    -2.53906e-06,-5.80127e-06,9.5268e-05,2.51272e-05,0.0249128,-0.000192139,-3.21206e-08,-5.73195e-10,1.59075e-08,9.01784e-13,3.68545e-11,-1.82092e-13,
+    1.95824e-08,4.47421e-08,-7.34751e-07,-1.93792e-07,-0.000192139,7.76452e-05,1.29803e-08,2.31634e-10,-6.42839e-09,-3.6442e-13,-1.48933e-11,7.35851e-14,
+    3.27367e-12,7.47972e-12,-1.22831e-10,-3.23971e-11,-3.21206e-08,1.29803e-08,3.55396e-10,6.34207e-12,-1.76007e-10,-9.97771e-15,-4.07774e-13,2.01474e-15,
+    5.84189e-14,1.33476e-13,-2.19194e-12,-5.78128e-13,-5.73195e-10,2.31634e-10,6.34207e-12,1.46038e-11,-4.05289e-10,-2.29755e-14,-9.38973e-13,4.6393e-15,
+    -1.62126e-12,-3.70428e-12,6.08313e-11,1.60444e-11,1.59075e-08,-6.42839e-09,-1.76007e-10,-4.05289e-10,1.23401e-07,6.99549e-12,2.85895e-10,-1.41256e-12,
+    -9.1908e-17,-2.09992e-16,3.44848e-15,9.09544e-16,9.01784e-13,-3.6442e-13,-9.97771e-15,-2.29755e-14,6.99549e-12,1.16373e-13,4.75599e-12,-2.34985e-14,
+    -3.75614e-15,-8.58207e-15,1.40934e-13,3.71717e-14,3.68545e-11,-1.48933e-11,-4.07774e-13,-9.38973e-13,2.85895e-10,4.75599e-12,2.40121e-07,-1.1864e-09,
+    1.85584e-17,4.24025e-17,-6.9633e-16,-1.83659e-16,-1.82092e-13,7.35851e-14,2.01474e-15,4.6393e-15,-1.41256e-12,-2.34985e-14,-1.1864e-09,2.65188e-10;
+
     // if(useOnlySecMom){
     //     for(int i = 0; i < nTimeSteps; i++){
     //         for(int j = 2*N_SPECIES; j < nMoments; j++){
@@ -849,19 +917,7 @@ int main() {
         POSMAT.conservativeResize(nParts2, Npars); // resize matrices to fit targetted PSO
         PBMAT.conservativeResize(nParts2, Npars + 1);
 
-        // weights[0] << 0.0849656,0.00030881,0.00259034,-0.00125985,-5.29795e-07,2.36451e-08,-2.71955e-11,-1.35961e-22,-2.73585e-20,5.29269e-21,1.92087e-19,-3.13899e-22,
-        // 0.00030881,3.78127e-06,3.17178e-05,-1.54264e-05,-6.48716e-09,2.89527e-10,-3.32999e-13,-1.6648e-24,-3.34996e-22,6.48073e-23,2.35204e-21,-3.84359e-24,
-        // 0.00259034,3.17178e-05,0.000578508,-0.000281365,-1.18321e-07,5.28074e-09,-6.07365e-12,-3.03646e-23,-6.11007e-21,1.18203e-21,4.28994e-20,-7.0104e-23,
-        // -0.00125985,-1.54264e-05,-0.000281365,0.000159121,6.6914e-08,-2.98642e-09,3.43484e-12,1.71721e-23,3.45543e-21,-6.68477e-22,-2.4261e-20,3.9646e-23,
-        // -5.29795e-07,-6.48716e-09,-1.18321e-07,6.6914e-08,7.57474e-08,-3.38066e-09,3.88827e-12,1.9439e-23,3.91159e-21,-7.56723e-22,-2.74637e-20,4.48797e-23,
-        // 2.36451e-08,2.89527e-10,5.28074e-09,-2.98642e-09,-3.38066e-09,1.49473e-08,-1.71917e-11,-8.5948e-23,-1.72947e-20,3.34578e-21,1.21428e-19,-1.98432e-22,
-        // -2.71955e-11,-3.32999e-13,-6.07365e-12,3.43484e-12,3.88827e-12,-1.71917e-11,5.68458e-10,2.84195e-21,5.71867e-19,-1.10631e-19,-4.01514e-18,6.56133e-21,
-        // -1.35961e-22,-1.6648e-24,-3.03646e-23,1.71721e-23,1.9439e-23,-8.5948e-23,2.84195e-21,2.44564e-24,4.92121e-22,-9.5204e-23,-3.45523e-21,5.64636e-24,
-        // -2.73585e-20,-3.34996e-22,-6.11007e-21,3.45543e-21,3.91159e-21,-1.72947e-20,5.71867e-19,4.92121e-22,9.97969e-20,-1.93064e-20,-7.00685e-19,1.14502e-21,
-        // 5.29269e-21,6.48073e-23,1.18203e-21,-6.68477e-22,-7.56723e-22,3.34578e-21,-1.10631e-19,-9.5204e-23,-1.93064e-20,1.07221e-20,3.89138e-19,-6.35908e-22,
-        // 1.92087e-19,2.35204e-21,4.28994e-20,-2.4261e-20,-2.74637e-20,1.21428e-19,-4.01514e-18,-3.45523e-21,-7.00685e-19,3.89138e-19,2.22393e-17,-3.63424e-20,
-        // -3.13899e-22,-3.84359e-24,-7.0104e-23,3.9646e-23,4.48797e-23,-1.98432e-22,6.56133e-21,5.64636e-24,1.14502e-21,-6.35908e-22,-3.63424e-20,3.61994e-19;
-
+    
         // weights[1] << 5.85597e-05,7.55787e-06,-2.04086e-05,1.19984e-07,1.75691e-06,-2.06913e-08,-3.00832e-12,-3.29187e-14,1.1358e-13,-2.14347e-16,-1.77549e-14,4.6905e-17,
         // 7.55787e-06,2.607e-06,-7.03971e-06,4.13872e-08,6.06025e-07,-7.1372e-09,-1.03768e-12,-1.13549e-14,3.91782e-14,-7.39363e-17,-6.12436e-15,1.61793e-17,
         // -2.04086e-05,-7.03971e-06,0.00014658,-8.61757e-07,-1.26185e-05,1.4861e-07,2.16065e-11,2.3643e-13,-8.15761e-13,1.53949e-15,1.2752e-13,-3.36883e-16,
@@ -914,187 +970,187 @@ int main() {
         // -2.30487e-14,-4.39796e-14,7.24964e-13,2.57791e-13,2.89585e-10,-9.13375e-11,-2.07156e-12,-3.2005e-12,8.34393e-10,3.10066e-11,4.16991e-06,-4.16477e-09,
         // 2.30203e-17,4.39254e-17,-7.24071e-16,-2.57473e-16,-2.89228e-13,9.12249e-14,2.06901e-15,3.19656e-15,-8.33365e-13,-3.09683e-14,-4.16477e-09,2.7381e-10;
 
-        cout << "targeted PSO has started!" << endl; 
-        sfp = 3.0, sfg = 1.0, sfe = 6.0; // initial particle historical weight, global weight social, inertial
-        sfi = sfe, sfc = sfp, sfs = sfg; // below are the variables being used to reiterate weights
-        double nearby = sdbeta;
-        VectorXd chkpts = wmatup * nSteps2;
-        int chkptNo = 0;
-        for(int step = 0; step < nSteps2; step++){
-            if(step == 0 || step == chkpts(chkptNo)){ /* update wt   matrix || step == chkpts(0) || step == chkpts(1) || step == chkpts(2) || step == chkpts(3) */
-                cout << "Updating Weight Matrix!" << endl;
-                cout << "GBVEC AND COST:" << GBMAT.row(GBMAT.rows() - 1) << endl;
-                nearby = squeeze * nearby;
-                /* reinstantiate gCost */
-                struct K gPos;
-                // GBVEC << 0.648691,	0.099861,	0.0993075,	0.8542755,	0.049949,	0.0705955;
-                gPos.k = GBVEC;
+        // cout << "targeted PSO has started!" << endl; 
+        // sfp = 3.0, sfg = 1.0, sfe = 6.0; // initial particle historical weight, global weight social, inertial
+        // sfi = sfe, sfc = sfp, sfs = sfg; // below are the variables being used to reiterate weights
+        // double nearby = sdbeta;
+        // VectorXd chkpts = wmatup * nSteps2;
+        // int chkptNo = 0;
+        // for(int step = 0; step < nSteps2; step++){
+        //     if(step == 0 || step == chkpts(chkptNo)){ /* update wt   matrix || step == chkpts(0) || step == chkpts(1) || step == chkpts(2) || step == chkpts(3) */
+        //         cout << "Updating Weight Matrix!" << endl;
+        //         cout << "GBVEC AND COST:" << GBMAT.row(GBMAT.rows() - 1) << endl;
+        //         nearby = squeeze * nearby;
+        //         /* reinstantiate gCost */
+        //         struct K gPos;
+        //         // GBVEC << 0.648691,	0.099861,	0.0993075,	0.8542755,	0.049949,	0.0705955;
+        //         gPos.k = GBVEC;
                 
-                double cost = 0;
-                for(int t = 0; t < nTimeSteps; t++){
-                    Protein_Components gXt(times(t), nMoments, N);
-                    Moments_Mat_Obs gXtObs(gXt);
-                    Nonlinear_ODE6 gSys(gPos);
-                    for (int i = 0; i < N; i++) {
-                        //State_N c0 = gen_multi_norm_iSub();
-                        State_N c0 = convertInit(X_0, i);
-                        gXt.index = i;
-                        integrate_adaptive(controlledStepper, gSys, c0, t0, times(t), dt, gXtObs);
-                    }
-                    gXt.mVec /= N;  
-                    weights[t] = customWtMat(Yt3Mats[t], gXt.mat, nMoments, N);
-                    // if(useOnlySecMom){
-                    //     for(int j = 2*N_SPECIES; j < nMoments; j++){
-                    //         weights[t](j,j) = 0;
-                    //     }
-                    // }
-                    cost += calculate_cf2(Yt3Vecs[t], gXt.mVec, weights[t]);
-                }
-                gCost = cost;
-                hone += 4;
-                GBMAT.conservativeResize(GBMAT.rows() + 1, Npars + 1);
-                for (int i = 0; i < Npars; i++) {GBMAT(GBMAT.rows() - 1, i) = gPos.k(i);}
-                GBMAT(GBMAT.rows() - 1, Npars) = gCost;
-                if(step > 0 && chkptNo < nRestarts - 1){
-                    chkptNo++;
-                }
-            }
-        #pragma omp parallel for 
-            for(int particle = 0; particle < nParts2; particle++){
-                random_device pRanDev;
-                mt19937 pGenerator(pRanDev());
-                uniform_real_distribution<double> pUnifDist(uniLowBound, uniHiBound);
+        //         double cost = 0;
+        //         for(int t = 0; t < nTimeSteps; t++){
+        //             Protein_Components gXt(times(t), nMoments, N);
+        //             Moments_Mat_Obs gXtObs(gXt);
+        //             Nonlinear_ODE6 gSys(gPos);
+        //             for (int i = 0; i < N; i++) {
+        //                 //State_N c0 = gen_multi_norm_iSub();
+        //                 State_N c0 = convertInit(X_0, i);
+        //                 gXt.index = i;
+        //                 integrate_adaptive(controlledStepper, gSys, c0, t0, times(t), dt, gXtObs);
+        //             }
+        //             gXt.mVec /= N;  
+        //             weights[t] = customWtMat(Yt3Mats[t], gXt.mat, nMoments, N);
+        //             // if(useOnlySecMom){
+        //             //     for(int j = 2*N_SPECIES; j < nMoments; j++){
+        //             //         weights[t](j,j) = 0;
+        //             //     }
+        //             // }
+        //             cost += calculate_cf2(Yt3Vecs[t], gXt.mVec, weights[t]);
+        //         }
+        //         gCost = cost;
+        //         hone += 4;
+        //         GBMAT.conservativeResize(GBMAT.rows() + 1, Npars + 1);
+        //         for (int i = 0; i < Npars; i++) {GBMAT(GBMAT.rows() - 1, i) = gPos.k(i);}
+        //         GBMAT(GBMAT.rows() - 1, Npars) = gCost;
+        //         if(step > 0 && chkptNo < nRestarts - 1){
+        //             chkptNo++;
+        //         }
+        //     }
+        // #pragma omp parallel for 
+        //     for(int particle = 0; particle < nParts2; particle++){
+        //         random_device pRanDev;
+        //         mt19937 pGenerator(pRanDev());
+        //         uniform_real_distribution<double> pUnifDist(uniLowBound, uniHiBound);
             
-                if(step == 0 || step == chkpts(chkptNo)){
-                    /* reinitialize particles around global best */
-                    for(int edim = 0; edim < Npars; edim++){
-                        int wasflipped = 0;
-                        double tmean = GBVEC(edim);
-                        if (GBVEC(edim) > 0.5) {
-                            tmean = 1 - GBVEC(edim);
-                            wasflipped = 1;
-                        }
-                        double myc = (1 - tmean) / tmean;
-                        double alpha = myc / ((1 + myc) * (1 + myc) * (1 + myc)*nearby*nearby);
-                        double beta = myc * alpha;
+        //         if(step == 0 || step == chkpts(chkptNo)){
+        //             /* reinitialize particles around global best */
+        //             for(int edim = 0; edim < Npars; edim++){
+        //                 int wasflipped = 0;
+        //                 double tmean = GBVEC(edim);
+        //                 if (GBVEC(edim) > 0.5) {
+        //                     tmean = 1 - GBVEC(edim);
+        //                     wasflipped = 1;
+        //                 }
+        //                 double myc = (1 - tmean) / tmean;
+        //                 double alpha = myc / ((1 + myc) * (1 + myc) * (1 + myc)*nearby*nearby);
+        //                 double beta = myc * alpha;
 
-                        if(alpha < nan){
-                            alpha = epsi;
-                        }
-                        if(beta < nan){
-                            beta = epsi;
-                        }
+        //                 if(alpha < nan){
+        //                     alpha = epsi;
+        //                 }
+        //                 if(beta < nan){
+        //                     beta = epsi;
+        //                 }
 
-                        std::gamma_distribution<double> aDist(alpha, 1);
-                        std::gamma_distribution<double> bDist(beta, 1);
+        //                 std::gamma_distribution<double> aDist(alpha, 1);
+        //                 std::gamma_distribution<double> bDist(beta, 1);
 
-                        double x = aDist(pGenerator);
-                        double y = bDist(pGenerator);
-                        double myg = x / (x + y);
+        //                 double x = aDist(pGenerator);
+        //                 double y = bDist(pGenerator);
+        //                 double myg = x / (x + y);
 
-                        if(myg >= 1){
-                            myg = myg - epsi;
-                        }
-                        if(myg <= 0){
-                            myg = myg + epsi;
-                        }
+        //                 if(myg >= 1){
+        //                     myg = myg - epsi;
+        //                 }
+        //                 if(myg <= 0){
+        //                     myg = myg + epsi;
+        //                 }
 
-                        if (wasflipped == 1) {
-                            wasflipped = 0;
-                            myg = 1 - myg;
-                        }
-                        POSMAT(particle, edim) = myg;
-                    }
+        //                 if (wasflipped == 1) {
+        //                     wasflipped = 0;
+        //                     myg = 1 - myg;
+        //                 }
+        //                 POSMAT(particle, edim) = myg;
+        //             }
 
-                    /* Write new POSMAT into Ks to be passed into system */
-                    struct K pos;
-                    pos.k = VectorXd::Zero(Npars);
-                    for(int i = 0; i < Npars; i++){
-                        pos.k(i) = POSMAT(particle, i);
-                    }
-                    //VectorXd XtPSO3 = VectorXd::Zero(nMoments);
-                    double cost = 0;
-                    for(int t = 0; t < nTimeSteps; t++){
-                        Nonlinear_ODE6 initSys(pos);
-                        Protein_Components XtPSO(times(t), nMoments, N);
-                        Moments_Mat_Obs XtObsPSO(XtPSO);
-                        for(int i = 0; i < N; i++){
-                            State_N c0 = convertInit(X_0, i);
-                            XtPSO.index = i;
-                            integrate_adaptive(controlledStepper, initSys, c0, t0, times(t), dt, XtObsPSO);
-                        }
-                        XtPSO.mVec/=N;
-                        cost += calculate_cf2(Yt3Vecs[t], XtPSO.mVec, weights[t]);
-                    }
+        //             /* Write new POSMAT into Ks to be passed into system */
+        //             struct K pos;
+        //             pos.k = VectorXd::Zero(Npars);
+        //             for(int i = 0; i < Npars; i++){
+        //                 pos.k(i) = POSMAT(particle, i);
+        //             }
+        //             //VectorXd XtPSO3 = VectorXd::Zero(nMoments);
+        //             double cost = 0;
+        //             for(int t = 0; t < nTimeSteps; t++){
+        //                 Nonlinear_ODE6 initSys(pos);
+        //                 Protein_Components XtPSO(times(t), nMoments, N);
+        //                 Moments_Mat_Obs XtObsPSO(XtPSO);
+        //                 for(int i = 0; i < N; i++){
+        //                     State_N c0 = convertInit(X_0, i);
+        //                     XtPSO.index = i;
+        //                     integrate_adaptive(controlledStepper, initSys, c0, t0, times(t), dt, XtObsPSO);
+        //                 }
+        //                 XtPSO.mVec/=N;
+        //                 cost += calculate_cf2(Yt3Vecs[t], XtPSO.mVec, weights[t]);
+        //             }
                     
-                    /* initialize PBMAT */
-                    for(int i = 0; i < Npars; i++){
-                        PBMAT(particle, i) = POSMAT(particle, i);
-                    }
-                    PBMAT(particle, Npars) = cost; // add cost to final column
-                }else{ 
-                    /* using new rate constants, initialize particle best values */
-                    /* step into PSO */
-                    double w1 = sfi * pUnifDist(pGenerator)/ sf2, w2 = sfc * pUnifDist(pGenerator) / sf2, w3 = sfs * pUnifDist(pGenerator)/ sf2;
-                    double sumw = w1 + w2 + w3; //w1 = inertial, w2 = pbest, w3 = gbest
-                    w1 = w1 / sumw; w2 = w2 / sumw; w3 = w3 / sumw;
-                    //w1 = 0.05; w2 = 0.90; w3 = 0.05;
-                    struct K pos;
-                    pos.k = VectorXd::Zero(Npars);
-                    pos.k = POSMAT.row(particle);
-                    VectorXd rpoint = comp_vel_vec(pos.k, particle, epsi, nan, hone);
-                    VectorXd PBVEC(Npars);
-                    for(int i = 0; i < Npars; i++){
-                        PBVEC(i) = PBMAT(particle, i);
-                    }
-                    pos.k = w1 * rpoint + w2 * PBVEC + w3 * GBVEC; // update position of particle
-                    POSMAT.row(particle) = pos.k; // back into POSMAT
+        //             /* initialize PBMAT */
+        //             for(int i = 0; i < Npars; i++){
+        //                 PBMAT(particle, i) = POSMAT(particle, i);
+        //             }
+        //             PBMAT(particle, Npars) = cost; // add cost to final column
+        //         }else{ 
+        //             /* using new rate constants, initialize particle best values */
+        //             /* step into PSO */
+        //             double w1 = sfi * pUnifDist(pGenerator)/ sf2, w2 = sfc * pUnifDist(pGenerator) / sf2, w3 = sfs * pUnifDist(pGenerator)/ sf2;
+        //             double sumw = w1 + w2 + w3; //w1 = inertial, w2 = pbest, w3 = gbest
+        //             w1 = w1 / sumw; w2 = w2 / sumw; w3 = w3 / sumw;
+        //             //w1 = 0.05; w2 = 0.90; w3 = 0.05;
+        //             struct K pos;
+        //             pos.k = VectorXd::Zero(Npars);
+        //             pos.k = POSMAT.row(particle);
+        //             VectorXd rpoint = comp_vel_vec(pos.k, particle, epsi, nan, hone);
+        //             VectorXd PBVEC(Npars);
+        //             for(int i = 0; i < Npars; i++){
+        //                 PBVEC(i) = PBMAT(particle, i);
+        //             }
+        //             pos.k = w1 * rpoint + w2 * PBVEC + w3 * GBVEC; // update position of particle
+        //             POSMAT.row(particle) = pos.k; // back into POSMAT
                     
-                    double cost = 0;
-                    /* solve ODEs with new system and recompute cost */
-                    for(int t = 0; t < nTimeSteps; t++){
-                        Protein_Components XtPSO(times(t), nMoments, N);
-                        Moments_Mat_Obs XtObsPSO1(XtPSO);
-                        Nonlinear_ODE6 stepSys(pos);
-                        for(int i = 0; i < N; i++){
-                            State_N c0 = convertInit(X_0, i);
-                            XtPSO.index = i;
-                            integrate_adaptive(controlledStepper, stepSys, c0, t0, times(t), dt, XtObsPSO1);
-                        }
-                        XtPSO.mVec/=N;
-                        cost += calculate_cf2(Yt3Vecs[t], XtPSO.mVec, weights[t]);
-                    }
+        //             double cost = 0;
+        //             /* solve ODEs with new system and recompute cost */
+        //             for(int t = 0; t < nTimeSteps; t++){
+        //                 Protein_Components XtPSO(times(t), nMoments, N);
+        //                 Moments_Mat_Obs XtObsPSO1(XtPSO);
+        //                 Nonlinear_ODE6 stepSys(pos);
+        //                 for(int i = 0; i < N; i++){
+        //                     State_N c0 = convertInit(X_0, i);
+        //                     XtPSO.index = i;
+        //                     integrate_adaptive(controlledStepper, stepSys, c0, t0, times(t), dt, XtObsPSO1);
+        //                 }
+        //                 XtPSO.mVec/=N;
+        //                 cost += calculate_cf2(Yt3Vecs[t], XtPSO.mVec, weights[t]);
+        //             }
                     
-                    /* update pBest and gBest */
-                    #pragma omp critical
-                    {
-                    if(cost < PBMAT(particle, Npars)){ // update particle best 
-                        for(int i = 0; i < Npars; i++){
-                            PBMAT(particle, i) = pos.k(i);
-                        }
-                        PBMAT(particle, Npars) = cost;
-                        if(cost < gCost){ // update global 
-                            gCost = cost;
-                            GBVEC = pos.k;
-                        }   
-                    }
-                    }
-                }
-            }
-            GBMAT.conservativeResize(GBMAT.rows() + 1, Npars + 1); // Add to GBMAT after each step.
-            for (int i = 0; i < Npars; i++) {GBMAT(GBMAT.rows() - 1, i) = GBVEC(i);}
-            GBMAT(GBMAT.rows() - 1, Npars) = gCost;
+        //             /* update pBest and gBest */
+        //             #pragma omp critical
+        //             {
+        //             if(cost < PBMAT(particle, Npars)){ // update particle best 
+        //                 for(int i = 0; i < Npars; i++){
+        //                     PBMAT(particle, i) = pos.k(i);
+        //                 }
+        //                 PBMAT(particle, Npars) = cost;
+        //                 if(cost < gCost){ // update global 
+        //                     gCost = cost;
+        //                     GBVEC = pos.k;
+        //                 }   
+        //             }
+        //             }
+        //         }
+        //     }
+        //     GBMAT.conservativeResize(GBMAT.rows() + 1, Npars + 1); // Add to GBMAT after each step.
+        //     for (int i = 0; i < Npars; i++) {GBMAT(GBMAT.rows() - 1, i) = GBVEC(i);}
+        //     GBMAT(GBMAT.rows() - 1, Npars) = gCost;
 
-            sfi = sfi - (sfe - sfg) / nSteps2;   // reduce the inertial weight after each step 
-            sfs = sfs + (sfe - sfg) / nSteps2;
+        //     sfi = sfi - (sfe - sfg) / nSteps2;   // reduce the inertial weight after each step 
+        //     sfs = sfs + (sfe - sfg) / nSteps2;
 
-            if(step == 0){ // quick plug to see PBMAT
-                cout << "New PBMAT:" << endl;
-                cout << PBMAT << endl << endl;
-            }
-            // cout << "current:" << GBVEC.transpose()<<" "<< gCost << endl;
-        }
-        cout << "GBMAT after targeted PSO:" << endl << GBMAT << endl;
+        //     if(step == 0){ // quick plug to see PBMAT
+        //         cout << "New PBMAT:" << endl;
+        //         cout << PBMAT << endl << endl;
+        //     }
+        //     // cout << "current:" << GBVEC.transpose()<<" "<< gCost << endl;
+        // }
+        // cout << "GBMAT after targeted PSO:" << endl << GBMAT << endl;
         if(run == nRuns - 1){
             printToCsv(GBMAT,"GBMATP");
         }
