@@ -567,10 +567,10 @@ int main() {
     double alpha = 0.2;
     int nRuns = 1;
     int N = 1250;
-    int nParts = 100; // blind PSO
-    int nSteps = 20;
+    int nParts = 50; // blind PSO
+    int nSteps = 25;
     int nParts2 = 10; // targeted PSO
-    int nSteps2 = 45;
+    int nSteps2 = 100;
     int nMoments = (N_SPECIES * (N_SPECIES + 3)) / 2; // var + mean + cov
     int hone = 28;
     //nMoments = 2*N_SPECIES; // mean + var only!
