@@ -746,7 +746,7 @@ int main() {
         }
         Yt.mVec /= N;
         Xt.mVec /= N;
-        trukCost += calculate_cf2(Yt.mVec,Xt.mVec, weights[t]);
+        trukCost += calculate_cf2(Yt.mVec,Xt.mVec, weights[t]) / nTimeSteps;
         Xt3Vecs.push_back(Xt.mVec);
         Yt3Mats.push_back(Yt.mat);
         Yt3Vecs.push_back(Yt.mVec);
@@ -850,7 +850,7 @@ int main() {
             }
             Xt.mVec /= N;  
             cout << "XtmVec:" << Xt.mVec.transpose() << endl;
-            costSeedK += calculate_cf2(Yt3Vecs[t], Xt.mVec, weights[t]);
+            costSeedK += calculate_cf2(Yt3Vecs[t], Xt.mVec, weights[t]) / nTimeSteps;
         }
 
         cout << "seedk:"<< seed.k.transpose()<< "| cost:" << costSeedK << endl;
@@ -903,7 +903,7 @@ int main() {
                             integrate_adaptive(controlledStepper, initSys, c0, t0, times(t), dt, XtObsPSO);
                         }
                         XtPSO.mVec/=N;
-                        cost += calculate_cf2(Yt3Vecs[t], XtPSO.mVec, weights[t]);
+                        cost += calculate_cf2(Yt3Vecs[t], XtPSO.mVec, weights[t]) / nTimeSteps;
                     }
                     
                     
@@ -942,7 +942,7 @@ int main() {
                             integrate_adaptive(controlledStepper, stepSys, c0, t0, times(t), dt, XtObsPSO1);
                         }
                         XtPSO.mVec/=N;
-                        cost += calculate_cf2(Yt3Vecs[t], XtPSO.mVec, weights[t]);
+                        cost += calculate_cf2(Yt3Vecs[t], XtPSO.mVec, weights[t]) / nTimeSteps;
                     }
                 
                     /* update gBest and pBest */
