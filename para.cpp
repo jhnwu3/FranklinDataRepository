@@ -836,6 +836,7 @@ int main() {
         for (int i = 0; i < Npars; i++) { 
             seed.k(i) = unifDist(gen);
         }
+        seed.k(4) = 0.05;
         // seed.k = tru.k;
         double costSeedK = 0;
         for(int t = 0; t < nTimeSteps; t++){
@@ -882,7 +883,7 @@ int main() {
                         //     POSMAT(particle, i) = tru.k(i);
                         // }
                     }
-
+                    POSMAT(particle, 4) = 0.05;
                     // POSMAT.row(particle) = seed.k;
                     // POSMAT.row(particle) = tru.k;
                     // POSMAT.row(particle) << 0.270536,	0.981999,	0.988012,	0.201166,	0.078759,	0.206342;
@@ -929,7 +930,8 @@ int main() {
                     }
                     pos.k = w1 * rpoint + w2 * PBVEC + w3 * GBVEC; // update position of particle
                     POSMAT.row(particle) = pos.k;
-
+                    POSMAT(particle, 4) = 0.05;
+                    pos.k(particle, 4) = 0.05;
                     double cost = 0;
                     for(int t = 0; t < nTimeSteps; t++){
                         /*solve ODEs and recompute cost */
