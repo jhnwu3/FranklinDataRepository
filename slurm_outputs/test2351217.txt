@@ -1,0 +1,39 @@
+USING NONMIXED MOMENTS!!
+nRuns:1
+Using two part PSO Sample Size:5000 with:12 moments.
+Using Times:0.5   2  10  20  30
+Bounds for Uniform Distribution (0,1)
+Blind PSO --> nParts:1000 Nsteps:10
+Targeted PSO --> nParts:1 Nsteps:2
+sdbeta:0.1
+Reading in data!
+Using starting row of data:0 and 5000 data pts!
+first row X0:260.559 2143.24 4.86708 4.95832 65.2493 4.94309
+final row X0:123.826 1849.08 5.06107  6.0168   161.9  5.1619
+
+
+
+Loading in Truk!
+Calculating Yt!
+truk cost:0.420931
+XtmVec:    0.15682     1783.18     210.452     4.09228     128.529     80.9735   0.0330226 3.43332e+06     50940.1     71.2264     23341.4      7252.8
+XtmVec:   0.207072     1595.16     210.402     91.8726     28.2343     181.268     1.39596 2.81476e+06     50899.8     20029.6     3779.08     36244.2
+XtmVec:    34.3435     803.317     176.265     891.299     1.68488     207.818     8778.85 1.05458e+06     35028.3 1.05365e+06     211.396     49482.1
+XtmVec:    104.676     330.631     105.933     1433.75     1.11884     208.384     23220.8      394356     14074.5 2.40663e+06     145.238     49851.3
+XtmVec:    130.824     172.371     79.7846     1618.09     1.05024     208.452     26826.8      204045        7912 2.95043e+06     140.036     49896.5
+seedk:0.736448 0.125611 0.760125 0.587977     0.05 0.239547| cost:15.5497
+PSO begins!
+current:0.736448 0.125611 0.760125 0.587977     0.05 0.239547 15.5497
+para: /gpfs0/export/apps/easybuild/software/Eigen/3.3.7-GCCcore-9.3.0/include/Eigen/src/Core/DenseCoeffsBase.h:364: Eigen::DenseCoeffsBase<Derived, 1>::Scalar& Eigen::DenseCoeffsBase<Derived, 1>::operator()(Eigen::Index, Eigen::Index) [with Derived = Eigen::Matrix<double, -1, 1>; Eigen::DenseCoeffsBase<Derived, 1>::Scalar = double; Eigen::Index = long int]: Assertion `row >= 0 && row < rows() && col >= 0 && col < cols()' failed.
+para: /gpfs0/export/apps/easybuild/software/Eigen/3.3.7-GCCcore-9.3.0/include/Eigen/src/Core/DenseCoeffsBase.h:364: Eigen::DenseCoeffsBase<Derived, 1>::Scalar& Eigen::DenseCoeffsBase<Derived, 1>::operator()(Eigen::Index, Eigen::Index) [with Derived = Eigen::Matrix<double, -1, 1>; Eigen::DenseCoeffsBase<Derived, 1>::Scalar = double; Eigen::Index = long int]: Assertion `row >= 0 && row < rows() && col >= 0 && col < cols()' failed.
+para: /gpfs0/export/apps/easybuild/software/Eigen/3.3.7-GCCcore-9.3.0/include/Eigen/src/Core/DenseCoeffsBase.h:364: Eigen::DenseCoeffsBase<Derived, 1>::Scalar& Eigen::DenseCoeffsBase<Derived, 1>::operator()(Eigen::Index, Eigen::Index) [with Derived = Eigen::Matrix<double, -1, 1>; Eigen::DenseCoeffsBase<Derived, 1>::Scalar = double; Eigen::Index = long int]: Assertion `row >= 0 && row < rows() && col >= 0 && col < cols()' failed.
+/var/spool/slurmd/job2351217/slurm_script: line 10: 2692173 Aborted                 (core dumped) ./para
+mv: cannot stat 'GBMATP.csv': No such file or directory
+mv: cannot stat 'runs.csv': No such file or directory
+Job Statistics for 2351217:
+           JobID       User               Start                 End    Elapsed     MaxRSS   TotalCPU      State Exit        NodeList                                  ReqTRES 
+---------------- ---------- ------------------- ------------------- ---------- ---------- ---------- ---------- ---- --------------- ---------------------------------------- 
+         2351217   rsjxw007 2021-11-16T21:34:13 2021-11-16T21:54:35   00:20:22              08:05:18     FAILED  1:0   r1pl-hpcf-n21     billing=30,cpu=30,mem=234360M,node=1 
+   2351217.batch            2021-11-16T21:34:13 2021-11-16T21:54:35   00:20:22     12.00M   08:05:18     FAILED  1:0   r1pl-hpcf-n21                                          
+  2351217.extern            2021-11-16T21:34:13 2021-11-16T21:54:35   00:20:22          0  00:00.001  COMPLETED  0:0   r1pl-hpcf-n21                                          
+CPU Efficiency: 79.43% of 10:11:00 core-walltime
