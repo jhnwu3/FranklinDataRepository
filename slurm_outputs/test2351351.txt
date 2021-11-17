@@ -1,0 +1,44 @@
+USING NONMIXED MOMENTS!!
+nRuns:1
+Using two part PSO Sample Size:5000 with:12 moments.
+Using Times:0.5   2  10  20  30
+Bounds for Uniform Distribution (0,1)
+Blind PSO --> nParts:1 Nsteps:1
+Targeted PSO --> nParts:1 Nsteps:2
+sdbeta:0.1
+Reading in data!
+Using starting row of data:0 and 5000 data pts!
+first row X0:260.559 2143.24 4.86708 4.95832 65.2493 4.94309
+final row X0:123.826 1849.08 5.06107  6.0168   161.9  5.1619
+
+
+
+Loading in Truk!
+Calculating Yt!
+truk cost:7.88056e+09
+XtmVec:    1.61648     1766.09     208.992     15.9109     121.798     87.7042     3.52884 3.37262e+06     50218.1     476.288     20991.5     8498.34
+XtmVec:    2.20325     1514.49     208.406     164.396      18.096     191.406     21.7828 2.57089e+06     49819.7     47559.5     1993.81     40791.3
+XtmVec:     73.716     507.931     136.893     1225.02    0.645308     208.857     18094.6      567941     22532.6 1.75922e+06     29.2694       50283
+XtmVec:    151.335     122.928     59.2744     1687.34    0.347922     209.154     33582.5      115709     5063.81 3.10642e+06     9.79359       50494
+XtmVec:    166.273     42.9981     44.3361     1782.17     0.30769     209.195     35523.4       36500     2506.47 3.43476e+06     7.70137     50524.2
+seedk:0.099626 0.290231 0.938862 0.139522 0.057034 0.178746| cost:2.37753e+09
+PSO begins!
+current:0.099626 0.290231 0.938862 0.139522 0.057034 0.178746 2.37753e+09
+GBMAT from blind PSO:
+
+   0.099626    0.290231    0.938862    0.139522    0.057034    0.178746 2.37753e+09
+   0.099626    0.290231    0.938862    0.139522    0.057034    0.178746 2.37753e+09
+
+truk:  0.1  0.1 0.95 0.17 0.05 0.18
+total difference b/w truk and final GBVEC0.037292
+
+blind PSO FINISHED RUNNING IN 28 s TIME!
+truk:  0.1  0.1 0.95 0.17 0.05 0.18 with trukCost with new weights:7.88056e+09
+CODE FINISHED RUNNING IN 28 s TIME!
+Job Statistics for 2351351:
+           JobID       User               Start                 End    Elapsed     MaxRSS   TotalCPU      State Exit        NodeList                                  ReqTRES 
+---------------- ---------- ------------------- ------------------- ---------- ---------- ---------- ---------- ---- --------------- ---------------------------------------- 
+         2351351   rsjxw007 2021-11-17T15:26:40 2021-11-17T15:27:09   00:00:29             00:29.393  COMPLETED  0:0   r1pl-hpcf-n26     billing=30,cpu=30,mem=234360M,node=1 
+   2351351.batch            2021-11-17T15:26:40 2021-11-17T15:27:09   00:00:29          0  00:29.391  COMPLETED  0:0   r1pl-hpcf-n26                                          
+  2351351.extern            2021-11-17T15:26:40 2021-11-17T15:27:09   00:00:29          0  00:00.002  COMPLETED  0:0   r1pl-hpcf-n26                                          
+CPU Efficiency: 3.33% of 00:14:30 core-walltime
