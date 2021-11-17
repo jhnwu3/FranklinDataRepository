@@ -8,3 +8,6 @@
 # load all modules, build terminal code, move all outputs into output folders.
 
 ./contour
+
+mv GBMATP.csv data/GBMAT_para_$(date +%F-%H%M%s).csv  
+mv runs.csv data/run$(date +%F-%H%M%s).csv  
