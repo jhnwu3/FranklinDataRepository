@@ -9,5 +9,5 @@
 
 ./contour
 
-mv GBMATP.csv data/GBMAT_para_$(date +%F-%H%M%s).csv  
-mv runs.csv data/run$(date +%F-%H%M%s).csv  
+mv eqwts_contour.csv contour_data/eq$(date +%F-%H%M%s).csv  
+mv uneqwts_contour.csv contour_data/uneq$(date +%F-%H%M%s).csv  
