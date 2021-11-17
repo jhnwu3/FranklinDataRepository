@@ -567,8 +567,8 @@ int main() {
     double alpha = 0.2;
     int nRuns = 1;
     int N = 5000;
-    int nParts = 20; // blind PSO  1000:10
-    int nSteps = 100;
+    int nParts = 1; // blind PSO  1000:10
+    int nSteps = 1;
     int nParts2 = 1; // targeted PSO
     int nSteps2 = 2;
     int nMoments = (N_SPECIES * (N_SPECIES + 3)) / 2; // var + mean + cov
@@ -747,7 +747,7 @@ int main() {
         for (int i = 0; i < Npars; i++) { 
             seed.k(i) = unifDist(gen);
         }
-
+        seed.k << 0.099626,	0.290231,	0.938862,	0.139522,	0.057034,	0.178746;
         // seed.k = tru.k;
         double costSeedK = 0;
         for(int t = 0; t < nTimeSteps; t++){
