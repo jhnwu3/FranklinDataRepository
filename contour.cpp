@@ -802,6 +802,7 @@ int main() {
                 eqwts(s, i) = rate.k(i);
             }
             eqwts(s, Npars) = cost;
+            cout << "rate:" << eqwts.row(s) << endl;
             s++;
             cost = 0;
         }
