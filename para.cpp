@@ -583,7 +583,7 @@ int main() {
     uniform_real_distribution<double> unifDist(uniLowBound, uniHiBound);
     
     vector<MatrixXd> weights;
-    bool useOnlySecMom = true;
+    bool useOnlySecMom = false;
     if(useOnlySecMom){
         cout << "USING NONMIXED MOMENTS!!" << endl;
         nMoments = 2 * N_SPECIES;
