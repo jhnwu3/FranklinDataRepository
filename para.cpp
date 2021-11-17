@@ -567,8 +567,8 @@ int main() {
     double alpha = 0.2;
     int nRuns = 1;
     int N = 5000;
-    int nParts = 1000; // blind PSO  1000:10
-    int nSteps = 10;
+    int nParts = 50; // blind PSO  1000:10
+    int nSteps = 200;
     int nParts2 = 1; // targeted PSO
     int nSteps2 = 2;
     int nMoments = (N_SPECIES * (N_SPECIES + 3)) / 2; // var + mean + cov
@@ -659,28 +659,6 @@ int main() {
     -3.75614e-15,-8.58207e-15,1.40934e-13,3.71717e-14,3.68545e-11,-1.48933e-11,-4.07774e-13,-9.38973e-13,2.85895e-10,4.75599e-12,2.40121e-07,-1.1864e-09,
     1.85584e-17,4.24025e-17,-6.9633e-16,-1.83659e-16,-1.82092e-13,7.35851e-14,2.01474e-15,4.6393e-15,-1.41256e-12,-2.34985e-14,-1.1864e-09,2.65188e-10;
 
-    // if(useOnlySecMom){
-    //     for(int i = 0; i < nTimeSteps; i++){
-    //         for(int j = 2*N_SPECIES; j < nMoments; j++){
-    //             weights[i](j,j) = 0;
-    //         }
-    //     }
-    // }
-
-    // ifstream weightForSingleTime("time1_wt.txt");
-    // weights[0] = readIntoMatrix(weightForSingleTime, nMoments, nMoments);
-
-    // ifstream weight0("time5_wt0.txt");
-    // ifstream weight1("time5_wt1.txt");
-    // ifstream weight2("time5_wt2.txt");
-    // ifstream weight3("time5_wt3.txt");
-    // ifstream weight4("time5_wt4.txt");
-
-    // weights[0] = readIntoMatrix(weight0, nMoments, nMoments);
-    // weights[1] = readIntoMatrix(weight1, nMoments, nMoments);
-    // weights[2] = readIntoMatrix(weight2, nMoments, nMoments);
-    // weights[3] = readIntoMatrix(weight3, nMoments, nMoments);
-    // weights[4] = readIntoMatrix(weight4, nMoments, nMoments);
     cout << "nRuns:" << nRuns << endl;
     cout << "Using two part PSO " << "Sample Size:" << N << " with:" << nMoments << " moments." << endl;
     cout << "Using Times:" << times.transpose() << endl;
@@ -718,10 +696,6 @@ int main() {
     struct K tru;
     tru.k = VectorXd::Zero(Npars);
     tru.k << 0.1, 0.1, 0.95, 0.17, 0.05, 0.18;
-    // tru.k /= (9.69);
-    // tru.k(1) += 0.05;
-    // tru.k(4) += 0.05; // make sure not so close to the boundary
-    // tru.k <<  0.51599600,  0.06031990, 0.10319900, 0.89680100, 0.05516000, 0.00722394; // Bill k
 
     cout << "Calculating Yt!" << endl;
     vector<MatrixXd> Yt3Mats;
@@ -836,7 +810,7 @@ int main() {
         for (int i = 0; i < Npars; i++) { 
             seed.k(i) = unifDist(gen);
         }
-        seed.k(4) = 0.05;
+
         // seed.k = tru.k;
         double costSeedK = 0;
         for(int t = 0; t < nTimeSteps; t++){
@@ -883,7 +857,7 @@ int main() {
                         //     POSMAT(particle, i) = tru.k(i);
                         // }
                     }
-                    POSMAT(particle, 4) = 0.05;
+
                     // POSMAT.row(particle) = seed.k;
                     // POSMAT.row(particle) = tru.k;
                     // POSMAT.row(particle) << 0.270536,	0.981999,	0.988012,	0.201166,	0.078759,	0.206342;
@@ -928,10 +902,15 @@ int main() {
                     for(int i = 0; i < Npars; i++){
                         PBVEC(i) = PBMAT(particle, i);
                     }
+                   
                     pos.k = w1 * rpoint + w2 * PBVEC + w3 * GBVEC; // update position of particle
+                    
+                    if(pUnifDist(pGenerator) < (3.0/4.0)){ // hard coded grid re-search for an adaptive component
+                        pos.k(0) = pUnifDist(pGenerator);
+                        pos.k(1) = pUnifDist(pGenerator);
+                        pos.k(4) = pUnifDist(pGenerator);
+                    }
                     POSMAT.row(particle) = pos.k;
-                    POSMAT(particle, 4) = 0.05;
-                    pos.k(4) = 0.05;
                     double cost = 0;
                     for(int t = 0; t < nTimeSteps; t++){
                         /*solve ODEs and recompute cost */
