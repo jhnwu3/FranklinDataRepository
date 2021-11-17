@@ -567,8 +567,8 @@ int main() {
     double alpha = 0.2;
     int nRuns = 1;
     int N = 5000;
-    int nParts = 10; // blind PSO  1000:10
-    int nSteps = 20;
+    int nParts = 20; // blind PSO  1000:10
+    int nSteps = 100;
     int nParts2 = 1; // targeted PSO
     int nSteps2 = 2;
     int nMoments = (N_SPECIES * (N_SPECIES + 3)) / 2; // var + mean + cov
