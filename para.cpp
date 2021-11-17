@@ -747,7 +747,7 @@ int main() {
         for (int i = 0; i < Npars; i++) { 
             seed.k(i) = unifDist(gen);
         }
-        seed.k << 0.099626,	0.290231,	0.938862,	0.139522,	0.057034,	0.178746;
+        seed.k << 0.12862,	0.406588,	0.931263,	0.206623,	0.467208,	0.178074;
         // seed.k = tru.k;
         double costSeedK = 0;
         for(int t = 0; t < nTimeSteps; t++){
