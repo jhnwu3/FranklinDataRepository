@@ -1,0 +1,17 @@
+USING NONMIXED MOMENTS!!
+nRuns:1
+Using two part PSO Sample Size:25000 with:12 moments.
+Using Times:0.5   2  10  20  30
+Bounds for Uniform Distribution (0,1)
+Blind PSO --> nParts:1 Nsteps:1
+Targeted PSO --> nParts:1 Nsteps:2
+sdbeta:0.1
+Reading in data!
+Using starting row of data:0 and 25000 data pts!
+first row X0:260.559 2143.24 4.86708 4.95832 65.2493 4.94309
+final row X0:210.849 2074.81 5.43942 5.39641 290.483 6.57851
+
+
+
+Loading in Truk!
+Calculating Yt!
