@@ -789,15 +789,11 @@ int main() {
                 if(step == 0){
                     /* temporarily assign specified k constants */
                     for(int i = 0; i < Npars; i++){
-                        POSMAT(particle, i) = pUnifDist(pGenerator);//tru.k(i) + alpha * (0.5 - unifDist(pGenerator));
-                        // if(i > 1){
-                        //     POSMAT(particle, i) = tru.k(i);
-                        // }
+                        POSMAT(particle, i) = pUnifDist(pGenerator);
                     }
 
                     // POSMAT.row(particle) = seed.k;
-                    // POSMAT.row(particle) = tru.k;
-                    // POSMAT.row(particle) << 0.270536,	0.981999,	0.988012,	0.201166,	0.078759,	0.206342;
+
                     struct K pos;
                     pos.k = VectorXd::Zero(Npars);
                     for(int i = 0; i < Npars; i++){
