@@ -931,7 +931,7 @@ int main() {
                     pos.k = w1 * rpoint + w2 * PBVEC + w3 * GBVEC; // update position of particle
                     POSMAT.row(particle) = pos.k;
                     POSMAT(particle, 4) = 0.05;
-                    pos.k(particle, 4) = 0.05;
+                    pos.k(4) = 0.05;
                     double cost = 0;
                     for(int t = 0; t < nTimeSteps; t++){
                         /*solve ODEs and recompute cost */
