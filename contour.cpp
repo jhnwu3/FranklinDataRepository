@@ -784,7 +784,7 @@ int main() {
         for(int y = 0; y < yDim; y++){
             K rate;
             rate.k = tru.k;
-            rate.k(0) = x / scale;
+            rate.k(1) = x / scale;
             rate.k(4) = y / scale;
             for(int t = 0; t < nTimeSteps; t++){
                 Nonlinear_ODE6 sys(rate);
@@ -888,7 +888,7 @@ int main() {
         for(int y = 0; y < yDim; y++){
             K rate;
             rate.k = tru.k;
-            rate.k(0) = x / scale;
+            rate.k(1) = x / scale;
             rate.k(4) = y / scale;
             for(int t = 0; t < nTimeSteps; t++){
                 Nonlinear_ODE6 sys(rate);
