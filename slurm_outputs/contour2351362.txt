@@ -12,3 +12,12 @@ final row X0:210.849 2074.81 5.43942 5.39641 290.483 6.57851
 
 
 using truk: 0.1  0.1 0.95 0.17 0.05 0.18
+CODE FINISHED RUNNING IN 86294 s TIME!
+mv: cannot stat 'uneqwts_contour.csv': No such file or directory
+Job Statistics for 2351362:
+           JobID       User               Start                 End    Elapsed     MaxRSS   TotalCPU      State Exit        NodeList                                  ReqTRES 
+---------------- ---------- ------------------- ------------------- ---------- ---------- ---------- ---------- ---- --------------- ---------------------------------------- 
+         2351362   rsjxw007 2021-11-17T15:50:59 2021-11-18T15:49:14   23:58:15              23:53:05     FAILED  1:0   r1pl-hpcf-n23         billing=1,cpu=1,mem=7812M,node=1 
+   2351362.batch            2021-11-17T15:50:59 2021-11-18T15:49:14   23:58:15      7.00M   23:53:05     FAILED  1:0   r1pl-hpcf-n23                                          
+  2351362.extern            2021-11-17T15:50:59 2021-11-18T15:49:14   23:58:15          0  00:00.001  COMPLETED  0:0   r1pl-hpcf-n23                                          
+CPU Efficiency: 99.64% of 23:58:15 core-walltime
