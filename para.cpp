@@ -742,7 +742,7 @@ int main() {
         for (int i = 0; i < Npars; i++) { 
             seed.k(i) = unifDist(gen);
         }
-        seed.k(4) = tru.k(1);
+        seed.k(3) = tru.k(3);
         // seed.k << 0.156,	0.832,	0.950,	0.303,	0.964,	0.186;
         // seed.k = tru.k;
         double costSeedK = 0;
@@ -789,7 +789,7 @@ int main() {
                     }
 
                     // POSMAT.row(particle) = seed.k;
-                    POSMAT(particle, 1) = 0.1;
+                    POSMAT(particle, 3) = 0.17;
                     struct K pos;
                     pos.k = VectorXd::Zero(Npars);
                     for(int i = 0; i < Npars; i++){
@@ -840,7 +840,7 @@ int main() {
                         pos.k(1) = pUnifDist(pGenerator);
                         pos.k(4) = pUnifDist(pGenerator);
                     }
-                    pos.k(1) = 0.1;
+                    pos.k(3) = 0.17;
                     // let's fix theta 4
                     POSMAT.row(particle) = pos.k;
                     double cost = 0;
@@ -859,7 +859,7 @@ int main() {
                     }
                 
                     /* update gBest and pBest */
-                    #pragma omp critical
+                #pragma omp critical
                 {
                     if(cost < PBMAT(particle, Npars)){ // particle best cost
                         for(int i = 0; i < Npars; i++){
