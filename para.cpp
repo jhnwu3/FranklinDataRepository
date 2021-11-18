@@ -748,7 +748,7 @@ int main() {
             seed.k(i) = unifDist(gen);
         }
         seed.k << 0.156,	0.832,	0.950,	0.303,	0.964,	0.186;
-        // seed.k = tru.k;
+        seed.k = tru.k;
         double costSeedK = 0;
         for(int t = 0; t < nTimeSteps; t++){
             Protein_Components Xt(times(t), nMoments, N);
