@@ -508,7 +508,7 @@ int main() {
     double sfp = 3.0, sfg = 1.0, sfe = 6.0; // initial particle historical weight, global weight social, inertial
     double sfi = sfe, sfc = sfp, sfs = sfg; // below are the variables being used to reiterate weights
     double alpha = 0.2;
-    int N = 25000;
+    int N = 100;
     int nParts = 25; // first part PSO
     int nSteps = 50;
     int nParts2 = 10; // second part PSO
@@ -731,49 +731,6 @@ int main() {
     // struct K seed;
     // seed.k << 0.1659069,	0.6838229,	0.9585955,	0.4651133,	0.4573598,	0.1806655;
 
-
-    // /* Solve for Cost of specified rates*/
-    // double costSeedK = 0;
-    // for(int t = 0; t < nTimeSteps; t++){
-    //     Protein_Components Xt(times(t), nMoments, N);
-    //     Moments_Mat_Obs XtObs(Xt);
-    //     Nonlinear_ODE6 sys(seed);
-    //     for (int i = 0; i < N; i++) {
-    //         //State_N c0 = gen_multi_norm_iSub();
-    //         State_N c0 = convertInit(X_0, i);
-    //         Xt.index = i;
-    //         integrate_adaptive(controlledStepper, sys, c0, t0, times(t), dt, XtObs);
-    //     }
-    //     Xt.mVec /= N;  
-    //     cout << "XtmVec:" << Xt.mVec.transpose() << endl;
-    //     costSeedK += calculate_cf2(Yt3Vecs[t], Xt.mVec, weights[t]);
-    // }
-    // cout << "For K:"<< seed.k.transpose() << "cost:" << costSeedK << endl;
-
-    // seed.k << 0.2498351, 0.7010353,	0.9587309,	0.5199925,	0.4305584,	0.179396;
-    // // change to the second moments only
-    // for(int i = 0; i < nTimeSteps; i++){
-    //     for(int j = 2*N_SPECIES; j < nMoments; j++){
-    //         weights[i](j,j) = 0;
-    //     }
-    // }
-    
-    // costSeedK = 0;
-    // for(int t = 0; t < nTimeSteps; t++){
-    //     Protein_Components Xt(times(t), nMoments, N);
-    //     Moments_Mat_Obs XtObs(Xt);
-    //     Nonlinear_ODE6 sys(seed);
-    //     for (int i = 0; i < N; i++) {
-    //         //State_N c0 = gen_multi_norm_iSub();
-    //         State_N c0 = convertInit(X_0, i);
-    //         Xt.index = i;
-    //         integrate_adaptive(controlledStepper, sys, c0, t0, times(t), dt, XtObs);
-    //     }
-    //     Xt.mVec /= N;  
-    //     cout << "XtmVec:" << Xt.mVec.transpose() << endl;
-    //     costSeedK += calculate_cf2(Yt3Vecs[t], Xt.mVec, weights[t]);
-    // }
-    // cout << "For K:"<< seed.k.transpose() << "cost:" << costSeedK << endl;
     /* Solve for 50 x 50 contour plot for equal weights */
     int xDim = 50, yDim = 50;
     double scale = (xDim+yDim) / 2;
@@ -781,6 +738,7 @@ int main() {
     MatrixXd eqwts(xDim*yDim, Npars + 1);
     int s = 0;
     for(int x = 0; x < xDim; x++){
+    #pragma omp parallel for
         for(int y = 0; y < yDim; y++){
             K rate;
             rate.k = tru.k;

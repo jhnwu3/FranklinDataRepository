@@ -567,8 +567,8 @@ int main() {
     double alpha = 0.2;
     int nRuns = 1;
     int N = 25000;
-    int nParts = 30; // blind PSO  1000:10
-    int nSteps = 300;
+    int nParts = 5; // blind PSO  1000:10
+    int nSteps = 100;
     int nParts2 = 1; // targeted PSO
     int nSteps2 = 2;
     int nMoments = (N_SPECIES * (N_SPECIES + 3)) / 2; // var + mean + cov
@@ -579,7 +579,7 @@ int main() {
     wmatup << 0.30, 0.7;
     double uniLowBound = 0.0, uniHiBound = 1.0;
     random_device RanDev;
-    mt19937 gen(RanDev());
+    mt19937 gen(1234);
     uniform_real_distribution<double> unifDist(uniLowBound, uniHiBound);
     
     vector<MatrixXd> weights;
@@ -783,7 +783,7 @@ int main() {
         #pragma omp parallel for 
             for(int particle = 0; particle < nParts; particle++){
                 random_device pRanDev;
-                mt19937 pGenerator(pRanDev());
+                mt19937 pGenerator(1234);
                 uniform_real_distribution<double> pUnifDist(uniLowBound, uniHiBound);
                 /* instantiate all particle rate constants with unifDist */
                 if(step == 0){
