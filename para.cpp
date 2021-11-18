@@ -742,8 +742,8 @@ int main() {
         for (int i = 0; i < Npars; i++) { 
             seed.k(i) = unifDist(gen);
         }
-        seed.k << 0.156,	0.832,	0.950,	0.303,	0.964,	0.186;
-        seed.k = tru.k;
+        // seed.k << 0.156,	0.832,	0.950,	0.303,	0.964,	0.186;
+        // seed.k = tru.k;
         double costSeedK = 0;
         for(int t = 0; t < nTimeSteps; t++){
             Protein_Components Xt(times(t), nMoments, N);
@@ -788,13 +788,13 @@ int main() {
                     }
 
                     POSMAT.row(particle) = seed.k;
-
+                    POSMAT(particle, 1) = 0.1;
                     struct K pos;
                     pos.k = VectorXd::Zero(Npars);
                     for(int i = 0; i < Npars; i++){
                         pos.k(i) = POSMAT(particle, i);
                     }
-                    pos.k(3) = 0.17;
+                   
                     double cost = 0;
                     for(int t = 0; t < nTimeSteps; t++){
                         Nonlinear_ODE6 initSys(pos);
@@ -839,7 +839,7 @@ int main() {
                         pos.k(1) = pUnifDist(pGenerator);
                         pos.k(4) = pUnifDist(pGenerator);
                     }
-                    pos.k(3) = 0.17;
+                    pos.k(1) = 0.1;
                     // let's fix theta 4
                     POSMAT.row(particle) = pos.k;
                     double cost = 0;
