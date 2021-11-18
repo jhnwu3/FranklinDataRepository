@@ -794,7 +794,7 @@ int main() {
                     for(int i = 0; i < Npars; i++){
                         pos.k(i) = POSMAT(particle, i);
                     }
-                    pos.k(1) = 0.1;
+                    pos.k(3) = 0.17;
                     double cost = 0;
                     for(int t = 0; t < nTimeSteps; t++){
                         Nonlinear_ODE6 initSys(pos);
@@ -839,7 +839,7 @@ int main() {
                         pos.k(1) = pUnifDist(pGenerator);
                         pos.k(4) = pUnifDist(pGenerator);
                     }
-                    pos.k(1) = 0.1;
+                    pos.k(3) = 0.17;
                     // let's fix theta 4
                     POSMAT.row(particle) = pos.k;
                     double cost = 0;
