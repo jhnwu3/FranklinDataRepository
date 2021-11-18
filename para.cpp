@@ -666,7 +666,7 @@ int main() {
         MatrixXd GBMAT = MatrixXd::Zero(0,0); // iterations of global best vectors
         MatrixXd PBMAT = MatrixXd::Zero(nParts, Npars + 1); // particle best matrix + 1 for cost component
         MatrixXd POSMAT = MatrixXd::Zero(nParts, Npars); // Position matrix as it goees through it in parallel
-        
+
         // reset weight matrices back to identity
         weights[0] <<0.911619,0.000972317,0.00251757,-0.0139532,-0.00149306,-0.000371551,0.000303966,2.85853e-10,2.29692e-09,-4.05718e-08,-3.07561e-10,-6.14489e-11,
         0.000972317,3.06122e-06,7.92627e-06,-4.39299e-05,-4.70073e-06,-1.16978e-06,9.57001e-07,8.99973e-13,7.23157e-12,-1.27736e-10,-9.68319e-13,-1.93465e-13,
@@ -794,6 +794,7 @@ int main() {
                     for(int i = 0; i < Npars; i++){
                         pos.k(i) = POSMAT(particle, i);
                     }
+                    pos.k(1) = 0.1;
                     double cost = 0;
                     for(int t = 0; t < nTimeSteps; t++){
                         Nonlinear_ODE6 initSys(pos);
@@ -838,6 +839,7 @@ int main() {
                         pos.k(1) = pUnifDist(pGenerator);
                         pos.k(4) = pUnifDist(pGenerator);
                     }
+                    pos.k(1) = 0.1;
                     // let's fix theta 4
                     POSMAT.row(particle) = pos.k;
                     double cost = 0;
