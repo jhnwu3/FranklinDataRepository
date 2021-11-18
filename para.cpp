@@ -566,9 +566,9 @@ int main() {
      double sfp = 3.0, sfg = 1.0, sfe = 6.0; // initial particle historical weight, global weight social, inertial
     double alpha = 0.2;
     int nRuns = 1;
-    int N = 25000;
+    int N = 1250;
     int nParts = 30; // blind PSO  1000:10
-    int nSteps = 5;
+    int nSteps = 100;
     int nParts2 = 1; // targeted PSO
     int nSteps2 = 2;
     int nMoments = (N_SPECIES * (N_SPECIES + 3)) / 2; // var + mean + cov
@@ -579,11 +579,11 @@ int main() {
     wmatup << 0.30, 0.7;
     double uniLowBound = 0.0, uniHiBound = 1.0;
     random_device RanDev;
-    mt19937 gen(1234);
+    mt19937 gen(RanDev());
     uniform_real_distribution<double> unifDist(uniLowBound, uniHiBound);
     
     vector<MatrixXd> weights;
-    bool useOnlySecMom = false;
+    bool useOnlySecMom = true;
     if(useOnlySecMom){
         cout << "USING NONMIXED MOMENTS!!" << endl;
         nMoments = 2 * N_SPECIES;
@@ -783,7 +783,7 @@ int main() {
         #pragma omp parallel for 
             for(int particle = 0; particle < nParts; particle++){
                 random_device pRanDev;
-                mt19937 pGenerator(1234);
+                mt19937 pGenerator(pRanDev());
                 uniform_real_distribution<double> pUnifDist(uniLowBound, uniHiBound);
                 /* instantiate all particle rate constants with unifDist */
                 if(step == 0){
