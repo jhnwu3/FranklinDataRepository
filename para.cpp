@@ -667,7 +667,7 @@ int main() {
         MatrixXd PBMAT = MatrixXd::Zero(nParts, Npars + 1); // particle best matrix + 1 for cost component
         MatrixXd POSMAT = MatrixXd::Zero(nParts, Npars); // Position matrix as it goees through it in parallel
 
-        // reset weight matrices back to identity
+        // reset weight matrices back to some value
         weights[0] <<0.911619,0.000972317,0.00251757,-0.0139532,-0.00149306,-0.000371551,0.000303966,2.85853e-10,2.29692e-09,-4.05718e-08,-3.07561e-10,-6.14489e-11,
         0.000972317,3.06122e-06,7.92627e-06,-4.39299e-05,-4.70073e-06,-1.16978e-06,9.57001e-07,8.99973e-13,7.23157e-12,-1.27736e-10,-9.68319e-13,-1.93465e-13,
         0.00251757,7.92627e-06,0.000248823,-0.00137905,-0.000147566,-3.6722e-05,3.00423e-05,2.82521e-11,2.27014e-10,-4.00989e-09,-3.03976e-11,-6.07327e-12,
