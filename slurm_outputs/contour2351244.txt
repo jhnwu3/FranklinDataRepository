@@ -12,3 +12,13 @@ final row X0:123.826 1849.08 5.06107  6.0168   161.9  5.1619
 
 
 using truk: 0.1  0.1 0.95 0.17 0.05 0.18
+CODE FINISHED RUNNING IN 77742 s TIME!
+mv: cannot move 'eqwts_contour.csv' to 'contour_data/eq2021-11-18-08161637241381.csv': No such file or directory
+mv: cannot move 'uneqwts_contour.csv' to 'contour_data/uneq2021-11-18-08161637241381.csv': No such file or directory
+Job Statistics for 2351244:
+           JobID       User               Start                 End    Elapsed     MaxRSS   TotalCPU      State Exit        NodeList                                  ReqTRES 
+---------------- ---------- ------------------- ------------------- ---------- ---------- ---------- ---------- ---- --------------- ---------------------------------------- 
+         2351244   rsjxw007 2021-11-17T10:40:38 2021-11-18T08:16:21   21:35:43              21:29:09     FAILED  1:0   r1pl-hpcf-n21         billing=1,cpu=1,mem=7812M,node=1 
+   2351244.batch            2021-11-17T10:40:38 2021-11-18T08:16:21   21:35:43      4.28M   21:29:09     FAILED  1:0   r1pl-hpcf-n21                                          
+  2351244.extern            2021-11-17T10:40:38 2021-11-18T08:16:21   21:35:43          0  00:00.001  COMPLETED  0:0   r1pl-hpcf-n21                                          
+CPU Efficiency: 99.49% of 21:35:43 core-walltime
