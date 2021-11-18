@@ -760,7 +760,7 @@ int main() {
             costSeedK += calculate_cf2(Yt3Vecs[t], Xt.mVec, weights[t]);
         }
 
-        cout << "seedk:"<< seed.k.transpose()<< "| cost:" << costSeedK << endl;
+        cout << "seedk:"<< seed.k.transpose() << "| cost:" << costSeedK << endl;
         
         double gCost = costSeedK; //initialize costs and GBMAT
         // global values
@@ -788,7 +788,7 @@ int main() {
                     }
 
                     // POSMAT.row(particle) = seed.k;
-                    POSMAT(particle, 1) = 0.1;
+                    POSMAT(particle, 3) = 0.17;
                     struct K pos;
                     pos.k = VectorXd::Zero(Npars);
                     for(int i = 0; i < Npars; i++){
@@ -839,7 +839,7 @@ int main() {
                         pos.k(1) = pUnifDist(pGenerator);
                         pos.k(4) = pUnifDist(pGenerator);
                     }
-                    pos.k(1) = 0.1;
+                    pos.k(3) = 0.17;
                     // let's fix theta 4
                     POSMAT.row(particle) = pos.k;
                     double cost = 0;
