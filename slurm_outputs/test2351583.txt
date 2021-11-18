@@ -1,0 +1,33 @@
+USING NONMIXED MOMENTS!!
+nRuns:1
+Using two part PSO Sample Size:1250 with:12 moments.
+Using Times:0.5   2  10  20  30
+Bounds for Uniform Distribution (0,1)
+Blind PSO --> nParts:30 Nsteps:100
+Targeted PSO --> nParts:1 Nsteps:2
+sdbeta:0.1
+Reading in data!
+Using starting row of data:0 and 1250 data pts!
+first row X0:260.559 2143.24 4.86708 4.95832 65.2493 4.94309
+final row X0:249.987 2396.05 5.91041 5.47538  172.01 5.00391
+
+
+
+Loading in Truk!
+Calculating Yt!
+truk cost:7.83005e+09
+XtmVec:   0.393093     1872.36      210.28     1.42649     192.646      18.723    0.197537 3.76949e+06     50944.4     2.75624     44205.5     372.908
+XtmVec:   0.396961     1860.17     210.276     1.85762     180.884     30.4851    0.203003 3.72443e+06     50942.1     5.57277     39895.9     1053.92
+XtmVec:   0.398374     1855.91     210.275     2.08922     176.858      34.511    0.205085 3.70886e+06     50941.2     9.38914     38532.4     1371.98
+XtmVec:   0.398381      1855.9     210.275     2.09504     176.853      34.516      0.2051 3.70883e+06     50941.2     9.90299     38531.5     1372.55
+XtmVec:   0.398382      1855.9     210.275      2.0959     176.852     34.5162    0.205102 3.70882e+06     50941.2     9.99373     38531.5     1372.58
+seedk:0.108725 0.195656 0.155147 0.180305 0.485148 0.945163| cost:6.30267e+13
+PSO begins!
+slurmstepd: error: *** JOB 2351583 ON r1pl-hpcf-n27 CANCELLED AT 2021-11-18T11:27:18 ***
+Job Statistics for 2351583:
+           JobID       User               Start                 End    Elapsed     MaxRSS   TotalCPU      State Exit        NodeList                                  ReqTRES 
+---------------- ---------- ------------------- ------------------- ---------- ---------- ---------- ---------- ---- --------------- ---------------------------------------- 
+         2351583   rsjxw007 2021-11-18T11:27:10 2021-11-18T11:27:18   00:00:08             00:00.045 CANCELLED+  0:0   r1pl-hpcf-n27     billing=30,cpu=30,mem=234360M,node=1 
+   2351583.batch            2021-11-18T11:27:10 2021-11-18T11:27:19   00:00:09          0  00:00.044  CANCELLED 0:15   r1pl-hpcf-n27                                          
+  2351583.extern            2021-11-18T11:27:10 2021-11-18T11:27:18   00:00:08          0  00:00.001  COMPLETED  0:0   r1pl-hpcf-n27                                          
+CPU Efficiency: 0.00% of 00:04:00 core-walltime
