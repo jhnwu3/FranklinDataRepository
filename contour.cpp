@@ -738,7 +738,6 @@ int main() {
     MatrixXd eqwts(xDim*yDim, Npars + 1);
     int s = 0;
     for(int x = 0; x < xDim; x++){
-    #pragma omp parallel for
         for(int y = 0; y < yDim; y++){
             K rate;
             rate.k = tru.k;
