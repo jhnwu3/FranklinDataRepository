@@ -788,7 +788,7 @@ int main() {
                     }
 
                     // POSMAT.row(particle) = seed.k;
-                    POSMAT(particle, 3) = 0.17;
+                    POSMAT(particle, 4) = 0.05;
                     struct K pos;
                     pos.k = VectorXd::Zero(Npars);
                     for(int i = 0; i < Npars; i++){
@@ -839,7 +839,7 @@ int main() {
                         pos.k(1) = pUnifDist(pGenerator);
                         pos.k(4) = pUnifDist(pGenerator);
                     }
-                    pos.k(3) = 0.17;
+                    pos.k(4) = 0.05;
                     // let's fix theta 4
                     POSMAT.row(particle) = pos.k;
                     double cost = 0;
