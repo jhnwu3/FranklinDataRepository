@@ -508,7 +508,7 @@ int main() {
     double sfp = 3.0, sfg = 1.0, sfe = 6.0; // initial particle historical weight, global weight social, inertial
     double sfi = sfe, sfc = sfp, sfs = sfg; // below are the variables being used to reiterate weights
     double alpha = 0.2;
-    int N = 25000;
+    int N = 5;
     int nParts = 25; // first part PSO
     int nSteps = 50;
     int nParts2 = 10; // second part PSO
@@ -737,6 +737,7 @@ int main() {
     double cost = 0;
     MatrixXd eqwts(xDim*yDim, Npars + 1);
     int s = 0;
+    #pragma omp parallel for
     for(int x = 0; x < xDim; x++){
         for(int y = 0; y < yDim; y++){
             K rate;
@@ -760,7 +761,7 @@ int main() {
             }
             eqwts(s, Npars) = cost;
             cout << "rate:" << eqwts.row(s) << endl;
-            s++;
+            (x*y)/2;
             cost = 0;
         }
     }
