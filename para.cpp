@@ -506,10 +506,15 @@ int main() {
     uniform_real_distribution<double> unifDist(uniLowBound, uniHiBound);
     
     vector<MatrixXd> weights;
-    bool useOnlySecMom = false;
+    bool useOnlySecMom = true;
+    bool useOnlyFirstMom = false;
     if(useOnlySecMom){
         cout << "USING NONMIXED MOMENTS!!" << endl;
         nMoments = 2 * N_SPECIES;
+    }
+    if(useOnlyFirstMom){
+        cout << "USING ONLY MEANS!" << endl;
+        nMoments = N_SPECIES;
     }
     for(int i = 0; i < nTimeSteps; i++){
         weights.push_back(MatrixXd::Identity(nMoments, nMoments));
