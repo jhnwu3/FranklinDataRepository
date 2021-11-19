@@ -854,9 +854,9 @@ int main() {
                         POSMAT(particle, i) = pUnifDist(pGenerator);
                     }
 
-                    POSMAT.row(particle) = seed.k;
+                    // POSMAT.row(particle) = seed.k;
                     // POSMAT(particle, 4) = 0.05;
-                    // POSMAT(particle, 1) = 0.1;
+                    POSMAT(particle, 1) = 0.1;
                     struct K pos;
                     pos.k = VectorXd::Zero(Npars);
                     for(int i = 0; i < Npars; i++){
