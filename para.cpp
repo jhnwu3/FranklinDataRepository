@@ -996,7 +996,7 @@ int main() {
                         integrate_adaptive(controlledStepper, gSys, c0, t0, times(t), dt, gXtObs);
                     }
                     gXt.mVec /= N;  
-                    weights[t] = customWtMat(Yt3Mats[t], gXt.mat, nMoments, N, false);
+                    weights[t] = customWtMat(Yt3Mats[t], gXt.mat, nMoments, N, true);
                     cost += calculate_cf2(Yt3Vecs[t], gXt.mVec, weights[t]);
                 }
                 gCost = cost;
