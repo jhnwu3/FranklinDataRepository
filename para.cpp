@@ -566,9 +566,9 @@ int main() {
      double sfp = 3.0, sfg = 1.0, sfe = 6.0; // initial particle historical weight, global weight social, inertial
     double alpha = 0.2;
     int nRuns = 1;
-    int N = 15000;
-    int nParts = 60; // blind PSO  1000:10
-    int nSteps = 400;
+    int N = 5000;
+    int nParts = 1; // blind PSO  1000:10
+    int nSteps = 1;
     int nParts2 = 1; // targeted PSO
     int nSteps2 = 1;
     int nMoments = (N_SPECIES * (N_SPECIES + 3)) / 2; // var + mean + cov
@@ -743,7 +743,7 @@ int main() {
             seed.k(i) = unifDist(gen);
         }
         seed.k(4) = tru.k(4);
-        // seed.k << 0.156,	0.832,	0.950,	0.303,	0.964,	0.186;
+        seed.k << 0.1414,	0.539758,	0.9497,	0.165757,	0.05,	0.183848;
         // seed.k = tru.k;
         double costSeedK = 0;
         for(int t = 0; t < nTimeSteps; t++){
