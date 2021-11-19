@@ -1,0 +1,28 @@
+nRuns:1
+Using two part PSO Sample Size:5000 with:27 moments.
+Using Times:0.5   2  10  20  30
+Bounds for Uniform Distribution (0,1)
+Blind PSO --> nParts:1 Nsteps:1
+Targeted PSO --> nParts:1 Nsteps:1
+sdbeta:0.1
+Reading in data!
+Using starting row of data:0 and 5000 data pts!
+first row X0:260.559 2143.24 4.86708 4.95832 65.2493 4.94309
+final row X0:123.826 1849.08 5.06107  6.0168   161.9  5.1619
+
+
+
+Loading in Truk!
+Calculating Yt!
+truk cost:8.46519e+09
+para: /gpfs0/export/apps/easybuild/software/Eigen/3.3.7-GCCcore-9.3.0/include/Eigen/src/Core/CommaInitializer.h:118: XprType& Eigen::CommaInitializer<MatrixType>::finished() [with XprType = Eigen::Matrix<double, -1, -1>]: Assertion `((m_row+m_currentBlockRows) == m_xpr.rows() || m_xpr.cols() == 0) && m_col == m_xpr.cols() && "Too few coefficients passed to comma initializer (operator<<)"' failed.
+/var/spool/slurmd/job2353192/slurm_script: line 10: 2097592 Aborted                 (core dumped) ./para
+mv: cannot stat 'GBMATP.csv': No such file or directory
+mv: cannot stat 'runs.csv': No such file or directory
+Job Statistics for 2353192:
+           JobID       User               Start                 End    Elapsed     MaxRSS   TotalCPU      State Exit        NodeList                                  ReqTRES 
+---------------- ---------- ------------------- ------------------- ---------- ---------- ---------- ---------- ---- --------------- ---------------------------------------- 
+         2353192   rsjxw007 2021-11-19T18:02:54 2021-11-19T18:03:10   00:00:16             00:15.014     FAILED  1:0   r1pl-hpcf-n24     billing=30,cpu=30,mem=234360M,node=1 
+   2353192.batch            2021-11-19T18:02:54 2021-11-19T18:03:10   00:00:16          0  00:15.012     FAILED  1:0   r1pl-hpcf-n24                                          
+  2353192.extern            2021-11-19T18:02:54 2021-11-19T18:03:10   00:00:16          0  00:00.002  COMPLETED  0:0   r1pl-hpcf-n24                                          
+CPU Efficiency: 3.12% of 00:08:00 core-walltime
