@@ -490,8 +490,8 @@ int main() {
     double alpha = 0.2;
     int nRuns = 1;
     int N = 5000;
-    int nParts = 1; // blind PSO  1000:10
-    int nSteps = 1;
+    int nParts = 90; // blind PSO  1000:10
+    int nSteps = 1000;
     int nParts2 = 1; // targeted PSO
     int nSteps2 = 1;
     int nMoments = (N_SPECIES * (N_SPECIES + 3)) / 2; // var + mean + cov
