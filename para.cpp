@@ -743,7 +743,7 @@ int main() {
             seed.k(i) = unifDist(gen);
         }
         seed.k(4) = tru.k(4);
-        seed.k << 0.1414,	0.539758,	0.9497,	0.165757,	0.05,	0.183848;
+        seed.k << 0.1414,	0.1,	0.9497,	0.165757,	0.05,	0.183848;
         // seed.k = tru.k;
         double costSeedK = 0;
         for(int t = 0; t < nTimeSteps; t++){
