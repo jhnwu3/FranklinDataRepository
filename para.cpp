@@ -567,8 +567,8 @@ int main() {
     double alpha = 0.2;
     int nRuns = 1;
     int N = 5000;
-    int nParts = 1; // blind PSO  1000:10
-    int nSteps = 1;
+    int nParts = 30; // blind PSO  1000:10
+    int nSteps = 300;
     int nParts2 = 1; // targeted PSO
     int nSteps2 = 1;
     int nMoments = (N_SPECIES * (N_SPECIES + 3)) / 2; // var + mean + cov
@@ -743,7 +743,8 @@ int main() {
             seed.k(i) = unifDist(gen);
         }
         seed.k(4) = tru.k(4);
-        seed.k << 0.099192,	0.1,	0.944085,	0.19078,	0.05,	0.181642;
+        seed.k(1) = tru.k(1);
+        // seed.k << 0.099192,	0.1,	0.944085,	0.19078,	0.05,	0.181642;
         // seed.k = tru.k;
         double costSeedK = 0;
         for(int t = 0; t < nTimeSteps; t++){
@@ -790,6 +791,7 @@ int main() {
 
                     // POSMAT.row(particle) = seed.k;
                     POSMAT(particle, 4) = 0.05;
+                    POSMAT(particle, 1) = 0.1;
                     struct K pos;
                     pos.k = VectorXd::Zero(Npars);
                     for(int i = 0; i < Npars; i++){
@@ -841,6 +843,7 @@ int main() {
                         pos.k(4) = pUnifDist(pGenerator);
                     }
                     pos.k(4) = 0.05;
+                    pos.k(1) = 0.1;
                     // let's fix theta 4
                     POSMAT.row(particle) = pos.k;
                     double cost = 0;
