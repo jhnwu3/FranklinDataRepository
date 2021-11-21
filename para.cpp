@@ -969,11 +969,11 @@ int main() {
                    
                     pos.k = w1 * rpoint + w2 * PBVEC + w3 * GBVEC; // update position of particle
                     
-                    // if(pUnifDist(pGenerator) < (3.0/4.0)){ // hard coded grid re-search for an adaptive component
-                    //     pos.k(0) = pUnifDist(pGenerator);
-                    //     pos.k(1) = pUnifDist(pGenerator);
-                    //     pos.k(4) = pUnifDist(pGenerator);
-                    // }
+                    if(pUnifDist(pGenerator) < (3.0/4.0)){ // hard coded grid re-search for an adaptive component
+                        pos.k(0) = pUnifDist(pGenerator);
+                        pos.k(1) = pUnifDist(pGenerator);
+                        pos.k(4) = pUnifDist(pGenerator);
+                    }
                     // // pos.k(4) = 0.05;
                     pos.k(1) = 0.1;
                  
