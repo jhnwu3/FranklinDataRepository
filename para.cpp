@@ -935,7 +935,7 @@ int main() {
         for (int i = 0; i < Npars; i++) { 
             seed.k(i) = unifDist(gen);
         }
-        // seed.k(4) = tru.k(4);
+        seed.k(4) = tru.k(4);
         seed.k(1) = tru.k(1);
         // seed.k << 0.099192,	0.1,	0.944085,	0.19078,	0.05,	0.181642;
         // seed.k = tru.k;
@@ -983,7 +983,7 @@ int main() {
                     }
 
                     // POSMAT.row(particle) = seed.k;
-                    // POSMAT(particle, 4) = 0.05;
+                    POSMAT(particle, 4) = 0.05;
                     POSMAT(particle, 1) = 0.1;
                     struct K pos;
                     pos.k = VectorXd::Zero(Npars);
@@ -1035,9 +1035,9 @@ int main() {
                         pos.k(1) = pUnifDist(pGenerator);
                         pos.k(4) = pUnifDist(pGenerator);
                     }
-                    // // pos.k(4) = 0.05;
+                    pos.k(4) = 0.05;
                     pos.k(1) = 0.1;
-                 
+                
                     POSMAT.row(particle) = pos.k;
                     double cost = 0;
                     for(int t = 0; t < nTimeSteps; t++){
