@@ -1,0 +1,55 @@
+USING NONMIXED MOMENTS!!
+nRuns:1
+Using two part PSO Sample Size:5000 with:12 moments.
+Using Times:0.5   2  10  20  30
+Bounds for Uniform Distribution (0,1)
+Blind PSO --> nParts:1 Nsteps:1
+Targeted PSO --> nParts:1 Nsteps:1
+sdbeta:0.1
+Reading in data!
+Using starting row of data:0 and 5000 data pts!
+first row X0:260.559 2143.24 4.86708 4.95832 65.2493 4.94309
+final row X0:123.826 1849.08 5.06107  6.0168   161.9  5.1619
+
+
+
+Loading in Truk!
+Calculating Yt!
+truk cost:7.88056e+09
+XtmVec:    1.37912     1764.79      209.23     14.3126      119.13      90.372     2.57304 3.36816e+06     50334.9      420.63     20436.5     9018.41
+XtmVec:    1.90806     1510.18     208.701     167.017     16.7024       192.8     20.3386 2.55883e+06     49970.4     49269.6     1877.33       41425
+XtmVec:    75.3273     495.564     135.282      1238.9    0.544968     208.957     18625.3      552841     22178.1 1.79514e+06      27.305       50341
+XtmVec:     152.32     117.445      58.289     1693.76    0.292279      209.21       33784      110785      4916.9 3.12755e+06     9.13011     50524.8
+XtmVec:    166.692     40.5461     43.9171     1784.99    0.258854     209.244     35613.4     34679.4      2455.1 3.44467e+06     7.20885     50550.5
+seedk: 0.1  0.1 0.95 0.17 0.05 0.18| cost:7.88056e+09
+PSO begins!
+current: 0.1  0.1 0.95 0.17 0.05 0.18 7.88056e+09
+GBMAT from blind PSO:
+
+        0.1         0.1        0.95        0.17        0.05        0.18 7.88056e+09
+        0.1         0.1        0.95        0.17        0.05        0.18 7.88056e+09
+
+truk:  0.1  0.1 0.95 0.17 0.05 0.18
+total difference b/w truk and final GBVEC0
+
+blind PSO FINISHED RUNNING IN 30 s TIME!
+targeted PSO has started!
+Updating Weight Matrix!
+GBVEC AND COST:        0.1         0.1        0.95        0.17        0.05        0.18 7.88056e+09
+New PBMAT:
+  0.0591836   0.0716564    0.963623   0.0780733 3.61796e-05    0.172567     1.28833
+
+GBMAT after targeted PSO:
+        0.1         0.1        0.95        0.17        0.05        0.18 7.88056e+09
+        0.1         0.1        0.95        0.17        0.05        0.18 7.88056e+09
+        0.1         0.1        0.95        0.17        0.05        0.18   0.0148922
+        0.1         0.1        0.95        0.17        0.05        0.18   0.0148922
+truk:  0.1  0.1 0.95 0.17 0.05 0.18 with trukCost with new weights:0.0148922
+CODE FINISHED RUNNING IN 41 s TIME!
+Job Statistics for 2353212:
+           JobID       User               Start                 End    Elapsed     MaxRSS   TotalCPU      State Exit        NodeList                                  ReqTRES 
+---------------- ---------- ------------------- ------------------- ---------- ---------- ---------- ---------- ---- --------------- ---------------------------------------- 
+         2353212   rsjxw007 2021-11-21T10:22:36 2021-11-21T10:23:18   00:00:42             00:43.197  COMPLETED  0:0   r1pl-hpcf-n21     billing=30,cpu=30,mem=234360M,node=1 
+   2353212.batch            2021-11-21T10:22:36 2021-11-21T10:23:18   00:00:42      5.59M  00:43.195  COMPLETED  0:0   r1pl-hpcf-n21                                          
+  2353212.extern            2021-11-21T10:22:36 2021-11-21T10:23:18   00:00:42          0  00:00.001  COMPLETED  0:0   r1pl-hpcf-n21                                          
+CPU Efficiency: 3.41% of 00:21:00 core-walltime
