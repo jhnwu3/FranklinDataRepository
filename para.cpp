@@ -507,7 +507,7 @@ int main() {
     
     vector<MatrixXd> weights;
     bool useOnlySecMom = true;
-    bool useOnlyFirstMom = true;
+    bool useOnlyFirstMom = false;
     if(useOnlySecMom){
         cout << "USING NONMIXED MOMENTS!!" << endl;
         nMoments = 2 * N_SPECIES;
