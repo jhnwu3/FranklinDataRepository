@@ -461,7 +461,7 @@ MatrixXd customWtMat(const MatrixXd& Yt, const MatrixXd& Xt, int nMoments, int N
             wt(i,i) = 1 / variances(i); // cleanup code and make it more vectorized later.
         }
         cout << "Weights:"<< endl;
-        printToStd(wt);
+        cout << wt << endl;
     }
     return wt;
 }
