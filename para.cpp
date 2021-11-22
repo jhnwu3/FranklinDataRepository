@@ -373,6 +373,22 @@ MatrixXd readIntoMatrix(ifstream& in, int rows, int cols) {
     }
     return mat;
 }
+
+
+void printToStd(const MatrixXd& mat){ // prints matrix to csv
+
+	
+    for(int i = 0; i < mat.rows(); i++){
+        for(int j = 0; j < mat.cols(); j++){
+            if(j == 0){
+                cout << mat(i,j);
+            }else{
+                cout << "," << mat(i,j);
+            }
+        }
+        cout << endl;
+    }
+}
 MatrixXd customWtMat(const MatrixXd& Yt, const MatrixXd& Xt, int nMoments, int N, bool useBanks){
     /* first moment differences */
     MatrixXd fmdiffs = Yt - Xt; 
@@ -444,8 +460,9 @@ MatrixXd customWtMat(const MatrixXd& Yt, const MatrixXd& Xt, int nMoments, int N
         for(int i = 0; i < nMoments; i++){
             wt(i,i) = 1 / variances(i); // cleanup code and make it more vectorized later.
         }
+        cout << "Weights:"<< endl;
+        printToStd(wt);
     }
-    
     return wt;
 }
 
