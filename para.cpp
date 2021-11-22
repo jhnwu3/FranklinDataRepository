@@ -947,6 +947,7 @@ int main() {
 
 
         /* Instantiate seedk aka global costs */
+        double holdTheta2 = 0.2;
         struct K seed;
         seed.k = VectorXd::Zero(Npars); 
         //seed.k = testVec;
@@ -954,8 +955,7 @@ int main() {
             seed.k(i) = unifDist(gen);
         }
         // seed.k(4) = tru.k(4);
-        seed.k(1) = tru.k(1);
-        seed.k(1) = 0.05;
+        seed.k(1) = holdTheta2;
         // seed.k << 0.099192,	0.1,	0.944085,	0.19078,	0.05,	0.181642;
         // seed.k = tru.k;
         double costSeedK = 0;
@@ -1003,8 +1003,7 @@ int main() {
 
                     // POSMAT.row(particle) = seed.k;
                     // POSMAT(particle, 4) = 0.05;
-                    POSMAT(particle, 1) = 0.1;
-                    POSMAT(particle, 1) = 0.05;
+                    POSMAT(particle, 1) = holdTheta2;
                     struct K pos;
                     pos.k = VectorXd::Zero(Npars);
                     for(int i = 0; i < Npars; i++){
@@ -1056,8 +1055,7 @@ int main() {
                         pos.k(4) = pUnifDist(pGenerator);
                     }
                     // pos.k(4) = 0.05;
-                    pos.k(1) = 0.1;
-                    pos.k(1) = 0.05;
+                    pos.k(1) = holdTheta2;
                     POSMAT.row(particle) = pos.k;
                     double cost = 0;
                     for(int t = 0; t < nTimeSteps; t++){
