@@ -44,3 +44,13 @@ underflow!0.00224493
 pos  0.168757        0.2    0.62793   0.302796 0.00224493       0.13
 overflow!
 current: 0.19365      0.2 0.898338 0.283449 0.686903 0.159782 1.97584e+09
+current: 0.19365      0.2 0.898338 0.283449 0.686903 0.159782 1.97584e+09
+overflow!
+slurmstepd: error: *** JOB 2353632 ON r1pl-hpcf-n23 CANCELLED AT 2021-11-23T10:44:51 ***
+Job Statistics for 2353632:
+           JobID       User               Start                 End    Elapsed     MaxRSS   TotalCPU      State Exit        NodeList                                  ReqTRES 
+---------------- ---------- ------------------- ------------------- ---------- ---------- ---------- ---------- ---- --------------- ---------------------------------------- 
+         2353632   rsjxw007 2021-11-23T10:27:15 2021-11-23T10:44:51   00:17:36              04:47:19 CANCELLED+  0:0   r1pl-hpcf-n23     billing=30,cpu=30,mem=234360M,node=1 
+   2353632.batch            2021-11-23T10:27:15 2021-11-23T10:44:53   00:17:38     17.93M   04:47:19  CANCELLED 0:15   r1pl-hpcf-n23                                          
+  2353632.extern            2021-11-23T10:27:15 2021-11-23T10:44:51   00:17:36          0  00:00.001  COMPLETED  0:0   r1pl-hpcf-n23                                          
+CPU Efficiency: 54.42% of 08:48:00 core-walltime
