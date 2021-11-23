@@ -733,34 +733,34 @@ int main() {
     int xDim = 50, yDim = 50;
     double scale = (xDim+yDim) / 2;
     double cost = 0;
-    MatrixXd eqwts(xDim, Npars + 1);
+    MatrixXd eqwts(xDim*yDim, Npars + 1);
     int s = 0;
     for(int x = 0; x < xDim; x++){
-        // for(int y = 0; y < yDim; y++){
-        K rate;
-        rate.k = tru.k;
-        rate.k(4) = x / scale;
-        // rate.k(1) = y / scale;
-        for(int t = 0; t < nTimeSteps; t++){
-            Nonlinear_ODE6 sys(rate);
-            Protein_Components Xt(times(t), nMoments, N);
-            Moments_Mat_Obs XtObs(Xt);
-            for (int i = 0; i < N; i++) {
-                State_N x0 = convertInit(X_0, i);
-                Xt.index = i;
-                integrate_adaptive(controlledStepper, sys, x0, t0, times(t), dt, XtObs);
+        for(int y = 0; y < yDim; y++){
+            K rate;
+            rate.k = tru.k;
+            rate.k(1) = x / scale;
+            rate.k(4) = y / scale;
+            for(int t = 0; t < nTimeSteps; t++){
+                Nonlinear_ODE6 sys(rate);
+                Protein_Components Xt(times(t), nMoments, N);
+                Moments_Mat_Obs XtObs(Xt);
+                for (int i = 0; i < N; i++) {
+                    State_N x0 = convertInit(X_0, i);
+                    Xt.index = i;
+                    integrate_adaptive(controlledStepper, sys, x0, t0, times(t), dt, XtObs);
+                }
+                Xt.mVec /= N;
+                cost += calculate_cf2(Yt3Vecs[t], Xt.mVec, weights[t]);
             }
-            Xt.mVec /= N;
-            cost += calculate_cf2(Yt3Vecs[t], Xt.mVec, weights[t]);
+            for (int i = 0; i < Npars; i++) {
+                eqwts(s, i) = rate.k(i);
+            }
+            eqwts(s, Npars) = cost;
+            cout << "rate:" << eqwts.row(s) << endl;
+            s++;
+            cost = 0;
         }
-        for (int i = 0; i < Npars; i++) {
-            eqwts(s, i) = rate.k(i);
-        }
-        eqwts(s, Npars) = cost;
-        cout << "rate:" << eqwts.row(s) << endl;
-        s++;
-        cost = 0;
-        // }
     }
     printToCsv(eqwts, "eqwts_contour");
     cout << "eqwts" << endl << eqwts; 
