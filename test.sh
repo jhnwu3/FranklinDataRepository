@@ -1,5 +1,5 @@
 #!/bin/bash
-#SBATCH --time=0-48:10:00 
+#SBATCH --time=0-52:10:00 
 #SBATCH --job-name=parallelPSO
 #SBATCH --partition=general
 #SBATCH --nodes=1
