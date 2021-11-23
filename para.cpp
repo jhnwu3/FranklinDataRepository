@@ -507,8 +507,8 @@ int main() {
     double alpha = 0.2;
     int nRuns = 1;
     int N = 5000;
-    int nParts = 60; // blind PSO  1000:10
-    int nSteps = 2500;
+    int nParts = 1; // blind PSO  1000:10
+    int nSteps = 1;
     int nParts2 = 1; // targeted PSO
     int nSteps2 = 1;
     int nMoments = (N_SPECIES * (N_SPECIES + 3)) / 2; // var + mean + cov
@@ -533,7 +533,6 @@ int main() {
     uniform_real_distribution<double> unifDist(uniLowBound, uniHiBound);
     
     vector<MatrixXd> weights;
-    
     for(int i = 0; i < nTimeSteps; i++){
         weights.push_back(MatrixXd::Identity(nMoments, nMoments));
     }
@@ -604,6 +603,15 @@ int main() {
         Yt3Vecs.push_back(Yt.mVec);
     }
     cout << "truk cost:"<< trukCost << endl;
+
+
+    for(int t = 0; t < nTimeSteps; t++){
+        MatrixXd Y_A = Yt3Mats[t].block(0, 0, N/2, Npars);
+        MatrixXd Y_B = Yt3Mats[t].block(N/2, 0, N/2, Npars);
+        weights[t] = customWtMat(Y_A, Y_B, nMoments, N, false);
+        cout << "weights:" << endl;
+        cout << weights[t] << endl;
+    }
 
     MatrixXd GBVECS = MatrixXd::Zero(nRuns, Npars + 1);
     for(int run = 0; run < nRuns; run++){
