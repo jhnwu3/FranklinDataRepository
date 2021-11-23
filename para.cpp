@@ -608,7 +608,7 @@ int main() {
     for(int t = 0; t < nTimeSteps; t++){
         MatrixXd Y_A = Yt3Mats[t].block(0, 0, N/2, Npars);
         MatrixXd Y_B = Yt3Mats[t].block(N/2, 0, N/2, Npars);
-        weights[t] = customWtMat(Y_A, Y_B, nMoments, N, false);
+        weights[t] = customWtMat(Y_A, Y_B, nMoments, N/2, false);
         cout << "weights:" << endl;
         cout << weights[t] << endl;
     }
