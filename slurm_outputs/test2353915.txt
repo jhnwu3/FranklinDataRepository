@@ -14,3 +14,15 @@ final row X0:123.826 1849.08 5.06107  6.0168   161.9  5.1619
 
 Loading in Truk!
 Calculating Yt!
+truk cost:8.46519e+09
+para: /gpfs0/export/apps/easybuild/software/Eigen/3.3.7-GCCcore-9.3.0/include/Eigen/src/Core/DenseBase.h:256: void Eigen::DenseBase<Derived>::resize(Eigen::Index, Eigen::Index) [with Derived = Eigen::Block<Eigen::Matrix<double, -1, -1>, -1, 1, true>; Eigen::Index = long int]: Assertion `rows == this->rows() && cols == this->cols() && "DenseBase::resize() does not actually allow to resize."' failed.
+/var/spool/slurmd/job2353915/slurm_script: line 10: 1934142 Aborted                 (core dumped) ./para
+mv: cannot stat 'GBMATP.csv': No such file or directory
+mv: cannot stat 'runs.csv': No such file or directory
+Job Statistics for 2353915:
+           JobID       User               Start                 End    Elapsed     MaxRSS   TotalCPU      State Exit        NodeList                                  ReqTRES 
+---------------- ---------- ------------------- ------------------- ---------- ---------- ---------- ---------- ---- --------------- ---------------------------------------- 
+         2353915   rsjxw007 2021-11-23T13:12:36 2021-11-23T13:12:52   00:00:16             00:15.140     FAILED  1:0   r1pl-hpcf-n27     billing=30,cpu=30,mem=234360M,node=1 
+   2353915.batch            2021-11-23T13:12:36 2021-11-23T13:12:52   00:00:16          0  00:15.137     FAILED  1:0   r1pl-hpcf-n27                                          
+  2353915.extern            2021-11-23T13:12:36 2021-11-23T13:12:52   00:00:16          0  00:00.002  COMPLETED  0:0   r1pl-hpcf-n27                                          
+CPU Efficiency: 3.12% of 00:08:00 core-walltime
