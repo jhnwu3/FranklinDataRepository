@@ -548,7 +548,7 @@ int main() {
     cout << "Reading in data!" << endl;
     /* Initial Conditions */
     int sizeFile = 25000;
-    int startRow = 0; // what subset?
+    int startRow = 5000; // what subset?
     MatrixXd X_0_Full(sizeFile, Npars);
     MatrixXd Y_0_Full(sizeFile, Npars);
     MatrixXd X_0(N, Npars);
@@ -604,7 +604,7 @@ int main() {
     }
     cout << "truk cost:"<< trukCost << endl;
 
-
+    /* Compute weights from Yt */
     for(int t = 0; t < nTimeSteps; t++){
         MatrixXd Y_A = Yt3Mats[t].block(0, 0, N/2, Npars);
         MatrixXd Y_B = Yt3Mats[t].block(N/2, 0, N/2, Npars);
