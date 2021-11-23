@@ -740,7 +740,7 @@ int main() {
             K rate;
             rate.k = tru.k;
             rate.k(1) = x / scale;
-            rate.k(4) = y / scale;
+            rate.k(3) = y / scale;
             for(int t = 0; t < nTimeSteps; t++){
                 Nonlinear_ODE6 sys(rate);
                 Protein_Components Xt(times(t), nMoments, N);
