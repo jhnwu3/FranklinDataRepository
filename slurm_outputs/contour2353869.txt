@@ -1,0 +1,24 @@
+Using two part PSO Sample Size:5000 with:12 moments.
+Using Times:0.5   2  10  20  30
+Bounds for Uniform Distribution (0,1)
+Blind PSO --> nParts:25 Nsteps:50
+Targeted PSO --> nParts:10 Nsteps:1000
+sdbeta:0.1
+Reading in data!
+Using starting row of data:0 and 5000 data pts!
+first row X0:260.559 2143.24 4.86708 4.95832 65.2493 4.94309
+final row X0:123.826 1849.08 5.06107  6.0168   161.9  5.1619
+
+
+
+contour: /gpfs0/export/apps/easybuild/software/Eigen/3.3.7-GCCcore-9.3.0/include/Eigen/src/Core/CommaInitializer.h:68: Eigen::CommaInitializer<MatrixType>& Eigen::CommaInitializer<MatrixType>::operator,(const Scalar&) [with XprType = Eigen::Matrix<double, -1, -1>; Eigen::CommaInitializer<MatrixType>::Scalar = double]: Assertion `m_row<m_xpr.rows() && "Too many rows passed to comma initializer (operator<<)"' failed.
+/var/spool/slurmd/job2353869/slurm_script: line 10: 3143484 Aborted                 (core dumped) ./contour
+mv: cannot stat 'eqwts_contour.csv': No such file or directory
+mv: cannot stat 'uneqwts_contour.csv': No such file or directory
+Job Statistics for 2353869:
+           JobID       User               Start                 End    Elapsed     MaxRSS   TotalCPU      State Exit        NodeList                                  ReqTRES 
+---------------- ---------- ------------------- ------------------- ---------- ---------- ---------- ---------- ---- --------------- ---------------------------------------- 
+         2353869   rsjxw007 2021-11-23T12:47:20 2021-11-23T12:47:21   00:00:01             00:00.265     FAILED  1:0   r1pl-hpcf-n21         billing=1,cpu=1,mem=7812M,node=1 
+   2353869.batch            2021-11-23T12:47:20 2021-11-23T12:47:21   00:00:01          0  00:00.264     FAILED  1:0   r1pl-hpcf-n21                                          
+  2353869.extern            2021-11-23T12:47:20 2021-11-23T12:47:21   00:00:01          0  00:00.001  COMPLETED  0:0   r1pl-hpcf-n21                                          
+CPU Efficiency: 0.00% of 00:00:01 core-walltime
