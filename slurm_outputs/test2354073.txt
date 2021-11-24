@@ -88,3 +88,22 @@ XtmVec:     151.25     120.851     59.3594      1689.3    0.313043     209.189  
 XtmVec:    165.727      42.438     44.8817     1782.16     0.27766     209.225     35319.2     36750.1     2557.15 3.43563e+06     8.76831       50536
 seedk:  0.1414 0.539758   0.9497 0.165757     0.05 0.183848| cost:0.0103324
 PSO begins!
+current:  0.1414 0.539758   0.9497 0.165757     0.05 0.183848 0.0103324
+GBMAT from blind PSO:
+
+   0.1414  0.539758    0.9497  0.165757      0.05  0.183848 0.0103324
+   0.1414  0.539758    0.9497  0.165757      0.05  0.183848 0.0103324
+
+truk:  0.1  0.1 0.95 0.17 0.05 0.18
+total difference b/w truk and final GBVEC0.195134
+
+blind PSO FINISHED RUNNING IN 72 s TIME!
+truk:  0.1  0.1 0.95 0.17 0.05 0.18 with trukCost with new weights:0.0148922
+CODE FINISHED RUNNING IN 72 s TIME!
+Job Statistics for 2354073:
+           JobID       User               Start                 End    Elapsed     MaxRSS   TotalCPU      State Exit        NodeList                                  ReqTRES 
+---------------- ---------- ------------------- ------------------- ---------- ---------- ---------- ---------- ---- --------------- ---------------------------------------- 
+         2354073   rsjxw007 2021-11-24T09:41:14 2021-11-24T09:42:28   00:01:14             01:13.611  COMPLETED  0:0   r1pl-hpcf-n21     billing=30,cpu=30,mem=234360M,node=1 
+   2354073.batch            2021-11-24T09:41:14 2021-11-24T09:42:28   00:01:14      5.84M  01:13.610  COMPLETED  0:0   r1pl-hpcf-n21                                          
+  2354073.extern            2021-11-24T09:41:14 2021-11-24T09:42:28   00:01:14          0  00:00.001  COMPLETED  0:0   r1pl-hpcf-n21                                          
+CPU Efficiency: 3.33% of 00:37:00 core-walltime
