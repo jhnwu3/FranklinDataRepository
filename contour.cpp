@@ -734,7 +734,7 @@ int main() {
     int xDim = 50, yDim = 50;
     double scale = (xDim+yDim) / 2;
     double cost = 0;
-    double holdtheta2 = 0.259;
+    double holdtheta2 = 0.358;
     MatrixXd eqwts(xDim*yDim, Npars + 1);
     int s = 0;
     for(int x = 0; x < xDim; x++){
