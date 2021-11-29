@@ -730,17 +730,20 @@ int main() {
     // seed.k << 0.1659069,	0.6838229,	0.9585955,	0.4651133,	0.4573598,	0.1806655;
 
     /* Solve for 50 x 50 contour plot for equal weights */
+    int xAxis = 3, yAxis = 4; // thetas
     int xDim = 50, yDim = 50;
     double scale = (xDim+yDim) / 2;
     double cost = 0;
+    double holdtheta2 = 0.259;
     MatrixXd eqwts(xDim*yDim, Npars + 1);
     int s = 0;
     for(int x = 0; x < xDim; x++){
         for(int y = 0; y < yDim; y++){
             K rate;
             rate.k = tru.k;
-            rate.k(3) = x / scale;
-            rate.k(4) = y / scale;
+            rate.k(1) = holdtheta2;
+            rate.k(xAxis) = x / scale;
+            rate.k(yAxis) = y / scale;
             for(int t = 0; t < nTimeSteps; t++){
                 Nonlinear_ODE6 sys(rate);
                 Protein_Components Xt(times(t), nMoments, N);
