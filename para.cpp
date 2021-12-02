@@ -757,7 +757,7 @@ int main() {
         MatrixXd POSMAT = MatrixXd::Zero(nParts, Npars); // Position matrix as it goees through it in parallel
         
         /* Instantiate seedk aka global costs */
-        double holdTheta2 = 0.2589334 - 0.1 + 0.1;
+        double holdTheta2 = 0.2589334 + 0.2;
         struct K seed;
         seed.k = VectorXd::Zero(Npars); 
         //seed.k = testVec;
