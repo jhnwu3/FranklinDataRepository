@@ -507,8 +507,8 @@ int main() {
     double alpha = 0.2;
     int nRuns = 1;
     int N = 5000;
-    int nParts = 30; // blind PSO  1000:10
-    int nSteps = 1500;
+    int nParts = 1000; // blind PSO  1000:10
+    int nSteps = 10;
     int nParts2 = 1; // targeted PSO
     int nSteps2 = 1;
     int nMoments = (N_SPECIES * (N_SPECIES + 3)) / 2; // var + mean + cov
@@ -766,6 +766,7 @@ int main() {
         }
         // seed.k(4) = tru.k(4);
         seed.k(1) = holdTheta2;
+        seed.k << 0.105369,	0.158933,	0.935545,	0.175053,	0.0636498,	0.178754,	0.0374366;
         // seed.k = tru.k;
         double costSeedK = 0;
         for(int t = 0; t < nTimeSteps; t++){
@@ -794,7 +795,7 @@ int main() {
             GBMAT(GBMAT.rows() - 1, i) = seed.k(i);
         }
         GBMAT(GBMAT.rows() - 1, Npars) = gCost;
-        
+        double probabilityToTeleport = 0;//3.0/4.0;
         /* Blind PSO begins */
         cout << "PSO begins!" << endl;
         for(int step = 0; step < nSteps; step++){
@@ -858,7 +859,7 @@ int main() {
                    
                     pos.k = w1 * rpoint + w2 * PBVEC + w3 * GBVEC; // update position of particle
                     
-                    if(pUnifDist(pGenerator) < (3.0/4.0)){ // hard coded grid re-search for an adaptive component
+                    if(pUnifDist(pGenerator) < probabilityToTeleport){ // hard coded grid re-search for an adaptive component
                         pos.k(0) = pUnifDist(pGenerator);
                         pos.k(1) = pUnifDist(pGenerator);
                         pos.k(4) = pUnifDist(pGenerator);
