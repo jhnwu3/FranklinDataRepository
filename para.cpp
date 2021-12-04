@@ -810,10 +810,9 @@ int main() {
                     for(int i = 0; i < Npars; i++){
                         POSMAT(particle, i) = pUnifDist(pGenerator);
                     }
-
-                    // POSMAT.row(particle) = seed.k;
                     // POSMAT(particle, 4) = 0.05;
                     POSMAT(particle, 1) = holdTheta2;
+                     POSMAT.row(particle) = seed.k;
                     struct K pos;
                     pos.k = VectorXd::Zero(Npars);
                     for(int i = 0; i < Npars; i++){
