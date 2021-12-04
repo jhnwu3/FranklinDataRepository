@@ -766,7 +766,7 @@ int main() {
         }
         // seed.k(4) = tru.k(4);
         seed.k(1) = holdTheta2;
-        seed.k << 0.135614,	0.458933,	0.945409,	0.170911,	0.0495405,	0.183258;
+        seed.k << 0.146338,	0.558933,	0.946869,	0.18205,	0.0742468,	0.18073;
         // seed.k = tru.k;
         double costSeedK = 0;
         for(int t = 0; t < nTimeSteps; t++){
@@ -812,7 +812,7 @@ int main() {
                     }
                     // POSMAT(particle, 4) = 0.05;
                     POSMAT(particle, 1) = holdTheta2;
-                     POSMAT.row(particle) = seed.k;
+                    POSMAT.row(particle) = seed.k;
                     struct K pos;
                     pos.k = VectorXd::Zero(Npars);
                     for(int i = 0; i < Npars; i++){
