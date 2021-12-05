@@ -506,7 +506,7 @@ int main() {
      double sfp = 3.0, sfg = 1.0, sfe = 6.0; // initial particle historical weight, global weight social, inertial
     double alpha = 0.2;
     int nRuns = 1;
-    int N = 5000;
+    int N = 25000;
     int nParts = 1000; // blind PSO  1000:10
     int nSteps = 10;
     int nParts2 = 1; // targeted PSO
@@ -766,7 +766,7 @@ int main() {
         }
         // seed.k(4) = tru.k(4);
         seed.k(1) = holdTheta2;
-        seed.k <<0.0984571,	0.1,	0.924186,	0.177939,	0.0717148,	0.171441;
+        seed.k << 0.094531,  0.05,  0.938388,  0.170400,  0.0517104 , 0.180564;
         holdTheta2 = seed.k(1);
         // seed.k = tru.k;
         double costSeedK = 0;
@@ -796,7 +796,7 @@ int main() {
             GBMAT(GBMAT.rows() - 1, i) = seed.k(i);
         }
         GBMAT(GBMAT.rows() - 1, Npars) = gCost;
-        double probabilityToTeleport = 0;//3.0/4.0;
+        double probabilityToTeleport = 0;//3.0/4.0; no teleportation.
         /* Blind PSO begins */
         cout << "PSO begins!" << endl;
         for(int step = 0; step < nSteps; step++){
