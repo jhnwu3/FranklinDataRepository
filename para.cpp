@@ -766,7 +766,7 @@ int main() {
         }
         // seed.k(4) = tru.k(4);
         seed.k(1) = holdTheta2;
-        seed.k <<  0.164017,  0.75 , 0.939101 , 0.170425 , 0.0521987 , 0.180125	;
+        seed.k <<   0.154441,  0.65,  0.941739,  0.170747,  0.0506147,  0.181658;
         holdTheta2 = seed.k(1);
         // seed.k = tru.k;
         double costSeedK = 0;
