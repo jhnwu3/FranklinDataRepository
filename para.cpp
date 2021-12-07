@@ -506,7 +506,7 @@ int main() {
      double sfp = 3.0, sfg = 1.0, sfe = 6.0; // initial particle historical weight, global weight social, inertial
     double alpha = 0.2;
     int nRuns = 1;
-    int N = 5000;
+    int N = 15000;
     int nParts = 1000; // blind PSO  1000:10
     int nSteps = 20;
     int nParts2 = 1; // targeted PSO
@@ -766,7 +766,7 @@ int main() {
         }
         // seed.k(4) = tru.k(4);
         seed.k(1) = holdTheta2;
-        seed.k <<    0.094531 , 0.01 , 0.938388 , 0.170400 , 0.0517104 , 0.180564;
+        seed.k <<    0.094531 , 0.85 , 0.938388 , 0.170400 , 0.0517104 , 0.180564;
         holdTheta2 = seed.k(1);
         // seed.k = tru.k;
         double costSeedK = 0;
