@@ -390,27 +390,23 @@ void printToStd(const MatrixXd& mat){ // prints matrix to csv
     }
 }
 MatrixXd ytWtMat(const MatrixXd& Yt, int nMoments, bool useBanks){
-    cout << "hi" << endl;
     /* first moment differences */
     MatrixXd fmdiffs = MatrixXd::Zero(Yt.rows(), Yt.cols());
-    cout << "395" << endl;
     for(int i = 0; i < Yt.cols(); i++){
         fmdiffs.col(i) = Yt.col(i).array() - Yt.col(i).array().mean();
     }
-    cout << "399" << endl;
     /* second moment difference computations - @todo make it variable later */
     MatrixXd smdiffs(Yt.rows(), Yt.cols());
     for(int i = 0; i < Yt.cols(); i++){
         smdiffs.col(i) = (Yt.col(i).array() * Yt.col(i).array()) - (Yt.col(i).array().mean() * Yt.col(i).array().mean());
     }
-    cout << "405" << endl;
     /* If no cross moments, then have a check for it */
     int nCross = nMoments - (2 * Yt.cols());
     if (nCross < 0){
         nCross = 0;
     }
     MatrixXd cpDiff(Yt.rows(), nCross);
-    cout << "412" << endl;
+
     /* cross differences */
     if(nCross > 0){
         int upperDiag = 0;
@@ -421,7 +417,7 @@ MatrixXd ytWtMat(const MatrixXd& Yt, int nMoments, bool useBanks){
             }
         }
     }
-    cout  << "424" << endl;
+
     MatrixXd aDiff(Yt.rows(), nMoments);
     for(int i = 0; i < Yt.rows(); i++){
         for(int moment = 0; moment < nMoments; moment++){
@@ -717,8 +713,8 @@ int main() {
         }
         // seed.k(4) = tru.k(4);
         seed.k(1) = holdTheta2;
-        seed.k <<    0.094531 , 0.99 , 0.938388 , 0.170400 , 0.0517104 , 0.180564;
-        holdTheta2 = seed.k(1);
+        // seed.k <<    0.094531 , 0.99 , 0.938388 , 0.170400 , 0.0517104 , 0.180564;
+        // holdTheta2 = seed.k(1);
         // seed.k = tru.k;
         double costSeedK = 0;
         for(int t = 0; t < nTimeSteps; t++){
@@ -747,7 +743,7 @@ int main() {
             GBMAT(GBMAT.rows() - 1, i) = seed.k(i);
         }
         GBMAT(GBMAT.rows() - 1, Npars) = gCost;
-        double probabilityToTeleport = 0;//3.0/4.0; no teleportation.
+        double probabilityToTeleport = 3.0/4.0; no teleportation.
         /* Blind PSO begins */
         cout << "PSO begins!" << endl;
         for(int step = 0; step < nSteps; step++){
@@ -764,7 +760,7 @@ int main() {
                     }
                     // POSMAT(particle, 4) = 0.05;
                     POSMAT(particle, 1) = holdTheta2;
-                    POSMAT.row(particle) = seed.k;
+                    // POSMAT.row(particle) = seed.k;
                     struct K pos;
                     pos.k = VectorXd::Zero(Npars);
                     for(int i = 0; i < Npars; i++){
