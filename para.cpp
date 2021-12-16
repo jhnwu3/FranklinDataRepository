@@ -409,7 +409,7 @@ MatrixXd ytWtMat(const MatrixXd& Yt, int nMoments, bool useBanks){
     if (nCross < 0){
         nCross = 0;
     }
-    MatrixXd cpDiff(Yt.size(), nCross);
+    MatrixXd cpDiff(Yt.rows(), nCross);
     cout << "412" << endl;
     /* cross differences */
     if(nCross > 0){
@@ -421,6 +421,7 @@ MatrixXd ytWtMat(const MatrixXd& Yt, int nMoments, bool useBanks){
             }
         }
     }
+    cout  << "424" << endl;
     MatrixXd aDiff(Yt.rows(), nMoments);
     for(int i = 0; i < Yt.rows(); i++){
         for(int moment = 0; moment < nMoments; moment++){
