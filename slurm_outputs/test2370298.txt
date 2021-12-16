@@ -1,0 +1,28 @@
+nRuns:1
+Using two part PSO Sample Size:5000 with:27 moments.
+Using Times:0.5   2  10  20  30
+Bounds for Uniform Distribution (0,1)
+Blind PSO --> nParts:30 Nsteps:1500
+Targeted PSO --> nParts:1 Nsteps:1
+sdbeta:0.1
+Reading in data!
+Using starting row of data:0 and 5000 data pts!
+first row X0:260.559 2143.24 4.86708 4.95832 65.2493 4.94309
+final row X0:123.826 1849.08 5.06107  6.0168   161.9  5.1619
+
+
+
+Loading in Truk!
+Calculating Yt!
+truk cost:8.46519e+09
+para: /gpfs0/export/apps/easybuild/software/Eigen/3.3.7-GCCcore-9.3.0/include/Eigen/src/Core/DenseBase.h:256: void Eigen::DenseBase<Derived>::resize(Eigen::Index, Eigen::Index) [with Derived = Eigen::Block<Eigen::Matrix<double, -1, -1>, -1, 1, true>; Eigen::Index = long int]: Assertion `rows == this->rows() && cols == this->cols() && "DenseBase::resize() does not actually allow to resize."' failed.
+/var/spool/slurmd/job2370298/slurm_script: line 10: 573956 Aborted                 (core dumped) ./para
+mv: cannot stat 'GBMATP.csv': No such file or directory
+mv: cannot stat 'runs.csv': No such file or directory
+Job Statistics for 2370298:
+           JobID       User               Start                 End    Elapsed     MaxRSS   TotalCPU      State Exit        NodeList                                  ReqTRES 
+---------------- ---------- ------------------- ------------------- ---------- ---------- ---------- ---------- ---- --------------- ---------------------------------------- 
+         2370298   rsjxw007 2021-12-16T14:21:15 2021-12-16T14:21:31   00:00:16             00:15.327     FAILED  1:0   r1pl-hpcf-n21     billing=30,cpu=30,mem=234360M,node=1 
+   2370298.batch            2021-12-16T14:21:15 2021-12-16T14:21:31   00:00:16          0  00:15.325     FAILED  1:0   r1pl-hpcf-n21                                          
+  2370298.extern            2021-12-16T14:21:15 2021-12-16T14:21:31   00:00:16          0  00:00.001  COMPLETED  0:0   r1pl-hpcf-n21                                          
+CPU Efficiency: 3.12% of 00:08:00 core-walltime
