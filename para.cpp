@@ -390,8 +390,9 @@ void printToStd(const MatrixXd& mat){ // prints matrix to csv
     }
 }
 MatrixXd ytWtMat(const MatrixXd& Yt, int nMoments, bool useBanks){
+    cout << "hi" << endl;
     /* first moment differences */
-    MatrixXd fmdiffs(Yt.rows(), Yt.cols());
+    MatrixXd fmdiffs = MatrixXd::Zero(Yt.rows(), Yt.cols());
     cout << "395" << endl;
     for(int i = 0; i < Yt.cols(); i++){
         fmdiffs.col(i) = Yt.col(i).array() - Yt.col(i).array().mean();
