@@ -392,23 +392,24 @@ void printToStd(const MatrixXd& mat){ // prints matrix to csv
 MatrixXd ytWtMat(const MatrixXd& Yt, int nMoments, bool useBanks){
     /* first moment differences */
     MatrixXd fmdiffs(Yt.rows(), Yt.cols());
+    cout << "395" << endl;
     for(int i = 0; i < Yt.cols(); i++){
         fmdiffs.col(i) = Yt.col(i).array() - Yt.col(i).array().mean();
     }
-
+    cout << "399" << endl;
     /* second moment difference computations - @todo make it variable later */
     MatrixXd smdiffs(Yt.rows(), Yt.cols());
     for(int i = 0; i < Yt.cols(); i++){
         smdiffs.col(i) = (Yt.col(i).array() * Yt.col(i).array()) - (Yt.col(i).array().mean() * Yt.col(i).array().mean());
     }
-
+    cout << "405" << endl;
     /* If no cross moments, then have a check for it */
     int nCross = nMoments - (2 * Yt.cols());
     if (nCross < 0){
         nCross = 0;
     }
     MatrixXd cpDiff(Yt.size(), nCross);
-    
+    cout << "412" << endl;
     /* cross differences */
     if(nCross > 0){
         int upperDiag = 0;
