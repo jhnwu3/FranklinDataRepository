@@ -743,7 +743,7 @@ int main() {
             GBMAT(GBMAT.rows() - 1, i) = seed.k(i);
         }
         GBMAT(GBMAT.rows() - 1, Npars) = gCost;
-        double probabilityToTeleport = 3.0/4.0; no teleportation.
+        double probabilityToTeleport = 3.0/4.0; 
         /* Blind PSO begins */
         cout << "PSO begins!" << endl;
         for(int step = 0; step < nSteps; step++){
