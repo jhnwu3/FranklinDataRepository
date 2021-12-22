@@ -629,13 +629,13 @@ int main() {
     cout << "Reading in data!" << endl;
     /* Initial Conditions */
     int sizeFile = 25000;
-    int startRow = 20000; // what subset?
+    int startRow = 0; // what subset?
     MatrixXd X_0_Full(sizeFile, Npars);
     MatrixXd Y_0_Full(sizeFile, Npars);
     MatrixXd X_0(N, Npars);
     MatrixXd Y_0(N, Npars);
-    ifstream X0File("initial/noo25-61921-initial-x.txt");
-    ifstream Y0File("initial/noo25-61921-initial-y.txt");
+    ifstream X0File("initial/noo25-98711-initial-x.txt");
+    ifstream Y0File("initial/noo25-98711-initial-y.txt");
     
     X_0_Full = readIntoMatrix(X0File, sizeFile, N_SPECIES);
     Y_0_Full = readIntoMatrix(Y0File, sizeFile, N_SPECIES);
