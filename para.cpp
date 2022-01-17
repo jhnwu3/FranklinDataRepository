@@ -25,7 +25,8 @@ using namespace boost::math;
 using namespace boost::numeric::odeint;
 
 /* typedefs for boost ODE-ints */
-typedef boost::array< double, N_SPECIES > State_N;
+typedef std::vector<double> State_N;
+// typedef boost::array< double, N_SPECIES > State_N;
 typedef runge_kutta_cash_karp54< State_N > Error_RK_Stepper_N;
 typedef controlled_runge_kutta< Error_RK_Stepper_N > Controlled_RK_Stepper_N;
 
@@ -231,10 +232,18 @@ VectorXd gen_multi_lognorm_vecSub(void) {
     }
     return initVec;
 }
-State_N convertInit(const MatrixXd& sample, int index){
-    State_N c0 = {sample(index,0), sample(index,1), sample(index,2), sample(index,3), sample(index,4), sample(index,5)};
-    return c0;
+State_N convertInit(const VectorXd &v1){
+    vector<double> v2;
+    v2.resize(v1.size());
+    VectorXd::Map(&v2[0], v1.size()) = v1;
+    return v2;
 }
+
+// State_N convertInit(const MatrixXd& sample, int index){
+//     State_N c0 = {sample(index,0), sample(index,1), sample(index,2), sample(index,3), sample(index,4), sample(index,5)};
+//     return c0;
+// }
+
 VectorXd comp_vel_vec(const VectorXd& posK, int seed, double epsi, double nan, int hone) {
    
     VectorXd rPoint;
@@ -593,8 +602,8 @@ int main() {
     int nParts2 = 1; // targeted PSO
     int nSteps2 = 1;
     int nMoments = (N_SPECIES * (N_SPECIES + 3)) / 2; // var + mean + cov
-    bool useOnlySecMom = true;
-    bool useOnlyFirstMom = true;
+    bool useOnlySecMom = false;
+    bool useOnlyFirstMom = false;
     if(useOnlySecMom){  // these will be added to the options sheet later.
         cout << "USING NONMIXED MOMENTS!!" << endl;
         nMoments = 2 * N_SPECIES;
@@ -629,13 +638,13 @@ int main() {
     cout << "Reading in data!" << endl;
     /* Initial Conditions */
     int sizeFile = 25000;
-    int startRow = 20000; // what subset?
+    int startRow = 0; // what subset?
     MatrixXd X_0_Full(sizeFile, Npars);
     MatrixXd Y_0_Full(sizeFile, Npars);
     MatrixXd X_0(N, Npars);
     MatrixXd Y_0(N, Npars);
-    ifstream X0File("initial/noo25-98711-initial-x.txt");
-    ifstream Y0File("initial/noo25-98711-initial-y.txt");
+    ifstream X0File("initial/noo25-13451-initial-x.txt");
+    ifstream Y0File("initial/noo25-13451-initial-y.txt");
     
     X_0_Full = readIntoMatrix(X0File, sizeFile, N_SPECIES);
     Y_0_Full = readIntoMatrix(Y0File, sizeFile, N_SPECIES);
@@ -669,8 +678,10 @@ int main() {
         Moments_Mat_Obs XtObs(Xt);
         for (int i = 0; i < N; i++) {
             //State_N c0 = gen_multi_norm_iSub(); // Y_0 is simulated using norm dist.
-            State_N c0 = convertInit(Y_0, i);
-            State_N x0 = convertInit(X_0, i);
+            // State_N c0 = convertInit(Y_0, i);
+            // State_N x0 = convertInit(X_0, i);
+            State_N c0 = convertInit(Y_0.row(i));
+            State_N x0 = convertInit(X_0.row(i));
             Yt.index = i;
             Xt.index = i;
             integrate_adaptive(controlledStepper, trueSys, c0, t0, times(t), dt, YtObs);
@@ -712,7 +723,7 @@ int main() {
             seed.k(i) = unifDist(gen);
         }
         // seed.k(4) = tru.k(4);
-        // seed.k(1) = holdTheta2;
+        seed.k(1) = holdTheta2;
         // seed.k <<    0.094531 , 0.99 , 0.938388 , 0.170400 , 0.0517104 , 0.180564;
         // holdTheta2 = seed.k(1);
         // seed.k = tru.k;
@@ -723,7 +734,8 @@ int main() {
             Nonlinear_ODE6 sys(seed);
             for (int i = 0; i < N; i++) {
                 //State_N c0 = gen_multi_norm_iSub();
-                State_N c0 = convertInit(X_0, i);
+                // State_N c0 = convertInit(X_0, i);
+                State_N c0 = convertInit(X_0.row(i));
                 Xt.index = i;
                 integrate_adaptive(controlledStepper, sys, c0, t0, times(t), dt, XtObs);
             }
@@ -747,7 +759,7 @@ int main() {
         /* Blind PSO begins */
         cout << "PSO begins!" << endl;
         for(int step = 0; step < nSteps; step++){
-        #pragma omp parallel for 
+        // #pragma omp parallel for 
             for(int particle = 0; particle < nParts; particle++){
                 random_device pRanDev;
                 mt19937 pGenerator(pRanDev());
@@ -759,7 +771,7 @@ int main() {
                         POSMAT(particle, i) = pUnifDist(pGenerator);
                     }
                     // POSMAT(particle, 4) = 0.05;
-                    // POSMAT(particle, 1) = holdTheta2;
+                    POSMAT(particle, 1) = holdTheta2;
                     // POSMAT.row(particle) = seed.k;
                     struct K pos;
                     pos.k = VectorXd::Zero(Npars);
@@ -774,7 +786,8 @@ int main() {
                         Moments_Mat_Obs XtObsPSO(XtPSO);
                         for(int i = 0; i < N; i++){
                             //State_N c0 = gen_multi_norm_iSub();
-                            State_N c0 = convertInit(X_0, i);
+                            // State_N c0 = convertInit(X_0, i);
+                            State_N c0 = convertInit(X_0.row(i));
                             XtPSO.index = i;
                             integrate_adaptive(controlledStepper, initSys, c0, t0, times(t), dt, XtObsPSO);
                         }
@@ -812,7 +825,7 @@ int main() {
                         pos.k(4) = pUnifDist(pGenerator);
                     }
                     // pos.k(4) = 0.05;
-                    // pos.k(1) = holdTheta2;
+                    pos.k(1) = holdTheta2;
                     POSMAT.row(particle) = pos.k;
                     double cost = 0;
                     for(int t = 0; t < nTimeSteps; t++){
@@ -821,7 +834,8 @@ int main() {
                         Moments_Mat_Obs XtObsPSO1(XtPSO);
                         Nonlinear_ODE6 stepSys(pos);
                         for(int i = 0; i < N; i++){
-                            State_N c0 = convertInit(X_0, i);
+                            // State_N c0 = convertInit(X_0, i);
+                            State_N c0 = convertInit(X_0.row(i));
                             XtPSO.index = i;
                             integrate_adaptive(controlledStepper, stepSys, c0, t0, times(t), dt, XtObsPSO1);
                         }

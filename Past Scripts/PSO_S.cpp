@@ -953,19 +953,19 @@ int main() {
 				residxt.col(0) = mxt.row(0).replicate(N, 1);
 				residxt.col(1) = mxt.row(1).replicate(N, 1);
 				residxt.col(2) = mxt.row(2).replicate(N, 1);
-				residxt = Q - residxt;
+				residxt = Q - residxt; // Xt - mu 
 
 				MatrixXd residyt(Y_t.rows(), Y_t.cols());
 				residyt.col(0) = myt.row(0).replicate(N, 1);
 				residyt.col(1) = myt.row(1).replicate(N, 1);
 				residyt.col(2) = myt.row(2).replicate(N, 1);
-				residyt = Y_t - residyt;
+				residyt = Y_t - residyt; //Yt - mu
 
 				MatrixXd smdiffs(N, 3);
 				smdiffs = (residyt.array() * residyt.array()) - (residxt.array() * residxt.array());
 				
 				MatrixXd cprxt(N, 3);
-				cprxt.col(0) = residxt.col(0).array() * residxt.col(1).array();
+				cprxt.col(0) = residxt.col(0).array() * residxt.col(1).array(); // (Xt-mux) * (Yt-muy)
 				cprxt.col(1) = residxt.col(0).array() * residxt.col(2).array();
 				cprxt.col(2) = residxt.col(1).array() * residxt.col(2).array();
 
@@ -987,7 +987,7 @@ int main() {
 				w_mat.setZero();
 				for (int m = 0; m < N; m++) { w_mat = w_mat + (g_mat.row(m).transpose()) * g_mat.row(m); }
 				w_mat = (w_mat/N).inverse();
-			
+		
 				if (useDiag == 1) { w_mat = w_mat.diagonal().diagonal(); }
 
 				// Update cost_gbest with w_mat
