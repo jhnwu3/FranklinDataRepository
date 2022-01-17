@@ -702,9 +702,9 @@ int main() {
     //     MatrixXd Y_B = Yt3Mats[t].block(N/2, 0, N/2, Npars);
     //     weights[t] = customWtMat(Y_A, Y_B, nMoments, N/2, false);
     // }
-    for(int t = 0; t < nTimeSteps; t++){
-        weights[t] = ytWtMat(Yt3Mats[t], nMoments, false);
-    }
+    // for(int t = 0; t < nTimeSteps; t++){
+    //     weights[t] = ytWtMat(Yt3Mats[t], nMoments, false);
+    // }
 
     MatrixXd GBVECS = MatrixXd::Zero(nRuns, Npars + 1);
     for(int run = 0; run < nRuns; run++){
