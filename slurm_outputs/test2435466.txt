@@ -1,0 +1,26 @@
+USING ONLY MEANS!
+nRuns:1
+Using two part PSO Sample Size:5000 with:6 moments.
+Using Times:0.5   2  10  20  30
+Bounds for Uniform Distribution (0,1)
+Blind PSO --> nParts:30 Nsteps:100
+Targeted PSO --> nParts:1 Nsteps:1
+sdbeta:0.1
+Reading in data!
+Using starting row of data:0 and 5000 data pts!
+first row X0:238.947 2782.88 7.99545 5.93012 171.805 5.97782
+final row X0:188.102 2147.25 5.32807 4.94735 219.504 6.02767
+
+
+
+Loading in Truk!
+Calculating Yt!
+truk cost:130.571
+XtmVec:0.0735193   1827.26   211.184   2.04503   176.984   34.0688
+XtmVec:0.0759528   1788.27   211.181   4.80793   140.758   70.2949
+XtmVec:0.103378  1757.05  211.154   17.989  122.687  88.3653
+XtmVec:0.76059 1745.24 210.497 30.2054 122.443 88.6095
+XtmVec:1.25776 1736.13     210 39.7716 122.395 88.6571
+seedk:0.722496      0.1 0.319945 0.292565 0.524742 0.747996| cost:1.46944e+07
+PSO begins!
+current:0.722496      0.1 0.319945 0.292565 0.524742 0.747996 1.46944e+07
