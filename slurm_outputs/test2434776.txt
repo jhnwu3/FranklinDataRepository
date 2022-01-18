@@ -201,3 +201,11 @@ overflow!
 overflow!
 current:0.121908      0.1 0.987619 0.317254 0.531911 0.203732 4.62481e+09
 current:0.121908      0.1 0.987619 0.317254 0.531911 0.203732 4.62481e+09
+slurmstepd: error: *** JOB 2434776 ON r1pl-hpcf-g01 CANCELLED AT 2022-01-18T14:12:48 ***
+Job Statistics for 2434776:
+           JobID       User               Start                 End    Elapsed     MaxRSS   TotalCPU      State Exit        NodeList                                  ReqTRES 
+---------------- ---------- ------------------- ------------------- ---------- ---------- ---------- ---------- ---- --------------- ---------------------------------------- 
+         2434776   rsjxw007 2022-01-17T17:24:52 2022-01-18T14:12:48   20:47:56              20:45:27 CANCELLED+  0:0   r1pl-hpcf-g01     billing=30,cpu=30,mem=234360M,node=1 
+   2434776.batch            2022-01-17T17:24:52 2022-01-18T14:12:49   20:47:57      5.44M   20:45:27  CANCELLED 0:15   r1pl-hpcf-g01                                          
+  2434776.extern            2022-01-17T17:24:52 2022-01-18T14:12:48   20:47:56          0  00:00.001  COMPLETED  0:0   r1pl-hpcf-g01                                          
+CPU Efficiency: 3.33% of 25-23:58:00 core-walltime
