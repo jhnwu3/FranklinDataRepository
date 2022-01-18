@@ -1,0 +1,8 @@
+nRuns:1
+Using two part PSO Sample Size:5000 with:27 moments.
+Using Times:0.5   2  10  20  30
+Bounds for Uniform Distribution (0,1)
+Blind PSO --> nParts:30 Nsteps:100
+Targeted PSO --> nParts:1 Nsteps:1
+sdbeta:0.1
+Reading in data!
