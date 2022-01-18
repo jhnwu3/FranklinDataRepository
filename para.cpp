@@ -598,7 +598,7 @@ int main() {
     int nRuns = 1;
     int N = 5000;
     int nParts = 30; // blind PSO  1000:10
-    int nSteps = 1500;
+    int nSteps = 100;
     int nParts2 = 1; // targeted PSO
     int nSteps2 = 1;
     int nMoments = (N_SPECIES * (N_SPECIES + 3)) / 2; // var + mean + cov
