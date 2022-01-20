@@ -603,7 +603,7 @@ int main() {
     int nSteps2 = 1;
     int nMoments = (N_SPECIES * (N_SPECIES + 3)) / 2; // var + mean + cov
     bool useOnlySecMom = false;
-    bool useOnlyFirstMom = true;
+    bool useOnlyFirstMom = false;
     if(useOnlySecMom){  // these will be added to the options sheet later.
         cout << "USING NONMIXED MOMENTS!!" << endl;
         nMoments = 2 * N_SPECIES;
@@ -638,7 +638,7 @@ int main() {
     cout << "Reading in data!" << endl;
     /* Initial Conditions */
     int sizeFile = 25000;
-    int startRow = 10000; // what subset?
+    int startRow = 0; // what subset?
     MatrixXd X_0_Full(sizeFile, Npars);
     MatrixXd Y_0_Full(sizeFile, Npars);
     MatrixXd X_0(N, Npars);
