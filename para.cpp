@@ -482,7 +482,7 @@ MatrixXd ytWtMat(const MatrixXd& Yt, int nMoments, bool useBanks){
         cout << "Omega Weights:"<< endl;
         cout << wt << endl;
     }
-    wt = wt.completeOrthogonalDecomposition().solve(MatrixXd::Identity(nMoments, nMoments));
+    wt = wt.ldlt().solve(MatrixXd::Identity(nMoments, nMoments));
     return wt;
 }
 
