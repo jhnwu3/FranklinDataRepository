@@ -464,17 +464,25 @@ MatrixXd ytWtMat(const MatrixXd& Yt, int nMoments, bool useBanks){
             wt(i,j) = covariances(i);
             wt(j,i) = covariances(i);
         }
-        cout << "Weights Before Inversion:" << endl << wt << endl;
+        cout << "Omega Weights Before Inversion:" << endl << wt << endl;
         wt = wt.llt().solve(MatrixXd::Identity(nMoments, nMoments));
         cout << "Weights:" << endl;
         cout << wt << endl;
     }else{
+        // for(int i = 0; i < nMoments; i++){
+        //     wt(i,i) = 1 / variances(i); // cleanup code and make it more vectorized later.
+        // }
         for(int i = 0; i < nMoments; i++){
-            wt(i,i) = 1 / variances(i); // cleanup code and make it more vectorized later.
+            wt(i,i) = variances(i);
+            for(int j = i + 1; j < nMoments; j++){
+                wt(i,j) = ((aDiff.col(i).array() - aDiff.col(i).array().mean()).array() * (aDiff.col(j).array() - aDiff.col(j).array().mean()).array() ).sum() / ((double) aDiff.col(i).array().size() - 1); 
+                wt(j,i) = wt(i,j); // across diagonal
+            }
         }
-        cout << "Weights:"<< endl;
+        cout << "Omega Weights:"<< endl;
         cout << wt << endl;
     }
+
     return wt;
 }
 
@@ -597,8 +605,8 @@ int main() {
     double alpha = 0.2;
     int nRuns = 1;
     int N = 5000;
-    int nParts = 100; // blind PSO  1000:10
-    int nSteps = 350;
+    int nParts = 1; // blind PSO  1000:10
+    int nSteps = 1;
     int nParts2 = 1; // targeted PSO
     int nSteps2 = 1;
     int nMoments = (N_SPECIES * (N_SPECIES + 3)) / 2; // var + mean + cov
@@ -638,7 +646,7 @@ int main() {
     cout << "Reading in data!" << endl;
     /* Initial Conditions */
     int sizeFile = 25000;
-    int startRow = 20000; // what subset?
+    int startRow = 0; // what subset?
     MatrixXd X_0_Full(sizeFile, Npars);
     MatrixXd Y_0_Full(sizeFile, Npars);
     MatrixXd X_0(N, Npars);
@@ -702,10 +710,13 @@ int main() {
     //     MatrixXd Y_B = Yt3Mats[t].block(N/2, 0, N/2, Npars);
     //     weights[t] = customWtMat(Y_A, Y_B, nMoments, N/2, false);
     // }
-    // for(int t = 0; t < nTimeSteps; t++){
-    //     weights[t] = ytWtMat(Yt3Mats[t], nMoments, false);
-    // }
-
+    for(int t = 0; t < nTimeSteps; t++){
+        weights[t] = ytWtMat(Yt3Mats[t], nMoments, false);
+    }
+    for(int t = 0; t < nTimeSteps; t++){
+        cout << "w" << t << endl;
+        cout << weights[t] << endl;
+    }
     MatrixXd GBVECS = MatrixXd::Zero(nRuns, Npars + 1);
     for(int run = 0; run < nRuns; run++){
         // make sure to reset GBMAT, POSMAT, AND PBMAT EVERY RUN!
