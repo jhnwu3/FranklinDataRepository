@@ -610,8 +610,8 @@ int main() {
     int nParts2 = 1; // targeted PSO
     int nSteps2 = 1;
     int nMoments = (N_SPECIES * (N_SPECIES + 3)) / 2; // var + mean + cov
-    bool useOnlySecMom = true;
-    bool useOnlyFirstMom = true;
+    bool useOnlySecMom = false;
+    bool useOnlyFirstMom = false;
     if(useOnlySecMom){  // these will be added to the options sheet later.
         cout << "USING NONMIXED MOMENTS!!" << endl;
         nMoments = 2 * N_SPECIES;
