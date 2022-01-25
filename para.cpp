@@ -482,7 +482,11 @@ MatrixXd ytWtMat(const MatrixXd& Yt, int nMoments, bool useBanks){
         cout << "Omega Weights:"<< endl;
         cout << wt << endl;
     }
-    wt = wt.ldlt().solve(MatrixXd::Identity(nMoments, nMoments));
+    MatrixXd wtI = wt;
+    wt = wt.lu().inverse();
+    
+    cout << "Sanity Check:" << endl;
+    cout << wtI * wt << endl;
     return wt;
 }
 
@@ -590,7 +594,7 @@ int main() {
     double t0 = 0, tf = 15, dt = 1.0; 
     int nTimeSteps = 5;
     VectorXd times = VectorXd::Zero(nTimeSteps);
-    times << 0.5, 2, 10, 20, 30; // ultra early, early, medium, late
+    times << 10; // ultra early, early, medium, late
     int Npars = N_DIM;
     double squeeze = 0.500, sdbeta = 0.10; 
     double boundary = 0.001;
@@ -651,8 +655,8 @@ int main() {
     MatrixXd Y_0_Full(sizeFile, Npars);
     MatrixXd X_0(N, Npars);
     MatrixXd Y_0(N, Npars);
-    ifstream X0File("initial/noo25-98711-initial-x.txt");
-    ifstream Y0File("initial/noo25-98711-initial-y.txt");
+    ifstream X0File("initial/noo25-13451-initial-x.txt");
+    ifstream Y0File("initial/noo25-13451-initial-y.txt");
     
     X_0_Full = readIntoMatrix(X0File, sizeFile, N_SPECIES);
     Y_0_Full = readIntoMatrix(Y0File, sizeFile, N_SPECIES);
@@ -665,6 +669,17 @@ int main() {
     cout << "Using starting row of data:" << startRow << " and " << N << " data pts!" << endl;
     cout << "first row X0:" << X_0.row(0) << endl;
     cout << "final row X0:" << X_0.row(N - 1) << endl << endl << endl << endl;
+    /*SDASDASDAS */
+    MatrixXd x(4,4);
+    x << 5,0,0,0,
+    0,0,3,0,
+    0,1,3,0,
+    1,0,0,1;
+
+    cout << "HERE IS X:" << endl;
+    cout << x << endl;
+    cout << "Xinv" << endl;
+    cout << x.inverse() << endl;
 
     /* Solve for Y_t (mu). */
     cout << "Loading in Truk!" << endl;
@@ -701,6 +716,7 @@ int main() {
         Xt3Vecs.push_back(Xt.mVec);
         Yt3Mats.push_back(Yt.mat);
         Yt3Vecs.push_back(Yt.mVec);
+        printToCsv(Yt.mat, "Yt" + to_string(t));
     }
     cout << "truk cost:"<< trukCost << endl;
 
@@ -712,6 +728,7 @@ int main() {
     // }
     for(int t = 0; t < nTimeSteps; t++){
         weights[t] = ytWtMat(Yt3Mats[t], nMoments, false);
+       
     }
     cout << "Weights:" << endl << endl;
     for(int t = 0; t < nTimeSteps; t++){
