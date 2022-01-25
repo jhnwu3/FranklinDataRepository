@@ -609,7 +609,7 @@ int main() {
     double alpha = 0.2;
     int nRuns = 1;
     int N = 5000;
-    int nParts = 1; // blind PSO  1000:10
+    int nParts = 10; // blind PSO  1000:10
     int nSteps = 1;
     int nParts2 = 1; // targeted PSO
     int nSteps2 = 1;
