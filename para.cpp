@@ -650,7 +650,7 @@ int main() {
     cout << "Reading in data!" << endl;
     /* Initial Conditions */
     int sizeFile = 25000;
-    int startRow = 0; // what subset?
+    int startRow = 5000; // what subset?
     MatrixXd X_0_Full(sizeFile, Npars);
     MatrixXd Y_0_Full(sizeFile, Npars);
     MatrixXd X_0(N, Npars);
