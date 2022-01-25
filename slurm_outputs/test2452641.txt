@@ -1,0 +1,8 @@
+ls: cannot open directory '/root': Permission denied
+Job Statistics for 2452641:
+           JobID       User               Start                 End    Elapsed     MaxRSS   TotalCPU      State Exit        NodeList                                  ReqTRES 
+---------------- ---------- ------------------- ------------------- ---------- ---------- ---------- ---------- ---- --------------- ---------------------------------------- 
+         2452641   rsjxw007 2022-01-24T07:44:02 2022-01-24T07:44:03   00:00:01             00:00.012     FAILED  2:0   r1pl-hpcf-n21        billing=2,cpu=2,mem=15624M,node=1 
+   2452641.batch            2022-01-24T07:44:02 2022-01-24T07:44:03   00:00:01          0  00:00.010     FAILED  2:0   r1pl-hpcf-n21                                          
+  2452641.extern            2022-01-24T07:44:02 2022-01-24T07:44:03   00:00:01          0  00:00.001  COMPLETED  0:0   r1pl-hpcf-n21                                          
+CPU Efficiency: 0.00% of 00:00:02 core-walltime

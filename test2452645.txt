@@ -1,0 +1,8 @@
+hello
+Job Statistics for 2452645:
+           JobID       User               Start                 End    Elapsed     MaxRSS   TotalCPU      State Exit        NodeList                                  ReqTRES 
+---------------- ---------- ------------------- ------------------- ---------- ---------- ---------- ---------- ---- --------------- ---------------------------------------- 
+         2452645   rsjxw007 2022-01-24T07:48:39 2022-01-24T07:48:39   00:00:00             00:00.010  COMPLETED  0:0   r1pl-hpcf-n21        billing=2,cpu=2,mem=15624M,node=1 
+   2452645.batch            2022-01-24T07:48:39 2022-01-24T07:48:39   00:00:00          0  00:00.009  COMPLETED  0:0   r1pl-hpcf-n21                                          
+  2452645.extern            2022-01-24T07:48:39 2022-01-24T07:48:39   00:00:00          0  00:00.001  COMPLETED  0:0   r1pl-hpcf-n21                                          
+CPU Efficiency: 0.00% of 00:00:00 core-walltime

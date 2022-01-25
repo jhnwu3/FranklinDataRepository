@@ -1,0 +1,9 @@
+para: /gpfs0/export/apps/easybuild/software/Eigen/3.3.7-GCCcore-9.3.0/include/Eigen/src/Core/CommaInitializer.h:118: XprType& Eigen::CommaInitializer<MatrixType>::finished() [with XprType = Eigen::Matrix<double, -1, 1>]: Assertion `((m_row+m_currentBlockRows) == m_xpr.rows() || m_xpr.cols() == 0) && m_col == m_xpr.cols() && "Too few coefficients passed to comma initializer (operator<<)"' failed.
+/var/spool/slurmd/job2453660/slurm_script: line 10: 3659330 Aborted                 (core dumped) ./para
+Job Statistics for 2453660:
+           JobID       User               Start                 End    Elapsed     MaxRSS   TotalCPU      State Exit        NodeList                                  ReqTRES 
+---------------- ---------- ------------------- ------------------- ---------- ---------- ---------- ---------- ---- --------------- ---------------------------------------- 
+         2453660   rsjxw007 2022-01-24T21:27:30 2022-01-24T21:27:31   00:00:01             00:00.138  COMPLETED  0:0   r1pl-hpcf-n21      billing=10,cpu=10,mem=78120M,node=1 
+   2453660.batch            2022-01-24T21:27:30 2022-01-24T21:27:31   00:00:01          0  00:00.137  COMPLETED  0:0   r1pl-hpcf-n21                                          
+  2453660.extern            2022-01-24T21:27:30 2022-01-24T21:27:31   00:00:01          0  00:00.001  COMPLETED  0:0   r1pl-hpcf-n21                                          
+CPU Efficiency: 0.00% of 00:00:10 core-walltime
