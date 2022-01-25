@@ -469,24 +469,24 @@ MatrixXd ytWtMat(const MatrixXd& Yt, int nMoments, bool useBanks){
         cout << "Weights:" << endl;
         cout << wt << endl;
     }else{
-        // for(int i = 0; i < nMoments; i++){
-        //     wt(i,i) = 1 / variances(i); // cleanup code and make it more vectorized later.
-        // }
         for(int i = 0; i < nMoments; i++){
-            wt(i,i) = variances(i);
-            for(int j = i + 1; j < nMoments; j++){
-                wt(i,j) = ((aDiff.col(i).array() - aDiff.col(i).array().mean()).array() * (aDiff.col(j).array() - aDiff.col(j).array().mean()).array() ).sum() / ((double) aDiff.col(i).array().size() - 1); 
-                wt(j,i) = wt(i,j); // across diagonal
-            }
+            wt(i,i) = 1 / variances(i); // cleanup code and make it more vectorized later.
         }
-        cout << "Omega Weights:"<< endl;
-        cout << wt << endl;
+        // for(int i = 0; i < nMoments; i++){
+        //     wt(i,i) = variances(i);
+        //     for(int j = i + 1; j < nMoments; j++){
+        //         wt(i,j) = ((aDiff.col(i).array() - aDiff.col(i).array().mean()).array() * (aDiff.col(j).array() - aDiff.col(j).array().mean()).array() ).sum() / ((double) aDiff.col(i).array().size() - 1); 
+        //         wt(j,i) = wt(i,j); // across diagonal
+        //     }
+        // }
+        // cout << "Omega Weights:"<< endl;
+        // cout << wt << endl;
     }
-    MatrixXd wtI = wt;
-    wt = wt.lu().inverse();
+    // MatrixXd wtI = wt;
+    // wt = wt.lu().inverse();
     
-    cout << "Sanity Check:" << endl;
-    cout << wtI * wt << endl;
+    // cout << "Sanity Check:" << endl;
+    // cout << wtI * wt << endl;
     return wt;
 }
 
@@ -610,7 +610,7 @@ int main() {
     int nRuns = 1;
     int N = 5000;
     int nParts = 30; // blind PSO  1000:10
-    int nSteps = 1;
+    int nSteps = 1500;
     int nParts2 = 1; // targeted PSO
     int nSteps2 = 1;
     int nMoments = (N_SPECIES * (N_SPECIES + 3)) / 2; // var + mean + cov
@@ -728,7 +728,6 @@ int main() {
     // }
     for(int t = 0; t < nTimeSteps; t++){
         weights[t] = ytWtMat(Yt3Mats[t], nMoments, false);
-       
     }
     cout << "Weights:" << endl << endl;
     for(int t = 0; t < nTimeSteps; t++){
