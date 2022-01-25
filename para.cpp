@@ -479,8 +479,8 @@ MatrixXd ytWtMat(const MatrixXd& Yt, int nMoments, bool useBanks){
         //         wt(j,i) = wt(i,j); // across diagonal
         //     }
         // }
-        // cout << "Omega Weights:"<< endl;
-        // cout << wt << endl;
+        cout << "Weights:"<< endl;
+        cout << wt << endl;
     }
     // MatrixXd wtI = wt;
     // wt = wt.lu().inverse();
