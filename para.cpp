@@ -592,7 +592,7 @@ int main() {
   
     /* Variables (global) */
     double t0 = 0, tf = 15, dt = 1.0; 
-    int nTimeSteps = 5;
+    int nTimeSteps = 1;
     VectorXd times = VectorXd::Zero(nTimeSteps);
     times << 10; // ultra early, early, medium, late
     int Npars = N_DIM;
@@ -610,7 +610,7 @@ int main() {
     int nRuns = 1;
     int N = 5000;
     int nParts = 30; // blind PSO  1000:10
-    int nSteps = 1500;
+    int nSteps = 1;
     int nParts2 = 1; // targeted PSO
     int nSteps2 = 1;
     int nMoments = (N_SPECIES * (N_SPECIES + 3)) / 2; // var + mean + cov
