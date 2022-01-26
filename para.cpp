@@ -594,6 +594,37 @@ void printToTxt(const MatrixXd& mat, const string& fileName){ // prints matrix t
     plot.close();
 }
 
+MatrixXd csvToMatrix (const std::string & path, int fileSize) {
+    std::ifstream indata;
+    indata.open(path);
+    if(!indata.is_open()){
+        throw std::runtime_error("Invalid Sample File Name!");
+        exit(EXIT_FAILURE);
+    }
+    std::string line;
+    std::vector<double> values;
+    unsigned int rows = 0;
+    while (std::getline(indata, line)) {
+        std::stringstream lineStream(line);
+        std::string cell;
+        while (std::getline(lineStream, cell, ',')) {
+            values.push_back(std::stod(cell));
+        }
+        ++rows;
+    }
+    MatrixXd mat = MatrixXd::Zero(rows, values.size()/rows);
+    int i = 0;
+    for(int r = 0; r < rows; r++){
+        for(int c = 0; c < mat.cols(); c++){
+            mat(r,c) = values[i];
+            i++;
+        }
+    }
+    MatrixXd matResized = mat.block(0, 0, fileSize, mat.cols());
+    mat.conservativeResize(0,0); // delete previously allocated matrix
+    return matResized;
+}
+
 int main() {
     auto t1 = std::chrono::high_resolution_clock::now();
     /*---------------------- Setup ------------------------ */
@@ -728,7 +759,7 @@ int main() {
         Xt3Vecs.push_back(Xt.mVec);
         Yt3Mats.push_back(Yt.mat);
         Yt3Vecs.push_back(Yt.mVec);
-        printToTxt(Yt.mat, "Yt" + to_string(t));
+        // printToTxt(Yt.mat, "Yt" + to_string(t));
     }
     cout << "truk cost:"<< trukCost << endl;
 
@@ -739,13 +770,15 @@ int main() {
     //     weights[t] = customWtMat(Y_A, Y_B, nMoments, N/2, false);
     // }
     for(int t = 0; t < nTimeSteps; t++){
-        weights[t] = ytWtMat(Yt3Mats[t], nMoments, false);
+        string wName = "wt" + to_string(t) + ".csv";
+        weights[t] = csvToMatrix(wName, nMoments);
     }
     cout << "Weights:" << endl << endl;
     for(int t = 0; t < nTimeSteps; t++){
         cout << "w" << t << endl;
         cout << weights[t] << endl;
     }
+
     MatrixXd GBVECS = MatrixXd::Zero(nRuns, Npars + 1);
     for(int run = 0; run < nRuns; run++){
         // make sure to reset GBMAT, POSMAT, AND PBMAT EVERY RUN!
