@@ -586,15 +586,27 @@ void printToCsv(const MatrixXd& mat, const string& fileName){ // prints matrix t
     plot.close();
 }
 
+void printToTxt(const MatrixXd& mat, const string& fileName){ // prints matrix to csv
+    ofstream plot;
+    string csvFile = fileName + ".txt";
+	plot.open(csvFile);
+    plot << mat;
+    plot.close();
+}
+
 int main() {
     auto t1 = std::chrono::high_resolution_clock::now();
     /*---------------------- Setup ------------------------ */
   
     /* Variables (global) */
     double t0 = 0, tf = 15, dt = 1.0; 
-    int nTimeSteps = 1;
+    int nTimeSteps = 5;
     VectorXd times = VectorXd::Zero(nTimeSteps);
-    times << 10; // ultra early, early, medium, late
+    times << 0.5,
+        2,
+        10,
+        20,
+        30; // ultra early, early, medium, late
     int Npars = N_DIM;
     double squeeze = 0.500, sdbeta = 0.10; 
     double boundary = 0.001;
@@ -609,8 +621,8 @@ int main() {
     double alpha = 0.2;
     int nRuns = 1;
     int N = 5000;
-    int nParts = 30; // blind PSO  1000:10
-    int nSteps = 1500;
+    int nParts = 1; // blind PSO  1000:10
+    int nSteps = 1;
     int nParts2 = 1; // targeted PSO
     int nSteps2 = 1;
     int nMoments = (N_SPECIES * (N_SPECIES + 3)) / 2; // var + mean + cov
@@ -650,7 +662,7 @@ int main() {
     cout << "Reading in data!" << endl;
     /* Initial Conditions */
     int sizeFile = 25000;
-    int startRow = 20000; // what subset?
+    int startRow = 0; // what subset?
     MatrixXd X_0_Full(sizeFile, Npars);
     MatrixXd Y_0_Full(sizeFile, Npars);
     MatrixXd X_0(N, Npars);
@@ -716,7 +728,7 @@ int main() {
         Xt3Vecs.push_back(Xt.mVec);
         Yt3Mats.push_back(Yt.mat);
         Yt3Vecs.push_back(Yt.mVec);
-        printToCsv(Yt.mat, "Yt" + to_string(t));
+        printToTxt(Yt.mat, "Yt" + to_string(t));
     }
     cout << "truk cost:"<< trukCost << endl;
 
