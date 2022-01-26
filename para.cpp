@@ -652,13 +652,13 @@ int main() {
     double alpha = 0.2;
     int nRuns = 1;
     int N = 5000;
-    int nParts = 1; // blind PSO  1000:10
-    int nSteps = 1;
+    int nParts = 100; // blind PSO  1000:10
+    int nSteps = 50;
     int nParts2 = 1; // targeted PSO
     int nSteps2 = 1;
     int nMoments = (N_SPECIES * (N_SPECIES + 3)) / 2; // var + mean + cov
-    bool useOnlySecMom = false;
-    bool useOnlyFirstMom = true;
+    bool useOnlySecMom = true;
+    bool useOnlyFirstMom = false;
     if(useOnlySecMom){  // these will be added to the options sheet later.
         cout << "USING NONMIXED MOMENTS!!" << endl;
         nMoments = 2 * N_SPECIES;
@@ -801,6 +801,8 @@ int main() {
         // holdTheta2 = seed.k(1);
         // seed.k = tru.k;
         double costSeedK = 0;
+        double sumInvertedCost = 0;
+        VectorXd seedKTimeCosts = VectorXd::Zero(nTimeSteps);
         for(int t = 0; t < nTimeSteps; t++){
             Protein_Components Xt(times(t), nMoments, N);
             Moments_Mat_Obs XtObs(Xt);
@@ -814,9 +816,13 @@ int main() {
             }
             Xt.mVec /= N;  
             cout << "XtmVec:" << Xt.mVec.transpose() << endl;
-            costSeedK += calculate_cf2(Yt3Vecs[t], Xt.mVec, weights[t]);
+            seedKTimeCosts(t) = calculate_cf2(Yt3Vecs[t], Xt.mVec, weights[t]);
+            sumInvertedCost+= 1.0 / seedKTimeCosts(t);
         }
-
+        /* Compute Weighted Time Point Costs */
+        for(int t = 0; t < nTimeSteps; t++){
+            costSeedK += ((1.0 / seedKTimeCosts(t)) / sumInvertedCost)*seedKTimeCosts(t);
+        }
         cout << "seedk:"<< seed.k.transpose() << "| cost:" << costSeedK << endl;
         
         double gCost = costSeedK; //initialize costs and GBMAT
@@ -837,6 +843,7 @@ int main() {
                 random_device pRanDev;
                 mt19937 pGenerator(pRanDev());
                 uniform_real_distribution<double> pUnifDist(uniLowBound, uniHiBound);
+                VectorXd timeCosts = VectorXd::Zero(nTimeSteps);
                 /* instantiate all particle rate constants with unifDist */
                 if(step == 0){
                     /* temporarily assign specified k constants */
@@ -853,6 +860,7 @@ int main() {
                     }
                    
                     double cost = 0;
+                    double sumInvCost = 0;
                     for(int t = 0; t < nTimeSteps; t++){
                         Nonlinear_ODE6 initSys(pos);
                         Protein_Components XtPSO(times(t), nMoments, N);
@@ -865,9 +873,12 @@ int main() {
                             integrate_adaptive(controlledStepper, initSys, c0, t0, times(t), dt, XtObsPSO);
                         }
                         XtPSO.mVec/=N;
-                        cost += calculate_cf2(Yt3Vecs[t], XtPSO.mVec, weights[t]);
+                        timeCosts(t) = calculate_cf2(Yt3Vecs[t], XtPSO.mVec, weights[t]);
+                        sumInvCost += 1/timeCosts(t);
                     }
-                    
+                    for(int t = 0; t< nTimeSteps; ++t){
+                        cost += ((1.0 / timeCosts(t)) / sumInvCost) * timeCosts(t);
+                    }
                     
                     /* instantiate PBMAT */
                     for(int i = 0; i < Npars; i++){
@@ -901,6 +912,7 @@ int main() {
                     pos.k(1) = holdTheta2;
                     POSMAT.row(particle) = pos.k;
                     double cost = 0;
+                    double sumInvCost = 0;
                     for(int t = 0; t < nTimeSteps; t++){
                         /*solve ODEs and recompute cost */
                         Protein_Components XtPSO(times(t), nMoments, N);
@@ -913,9 +925,12 @@ int main() {
                             integrate_adaptive(controlledStepper, stepSys, c0, t0, times(t), dt, XtObsPSO1);
                         }
                         XtPSO.mVec/=N;
-                        cost += calculate_cf2(Yt3Vecs[t], XtPSO.mVec, weights[t]);
+                        timeCosts(t) = calculate_cf2(Yt3Vecs[t], XtPSO.mVec, weights[t]);
+                        sumInvCost += 1/timeCosts(t);
                     }
-                
+                    for(int t = 0; t< nTimeSteps; ++t){
+                        cost += ((1.0 / timeCosts(t)) / sumInvCost) * timeCosts(t);
+                    }
                     /* update gBest and pBest */
                 #pragma omp critical
                 {
