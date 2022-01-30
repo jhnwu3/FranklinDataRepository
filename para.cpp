@@ -796,7 +796,7 @@ int main() {
             seed.k(i) = unifDist(gen);
         }
         // seed.k(4) = tru.k(4);
-        // seed.k(1) = holdTheta2;
+        seed.k(1) = holdTheta2;
         // seed.k <<    0.094531 , 0.99 , 0.938388 , 0.170400 , 0.0517104 , 0.180564;
         // holdTheta2 = seed.k(1);
         // seed.k = tru.k;
@@ -851,7 +851,7 @@ int main() {
                         POSMAT(particle, i) = pUnifDist(pGenerator);
                     }
                     // POSMAT(particle, 4) = 0.05;
-                    // POSMAT(particle, 1) = holdTheta2;
+                    POSMAT(particle, 1) = holdTheta2;
                     // POSMAT.row(particle) = seed.k;
                     struct K pos;
                     pos.k = VectorXd::Zero(Npars);
@@ -909,7 +909,7 @@ int main() {
                         pos.k(4) = pUnifDist(pGenerator);
                     }
                     // pos.k(4) = 0.05;
-                    // pos.k(1) = holdTheta2;
+                    pos.k(1) = holdTheta2;
                     POSMAT.row(particle) = pos.k;
                     double cost = 0;
                     double sumInvCost = 0;
