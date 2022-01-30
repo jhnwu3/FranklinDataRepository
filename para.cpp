@@ -816,13 +816,14 @@ int main() {
             }
             Xt.mVec /= N;  
             cout << "XtmVec:" << Xt.mVec.transpose() << endl;
-            seedKTimeCosts(t) = calculate_cf2(Yt3Vecs[t], Xt.mVec, weights[t]);
-            sumInvertedCost+= 1.0 / seedKTimeCosts(t);
+            costSeedK += calculate_cf2(Yt3Vecs[t], Xt.mVec, weights[t]);
+            // seedKTimeCosts(t) = calculate_cf2(Yt3Vecs[t], Xt.mVec, weights[t]);
+            // sumInvertedCost+= 1.0 / seedKTimeCosts(t);
         }
         /* Compute Weighted Time Point Costs */
-        for(int t = 0; t < nTimeSteps; t++){
-            costSeedK += ((1.0 / seedKTimeCosts(t)) / sumInvertedCost)*seedKTimeCosts(t);
-        }
+        // for(int t = 0; t < nTimeSteps; t++){
+        //     costSeedK += ((1.0 / seedKTimeCosts(t)) / sumInvertedCost)*seedKTimeCosts(t);
+        // }
         cout << "seedk:"<< seed.k.transpose() << "| cost:" << costSeedK << endl;
         
         double gCost = costSeedK; //initialize costs and GBMAT
@@ -873,12 +874,13 @@ int main() {
                             integrate_adaptive(controlledStepper, initSys, c0, t0, times(t), dt, XtObsPSO);
                         }
                         XtPSO.mVec/=N;
-                        timeCosts(t) = calculate_cf2(Yt3Vecs[t], XtPSO.mVec, weights[t]);
-                        sumInvCost += 1/timeCosts(t);
+                        // timeCosts(t) = calculate_cf2(Yt3Vecs[t], XtPSO.mVec, weights[t]);
+                        // sumInvCost += 1/timeCosts(t);
+                        cost += calculate_cf2(Yt3Vecs[t], XtPSO.mVec, weights[t]);
                     }
-                    for(int t = 0; t< nTimeSteps; ++t){
-                        cost += ((1.0 / timeCosts(t)) / sumInvCost) * timeCosts(t);
-                    }
+                    // for(int t = 0; t< nTimeSteps; ++t){
+                    //     cost += ((1.0 / timeCosts(t)) / sumInvCost) * timeCosts(t);
+                    // }
                     
                     /* instantiate PBMAT */
                     for(int i = 0; i < Npars; i++){
@@ -925,12 +927,13 @@ int main() {
                             integrate_adaptive(controlledStepper, stepSys, c0, t0, times(t), dt, XtObsPSO1);
                         }
                         XtPSO.mVec/=N;
-                        timeCosts(t) = calculate_cf2(Yt3Vecs[t], XtPSO.mVec, weights[t]);
-                        sumInvCost += 1/timeCosts(t);
+                        // timeCosts(t) = calculate_cf2(Yt3Vecs[t], XtPSO.mVec, weights[t]);
+                        // sumInvCost += 1/timeCosts(t);
+                        cost += calculate_cf2(Yt3Vecs[t], XtPSO.mVec, weights[t]);
                     }
-                    for(int t = 0; t< nTimeSteps; ++t){
-                        cost += ((1.0 / timeCosts(t)) / sumInvCost) * timeCosts(t);
-                    }
+                    // for(int t = 0; t< nTimeSteps; ++t){
+                    //     cost += ((1.0 / timeCosts(t)) / sumInvCost) * timeCosts(t);
+                    // }
                     /* update gBest and pBest */
                 #pragma omp critical
                 {
