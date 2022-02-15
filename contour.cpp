@@ -706,8 +706,6 @@ int main() {
     cout << "first row X0:" << X_0.row(0) << endl;
     cout << "final row X0:" << X_0.row(X_0.rows() - 1) << endl << endl << endl << endl;
     Controlled_RK_Stepper_N controlledStepper;
-    struct K tru;
-    tru.k << 0.1, 0.1, 0.95, 0.17, 0.05, 0.18;
     vector<VectorXd> Yt3Vecs;
     cout << "Here?" << endl;
     Yt3Vecs.push_back(momentVector(Y_t, nMoments));
