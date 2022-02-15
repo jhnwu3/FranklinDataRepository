@@ -1,0 +1,19 @@
+Using two part PSO Sample Size:5000 with:14 moments.
+Using Times:60
+Bounds for Uniform Distribution (0,1)
+Blind PSO --> nParts:25 Nsteps:50
+Targeted PSO --> nParts:10 Nsteps:1000
+sdbeta:0.1
+Reading in data!
+first row X0:34.33 25.79  -0.1 10.03
+contour: /gpfs0/export/apps/easybuild/software/Eigen/3.3.7-GCCcore-9.3.0/include/Eigen/src/Core/Block.h:120: Eigen::Block<XprType, BlockRows, BlockCols, InnerPanel>::Block(XprType&, Eigen::Index) [with XprType = Eigen::Matrix<double, -1, -1>; int BlockRows = 1; int BlockCols = -1; bool InnerPanel = false; Eigen::Index = long int]: Assertion `(i>=0) && ( ((BlockRows==1) && (BlockCols==XprType::ColsAtCompileTime) && i<xpr.rows()) ||((BlockRows==XprType::RowsAtCompileTime) && (BlockCols==1) && i<xpr.cols()))' failed.
+/var/spool/slurmd/job2550372/slurm_script: line 10: 1532788 Aborted                 (core dumped) ./contour
+mv: cannot stat 'eqwts_contour.csv': No such file or directory
+mv: cannot stat 'uneqwts_contour.csv': No such file or directory
+Job Statistics for 2550372:
+           JobID       User               Start                 End    Elapsed     MaxRSS   TotalCPU      State Exit        NodeList                                  ReqTRES 
+---------------- ---------- ------------------- ------------------- ---------- ---------- ---------- ---------- ---- --------------- ---------------------------------------- 
+         2550372   rsjxw007 2022-02-15T16:58:55 2022-02-15T16:58:57   00:00:02             00:00.138     FAILED  1:0   r1pl-hpcf-n21         billing=1,cpu=1,mem=7812M,node=1 
+   2550372.batch            2022-02-15T16:58:55 2022-02-15T16:58:57   00:00:02          0  00:00.136     FAILED  1:0   r1pl-hpcf-n21                                          
+  2550372.extern            2022-02-15T16:58:55 2022-02-15T16:58:57   00:00:02          0  00:00.001  COMPLETED  0:0   r1pl-hpcf-n21                                          
+CPU Efficiency: 0.00% of 00:00:02 core-walltime

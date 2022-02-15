@@ -1,0 +1,10 @@
+./contour: /lib64/libm.so.6: version `GLIBC_2.29' not found (required by ./contour)
+mv: cannot stat 'eqwts_contour.csv': No such file or directory
+mv: cannot stat 'uneqwts_contour.csv': No such file or directory
+Job Statistics for 2550371:
+           JobID       User               Start                 End    Elapsed     MaxRSS   TotalCPU      State Exit        NodeList                                  ReqTRES 
+---------------- ---------- ------------------- ------------------- ---------- ---------- ---------- ---------- ---- --------------- ---------------------------------------- 
+         2550371   rsjxw007 2022-02-15T16:53:36 2022-02-15T16:53:36   00:00:00             00:00.016     FAILED  1:0   r1pl-hpcf-n21         billing=1,cpu=1,mem=7812M,node=1 
+   2550371.batch            2022-02-15T16:53:36 2022-02-15T16:53:36   00:00:00          0  00:00.015     FAILED  1:0   r1pl-hpcf-n21                                          
+  2550371.extern            2022-02-15T16:53:36 2022-02-15T16:53:36   00:00:00          0  00:00.001  COMPLETED  0:0   r1pl-hpcf-n21                                          
+CPU Efficiency: 0.00% of 00:00:00 core-walltime
