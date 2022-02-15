@@ -709,6 +709,7 @@ int main() {
     struct K tru;
     tru.k << 0.1, 0.1, 0.95, 0.17, 0.05, 0.18;
     vector<VectorXd> Yt3Vecs;
+    cout << "Here?" << endl;
     Yt3Vecs.push_back(momentVector(Y_t, nMoments));
         
     // tru.k << 5.0, 0.1, 1.0, 8.69, 0.05, 0.70;
