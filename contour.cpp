@@ -485,16 +485,157 @@ void printToCsv(const MatrixXd& mat, const string& fileName){ // prints matrix t
     }
     plot.close();
 }
+MatrixXd wolfWtMat(const MatrixXd& Yt, int nMoments, bool useInverse){
+    /* first moment differences */
+    MatrixXd fmdiffs = MatrixXd::Zero(Yt.rows(), Yt.cols());
+    for(int i = 0; i < Yt.cols(); i++){
+        fmdiffs.col(i) = Yt.col(i).array() - Yt.col(i).array().mean();
+    }
+    /* second moment difference computations - @todo make it variable later */
+    MatrixXd smdiffs(Yt.rows(), Yt.cols());
+    for(int i = 0; i < Yt.cols(); i++){
+        smdiffs.col(i) = (Yt.col(i).array() * Yt.col(i).array()) - (Yt.col(i).array().mean() * Yt.col(i).array().mean());
+    }
+    /* If no cross moments, then have a check for it */
+    int nCross = nMoments - (2 * Yt.cols());
+    if (nCross < 0){
+        nCross = 0;
+    }
+    MatrixXd cpDiff(Yt.rows(), nCross);
 
+    /* cross differences */
+    if(nCross > 0){
+        int upperDiag = 0;
+        for(int i = 0; i < Yt.cols(); i++){
+            for(int j = i + 1; j < Yt.cols(); j++){
+                cpDiff.col(upperDiag) = (Yt.col(i).array() * Yt.col(j).array()) - (Yt.col(i).array().mean() * Yt.col(j).array().mean());
+                upperDiag++;
+            }
+        }
+    }
+
+    MatrixXd aDiff(Yt.rows(), nMoments);
+    for(int i = 0; i < Yt.rows(); i++){
+        for(int moment = 0; moment < nMoments; moment++){
+            if(moment < Yt.cols()){
+                aDiff(i, moment) = fmdiffs(i, moment);
+            }else if (moment >= Yt.cols() && moment < 2 * Yt.cols()){
+                aDiff(i, moment) = smdiffs(i, moment - Yt.cols());
+            }else if (moment >= 2 * Yt.cols()){
+                aDiff(i, moment) = cpDiff(i, moment - (2 * Yt.cols()));
+            }
+        }
+    }
+    double cost = 0;
+    VectorXd variances(nMoments);
+    for(int i = 0; i < nMoments; i++){
+        variances(i) = (aDiff.col(i).array() - aDiff.col(i).array().mean()).square().sum() / ((double) aDiff.col(i).array().size() - 1);
+    }
+  
+    MatrixXd wt = MatrixXd::Zero(nMoments, nMoments);
+    
+    if(useInverse){
+         // compute covariances for differences.
+        for(int i = 0; i < nMoments; i++){
+            wt(i,i) = variances(i); // cleanup code and make it more vectorized later.
+        }
+        for(int i = 0; i < nMoments; i++){
+            for(int j = i + 1; j < nMoments; j++){
+                wt(i,j) = ((aDiff.col(i).array() - aDiff.col(i).array().mean()).array() * (aDiff.col(j).array() - aDiff.col(j).array().mean()).array() ).sum() / ((double) aDiff.col(i).array().size() - 1); 
+                wt(j,i) = wt(i,j); // across diagonal
+            }
+        }
+
+        wt = wt.completeOrthogonalDecomposition().solve(MatrixXd::Identity(nMoments, nMoments));
+
+    }else{
+        for(int i = 0; i < nMoments; i++){
+            wt(i,i) = 1 / variances(i); // cleanup code and make it more vectorized later.
+        }
+    }
+    
+    return wt;
+}
+MatrixXd csvToMatrix (const std::string & path){
+    std::ifstream indata;
+    indata.open(path);
+    if(!indata.is_open()){
+        throw std::runtime_error("Invalid Sample File Name!");
+        exit(EXIT_FAILURE);
+    }
+    std::string line;
+    std::vector<double> values;
+    unsigned int rows = 0;
+    while (std::getline(indata, line)) {
+        std::stringstream lineStream(line);
+        std::string cell;
+        while (std::getline(lineStream, cell, ',')) {
+            values.push_back(std::stod(cell));
+        }
+        ++rows;
+    }
+    MatrixXd mat = MatrixXd::Zero(rows, values.size()/rows);
+    int i = 0;
+    for(int r = 0; r < rows; r++){
+        for(int c = 0; c < mat.cols(); c++){
+            mat(r,c) = values[i];
+            i++;
+        }
+    }
+ 
+    return mat;
+}
+VectorXd momentVector(const MatrixXd &sample, int nMoments){
+    VectorXd moments(nMoments);
+    VectorXd mu = sample.colwise().mean();
+    VectorXd variances(sample.cols());
+
+    int nVar = sample.cols();// check to make sure if we are using variances to compute means, variances, etc. 
+    if(nMoments < sample.cols()){
+        nVar = 0;
+    }
+
+    // Compute sample variances
+    for(int c = 0; c < nVar; c++){
+        variances(c) = (sample.col(c).array() - sample.col(c).array().mean()).square().sum() / ((double) sample.col(c).array().size() - 1);
+    }
+
+    // again only compute covariances, if number of moments allow for it
+    int nCross = nMoments - 2*sample.cols();
+    VectorXd covariances(0);
+    if(nCross > 0){
+        int n = 0;
+        covariances.conservativeResize(nCross);
+        for (int i = 0; i < sample.cols(); i++) {
+            for (int j = i + 1; j < sample.cols(); j++) {
+                covariances(n) = ((sample.col(i).array() - sample.col(i).array().mean()) * (sample.col(j).array() - sample.col(j).array().mean())).sum() / ( sample.rows() - 1);
+                n++;
+            }
+        }
+    }
+
+    // Now after all computations, add to moment vector
+    for(int i = 0; i < nMoments; i++){
+        if(i < sample.cols()){
+            moments(i) = mu(i);
+        }else if (i >= sample.cols() && i < 2 * sample.cols()){
+            moments(i) = variances(i - sample.cols());
+        }else if (i >= 2 * sample.cols()){
+            moments(i) = covariances(i - (2 * sample.cols()));
+        }
+    }
+    return moments;
+}
 int main() {
     auto t1 = std::chrono::high_resolution_clock::now();
     /*---------------------- Setup ------------------------ */
   
     /* Variables (global) */
     double t0 = 0, tf = 15, dt = 1.0; 
-    int nTimeSteps = 5;
+    int nTimeSteps = 1;
     VectorXd times = VectorXd::Zero(nTimeSteps);
-    times << 0.5, 2, 10, 20, 30; // ultra early, early, medium, late
+    // times << 0.5, 2, 10, 20, 30; // ultra early, early, medium, late
+    times << 60;
     int Npars = N_DIM;
     double squeeze = 0.500, sdbeta = 0.10; 
     double boundary = 0.001;
@@ -526,9 +667,7 @@ int main() {
     uniform_real_distribution<double> unifDist(uniLowBound, uniHiBound);
     
     vector<MatrixXd> weights;
-    for(int i = 0; i < nTimeSteps; i++){
-        weights.push_back(MatrixXd::Identity(nMoments, nMoments));
-    }
+  
  
     cout << "Using two part PSO " << "Sample Size:" << N << " with:" << nMoments << " moments." << endl;
     cout << "Using Times:" << times.transpose() << endl;
@@ -558,174 +697,43 @@ int main() {
     X0File.close();
     Y0File.close();
     
-    X_0 = X_0_Full.block(startRow, 0, N, Npars);
-    Y_0 = Y_0_Full.block(startRow, 0, N, Npars);
+    X_0 = csvToMatrix("initial/t1m_processed.csv"); //X_0_Full.block(startRow, 0, N, Npars);
+    MatrixXd Y_t = csvToMatrix("initial/t2m_processed.csv");
+    for(int i = 0; i < nTimeSteps; i++){
+        weights.push_back(wolfWtMat(Y_t, nMoments, false));
+    }
+    // Y_0 = Y_0_Full.block(startRow, 0, N, Npars);
     cout << "Using starting row of data:" << startRow << " and " << N << " data pts!" << endl;
     cout << "first row X0:" << X_0.row(0) << endl;
     cout << "final row X0:" << X_0.row(N - 1) << endl << endl << endl << endl;
     Controlled_RK_Stepper_N controlledStepper;
     struct K tru;
     tru.k << 0.1, 0.1, 0.95, 0.17, 0.05, 0.18;
+    vector<VectorXd> Yt3Vecs;
+    Yt3Vecs.push_back(momentVector(Y_t, nMoments));
+        
     // tru.k << 5.0, 0.1, 1.0, 8.69, 0.05, 0.70;
     // tru.k /= (9.69);
     // tru.k(1) += 0.05;
     // tru.k(4) += 0.05; // make sure not so close to the boundary
     // tru.k << 0.996673, 0.000434062, 0.0740192,  0.795578,  0.00882025, 0.0317506;
-    weights[0] << 0.707354,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
-    0,1.88822e-06,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
-    0,0,7.63689e-05,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
-    0,0,0,0.00231722,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
-    0,0,0,0,8.08417e-05,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
-    0,0,0,0,0,0.000601243,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
-    0,0,0,0,0,0,0.0163105,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
-    0,0,0,0,0,0,0,1.19368e-13,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
-    0,0,0,0,0,0,0,0,2.67075e-10,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
-    0,0,0,0,0,0,0,0,0,2.13538e-07,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
-    0,0,0,0,0,0,0,0,0,0,5.07078e-10,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
-    0,0,0,0,0,0,0,0,0,0,0,1.28677e-08,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
-    0,0,0,0,0,0,0,0,0,0,0,0,6.9664e-07,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
-    0,0,0,0,0,0,0,0,0,0,0,0,0,3.24478e-06,0,0,0,0,0,0,0,0,0,0,0,0,0,
-    0,0,0,0,0,0,0,0,0,0,0,0,0,0,0.000156678,0,0,0,0,0,0,0,0,0,0,0,0,
-    0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,3.37293e-05,0,0,0,0,0,0,0,0,0,0,0,
-    0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,2.42355e-05,0,0,0,0,0,0,0,0,0,0,
-    0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1.75083e-11,0,0,0,0,0,0,0,0,0,
-    0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,7.98597e-10,0,0,0,0,0,0,0,0,
-    0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1.70289e-11,0,0,0,0,0,0,0,
-    0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1.11514e-10,0,0,0,0,0,0,
-    0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1.13564e-08,0,0,0,0,0,
-    0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1.80263e-09,0,0,0,0,
-    0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,2.00367e-09,0,0,0,
-    0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,4.37171e-06,0,0,
-    0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1.48509e-07,0,
-    0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,7.87294e-09;
+    
 
-    weights[1] << 0.0195199,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
-    0,1.72444e-06,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
-    0,0,7.83705e-05,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
-    0,0,0,2.37146e-05,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
-    0,0,0,0,0.000287186,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
-    0,0,0,0,0,0.000122618,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
-    0,0,0,0,0,0,3.9189e-07,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
-    0,0,0,0,0,0,0,1.46537e-13,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
-    0,0,0,0,0,0,0,0,2.82879e-10,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
-    0,0,0,0,0,0,0,0,0,6.73232e-11,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
-    0,0,0,0,0,0,0,0,0,0,2.99903e-09,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
-    0,0,0,0,0,0,0,0,0,0,0,5.96238e-10,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
-    0,0,0,0,0,0,0,0,0,0,0,0,7.33362e-07,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
-    0,0,0,0,0,0,0,0,0,0,0,0,0,1.35071e-07,0,0,0,0,0,0,0,0,0,0,0,0,0,
-    0,0,0,0,0,0,0,0,0,0,0,0,0,0,3.9654e-08,0,0,0,0,0,0,0,0,0,0,0,0,
-    0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0.000302094,0,0,0,0,0,0,0,0,0,0,0,
-    0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,3.60311e-07,0,0,0,0,0,0,0,0,0,0,
-    0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,2.65441e-11,0,0,0,0,0,0,0,0,0,
-    0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1.28307e-11,0,0,0,0,0,0,0,0,
-    0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,7.56217e-11,0,0,0,0,0,0,0,
-    0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,2.28671e-11,0,0,0,0,0,0,
-    0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1.38618e-10,0,0,0,0,0,
-    0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1.43456e-08,0,0,0,0,
-    0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,7.88648e-10,0,0,0,
-    0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,9.79105e-06,0,0,
-    0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,6.61559e-10,0,
-    0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,5.45839e-09;
-
-    weights[2] << 3.8943e-05,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
-    0,1.56228e-06,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
-    0,0,0.000129491,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
-    0,0,0,1.93816e-06,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
-    0,0,0,0,0.00925051,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
-    0,0,0,0,0,7.69911e-05,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
-    0,0,0,0,0,0,3.20455e-10,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
-    0,0,0,0,0,0,0,4.75826e-13,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
-    0,0,0,0,0,0,0,0,1.60571e-09,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
-    0,0,0,0,0,0,0,0,0,2.62738e-13,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
-    0,0,0,0,0,0,0,0,0,0,6.91179e-08,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
-    0,0,0,0,0,0,0,0,0,0,0,2.69834e-10,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
-    0,0,0,0,0,0,0,0,0,0,0,0,1.02143e-06,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
-    0,0,0,0,0,0,0,0,0,0,0,0,0,1.10643e-08,0,0,0,0,0,0,0,0,0,0,0,0,0,
-    0,0,0,0,0,0,0,0,0,0,0,0,0,0,1.1796e-11,0,0,0,0,0,0,0,0,0,0,0,0,
-    0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0.000887743,0,0,0,0,0,0,0,0,0,0,0,
-    0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,8.04792e-10,0,0,0,0,0,0,0,0,0,0,
-    0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,6.9986e-11,0,0,0,0,0,0,0,0,0,
-    0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1.90948e-12,0,0,0,0,0,0,0,0,
-    0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1.43077e-09,0,0,0,0,0,0,0,
-    0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,2.2644e-11,0,0,0,0,0,0,
-    0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,3.28387e-11,0,0,0,0,0,
-    0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,6.14273e-07,0,0,0,0,
-    0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1.24265e-09,0,0,0,
-    0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,4.13025e-05,0,0,
-    0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,3.00281e-11,0,
-    0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,3.1602e-08;
-
-    weights[3] << 4.71542e-05,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
-    0,4.88422e-06,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
-    0,0,0.000321906,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
-    0,0,0,1.87387e-06,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
-    0,0,0,0,0.0202006,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
-    0,0,0,0,0,7.59172e-05,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
-    0,0,0,0,0,0,3.25006e-10,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
-    0,0,0,0,0,0,0,2.27928e-12,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
-    0,0,0,0,0,0,0,0,1.03146e-08,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
-    0,0,0,0,0,0,0,0,0,1.42773e-13,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
-    0,0,0,0,0,0,0,0,0,0,1.88225e-07,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
-    0,0,0,0,0,0,0,0,0,0,0,2.61149e-10,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
-    0,0,0,0,0,0,0,0,0,0,0,0,3.17326e-06,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
-    0,0,0,0,0,0,0,0,0,0,0,0,0,2.42488e-08,0,0,0,0,0,0,0,0,0,0,0,0,0,
-    0,0,0,0,0,0,0,0,0,0,0,0,0,0,1.03473e-11,0,0,0,0,0,0,0,0,0,0,0,0,
-    0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0.000973729,0,0,0,0,0,0,0,0,0,0,0,
-    0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,8.15039e-10,0,0,0,0,0,0,0,0,0,0,
-    0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,3.59936e-10,0,0,0,0,0,0,0,0,0,
-    0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,3.40705e-12,0,0,0,0,0,0,0,0,
-    0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,2.80513e-09,0,0,0,0,0,0,0,
-    0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,5.88258e-11,0,0,0,0,0,0,
-    0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,8.21246e-11,0,0,0,0,0,
-    0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1.18956e-06,0,0,0,0,
-    0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,2.7371e-09,0,0,0,
-    0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,4.13947e-05,0,0,
-    0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1.99729e-11,0,
-    0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,4.51787e-08;
-
-    weights[4] << 6.37869e-05,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
-    0,1.36938e-05,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
-    0,0,0.000927523,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
-    0,0,0,1.86103e-06,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
-    0,0,0,0,0.0234417,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
-    0,0,0,0,0,7.57497e-05,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
-    0,0,0,0,0,0,3.46585e-10,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
-    0,0,0,0,0,0,0,6.91524e-12,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
-    0,0,0,0,0,0,0,0,4.80238e-08,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
-    0,0,0,0,0,0,0,0,0,1.22427e-13,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
-    0,0,0,0,0,0,0,0,0,0,2.27158e-07,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
-    0,0,0,0,0,0,0,0,0,0,0,2.59675e-10,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
-    0,0,0,0,0,0,0,0,0,0,0,0,8.92904e-06,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
-    0,0,0,0,0,0,0,0,0,0,0,0,0,2.78656e-08,0,0,0,0,0,0,0,0,0,0,0,0,0,
-    0,0,0,0,0,0,0,0,0,0,0,0,0,0,1.25054e-11,0,0,0,0,0,0,0,0,0,0,0,0,
-    0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0.00111514,0,0,0,0,0,0,0,0,0,0,0,
-    0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,9.79347e-10,0,0,0,0,0,0,0,0,0,0,
-    0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1.34556e-09,0,0,0,0,0,0,0,0,0,
-    0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,8.88446e-12,0,0,0,0,0,0,0,0,
-    0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,3.18191e-09,0,0,0,0,0,0,0,
-    0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1.22938e-10,0,0,0,0,0,0,
-    0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,2.04808e-10,0,0,0,0,0,
-    0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1.34577e-06,0,0,0,0,
-    0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,4.93593e-09,0,0,0,
-    0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,4.13655e-05,0,0,
-    0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1.73527e-11,0,
-    0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,4.87743e-08;
-
-    cout << "using truk:" << tru.k.transpose() << endl;
-    vector<VectorXd> Yt3Vecs;
-    for(int t = 0; t < nTimeSteps; t++){
-        Nonlinear_ODE6 trueSys(tru);
-        Protein_Components Yt(times(t), nMoments, N);
-        Moments_Mat_Obs YtObs(Yt);
-        for (int i = 0; i < N; i++) {
-            //State_N c0 = gen_multi_norm_iSub(); // Y_0 is simulated using norm dist.
-            State_N c0 = convertInit(Y_0, i);
-            Yt.index = i;
-            integrate_adaptive(controlledStepper, trueSys, c0, t0, times(t), dt, YtObs);
-        }
-        Yt.mVec /= N;
-        Yt3Vecs.push_back(Yt.mVec);
-    }
+    // cout << "using truk:" << tru.k.transpose() << endl;
+    // vector<VectorXd> Yt3Vecs;
+    // for(int t = 0; t < nTimeSteps; t++){
+    //     Nonlinear_ODE6 trueSys(tru);
+    //     Protein_Components Yt(times(t), nMoments, N);
+    //     Moments_Mat_Obs YtObs(Yt);
+    //     for (int i = 0; i < Y_0.rows(); i++) {
+    //         //State_N c0 = gen_multi_norm_iSub(); // Y_0 is simulated using norm dist.
+    //         State_N c0 = convertInit(Y_0, i);
+    //         Yt.index = i;
+    //         integrate_adaptive(controlledStepper, trueSys, c0, t0, times(t), dt, YtObs);
+    //     }
+    //     Yt.mVec /= N;
+    //     Yt3Vecs.push_back(Yt.mVec);
+    // }
     // struct K seed;
     // seed.k << 0.1659069,	0.6838229,	0.9585955,	0.4651133,	0.4573598,	0.1806655;
 
@@ -748,7 +756,7 @@ int main() {
                 Nonlinear_ODE6 sys(rate);
                 Protein_Components Xt(times(t), nMoments, N);
                 Moments_Mat_Obs XtObs(Xt);
-                for (int i = 0; i < N; i++) {
+                for (int i = 0; i < X_0.rows(); i++) {
                     State_N x0 = convertInit(X_0, i);
                     Xt.index = i;
                     integrate_adaptive(controlledStepper, sys, x0, t0, times(t), dt, XtObs);
@@ -765,89 +773,8 @@ int main() {
             cost = 0;
         }
     }
-    printToCsv(eqwts, "eqwts_contour");
+    printToCsv(eqwts, "contour");
     cout << "eqwts" << endl << eqwts; 
-
-
-    // cout << "UNEQ WTS!" << endl;
-    // s = 0;
-    // cost = 0;
-    // MatrixXd uneqwts = MatrixXd::Zero(xDim*yDim, Npars + 1);
-    // for(int x = 0; x < xDim; x++){
-    //     // for(int y = 0; y < yDim; y++){
-    //     K rate;
-    //     rate.k = tru.k;
-    //     rate.k(1) = x / scale;
-    //     // rate.k(4) = y / scale;
-    //     for(int t = 0; t < nTimeSteps; t++){
-    //         Nonlinear_ODE6 sys(rate);
-    //         Protein_Components Xt(times(t), nMoments, N);
-    //         Moments_Mat_Obs XtObs(Xt);
-    //         for (int i = 0; i < N; i++) {
-    //             //State_N c0 = gen_multi_norm_iSub(); // Y_0 is simulated using norm dist.
-    //             State_N x0 = convertInit(X_0, i);
-    //             Xt.index = i;
-    //             integrate_adaptive(controlledStepper, sys, x0, t0, times(t), dt, XtObs);
-    //         }
-    //         Xt.mVec /= N;
-    //         cost += calculate_cf2(Yt3Vecs[t],Xt.mVec, weights[t]);
-    //     }
-    //     for (int i = 0; i < Npars; i++) {
-    //         uneqwts(s, i) = rate.k(i);
-    //     }
-    //     uneqwts(s, Npars) = cost;
-    //     s++;   
-    //     cost = 0;
-    //     // }
-    // }
-    // printToCsv(uneqwts, "uneqwts_contour");
-    
-
-    // MatrixXd zoomedIn = MatrixXd::Zero(xDim*yDim, Npars + 1);
-    // VectorXd xCoords = VectorXd::Zero(xDim);
-    // VectorXd yCoords = VectorXd::Zero(yDim);
-    // xCoords << 0.45600,0.45616,0.45632,0.45648,0.45664,0.45680,0.45696,0.45712,0.45728,0.45744,0.45760,0.45776,0.45792,0.45808,0.45824,0.45840,0.45856,0.45872,0.45888,0.45904,0.45920,0.45936,0.45952,0.45968,0.45984,0.46000,0.46016,0.46032,0.46048,0.46064,0.46080,0.46096,0.46112,0.46128,0.46144,
-    // 0.46160,0.46176,0.46192,0.46208,0.46224,0.46240,0.46256,0.46272,0.46288,0.46304,0.46320,0.46336,0.46352,0.46368,0.46384;
-    // yCoords << 0.03800,0.03816,0.03832,0.03848,0.03864,0.03880,0.03896,0.03912,0.03928,0.03944,0.03960,0.03976,0.03992,0.04008,0.04024,0.04040,0.04056,0.04072,0.04088,0.04104,0.04120,
-    // 0.04136, 0.04152, 0.04168, 0.04184, 0.04200, 0.04216,0.04232,0.04248,0.04264,0.04280,0.04296,0.04312,0.04328,0.04344,0.04360,0.04376,0.04392,0.04408,0.04424,0.04440,0.04456,0.04472,0.04488,0.04504,0.04520,0.04536,0.04552,0.04568,0.04584;
-    // s = 0;
-    // cost = 0;
-    // for(int x = 0; x < xDim; x++){
-    //     for(int y = 0; y < yDim; y++){
-    //         K rate;
-    //         rate.k = tru.k;
-    //         rate.k(0) = xCoords(x);
-    //         rate.k(1) = yCoords(y);
-    //         for(int t = 0; t < nTimeSteps; t++){
-    //             Nonlinear_ODE6 trueSys(tru);
-    //             Nonlinear_ODE6 sys(rate);
-    //             Protein_Components Yt(times(t), nMoments, N);
-    //             Protein_Components Xt(times(t), nMoments, N);
-    //             Moments_Mat_Obs YtObs(Yt);
-    //             Moments_Mat_Obs XtObs(Xt);
-    //             for (int i = 0; i < N; i++) {
-    //                 //State_N c0 = gen_multi_norm_iSub(); // Y_0 is simulated using norm dist.
-    //                 State_N c0 = convertInit(Y_0, i);
-    //                 State_N x0 = convertInit(X_0, i);
-    //                 Yt.index = i;
-    //                 Xt.index = i;
-    //                 integrate_adaptive(controlledStepper, trueSys, c0, t0, times(t), dt, YtObs);
-    //                 integrate_adaptive(controlledStepper, sys, x0, t0, times(t), dt, XtObs);
-    //             }
-    //             Yt.mVec /= N;
-    //             Xt.mVec /= N;
-    //             cost += calculate_cf2(Yt.mVec,Xt.mVec, weights[t]);
-    //         }
-    //         for (int i = 0; i < Npars; i++) {
-    //             zoomedIn(s, i) = rate.k(i);
-    //         }
-    //         zoomedIn(s, Npars) = cost;
-    //         s++;   
-    //         cost = 0;
-    //     }
-    // }
-    // printToCsv(zoomedIn, "uneqwts_zoomIn_contour");
-
 
     auto t2 = std::chrono::high_resolution_clock::now();
     auto duration = std::chrono::duration_cast<std::chrono::seconds>(t2 - t1).count();
