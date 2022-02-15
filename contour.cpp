@@ -14,7 +14,7 @@
 #include <Eigen/StdVector>
 #include <boost/numeric/odeint/external/openmp/openmp.hpp>
 
-#define N_SPECIES 6
+#define N_SPECIES 4
 #define N_DIM 6 // dim of PSO hypercube
 
 using Eigen::MatrixXd;
@@ -64,36 +64,40 @@ struct K
 
 class Nonlinear_ODE6
 {
-    struct K jay;
+    struct K rate;
 
 public:
-    Nonlinear_ODE6(struct K G) : jay(G) {}
+    Nonlinear_ODE6(struct K G) : rate(G) {}
 
     void operator() (const State_N& c, State_N& dcdt, double t)
     {
-        dcdt[0] = -(jay.k(0) * c[0] * c[1])  // Syk
-            + jay.k(1) * c[2]
-            + jay.k(2) * c[2];
+        // dcdt[0] = -(jay.k(0) * c[0] * c[1])  // Syk
+        //     + jay.k(1) * c[2]
+        //     + jay.k(2) * c[2];
 
-        dcdt[1] = -(jay.k(0) * c[0] * c[1]) // Vav
-            + jay.k(1) * c[2]
-            + jay.k(5) * c[5];
+        // dcdt[1] = -(jay.k(0) * c[0] * c[1]) // Vav
+        //     + jay.k(1) * c[2]
+        //     + jay.k(5) * c[5];
 
-        dcdt[2] = jay.k(0) * c[0] * c[1] // Syk-Vav
-            - jay.k(1) * c[2]
-            - jay.k(2) * c[2];
+        // dcdt[2] = jay.k(0) * c[0] * c[1] // Syk-Vav
+        //     - jay.k(1) * c[2]
+        //     - jay.k(2) * c[2];
 
-        dcdt[3] = jay.k(2) * c[2] //pVav
-            - jay.k(3) * c[3] * c[4]
-            + jay.k(4) * c[5];
+        // dcdt[3] = jay.k(2) * c[2] //pVav
+        //     - jay.k(3) * c[3] * c[4]
+        //     + jay.k(4) * c[5];
 
-        dcdt[4] = -(jay.k(3) * c[3] * c[4]) // SHP1 
-            + jay.k(4) * c[5]
-            + jay.k(5) * c[5];
+        // dcdt[4] = -(jay.k(3) * c[3] * c[4]) // SHP1 
+        //     + jay.k(4) * c[5]
+        //     + jay.k(5) * c[5];
 
-        dcdt[5] = jay.k(3) * c[3] * c[4]  // SHP1-pVav
-            - jay.k(4) * c[5]
-            - jay.k(5) * c[5];
+        // dcdt[5] = jay.k(3) * c[3] * c[4]  // SHP1-pVav
+        //     - jay.k(4) * c[5]
+        //     - jay.k(5) * c[5];
+        dcdt[0] = rate.k(0) - rate.k(5) * c[0];
+        dcdt[1] = rate.k(1) * c[0] - rate.k(4) * c[1];
+        dcdt[2] = rate.k(2) * c[1] - rate.k(4) * c[2];
+        dcdt[3] = rate.k(3) * c[2] - rate.k(4) * c[3];
     }
 };
 
@@ -682,28 +686,28 @@ int main() {
     MatrixXd POSMAT(nParts, Npars); // Position matrix as it goees through it in parallel
 
     cout << "Reading in data!" << endl;
-    /* Initial Conditions */
-    int sizeFile = 25000;
-    int startRow = 0;
-    MatrixXd X_0_Full(sizeFile, Npars);
-    MatrixXd Y_0_Full(sizeFile, Npars);
-    MatrixXd X_0(N, Npars);
-    MatrixXd Y_0(N, Npars);
-    ifstream X0File("noo25-initial-x.txt");
-    ifstream Y0File("noo25-initial-y.txt");
+    // /* Initial Conditions */
+    // int sizeFile = 25000;
+    // int startRow = 0;
+    // MatrixXd X_0_Full(sizeFile, Npars);
+    // MatrixXd Y_0_Full(sizeFile, Npars);
+    // MatrixXd X_0(N, Npars);
+    // MatrixXd Y_0(N, Npars);
+    // ifstream X0File("noo25-initial-x.txt");
+    // ifstream Y0File("noo25-initial-y.txt");
     
-    X_0_Full = readIntoMatrix(X0File, sizeFile, N_SPECIES);
-    Y_0_Full = readIntoMatrix(Y0File, sizeFile, N_SPECIES);
-    X0File.close();
-    Y0File.close();
+    // X_0_Full = readIntoMatrix(X0File, sizeFile, N_SPECIES);
+    // Y_0_Full = readIntoMatrix(Y0File, sizeFile, N_SPECIES);
+    // X0File.close();
+    // Y0File.close();
     
-    X_0 = csvToMatrix("initial/t1m_processed.csv"); //X_0_Full.block(startRow, 0, N, Npars);
+    MatrixXd X_0 = csvToMatrix("initial/t1m_processed.csv"); //X_0_Full.block(startRow, 0, N, Npars);
     MatrixXd Y_t = csvToMatrix("initial/t2m_processed.csv");
     for(int i = 0; i < nTimeSteps; i++){
         weights.push_back(wolfWtMat(Y_t, nMoments, false));
     }
     // Y_0 = Y_0_Full.block(startRow, 0, N, Npars);
-    cout << "Using starting row of data:" << startRow << " and " << N << " data pts!" << endl;
+    // cout << "Using starting row of data:" << startRow << " and " << N << " data pts!" << endl;
     cout << "first row X0:" << X_0.row(0) << endl;
     cout << "final row X0:" << X_0.row(N - 1) << endl << endl << endl << endl;
     Controlled_RK_Stepper_N controlledStepper;
