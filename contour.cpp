@@ -639,6 +639,7 @@ int main() {
     int nTimeSteps = 1;
     VectorXd times = VectorXd::Zero(nTimeSteps);
     // times << 0.5, 2, 10, 20, 30; // ultra early, early, medium, late
+    cout << "loaded in time vals" << endl;
     times << 60;
     int Npars = N_DIM;
     double squeeze = 0.500, sdbeta = 0.10; 
@@ -663,8 +664,7 @@ int main() {
     // nMoments = N_SPECIES;
     int hone = 24;
     //nMoments = 2*N_SPECIES; // mean + var only!
-    VectorXd wmatup(4);
-    wmatup << 0.15, 0.35, 0.60, 0.9;
+    
     double uniLowBound = 0.0, uniHiBound = 1.0;
     random_device RanDev;
     mt19937 gen(RanDev());
@@ -680,11 +680,6 @@ int main() {
     cout << "Targeted PSO --> nParts:" <<  nParts2 << " Nsteps:" << nSteps2 << endl;
     cout << "sdbeta:" << sdbeta << endl;
     // cout << "wt:" << endl << wt << endl;
-
-    MatrixXd GBMAT(0, 0); // iterations of global best vectors
-    MatrixXd PBMAT(nParts, Npars + 1); // particle best matrix + 1 for cost component
-    MatrixXd POSMAT(nParts, Npars); // Position matrix as it goees through it in parallel
-
     cout << "Reading in data!" << endl;
     // /* Initial Conditions */
     // int sizeFile = 25000;
@@ -709,7 +704,7 @@ int main() {
     // Y_0 = Y_0_Full.block(startRow, 0, N, Npars);
     // cout << "Using starting row of data:" << startRow << " and " << N << " data pts!" << endl;
     cout << "first row X0:" << X_0.row(0) << endl;
-    cout << "final row X0:" << X_0.row(N - 1) << endl << endl << endl << endl;
+    cout << "final row X0:" << X_0.row(X_0.rows() - 1) << endl << endl << endl << endl;
     Controlled_RK_Stepper_N controlledStepper;
     struct K tru;
     tru.k << 0.1, 0.1, 0.95, 0.17, 0.05, 0.18;
