@@ -741,14 +741,14 @@ int main() {
     int xDim = 50, yDim = 50;
     double scale = (xDim+yDim) / 2;
     double cost = 0;
-    double holdtheta2 = 0.259;
+    // double holdtheta2 = 0.259;
     MatrixXd eqwts(xDim*yDim, Npars + 1);
     int s = 0;
     for(int x = 0; x < xDim; x++){
         for(int y = 0; y < yDim; y++){
             K rate;
             rate.k = tru.k;
-            rate.k(1) = holdtheta2;
+            // rate.k(1) = holdtheta2;
             rate.k(xAxis) = x / scale;
             rate.k(yAxis) = y / scale;
             for(int t = 0; t < nTimeSteps; t++){
