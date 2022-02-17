@@ -1,0 +1,15 @@
+loaded in time vals
+Using two part PSO Sample Size:5000 with:14 moments.
+Using Times:120
+Bounds for Uniform Distribution (0,1)
+Blind PSO --> nParts:25 Nsteps:50
+Targeted PSO --> nParts:10 Nsteps:1000
+sdbeta:0.1
+Reading in data!
+first row X0:18.66  5.02 12.57  0.65
+final row X0: 7.12 15.35 -0.69 25.22
+
+
+
+Here?
+contour rates below! 
