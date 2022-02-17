@@ -1,0 +1,20 @@
+loaded in time vals
+Using two part PSO Sample Size:5000 with:14 moments.
+Using Times:120
+Bounds for Uniform Distribution (0,1)
+Blind PSO --> nParts:25 Nsteps:50
+Targeted PSO --> nParts:10 Nsteps:1000
+sdbeta:0.1
+Reading in data!
+terminate called after throwing an instance of 'std::runtime_error'
+  what():  Invalid Sample File Name!
+/var/spool/slurmd/job2554636/slurm_script: line 10: 560479 Aborted                 (core dumped) ./contour
+mv: cannot stat 'eqwts_contour.csv': No such file or directory
+mv: cannot stat 'uneqwts_contour.csv': No such file or directory
+Job Statistics for 2554636:
+           JobID       User               Start                 End    Elapsed     MaxRSS   TotalCPU      State Exit        NodeList                                  ReqTRES 
+---------------- ---------- ------------------- ------------------- ---------- ---------- ---------- ---------- ---- --------------- ---------------------------------------- 
+         2554636   rsjxw007 2022-02-16T19:57:49 2022-02-16T19:57:50   00:00:01             00:00.120     FAILED  1:0   r1pl-hpcf-n23         billing=1,cpu=1,mem=7812M,node=1 
+   2554636.batch            2022-02-16T19:57:49 2022-02-16T19:57:50   00:00:01          0  00:00.119     FAILED  1:0   r1pl-hpcf-n23                                          
+  2554636.extern            2022-02-16T19:57:49 2022-02-16T19:57:50   00:00:01          0  00:00.001  COMPLETED  0:0   r1pl-hpcf-n23                                          
+CPU Efficiency: 0.00% of 00:00:01 core-walltime
