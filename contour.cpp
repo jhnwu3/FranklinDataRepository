@@ -696,7 +696,7 @@ int main() {
     // X0File.close();
     // Y0File.close();
     struct K tru;
-    tru.k << 0.78, 0.19, 0.06, 0.61, 0.16, 0.11;
+    tru.k << 0.656042, 0.0792229, 0.0639486, 0.73865, 0.0938834, 0.119711;
     MatrixXd X_0 = csvToMatrix("initial/t2m_processed.csv"); //X_0_Full.block(startRow, 0, N, Npars);
     MatrixXd Y_t = csvToMatrix("initial/t4m_processed.csv");
     for(int i = 0; i < nTimeSteps; i++){
