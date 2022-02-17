@@ -640,7 +640,7 @@ int main() {
     VectorXd times = VectorXd::Zero(nTimeSteps);
     // times << 0.5, 2, 10, 20, 30; // ultra early, early, medium, late
     cout << "loaded in time vals" << endl;
-    times << 60;
+    times << 120;
     int Npars = N_DIM;
     double squeeze = 0.500, sdbeta = 0.10; 
     double boundary = 0.001;
@@ -697,8 +697,8 @@ int main() {
     // Y0File.close();
     struct K tru;
     tru.k << 0.78, 0.19, 0.06, 0.61, 0.16, 0.11;
-    MatrixXd X_0 = csvToMatrix("initial/t1m_processed.csv"); //X_0_Full.block(startRow, 0, N, Npars);
-    MatrixXd Y_t = csvToMatrix("initial/t2m_processed.csv");
+    MatrixXd X_0 = csvToMatrix("initial/t2m_processed.csv"); //X_0_Full.block(startRow, 0, N, Npars);
+    MatrixXd Y_t = csvToMatrix("initial/t4m_processed.csv");
     for(int i = 0; i < nTimeSteps; i++){
         weights.push_back(wolfWtMat(Y_t, nMoments, false));
     }
@@ -737,7 +737,7 @@ int main() {
     // seed.k << 0.1659069,	0.6838229,	0.9585955,	0.4651133,	0.4573598,	0.1806655;
 
     /* Solve for 50 x 50 contour plot for equal weights */
-    int xAxis = 4, yAxis = 5; // thetas
+    int xAxis = 0, yAxis = 1; // thetas
     int xDim = 50, yDim = 50;
     double scale = (xDim+yDim) / 2;
     double cost = 0;
@@ -772,7 +772,7 @@ int main() {
             cost = 0;
         }
     }
-    printToCsv(eqwts, "contour");
+    printToCsv(eqwts, "eqwts");
     cout << "eqwts" << endl << eqwts; 
 
     auto t2 = std::chrono::high_resolution_clock::now();
