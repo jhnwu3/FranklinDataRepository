@@ -744,6 +744,7 @@ int main() {
     // double holdtheta2 = 0.259;
     MatrixXd eqwts(xDim*yDim, Npars + 1);
     int s = 0;
+    cout << "contour rates below! " << endl;
     for(int x = 0; x < xDim; x++){
         for(int y = 0; y < yDim; y++){
             K rate;
@@ -767,7 +768,7 @@ int main() {
                 eqwts(s, i) = rate.k(i);
             }
             eqwts(s, Npars) = cost;
-            cout << "rate:" << eqwts.row(s) << endl;
+            
             s++;
             cost = 0;
         }
