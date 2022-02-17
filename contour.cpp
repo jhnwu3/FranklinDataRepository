@@ -635,12 +635,12 @@ int main() {
     /*---------------------- Setup ------------------------ */
   
     /* Variables (global) */
-    double t0 = 0, tf = 15, dt = 1.0; 
+    double t0 = 120, tf = 15, dt = 1.0; 
     int nTimeSteps = 1;
     VectorXd times = VectorXd::Zero(nTimeSteps);
     // times << 0.5, 2, 10, 20, 30; // ultra early, early, medium, late
     cout << "loaded in time vals" << endl;
-    times << 120;
+    times << 240;
     int Npars = N_DIM;
     double squeeze = 0.500, sdbeta = 0.10; 
     double boundary = 0.001;
