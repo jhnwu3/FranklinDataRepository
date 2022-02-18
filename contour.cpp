@@ -635,12 +635,12 @@ int main() {
     /*---------------------- Setup ------------------------ */
   
     /* Variables (global) */
-    double t0 = 120, tf = 15, dt = 1.0; 
+    double t0 = 60, tf = 15, dt = 1.0; 
     int nTimeSteps = 1;
     VectorXd times = VectorXd::Zero(nTimeSteps);
     // times << 0.5, 2, 10, 20, 30; // ultra early, early, medium, late
     cout << "loaded in time vals" << endl;
-    times << 240;
+    times << 120;
     int Npars = N_DIM;
     double squeeze = 0.500, sdbeta = 0.10; 
     double boundary = 0.001;
@@ -696,9 +696,10 @@ int main() {
     // X0File.close();
     // Y0File.close();
     struct K tru;
-    tru.k << 0.656042, 0.0792229, 0.0639486, 0.73865, 0.0938834, 0.119711;
-    MatrixXd X_0 = csvToMatrix("initial/t2m_processed.csv"); //X_0_Full.block(startRow, 0, N, Npars);
-    MatrixXd Y_t = csvToMatrix("initial/t4m_processed.csv");
+    // tru.k << 0.656042, 0.0792229, 0.0639486, 0.73865, 0.0938834, 0.119711;
+    tru.k << 0.73121, 0.210256, 0.0901003, 0.840568, 0.20446, 0.0861549;
+    MatrixXd X_0 = csvToMatrix("initial/t1m_processed.csv"); //X_0_Full.block(startRow, 0, N, Npars);
+    MatrixXd Y_t = csvToMatrix("initial/t2m_processed.csv");
     for(int i = 0; i < nTimeSteps; i++){
         weights.push_back(wolfWtMat(Y_t, nMoments, false));
     }
