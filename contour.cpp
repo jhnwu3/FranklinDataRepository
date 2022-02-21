@@ -703,6 +703,8 @@ int main() {
     for(int i = 0; i < nTimeSteps; i++){
         weights.push_back(wolfWtMat(Y_t, nMoments, false));
     }
+    cout << "weights:" << endl;
+    cout << weights[0] << endl;
     // Y_0 = Y_0_Full.block(startRow, 0, N, Npars);
     // cout << "Using starting row of data:" << startRow << " and " << N << " data pts!" << endl;
     cout << "first row X0:" << X_0.row(0) << endl;
