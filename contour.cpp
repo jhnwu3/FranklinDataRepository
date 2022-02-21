@@ -764,7 +764,7 @@ int main() {
                     Xt.index = i;
                     integrate_adaptive(controlledStepper, sys, x0, t0, times(t), dt, XtObs);
                 }
-                Xt.mVec /= N;
+                Xt.mVec /= X_0.rows();
                 cost += calculate_cf2(Yt3Vecs[t], Xt.mVec, weights[t]);
             }
             for (int i = 0; i < Npars; i++) {
@@ -780,7 +780,7 @@ int main() {
     cout << "eqwts" << endl << eqwts; 
 
     /*Sanity Check */
-    cout << "Sanity Check:" << endl;
+    cout << endl << "Sanity Check:" << endl;
     K rate;
     rate.k = tru.k;
     cost = 0;
@@ -811,7 +811,7 @@ int main() {
         Xt.mVec /= N;
         cost += calculate_cf2(Yt3Vecs[t], Xt.mVec, weights[t]);
     }
-    cout << "true:" << rate.k.transpose() << cost << endl;
+    cout << "true:" << rate.k.transpose()<< " " << cost << endl;
     cost = 0;
     rate.k << 0.79,	0.25,	0.0915363,	0.969999,	0.243538,	0.0985505;
       for(int t = 0; t < nTimeSteps; t++){
@@ -826,7 +826,7 @@ int main() {
         Xt.mVec /= N;
         cost += calculate_cf2(Yt3Vecs[t], Xt.mVec, weights[t]);
     }
-    cout << "true:" << rate.k.transpose() << cost << endl;
+    cout << "true:" << rate.k.transpose() << " " << cost << endl;
 
     auto t2 = std::chrono::high_resolution_clock::now();
     auto duration = std::chrono::duration_cast<std::chrono::seconds>(t2 - t1).count();
