@@ -654,7 +654,6 @@ int main() {
     double sfp = 3.0, sfg = 1.0, sfe = 6.0; // initial particle historical weight, global weight social, inertial
     double sfi = sfe, sfc = sfp, sfs = sfg; // below are the variables being used to reiterate weights
     double alpha = 0.2;
-    int N = 5000;
     int nParts = 25; // first part PSO
     int nSteps = 50;
     int nParts2 = 10; // second part PSO
@@ -699,6 +698,7 @@ int main() {
     tru.k << 0.789183,	0.250346,	0.0915363,	0.969999,	0.243538,	0.0985505;
     // tru.k << 0.73121, 0.210256, 0.0901003, 0.840568, 0.20446, 0.0861549;
     MatrixXd X_0 = csvToMatrix("initial/t1m_processed.csv"); //X_0_Full.block(startRow, 0, N, Npars);
+    int N = X_0.rows();
     MatrixXd Y_t = csvToMatrix("initial/t2m_processed.csv");
     for(int i = 0; i < nTimeSteps; i++){
         weights.push_back(wolfWtMat(Y_t, nMoments, false));
