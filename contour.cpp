@@ -729,7 +729,7 @@ int main() {
     // seed.k << 0.1659069,	0.6838229,	0.9585955,	0.4651133,	0.4573598,	0.1806655;
 
     /* Solve for 50 x 50 contour plot for equal weights */
-    int xAxis = 2, yAxis = 3; // thetas
+    int xAxis = 4, yAxis = 5; // thetas
     int xDim = 50, yDim = 50;
     double scale = (xDim+yDim) / 2;
     double cost = 0;
