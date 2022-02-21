@@ -777,6 +777,55 @@ int main() {
     printToCsv(eqwts, "eqwts");
     cout << "eqwts" << endl << eqwts; 
 
+    /*Sanity Check */
+    cout << "Sanity Check:" << endl;
+    K rate;
+    rate.k = tru.k;
+    cost = 0;
+    for(int t = 0; t < nTimeSteps; t++){
+        Nonlinear_ODE6 sys(rate);
+        Protein_Components Xt(times(t), nMoments, N);
+        Moments_Mat_Obs XtObs(Xt);
+        for (int i = 0; i < X_0.rows(); i++) {
+            State_N x0 = convertInit(X_0, i);
+            Xt.index = i;
+            integrate_adaptive(controlledStepper, sys, x0, t0, times(t), dt, XtObs);
+        }
+        Xt.mVec /= N;
+        cost += calculate_cf2(Yt3Vecs[t], Xt.mVec, weights[t]);
+    }
+    cout << "true:" << rate.k.transpose() << " " <<cost << endl;
+    cost = 0;
+    rate.k << 0.8,	0.24,	0.0915363,	0.969999,	0.243538,	0.0985505;
+    for(int t = 0; t < nTimeSteps; t++){
+        Nonlinear_ODE6 sys(rate);
+        Protein_Components Xt(times(t), nMoments, N);
+        Moments_Mat_Obs XtObs(Xt);
+        for (int i = 0; i < X_0.rows(); i++) {
+            State_N x0 = convertInit(X_0, i);
+            Xt.index = i;
+            integrate_adaptive(controlledStepper, sys, x0, t0, times(t), dt, XtObs);
+        }
+        Xt.mVec /= N;
+        cost += calculate_cf2(Yt3Vecs[t], Xt.mVec, weights[t]);
+    }
+    cout << "true:" << rate.k.transpose() << cost << endl;
+    cost = 0;
+    rate.k << 0.79,	0.25,	0.0915363,	0.969999,	0.243538,	0.0985505;
+      for(int t = 0; t < nTimeSteps; t++){
+        Nonlinear_ODE6 sys(rate);
+        Protein_Components Xt(times(t), nMoments, N);
+        Moments_Mat_Obs XtObs(Xt);
+        for (int i = 0; i < X_0.rows(); i++) {
+            State_N x0 = convertInit(X_0, i);
+            Xt.index = i;
+            integrate_adaptive(controlledStepper, sys, x0, t0, times(t), dt, XtObs);
+        }
+        Xt.mVec /= N;
+        cost += calculate_cf2(Yt3Vecs[t], Xt.mVec, weights[t]);
+    }
+    cout << "true:" << rate.k.transpose() << cost << endl;
+
     auto t2 = std::chrono::high_resolution_clock::now();
     auto duration = std::chrono::duration_cast<std::chrono::seconds>(t2 - t1).count();
     cout << "CODE FINISHED RUNNING IN " << duration << " s TIME!" << endl;
