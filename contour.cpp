@@ -696,10 +696,10 @@ int main() {
     // X0File.close();
     // Y0File.close();
     struct K tru;
-    tru.k << 0.598907, 0.097776, 0.0359443, 0.900243, 0.0936865, 0.103813;
+    tru.k << 0.789183,	0.250346,	0.0915363,	0.969999,	0.243538,	0.0985505;
     // tru.k << 0.73121, 0.210256, 0.0901003, 0.840568, 0.20446, 0.0861549;
-    MatrixXd X_0 = csvToMatrix("initial/t2m_processed.csv"); //X_0_Full.block(startRow, 0, N, Npars);
-    MatrixXd Y_t = csvToMatrix("initial/t4m_processed.csv");
+    MatrixXd X_0 = csvToMatrix("initial/t1m_processed.csv"); //X_0_Full.block(startRow, 0, N, Npars);
+    MatrixXd Y_t = csvToMatrix("initial/t2m_processed.csv");
     for(int i = 0; i < nTimeSteps; i++){
         weights.push_back(wolfWtMat(Y_t, nMoments, false));
     }
