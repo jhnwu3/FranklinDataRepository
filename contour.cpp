@@ -671,25 +671,9 @@ int main() {
     
     vector<MatrixXd> weights;
   
- 
-    cout << "Using two part PSO " << "Sample Size:" << N << " with:" << nMoments << " moments." << endl;
-    cout << "Using Times:" << times.transpose() << endl;
-    cout << "Bounds for Uniform Distribution (" << uniLowBound << "," << uniHiBound << ")"<< endl;
-    cout << "Blind PSO --> nParts:" << nParts << " Nsteps:" << nSteps << endl;
-    cout << "Targeted PSO --> nParts:" <<  nParts2 << " Nsteps:" << nSteps2 << endl;
-    cout << "sdbeta:" << sdbeta << endl;
     // cout << "wt:" << endl << wt << endl;
     cout << "Reading in data!" << endl;
-    // /* Initial Conditions */
-    // int sizeFile = 25000;
-    // int startRow = 0;
-    // MatrixXd X_0_Full(sizeFile, Npars);
-    // MatrixXd Y_0_Full(sizeFile, Npars);
-    // MatrixXd X_0(N, Npars);
-    // MatrixXd Y_0(N, Npars);
-    // ifstream X0File("noo25-initial-x.txt");
-    // ifstream Y0File("noo25-initial-y.txt");
-    
+
     // X_0_Full = readIntoMatrix(X0File, sizeFile, N_SPECIES);
     // Y_0_Full = readIntoMatrix(Y0File, sizeFile, N_SPECIES);
     // X0File.close();
@@ -713,7 +697,12 @@ int main() {
     vector<VectorXd> Yt3Vecs;
     cout << "Here?" << endl;
     Yt3Vecs.push_back(momentVector(Y_t, nMoments));
-        
+    cout << "Using two part PSO " << "Sample Size:" << N << " with:" << nMoments << " moments." << endl;
+    cout << "Using Times:" << times.transpose() << endl;
+    cout << "Bounds for Uniform Distribution (" << uniLowBound << "," << uniHiBound << ")"<< endl;
+    cout << "Blind PSO --> nParts:" << nParts << " Nsteps:" << nSteps << endl;
+    cout << "Targeted PSO --> nParts:" <<  nParts2 << " Nsteps:" << nSteps2 << endl;
+    cout << "sdbeta:" << sdbeta << endl;
     // tru.k << 5.0, 0.1, 1.0, 8.69, 0.05, 0.70;
     // tru.k /= (9.69);
     // tru.k(1) += 0.05;
