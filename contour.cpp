@@ -14,7 +14,7 @@
 #include <Eigen/StdVector>
 #include <boost/numeric/odeint/external/openmp/openmp.hpp>
 
-#define N_SPECIES 4
+#define N_SPECIES 6
 #define N_DIM 6 // dim of PSO hypercube
 
 using Eigen::MatrixXd;
@@ -71,33 +71,33 @@ public:
 
     void operator() (const State_N& c, State_N& dcdt, double t)
     {
-        // dcdt[0] = -(jay.k(0) * c[0] * c[1])  // Syk
-        //     + jay.k(1) * c[2]
-        //     + jay.k(2) * c[2];
+        dcdt[0] = -(rate.k(0) * c[0] * c[1])  // Syk
+            + rate.k(1) * c[2]
+            + rate.k(2) * c[2];
 
-        // dcdt[1] = -(jay.k(0) * c[0] * c[1]) // Vav
-        //     + jay.k(1) * c[2]
-        //     + jay.k(5) * c[5];
+        dcdt[1] = -(rate.k(0) * c[0] * c[1]) // Vav
+            + rate.k(1) * c[2]
+            + rate.k(5) * c[5];
 
-        // dcdt[2] = jay.k(0) * c[0] * c[1] // Syk-Vav
-        //     - jay.k(1) * c[2]
-        //     - jay.k(2) * c[2];
+        dcdt[2] = rate.k(0) * c[0] * c[1] // Syk-Vav
+            - rate.k(1) * c[2]
+            - rate.k(2) * c[2];
 
-        // dcdt[3] = jay.k(2) * c[2] //pVav
-        //     - jay.k(3) * c[3] * c[4]
-        //     + jay.k(4) * c[5];
+        dcdt[3] = rate.k(2) * c[2] //pVav
+            - rate.k(3) * c[3] * c[4]
+            + rate.k(4) * c[5];
 
-        // dcdt[4] = -(jay.k(3) * c[3] * c[4]) // SHP1 
-        //     + jay.k(4) * c[5]
-        //     + jay.k(5) * c[5];
+        dcdt[4] = -(rate.k(3) * c[3] * c[4]) // SHP1 
+            + rate.k(4) * c[5]
+            + rate.k(5) * c[5];
 
-        // dcdt[5] = jay.k(3) * c[3] * c[4]  // SHP1-pVav
-        //     - jay.k(4) * c[5]
-        //     - jay.k(5) * c[5];
-        dcdt[0] = rate.k(0) - rate.k(5) * c[0];
-        dcdt[1] = rate.k(1) * c[0] - rate.k(4) * c[1];
-        dcdt[2] = rate.k(2) * c[1] - rate.k(4) * c[2];
-        dcdt[3] = rate.k(3) * c[2] - rate.k(4) * c[3];
+        dcdt[5] = rate.k(3) * c[3] * c[4]  // SHP1-pVav
+            - rate.k(4) * c[5]
+            - rate.k(5) * c[5];
+        // dcdt[0] = rate.k(0) - rate.k(5) * c[0];
+        // dcdt[1] = rate.k(1) * c[0] - rate.k(4) * c[1];
+        // dcdt[2] = rate.k(2) * c[1] - rate.k(4) * c[2];
+        // dcdt[3] = rate.k(3) * c[2] - rate.k(4) * c[3];
     }
 };
 
@@ -636,12 +636,16 @@ int main() {
   
     /* Variables (global) */
     double t0 = 60, tf = 15, dt = 1.0; 
-    int nTimeSteps = 1;
+    int nTimeSteps = 5;
     VectorXd times = VectorXd::Zero(nTimeSteps);
     // times << 0.5, 2, 10, 20, 30; // ultra early, early, medium, late
     cout << "loaded in time vals" << endl;
-    times << 120;
-    int Npars = N_DIM;
+    times <<  0.5,
+        2,
+        10,
+        20,
+        30; // ultra early, early, medium, late
+    int Npars = N_SPECIES;
     double squeeze = 0.500, sdbeta = 0.10; 
     double boundary = 0.001;
     /* SETUP */
@@ -669,7 +673,7 @@ int main() {
     mt19937 gen(RanDev());
     uniform_real_distribution<double> unifDist(uniLowBound, uniHiBound);
     
-    vector<MatrixXd> weights;
+ 
   
     // cout << "wt:" << endl << wt << endl;
     cout << "Reading in data!" << endl;
@@ -678,62 +682,68 @@ int main() {
     // Y_0_Full = readIntoMatrix(Y0File, sizeFile, N_SPECIES);
     // X0File.close();
     // Y0File.close();
-    struct K tru;
-    tru.k << 0.789183,	0.250346,	0.0915363,	0.969999,	0.243538,	0.0985505;
-    // tru.k << 0.73121, 0.210256, 0.0901003, 0.840568, 0.20446, 0.0861549;
-    MatrixXd X_0 = csvToMatrix("initial/t1m_processed.csv"); //X_0_Full.block(startRow, 0, N, Npars);
-    int N = X_0.rows();
-    MatrixXd Y_t = csvToMatrix("initial/t2m_processed.csv");
-    for(int i = 0; i < nTimeSteps; i++){
-        weights.push_back(wolfWtMat(Y_t, nMoments, false));
-    }
-    cout << "weights:" << endl;
-    cout << weights[0] << endl;
+    // struct K tru;
+    // tru.k << 0.789183,	0.250346,	0.0915363,	0.969999,	0.243538,	0.0985505;
+    int N = 5000, startRow = 0;
+    MatrixXd X_0 = csvToMatrix("initial/noo25-13451-initial-x.txt");//csvToMatrix("initial/t1m_processed.csv"); //X_0_Full.block(startRow, 0, N, Npars);
+    X_0.conservativeResize(N, Npars);
+    // X_0 = X_0.block(startRow, 0, N, Npars);
+   
+   
+   
     // Y_0 = Y_0_Full.block(startRow, 0, N, Npars);
     // cout << "Using starting row of data:" << startRow << " and " << N << " data pts!" << endl;
     cout << "first row X0:" << X_0.row(0) << endl;
     cout << "final row X0:" << X_0.row(X_0.rows() - 1) << endl << endl << endl << endl;
     Controlled_RK_Stepper_N controlledStepper;
-    vector<VectorXd> Yt3Vecs;
-    cout << "Here?" << endl;
-    Yt3Vecs.push_back(momentVector(Y_t, nMoments));
+
     cout << "Using two part PSO " << "Sample Size:" << N << " with:" << nMoments << " moments." << endl;
     cout << "Using Times:" << times.transpose() << endl;
     cout << "Bounds for Uniform Distribution (" << uniLowBound << "," << uniHiBound << ")"<< endl;
     cout << "Blind PSO --> nParts:" << nParts << " Nsteps:" << nSteps << endl;
     cout << "Targeted PSO --> nParts:" <<  nParts2 << " Nsteps:" << nSteps2 << endl;
     cout << "sdbeta:" << sdbeta << endl;
-    // tru.k << 5.0, 0.1, 1.0, 8.69, 0.05, 0.70;
-    // tru.k /= (9.69);
-    // tru.k(1) += 0.05;
-    // tru.k(4) += 0.05; // make sure not so close to the boundary
-    // tru.k << 0.996673, 0.000434062, 0.0740192,  0.795578,  0.00882025, 0.0317506;
-    
+    struct K tru;
+    tru.k << 5.0, 0.1, 1.0, 8.69, 0.05, 0.70;
+    tru.k /= (9.69);
+    tru.k(1) += 0.05;
+    tru.k(4) += 0.05; // make sure not so close to the boundary
 
-    // cout << "using truk:" << tru.k.transpose() << endl;
-    // vector<VectorXd> Yt3Vecs;
-    // for(int t = 0; t < nTimeSteps; t++){
-    //     Nonlinear_ODE6 trueSys(tru);
-    //     Protein_Components Yt(times(t), nMoments, N);
-    //     Moments_Mat_Obs YtObs(Yt);
-    //     for (int i = 0; i < Y_0.rows(); i++) {
-    //         //State_N c0 = gen_multi_norm_iSub(); // Y_0 is simulated using norm dist.
-    //         State_N c0 = convertInit(Y_0, i);
-    //         Yt.index = i;
-    //         integrate_adaptive(controlledStepper, trueSys, c0, t0, times(t), dt, YtObs);
-    //     }
-    //     Yt.mVec /= N;
-    //     Yt3Vecs.push_back(Yt.mVec);
-    // }
+    cout << "using truk:" << tru.k.transpose() << endl;
+    MatrixXd Y_0 = csvToMatrix("initial/noo25-13451-initial-y.txt");
+    Y_0.conservativeResize(N,Npars);
+    // Y_0 = Y_0.block(startRow, 0, N, Npars);
+    vector<MatrixXd> Yt3Mats;
+    vector<VectorXd> Yt3Vecs;
+    for(int t = 0; t < nTimeSteps; t++){
+        Nonlinear_ODE6 trueSys(tru);
+        Protein_Components Yt(times(t), nMoments, N);
+        Moments_Mat_Obs YtObs(Yt);
+        for (int i = 0; i < Y_0.rows(); i++) {
+            //State_N c0 = gen_multi_norm_iSub(); // Y_0 is simulated using norm dist.
+            State_N c0 = convertInit(Y_0, i);
+            Yt.index = i;
+            integrate_adaptive(controlledStepper, trueSys, c0, t0, times(t), dt, YtObs);
+        }
+        Yt.mVec /= N;
+        Yt3Vecs.push_back(Yt.mVec);
+        Yt3Mats.push_back(Yt.mat);
+    }
+    // MatrixXd Y_t = csvToMatrix("initial/t2m_processed.csv");
+    vector<MatrixXd> weights;
+    for(int i = 0; i < nTimeSteps; i++){
+        weights.push_back(wolfWtMat(Yt3Mats[i], nMoments, false));
+    }
+    // Yt3Vecs.push_back(momentVector(Y_t, nMoments));
     // struct K seed;
     // seed.k << 0.1659069,	0.6838229,	0.9585955,	0.4651133,	0.4573598,	0.1806655;
 
     /* Solve for 50 x 50 contour plot for equal weights */
-    int xAxis = 4, yAxis = 5; // thetas
+    int xAxis = 3, yAxis = 4; // thetas
     int xDim = 50, yDim = 50;
     double scale = (xDim+yDim) / 2;
     double cost = 0;
-    // double holdtheta2 = 0.259;
+    double holdtheta2 = 0.1;
     MatrixXd eqwts(xDim*yDim, Npars + 1);
     int s = 0;
     cout << "contour rates below! " << endl;
@@ -741,7 +751,7 @@ int main() {
         for(int y = 0; y < yDim; y++){
             K rate;
             rate.k = tru.k;
-            // rate.k(1) = holdtheta2;
+            rate.k(1) = holdtheta2;
             rate.k(xAxis) = x / scale;
             rate.k(yAxis) = y / scale;
             for(int t = 0; t < nTimeSteps; t++){
