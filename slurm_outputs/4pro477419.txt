@@ -1,0 +1,123 @@
+Program Begin:
+** Please Make Sure That All Inputted Files are in the UNIX Line Formatting to Prevent Bugs! **
+Reading in Parameters from Configuration File!
+BioNetGen version 2.8.2
+Reading from file /gpfs0/home1/gddaslab/rsjxw007/CyGMM_Build/CyGMM_DockerBuild/CyGMM/4pro.bngl (level 0)
+Read 5 parameters.
+Read 4 species.
+Read 4 observable(s).
+Read 8 reaction rule(s).
+ACTION: generate_network( 4pro )
+Iteration   0:     4 species      0 rxns  0.00e+00 CPU s
+Iteration   1:     4 species      8 rxns  1.00e-02 CPU s
+Cumulative CPU time for each rule
+Rule   1:     1 reactions 0.00e+00 CPU s 0.00e+00 CPU s/rxn
+Rule   2:     1 reactions 0.00e+00 CPU s 0.00e+00 CPU s/rxn
+Rule   3:     1 reactions 0.00e+00 CPU s 0.00e+00 CPU s/rxn
+Rule   4:     1 reactions 0.00e+00 CPU s 0.00e+00 CPU s/rxn
+Rule   5:     1 reactions 0.00e+00 CPU s 0.00e+00 CPU s/rxn
+Rule   6:     1 reactions 0.00e+00 CPU s 0.00e+00 CPU s/rxn
+Rule   7:     1 reactions 0.00e+00 CPU s 0.00e+00 CPU s/rxn
+Rule   8:     1 reactions 1.00e-02 CPU s 1.00e-02 CPU s/rxn
+Total   :     8 reactions 1.00e-02 CPU s 1.25e-03 CPU s/rxn
+WARNING: writeFile(): Overwriting existing file ./4pro.net.
+Wrote network in net format to ./4pro.net.
+CPU TIME: generate_network 0.01 s.
+Wrote SBML to ./4pro_sbml.xml.
+CPU TIME: writeSBML 0.00 s.
+Finished processing file /gpfs0/home1/gddaslab/rsjxw007/CyGMM_Build/CyGMM_DockerBuild/CyGMM/4pro.bngl.
+CPU TIME: total 0.02 s.
+------ Reading in X_0! ------
+"data/X/t1m_processed.csv"
+Reading in (rows,columns): (1773,4) from X data directory
+---------------------------
+After removing all negative rows, X has 719 rows.
+If dimensions are unexpected of input data, please make sure to check csv files contains all possible values in each row/column.
+---------------------  Parameters  --------------------
+Total Number of Runs:5
+Number of Moments:14
+Hyper Cube Width:1
+Using Times:1 2
+Blind PSO --> nParts:1000 Nsteps:30
+Targeted PSO --> nParts:2 Nsteps:2
+Number of Rates:5
+Redirecting Model to SBML
+using gillespie
+--------------------------------------------------------
+--------------------------------------------------------
+------- Matching Columns of X Data files to Ids -------
+pCD3z() to column:0 with first value:5.93
+pSLP76() to column:1 with first value:15.11
+pErk() to column:2 with first value:15.55
+pS6() to column:3 with first value:4.42
+--------------------------------------------------------
+------ Reading in Yt! ------
+"data/Y/t2m_processed.csv"
+Read in 1431 rows! 4 columns!
+---------------------------
+After removing all negative rows, Y0 has 653 rows.
+Yt Means For First Time Step:11.4785 11.5206 7.69268 21.0976
+Computing Weight Matrices!
+ 0.00993072           0           0           0           0           0           0           0           0           0           0           0           0           0
+          0  0.00954181           0           0           0           0           0           0           0           0           0           0           0           0
+          0           0   0.0140567           0           0           0           0           0           0           0           0           0           0           0
+          0           0           0 0.000895205           0           0           0           0           0           0           0           0           0           0
+          0           0           0           0 5.90553e-06           0           0           0           0           0           0           0           0           0
+          0           0           0           0           0 4.89555e-06           0           0           0           0           0           0           0           0
+          0           0           0           0           0           0 1.16725e-05           0           0           0           0           0           0           0
+          0           0           0           0           0           0           0 1.94015e-08           0           0           0           0           0           0
+          0           0           0           0           0           0           0           0 1.57249e-05           0           0           0           0           0
+          0           0           0           0           0           0           0           0           0 4.25579e-05           0           0           0           0
+          0           0           0           0           0           0           0           0           0           0 3.29258e-06           0           0           0
+          0           0           0           0           0           0           0           0           0           0           0   4.154e-05           0           0
+          0           0           0           0           0           0           0           0           0           0           0           0 3.04874e-06           0
+          0           0           0           0           0           0           0           0           0           0           0           0           0 2.46253e-06
+PSO Seeded At:0.0899076 0.0242046  0.200419 0.0919405  0.732293| cost:2.04781
+PSO Estimation Has Begun, This may take some time...
+Held Parameter Estimates:0 0 0 0 0
+PSO Seeded At: 0.601135  0.675442 0.0150333  0.794136  0.515707| cost:1.64797
+PSO Estimation Has Begun, This may take some time...
+Held Parameter Estimates:0 0 0 0 0
+PSO Seeded At:0.666336 0.320185 0.775892 0.194542 0.209103| cost:1.01645
+PSO Estimation Has Begun, This may take some time...
+Held Parameter Estimates:0 0 0 0 0
+PSO Seeded At: 0.15349 0.947191 0.112192 0.956346 0.972687| cost:2.20092
+PSO Estimation Has Begun, This may take some time...
+Held Parameter Estimates:0 0 0 0 0
+PSO Seeded At:0.030323 0.194645 0.144194 0.985815 0.403023| cost:1.34557
+PSO Estimation Has Begun, This may take some time...
+Held Parameter Estimates:0 0 0 0 0
+Hypercubescale Max:1
+Average Estimate: 0.655297  0.120397  0.239874  0.195829 0.0360484 0.0824955
+Simulated Xt Moments For Various Times:
+2  11.228 11.3876 7.54227  17.845 77.4202 81.8331 34.1738    2238 30.4174 10.6169 11.1376 29.7275 18.4962 37.5227
+
+-------------- All Run Estimates: -------------------
+k1		k2		k3		k4		k5		cost
+  0.34469 0.0970193  0.224003  0.162015 0.0411603 0.0810989
+ 0.791806  0.124919  0.205001  0.142524 0.0448415 0.0800589
+ 0.609779  0.118051  0.264284  0.200076 0.0302381 0.0831519
+  0.88856  0.147754  0.279284  0.283534 0.0278543 0.0878085
+ 0.641652  0.114241  0.226799  0.190997 0.0361481 0.0803592
+------- 95 Percent Confidence Intervals -------
+Rates | Standard Deviation
+0.655297   |   0.207233
+0.120397   |   0.0184307
+0.239874   |   0.0307733
+0.195829   |   0.0541256
+0.0360484   |   0.00714779
+Confidence Intervals for Each Rate:
+Theta0: [0.47365,0.836945]
+Theta1: [0.104241,0.136552]
+Theta2: [0.2129,0.266848]
+Theta3: [0.148386,0.243272]
+Theta4: [0.0297831,0.0423138]
+-----------------------------------------------
+CODE FINISHED RUNNING IN 99 s TIME!
+Job Statistics for 477419:
+           JobID       User               Start                 End    Elapsed     MaxRSS   TotalCPU      State Exit        NodeList                                  ReqTRES 
+---------------- ---------- ------------------- ------------------- ---------- ---------- ---------- ---------- ---- --------------- ---------------------------------------- 
+          477419   rsjxw007 2022-07-12T17:33:54 2022-07-12T17:35:34   00:01:40             39:16.367  COMPLETED  0:0   r1pl-hpcf-n21     billing=30,cpu=30,mem=234360M,node=1 
+    477419.batch            2022-07-12T17:33:54 2022-07-12T17:35:34   00:01:40     30.85M  39:16.365  COMPLETED  0:0   r1pl-hpcf-n21                                          
+   477419.extern            2022-07-12T17:33:54 2022-07-12T17:35:34   00:01:40          0  00:00.001  COMPLETED  0:0   r1pl-hpcf-n21                                          
+CPU Efficiency: 78.53% of 00:50:00 core-walltime

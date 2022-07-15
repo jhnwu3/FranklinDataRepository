@@ -1,0 +1,8 @@
+./CyGMM: /lib64/libstdc++.so.6: version `GLIBCXX_3.4.26' not found (required by ./CyGMM)
+Job Statistics for 475040:
+           JobID       User               Start                 End    Elapsed     MaxRSS   TotalCPU      State Exit        NodeList                                  ReqTRES 
+---------------- ---------- ------------------- ------------------- ---------- ---------- ---------- ---------- ---- --------------- ---------------------------------------- 
+          475040   rsjxw007 2022-07-07T10:26:15 2022-07-07T10:26:16   00:00:01             00:00.013     FAILED  1:0   r1pl-hpcf-n21     billing=30,cpu=30,mem=234360M,node=1 
+    475040.batch            2022-07-07T10:26:15 2022-07-07T10:26:16   00:00:01      0.07M  00:00.011     FAILED  1:0   r1pl-hpcf-n21                                          
+   475040.extern            2022-07-07T10:26:15 2022-07-07T10:26:16   00:00:01          0  00:00.001  COMPLETED  0:0   r1pl-hpcf-n21                                          
+CPU Efficiency: 0.00% of 00:00:30 core-walltime

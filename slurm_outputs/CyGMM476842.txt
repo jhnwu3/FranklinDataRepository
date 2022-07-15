@@ -1,0 +1,303 @@
+Program Begin:
+** Please Make Sure That All Inputted Files are in the UNIX Line Formatting to Prevent Bugs! **
+Reading in Parameters from Configuration File!
+BioNetGen version 2.8.2
+Reading from file /gpfs0/home1/gddaslab/rsjxw007/CyGMM_Build/CyGMM_DockerBuild/CyGMM/AB.bngl (level 0)
+Read 2 parameters.
+Read 2 molecule types.
+Read 2 species.
+Read 3 observable(s).
+Read 1 reaction rule(s).
+ACTION: generate_network( AB )
+Iteration   0:     2 species      0 rxns  0.00e+00 CPU s
+Iteration   1:     3 species      1 rxns  0.00e+00 CPU s
+Iteration   2:     3 species      2 rxns  0.00e+00 CPU s
+Cumulative CPU time for each rule
+Rule   1:     2 reactions 0.00e+00 CPU s 0.00e+00 CPU s/rxn
+Total   :     2 reactions 0.00e+00 CPU s 0.00e+00 CPU s/rxn
+WARNING: writeFile(): Overwriting existing file ./AB.net.
+Wrote network in net format to ./AB.net.
+CPU TIME: generate_network 0.00 s.
+Wrote SBML to ./AB_sbml.xml.
+CPU TIME: writeSBML 0.00 s.
+Finished processing file /gpfs0/home1/gddaslab/rsjxw007/CyGMM_Build/CyGMM_DockerBuild/CyGMM/AB.bngl.
+CPU TIME: total 0.01 s.
+------ Reading in X_0! ------
+"data/X/CD56BrightiGG_t2.csv"
+Reading in (rows,columns): (3456,2) from X data directory
+---------------------------
+After removing all negative rows, X has 201 rows.
+If dimensions are unexpected of input data, please make sure to check csv files contains all possible values in each row/column.
+---------------------  Parameters  --------------------
+Total Number of Runs:30
+Number of Moments:5
+Hyper Cube Width:1
+Using Times: 2  4  8 16 32
+Blind PSO --> nParts:1000 Nsteps:50
+Targeted PSO --> nParts:2 Nsteps:2
+Number of Rates:2
+Redirecting Model to SBML
+and Modeling With Deterministic ODEs
+--------------------------------------------------------
+--------------------------------------------------------
+Number of Species Defined in BNGL does not match number of columns in data files! Now listing all species in system and respective indices in order!
+Note: User can supply a "./CyGMM -p protein_observed.txt " to specify explicitly which proteins are observed in data. Please make sure names are in order from top to bottom matching left to right in data csv file.
+(0) A(b)
+(1) B(a)
+(2) A(b!1).B(a!1)
+From Above List of Indexed Species, We are using...
+(0) 0
+(1) 1
+Proteins Not Observed Will Default to Initial Values Defined in .BNGL File
+--------------------------------------------------------
+------ Reading in Yt! ------
+"data/Y/CD56BrightiGG_t4.csv"
+Read in 3358 rows! 2 columns!
+"data/Y/CD56BrightiGG_t16.csv"
+Read in 3223 rows! 2 columns!
+"data/Y/CD56BrightiGG_t32.csv"
+Read in 2719 rows! 2 columns!
+"data/Y/CD56BrightiGG_t8.csv"
+Read in 3070 rows! 2 columns!
+---------------------------
+After removing all negative rows, Y0 has 147 rows.
+After removing all negative rows, Y1 has 194 rows.
+After removing all negative rows, Y2 has 181 rows.
+After removing all negative rows, Y3 has 143 rows.
+Yt Means For First Time Step: 6.83109 0.974694
+Computing Weight Matrices!
+ 0.00162915           0           0           0           0
+          0     0.62365           0           0           0
+          0           0 2.64171e-08           0           0
+          0           0           0   0.0167912           0
+          0           0           0           0  0.00185673
+PSO Seeded At:0.919735  0.51039| cost:1.08604
+PSO Estimation Has Begun, This may take some time...
+bootstrap means
+X_0:4.13289 1.01507
+Yt:5.93422 0.76068
+Held Parameter Estimates:0 0
+PSO Seeded At:0.892439 0.576761| cost:1.82972
+PSO Estimation Has Begun, This may take some time...
+bootstrap means
+X_0: 5.73154 0.942935
+Yt: 3.67503 0.895714
+Held Parameter Estimates:0 0
+PSO Seeded At: 0.71665 0.903013| cost:8.90583
+PSO Estimation Has Begun, This may take some time...
+bootstrap means
+X_0:4.68219 1.41045
+Yt:5.37687  1.2585
+Held Parameter Estimates:0 0
+PSO Seeded At: 0.524544 0.0849909| cost:7.62213
+PSO Estimation Has Begun, This may take some time...
+bootstrap means
+X_0:5.36229 1.09985
+Yt: 8.43293 0.938503
+Held Parameter Estimates:0 0
+PSO Seeded At:0.797007 0.821432| cost:2.26237
+PSO Estimation Has Begun, This may take some time...
+bootstrap means
+X_0:4.64423 1.07109
+Yt: 8.7851 1.02503
+Held Parameter Estimates:0 0
+PSO Seeded At:0.145607 0.854075| cost:1.55432
+PSO Estimation Has Begun, This may take some time...
+bootstrap means
+X_0:4.04209   1.079
+Yt:6.42061 1.08095
+Held Parameter Estimates:0 0
+PSO Seeded At:0.962436 0.264282| cost:0.933349
+PSO Estimation Has Begun, This may take some time...
+bootstrap means
+X_0:4.34682  1.2293
+Yt:  4.0881 0.940816
+Held Parameter Estimates:0 0
+PSO Seeded At:0.953356 0.766361| cost:1.72834
+PSO Estimation Has Begun, This may take some time...
+bootstrap means
+X_0:5.21612 1.13607
+Yt: 4.75395 0.972177
+Held Parameter Estimates:0 0
+PSO Seeded At:0.195524 0.926628| cost:1.51622
+PSO Estimation Has Begun, This may take some time...
+bootstrap means
+X_0: 4.93194 0.907264
+Yt: 6.85918 0.960204
+Held Parameter Estimates:0 0
+PSO Seeded At:0.976646 0.248813| cost:1.44804
+PSO Estimation Has Begun, This may take some time...
+bootstrap means
+X_0:5.39453 1.17891
+Yt:  12.629 0.897687
+Held Parameter Estimates:0 0
+PSO Seeded At:0.326707 0.351982| cost:1.90857
+PSO Estimation Has Begun, This may take some time...
+bootstrap means
+X_0:5.40507 1.13672
+Yt:5.08422 1.14048
+Held Parameter Estimates:0 0
+PSO Seeded At:0.510526 0.718166| cost:1.03028
+PSO Estimation Has Begun, This may take some time...
+bootstrap means
+X_0:4.38801 1.26229
+Yt:3.75769 1.03973
+Held Parameter Estimates:0 0
+PSO Seeded At: 0.47063 0.155005| cost:2.62302
+PSO Estimation Has Begun, This may take some time...
+bootstrap means
+X_0:4.26488 1.28682
+Yt: 5.00361 0.949184
+Held Parameter Estimates:0 0
+PSO Seeded At:0.0620445  0.708565| cost:1.48477
+PSO Estimation Has Begun, This may take some time...
+bootstrap means
+X_0:5.77622  1.0007
+Yt:  6.5634 0.956395
+Held Parameter Estimates:0 0
+PSO Seeded At:0.883501 0.139986| cost:10.127
+PSO Estimation Has Begun, This may take some time...
+bootstrap means
+X_0:4.60269 1.04597
+Yt:8.90639  1.0498
+Held Parameter Estimates:0 0
+PSO Seeded At:0.182136  0.93733| cost:0.489812
+PSO Estimation Has Begun, This may take some time...
+bootstrap means
+X_0:4.28468 1.06383
+Yt: 6.6902 1.01082
+Held Parameter Estimates:0 0
+PSO Seeded At:0.913634 0.180167| cost:1.17274
+PSO Estimation Has Begun, This may take some time...
+bootstrap means
+X_0: 4.3104 1.54154
+Yt:7.04789 1.09075
+Held Parameter Estimates:0 0
+PSO Seeded At:0.945159 0.925891| cost:2.80956
+PSO Estimation Has Begun, This may take some time...
+bootstrap means
+X_0:5.66483 1.06289
+Yt:9.50762  1.0866
+Held Parameter Estimates:0 0
+PSO Seeded At:0.905396 0.780513| cost:6.57226
+PSO Estimation Has Begun, This may take some time...
+bootstrap means
+X_0:4.31045 1.51542
+Yt: 5.5285 1.03259
+Held Parameter Estimates:0 0
+PSO Seeded At: 0.323499 0.0697774| cost:4.01837
+PSO Estimation Has Begun, This may take some time...
+bootstrap means
+X_0:4.27318 1.26527
+Yt: 7.83224 0.731497
+Held Parameter Estimates:0 0
+PSO Seeded At:0.718391 0.510566| cost:8.36144
+PSO Estimation Has Begun, This may take some time...
+bootstrap means
+X_0:4.62786 1.17373
+Yt: 5.05884 0.915782
+Held Parameter Estimates:0 0
+PSO Seeded At:0.740405 0.960086| cost:1.77448
+PSO Estimation Has Begun, This may take some time...
+bootstrap means
+X_0:5.73965 1.63572
+Yt: 4.13803 0.868639
+Held Parameter Estimates:0 0
+PSO Seeded At:0.295305 0.385615| cost:17.7776
+PSO Estimation Has Begun, This may take some time...
+bootstrap means
+X_0:4.43552 1.08095
+Yt:10.0941 1.29735
+Held Parameter Estimates:0 0
+PSO Seeded At:0.358406 0.703243| cost:0.995751
+PSO Estimation Has Begun, This may take some time...
+bootstrap means
+X_0:4.68776 1.30164
+Yt: 5.49429 0.868367
+Held Parameter Estimates:0 0
+PSO Seeded At:0.499688 0.192816| cost:5.72453
+PSO Estimation Has Begun, This may take some time...
+bootstrap means
+X_0:5.07443 1.16284
+Yt: 3.90735 0.957687
+Held Parameter Estimates:0 0
+PSO Seeded At:0.0313652  0.772192| cost:7.05425
+PSO Estimation Has Begun, This may take some time...
+bootstrap means
+X_0:6.53647 1.31886
+Yt:  3.9998 0.881224
+Held Parameter Estimates:0 0
+PSO Seeded At:0.125134  0.57361| cost:38.5281
+PSO Estimation Has Begun, This may take some time...
+bootstrap means
+X_0: 5.3392 1.31259
+Yt:8.81755 1.00408
+Held Parameter Estimates:0 0
+PSO Seeded At:0.297714 0.930063| cost:2.00918
+PSO Estimation Has Begun, This may take some time...
+bootstrap means
+X_0:5.19264 1.09552
+Yt: 6.1234 1.08776
+Held Parameter Estimates:0 0
+PSO Seeded At:0.527376 0.705265| cost:2.72705
+PSO Estimation Has Begun, This may take some time...
+bootstrap means
+X_0:  4.591 1.50647
+Yt: 6.01245 0.955238
+Held Parameter Estimates:0 0
+PSO Seeded At:0.693503 0.367188| cost:2.97873
+PSO Estimation Has Begun, This may take some time...
+bootstrap means
+X_0:5.56403  1.0807
+Yt:5.20599 1.06544
+Held Parameter Estimates:0 0
+Hypercubescale Max:1
+
+-------------- All Run Estimates: -------------------
+ka		kd		cost
+  0.0459251    0.266267    0.951441
+   0.111902    0.999846     1.58385
+   0.017314    0.190028     8.67678
+  0.0265392   0.0435703     7.36284
+  0.0156233   0.0538414     2.14211
+ 0.00534868 1.13588e-05     1.44776
+  0.0130722    0.182442    0.675231
+  0.0652183    0.291707     1.61912
+  0.0118321 1.89758e-05     1.44287
+ 0.00836801 8.85465e-06     1.00717
+   0.146176    0.748058     1.82956
+ 0.00936289  1.3146e-05    0.819213
+   0.106675    0.463494     2.50225
+   0.136394    0.999926     1.47627
+ 0.00760724 6.03817e-06     9.65592
+ 0.00910915 1.43602e-05    0.460079
+ 0.00837966    0.355079    0.248777
+  0.0548003    0.160667     2.76368
+ 0.00552035 2.61515e-05     6.18818
+   0.184558    0.455644     3.85993
+   0.176646    0.379971     8.29641
+   0.142241    0.542967     1.73419
+   0.999875 1.80162e-05     17.5797
+ 0.00981813    0.131047    0.856428
+   0.119835    0.281695     5.57425
+  0.0280826   0.0154763     6.89688
+  0.0350691   0.0617796     38.4879
+  0.0470729    0.109928     2.00362
+  0.0233334    0.277698     2.54845
+  0.0765999    0.145547     2.89967
+------- 95 Percent Confidence Intervals -------
+Rates | Standard Deviation
+0.0882766   |   0.181164
+0.23856   |   0.282018
+Confidence Intervals for Each Rate:
+Theta0: [0.0234478,0.153105]
+Theta1: [0.137641,0.339478]
+-----------------------------------------------
+CODE FINISHED RUNNING IN 3965 s TIME!
+Job Statistics for 476842:
+           JobID       User               Start                 End    Elapsed     MaxRSS   TotalCPU      State Exit        NodeList                                  ReqTRES 
+---------------- ---------- ------------------- ------------------- ---------- ---------- ---------- ---------- ---- --------------- ---------------------------------------- 
+          476842   rsjxw007 2022-07-11T11:43:12 2022-07-11T12:49:19   01:06:07            1-01:50:33  COMPLETED  0:0   r1pl-hpcf-n23     billing=30,cpu=30,mem=234360M,node=1 
+    476842.batch            2022-07-11T11:43:12 2022-07-11T12:49:19   01:06:07     28.04M 1-01:50:33  COMPLETED  0:0   r1pl-hpcf-n23                                          
+   476842.extern            2022-07-11T11:43:12 2022-07-11T12:49:19   01:06:07          0  00:00.001  COMPLETED  0:0   r1pl-hpcf-n23                                          
+CPU Efficiency: 78.17% of 1-09:03:30 core-walltime

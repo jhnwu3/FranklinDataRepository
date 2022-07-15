@@ -1,0 +1,97 @@
+Program Begin:
+Reading in Parameters from Configuration File!
+BioNetGen version 2.8.2
+Reading from file /gpfs0/home1/gddaslab/rsjxw007/CyGMM_Build/CyGMM_DockerBuild/CyGMM/6pro.bngl (level 0)
+Read 6 parameters.
+Read 6 species.
+Read 6 observable(s).
+Read 4 reaction rule(s).
+ACTION: generate_network( 6pro )
+Iteration   0:     6 species      0 rxns  0.00e+00 CPU s
+Iteration   1:     6 species      6 rxns  0.00e+00 CPU s
+Cumulative CPU time for each rule
+Rule   1:     2 reactions 0.00e+00 CPU s 0.00e+00 CPU s/rxn
+Rule   2:     1 reactions 0.00e+00 CPU s 0.00e+00 CPU s/rxn
+Rule   3:     2 reactions 0.00e+00 CPU s 0.00e+00 CPU s/rxn
+Rule   4:     1 reactions 0.00e+00 CPU s 0.00e+00 CPU s/rxn
+Total   :     6 reactions 0.00e+00 CPU s 0.00e+00 CPU s/rxn
+WARNING: writeFile(): Overwriting existing file ./6pro.net.
+Wrote network in net format to ./6pro.net.
+CPU TIME: generate_network 0.01 s.
+Wrote SBML to ./6pro_sbml.xml.
+CPU TIME: writeSBML 0.00 s.
+Finished processing file /gpfs0/home1/gddaslab/rsjxw007/CyGMM_Build/CyGMM_DockerBuild/CyGMM/6pro.bngl.
+CPU TIME: total 0.01 s.
+------ Reading in X_0! ------
+"data/X/X.csv"
+Reading in 25000 rows or cells from X data directory
+---------------------------
+After removing all negative rows, X has 25000 rows.
+--------- Parameters ---------
+Total Number of Runs:1
+Number of Moments:27
+Hyper Cube Width:1
+Using Times:0 2
+Blind PSO --> nParts:100 Nsteps:50
+Targeted PSO --> nParts:2 Nsteps:2
+Number of Rates:2
+Redirecting Model to SBML
+and Modeling With Deterministic ODEs
+Now seeding with value 1
+------------------------------
+------ SIMULATING YT! ------
+Read in Rates:0.276782 0.837081
+------ Reading in Yt! ------
+"data/Y/Y.csv"
+Read in 25000 rows!
+---------------------------
+After removing all negative rows, Y has 25000 rows.
+---------------------------
+Yt Means For First Time Step:1.34001 1505.69 209.512 168.492 17.1858 193.282
+Computing Weight Matrices!
+  0.0230542           0           0           0           0           0           0           0           0           0           0           0           0           0           0           0           0           0           0           0           0           0           0           0           0           0           0
+          0  3.3613e-06           0           0           0           0           0           0           0           0           0           0           0           0           0           0           0           0           0           0           0           0           0           0           0           0           0
+          0           0 0.000150601           0           0           0           0           0           0           0           0           0           0           0           0           0           0           0           0           0           0           0           0           0           0           0           0
+          0           0           0 4.45427e-05           0           0           0           0           0           0           0           0           0           0           0           0           0           0           0           0           0           0           0           0           0           0           0
+          0           0           0           0 0.000612528           0           0           0           0           0           0           0           0           0           0           0           0           0           0           0           0           0           0           0           0           0           0
+          0           0           0           0           0 0.000245606           0           0           0           0           0           0           0           0           0           0           0           0           0           0           0           0           0           0           0           0           0
+          0           0           0           0           0           0 2.66409e-07           0           0           0           0           0           0           0           0           0           0           0           0           0           0           0           0           0           0           0           0
+          0           0           0           0           0           0           0 2.83801e-13           0           0           0           0           0           0           0           0           0           0           0           0           0           0           0           0           0           0           0
+          0           0           0           0           0           0           0           0 5.29394e-10           0           0           0           0           0           0           0           0           0           0           0           0           0           0           0           0           0           0
+          0           0           0           0           0           0           0           0           0 1.23191e-10           0           0           0           0           0           0           0           0           0           0           0           0           0           0           0           0           0
+          0           0           0           0           0           0           0           0           0           0 1.14077e-08           0           0           0           0           0           0           0           0           0           0           0           0           0           0           0           0
+          0           0           0           0           0           0           0           0           0           0           0 1.19125e-09           0           0           0           0           0           0           0           0           0           0           0           0           0           0           0
+          0           0           0           0           0           0           0           0           0           0           0           0   3.686e-06           0           0           0           0           0           0           0           0           0           0           0           0           0           0
+          0           0           0           0           0           0           0           0           0           0           0           0           0 1.37062e-07           0           0           0           0           0           0           0           0           0           0           0           0           0
+          0           0           0           0           0           0           0           0           0           0           0           0           0           0 2.75725e-08           0           0           0           0           0           0           0           0           0           0           0           0
+          0           0           0           0           0           0           0           0           0           0           0           0           0           0           0  0.00144962           0           0           0           0           0           0           0           0           0           0           0
+          0           0           0           0           0           0           0           0           0           0           0           0           0           0           0           0 5.07654e-07           0           0           0           0           0           0           0           0           0           0
+          0           0           0           0           0           0           0           0           0           0           0           0           0           0           0           0           0 5.18498e-11           0           0           0           0           0           0           0           0           0
+          0           0           0           0           0           0           0           0           0           0           0           0           0           0           0           0           0           0 2.50577e-11           0           0           0           0           0           0           0           0
+          0           0           0           0           0           0           0           0           0           0           0           0           0           0           0           0           0           0           0 1.76114e-10           0           0           0           0           0           0           0
+          0           0           0           0           0           0           0           0           0           0           0           0           0           0           0           0           0           0           0           0 4.56369e-11           0           0           0           0           0           0
+          0           0           0           0           0           0           0           0           0           0           0           0           0           0           0           0           0           0           0           0           0 2.56039e-10           0           0           0           0           0
+          0           0           0           0           0           0           0           0           0           0           0           0           0           0           0           0           0           0           0           0           0           0 2.85176e-08           0           0           0           0
+          0           0           0           0           0           0           0           0           0           0           0           0           0           0           0           0           0           0           0           0           0           0           0 1.55555e-09           0           0           0
+          0           0           0           0           0           0           0           0           0           0           0           0           0           0           0           0           0           0           0           0           0           0           0           0 1.88194e-05           0           0
+          0           0           0           0           0           0           0           0           0           0           0           0           0           0           0           0           0           0           0           0           0           0           0           0           0 1.21664e-09           0
+          0           0           0           0           0           0           0           0           0           0           0           0           0           0           0           0           0           0           0           0           0           0           0           0           0           0 1.08619e-08
+mVec:0.550077  1498.79  210.156  168.519  17.3227  194.244  71.0857   287234  6641.75    22347  1677.07  4199.41 -428.196  48.3548  181.152  -6.2543 -1.72867 -14454.7 -27538.8  3424.46  482.594  10571.6 -1084.32   1406.8    -2542 -2347.59  512.033
+PSO Seeded At:0.997185 0.932557| cost:0.286881
+PSO Estimation Has Begun, This may take some time...
+hypercubescale before reset:1
+hypercubescale after reset:1
+nested hypercubes:0 0
+hypercubescale after final nesting:1
+Simulated Truth:0.276782 0.837081
+
+-------------- All Run Estimates: -------------------
+ 0.314965  0.979438 0.0112422
+CODE FINISHED RUNNING IN 1059 s TIME!
+Job Statistics for 452219:
+           JobID       User               Start                 End    Elapsed     MaxRSS   TotalCPU      State Exit        NodeList                                  ReqTRES 
+---------------- ---------- ------------------- ------------------- ---------- ---------- ---------- ---------- ---- --------------- ---------------------------------------- 
+          452219   rsjxw007 2022-06-24T13:40:09 2022-06-24T13:57:48   00:17:39              06:59:44  COMPLETED  0:0   r1pl-hpcf-n21     billing=30,cpu=30,mem=234360M,node=1 
+    452219.batch            2022-06-24T13:40:09 2022-06-24T13:57:48   00:17:39     85.29M   06:59:44  COMPLETED  0:0   r1pl-hpcf-n21                                          
+   452219.extern            2022-06-24T13:40:09 2022-06-24T13:57:48   00:17:39          0  00:00.001  COMPLETED  0:0   r1pl-hpcf-n21                                          
+CPU Efficiency: 79.27% of 08:49:30 core-walltime

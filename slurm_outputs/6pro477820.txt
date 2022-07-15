@@ -1,0 +1,156 @@
+Program Begin:
+** Please Make Sure That All Inputted Files are in the UNIX Line Formatting to Prevent Bugs! **
+Reading in Parameters from Configuration File!
+BioNetGen version 2.8.2
+Reading from file /gpfs0/home1/gddaslab/rsjxw007/CyGMM_Build/CyGMM_DockerBuild/CyGMM/6pro.bngl (level 0)
+Read 6 parameters.
+Read 6 species.
+Read 6 observable(s).
+Read 4 reaction rule(s).
+ACTION: generate_network( 6pro )
+Iteration   0:     6 species      0 rxns  0.00e+00 CPU s
+Iteration   1:     6 species      6 rxns  0.00e+00 CPU s
+Cumulative CPU time for each rule
+Rule   1:     2 reactions 0.00e+00 CPU s 0.00e+00 CPU s/rxn
+Rule   2:     1 reactions 0.00e+00 CPU s 0.00e+00 CPU s/rxn
+Rule   3:     2 reactions 0.00e+00 CPU s 0.00e+00 CPU s/rxn
+Rule   4:     1 reactions 0.00e+00 CPU s 0.00e+00 CPU s/rxn
+Total   :     6 reactions 0.00e+00 CPU s 0.00e+00 CPU s/rxn
+WARNING: writeFile(): Overwriting existing file ./6pro.net.
+Wrote network in net format to ./6pro.net.
+CPU TIME: generate_network 0.00 s.
+Wrote SBML to ./6pro_sbml.xml.
+CPU TIME: writeSBML 0.00 s.
+Finished processing file /gpfs0/home1/gddaslab/rsjxw007/CyGMM_Build/CyGMM_DockerBuild/CyGMM/6pro.bngl.
+CPU TIME: total 0.01 s.
+------ Reading in X_0! ------
+"data/X/X.csv"
+Reading in (rows,columns): (5000,6) from X data directory
+---------------------------
+After removing all negative rows, X has 5000 rows.
+If dimensions are unexpected of input data, please make sure to check csv files contains all possible values in each row/column.
+---------------------  Parameters  --------------------
+Total Number of Runs:6
+Number of Moments:27
+Theta Held Index:1 held value:0.1
+Hyper Cube Width:1
+Using Times:  0 0.5   2  10  20  30
+Blind PSO --> nParts:990 Nsteps:50
+Targeted PSO --> nParts:2 Nsteps:2
+Number of Rates:6
+Redirecting Model to SBML
+and Modeling With Deterministic ODEs
+--------------------------------------------------------
+--------------------------------------------------------
+------- Matching Columns of X Data files to Ids -------
+Syk() to column:0 with first value:192.796
+Vav() to column:1 with first value:1463.27
+SykVav() to column:2 with first value:5.251
+pVav() to column:3 with first value:5.8095
+SHP1() to column:4 with first value:435.297
+SHP1PVav() to column:5 with first value:6.2594
+--------------------------------------------------------
+------ SIMULATING YT! ------
+Read in Rates: 0.1  0.1 0.95 0.17 0.05 0.18
+------ Reading in Yt! ------
+"data/Y/Y.csv"
+Read in 5000 rows! 6 columns!
+---------------------------
+Note: We will only be using the first Yt file read in for this simulation!
+After removing all negative rows, Y has 5000 rows.
+Time Point 		 Moments
+0.5  1.40012  1757.38   209.96  14.0588  121.369  90.9622 0.728361   273328  6695.53  201.283  6369.12  859.989 -258.233    53.35  7.06668 -18.5846  17.0746 -4524.28 -958.283  5467.64 -992.478  790.754 -1962.44   2254.3 -690.745  162.181 -220.746
+2  2.02875  1502.19  209.331  166.261  17.7546  194.577  38.9033   297014  6491.13  21798.8  1643.98   4090.5 -858.206  136.465  294.958 -17.4936  7.96706   -12769 -25499.7   3417.3   1354.2  10341.5 -1090.96  1390.83 -2570.29 -2240.45  526.568
+10  77.0044  496.822  134.356  1229.31 0.458367  211.873  13231.1   314379  3938.92   266907  6.30111  6697.29 -36985.2 -5183.53  30543.6 -20.9905 -869.162  9457.24  -169272  239.452  8049.17   2947.3 -5.92609  1186.43 -276.447 -11054.3   42.015
+20  152.097  118.573  59.2632  1682.42 0.223975  212.108  10832.3  96629.5  1565.22   273423 0.436547  6760.46 -17446.1  -2797.3  18074.3 -8.50681 -1323.06  7003.32 -55389.7  59.0941  5177.31 -1659.97  2.69781  1619.22 -89.8343 -8664.61  13.3624
+30  166.666  40.0258  44.6934  1775.51 0.195352  212.136   8080.5  31243.6  548.992   276325 0.195456  6768.28  -6208.4 -913.263  10227.9 -4.85545  -1159.8  2210.42 -19383.3   29.713  3029.48 -1123.25  2.02158  1452.98 -59.8449  -6354.5  9.57283
+--------------------------------------------------------
+Yt Means For First Time Step:1.40012 1757.38  209.96 14.0588 121.369 90.9622
+Computing Weight Matrices!
+    1.37295           0           0           0           0           0           0           0           0           0           0           0           0           0           0           0           0           0           0           0           0           0           0           0           0           0           0
+          0 3.65861e-06           0           0           0           0           0           0           0           0           0           0           0           0           0           0           0           0           0           0           0           0           0           0           0           0           0
+          0           0 0.000149353           0           0           0           0           0           0           0           0           0           0           0           0           0           0           0           0           0           0           0           0           0           0           0           0
+          0           0           0  0.00496814           0           0           0           0           0           0           0           0           0           0           0           0           0           0           0           0           0           0           0           0           0           0           0
+          0           0           0           0 0.000157007           0           0           0           0           0           0           0           0           0           0           0           0           0           0           0           0           0           0           0           0           0           0
+          0           0           0           0           0  0.00116281           0           0           0           0           0           0           0           0           0           0           0           0           0           0           0           0           0           0           0           0           0
+          0           0           0           0           0           0   0.0339354           0           0           0           0           0           0           0           0           0           0           0           0           0           0           0           0           0           0           0           0
+          0           0           0           0           0           0           0 2.35073e-13           0           0           0           0           0           0           0           0           0           0           0           0           0           0           0           0           0           0           0
+          0           0           0           0           0           0           0           0 5.19583e-10           0           0           0           0           0           0           0           0           0           0           0           0           0           0           0           0           0           0
+          0           0           0           0           0           0           0           0           0 5.72892e-07           0           0           0           0           0           0           0           0           0           0           0           0           0           0           0           0           0
+          0           0           0           0           0           0           0           0           0           0 1.10801e-09           0           0           0           0           0           0           0           0           0           0           0           0           0           0           0           0
+          0           0           0           0           0           0           0           0           0           0           0  2.4302e-08           0           0           0           0           0           0           0           0           0           0           0           0           0           0           0
+          0           0           0           0           0           0           0           0           0           0           0           0  1.3625e-06           0           0           0           0           0           0           0           0           0           0           0           0           0           0
+          0           0           0           0           0           0           0           0           0           0           0           0           0 6.12201e-06           0           0           0           0           0           0           0           0           0           0           0           0           0
+          0           0           0           0           0           0           0           0           0           0           0           0           0           0  0.00024353           0           0           0           0           0           0           0           0           0           0           0           0
+          0           0           0           0           0           0           0           0           0           0           0           0           0           0           0 6.61098e-05           0           0           0           0           0           0           0           0           0           0           0
+          0           0           0           0           0           0           0           0           0           0           0           0           0           0           0           0  4.8506e-05           0           0           0           0           0           0           0           0           0           0
+          0           0           0           0           0           0           0           0           0           0           0           0           0           0           0           0           0 3.23306e-11           0           0           0           0           0           0           0           0           0
+          0           0           0           0           0           0           0           0           0           0           0           0           0           0           0           0           0           0 1.66532e-09           0           0           0           0           0           0           0           0
+          0           0           0           0           0           0           0           0           0           0           0           0           0           0           0           0           0           0           0  3.3898e-11           0           0           0           0           0           0           0
+          0           0           0           0           0           0           0           0           0           0           0           0           0           0           0           0           0           0           0           0 2.02794e-10           0           0           0           0           0           0
+          0           0           0           0           0           0           0           0           0           0           0           0           0           0           0           0           0           0           0           0           0  2.5526e-08           0           0           0           0           0
+          0           0           0           0           0           0           0           0           0           0           0           0           0           0           0           0           0           0           0           0           0           0 3.44301e-09           0           0           0           0
+          0           0           0           0           0           0           0           0           0           0           0           0           0           0           0           0           0           0           0           0           0           0           0 3.78802e-09           0           0           0
+          0           0           0           0           0           0           0           0           0           0           0           0           0           0           0           0           0           0           0           0           0           0           0           0 8.58686e-06           0           0
+          0           0           0           0           0           0           0           0           0           0           0           0           0           0           0           0           0           0           0           0           0           0           0           0           0 2.99313e-07           0
+          0           0           0           0           0           0           0           0           0           0           0           0           0           0           0           0           0           0           0           0           0           0           0           0           0           0 1.49827e-08
+PSO Seeded At:0.856868      0.1 0.283609 0.800195  0.96193 0.345462| cost:608070
+PSO Estimation Has Begun, This may take some time...
+Held Parameter Estimates:0 0 0 0 0 0
+PSO Seeded At:0.329584      0.1 0.137709 0.446522 0.957123 0.207717| cost:788325
+PSO Estimation Has Begun, This may take some time...
+Held Parameter Estimates:0 0 0 0 0 0
+PSO Seeded At:0.309991      0.1  0.54466 0.975356 0.512943 0.493341| cost:353370
+PSO Estimation Has Begun, This may take some time...
+Held Parameter Estimates:0 0 0 0 0 0
+PSO Seeded At: 0.99197      0.1 0.431058 0.906638 0.308362 0.500106| cost:584469
+PSO Estimation Has Begun, This may take some time...
+Held Parameter Estimates:0 0 0 0 0 0
+PSO Seeded At: 0.240605       0.1  0.427003 0.0642019  0.228885   0.39726| cost:346043
+PSO Estimation Has Begun, This may take some time...
+Held Parameter Estimates:0 0 0 0 0 0
+PSO Seeded At:0.0207264       0.1  0.431026  0.163133  0.132437  0.988544| cost:998793
+PSO Estimation Has Begun, This may take some time...
+Held Parameter Estimates:0 0 0 0 0 0
+Hypercubescale Max:1
+Simulated Truth: 0.1  0.1 0.95 0.17 0.05 0.18
+Average Estimate:0.0951116       0.1  0.955316  0.267751  0.103804  0.182957   1.62734
+Simulated Xt Moments For Various Times:
+0.5  1.45113  1764.78  207.958  10.8854  117.927  93.4153 0.742947   256578  6507.36  188.172  6494.28  890.592 -255.899   53.959  6.55072 -18.4028  17.9222  -4779.5 -875.726  4748.18 -1192.65   704.31 -1930.17  2260.43 -617.595   136.35 -276.916
+2  2.00382   1511.8  207.405  162.895  16.4086  194.933  22.5244   280960   6360.6  21727.3  1632.17  4277.88 -735.234  116.446  233.026 -15.5819  9.03675 -12977.9 -25156.1  3040.53  798.825  10137.9 -1034.93  1371.25    -2394 -2501.82  460.495
+10  74.8569  506.282  134.552   1225.3 0.442622  210.899  12716.5   309099  3852.51   265169  16.4528  6694.75 -36550.2 -4976.48  29895.8 -22.0387 -835.375  8855.13  -173381  212.549  7496.53  3080.96 -5.57984  1192.77 -316.277 -11316.4  59.9158
+20  149.534  121.063  59.8756  1684.97 0.209408  211.132  10662.3  95661.3   1540.8   267943  3.54677  6787.25 -17473.8 -2793.56  18584.5 -11.5954 -1292.96  6823.66 -59212.6  71.6389  4801.77 -2504.35  3.47119  1630.86 -126.727 -9170.17  20.1204
+30  164.547  40.4504  44.8618  1780.56 0.181784   211.16  7844.12  31662.2   534.47   263206  2.74724  6797.94 -6165.87 -881.288  9966.57 -8.41283 -1119.01  2117.58 -20741.9   49.044  2729.03 -1391.57  2.95315  1454.25 -97.5409 -6932.62  15.1759
+
+-------------- All Run Estimates: -------------------
+k1		k2		k3		k4		k5		k6		cost
+ 0.0954808        0.1   0.954794   0.181962 0.00636038   0.182811    1.24484
+ 0.0916989        0.1   0.956443   0.358995   0.200706   0.183332    1.99647
+ 0.0968584        0.1    0.95601   0.200739  0.0292238   0.183419    1.34064
+ 0.0952644        0.1   0.955077   0.327079   0.185054   0.182824    1.90084
+ 0.0964096        0.1   0.953333   0.299663   0.142346   0.181984    1.79227
+ 0.0949574        0.1   0.956236   0.238068  0.0591347   0.183373    1.48897
+------- 95 Percent Confidence Intervals -------
+Rates | Standard Deviation
+0.0951116   |   0.00182021
+0.1   |   1.52024e-17
+0.955316   |   0.00117108
+0.267751   |   0.0715473
+0.103804   |   0.0831021
+0.182957   |   0.000550161
+Confidence Intervals for Each Rate:
+Theta0: [0.0936551,0.0965681]
+Theta1: [0.1,0.1]
+Theta2: [0.954378,0.956253]
+Theta3: [0.210501,0.325001]
+Theta4: [0.0373086,0.1703]
+Theta5: [0.182517,0.183397]
+-----------------------------------------------
+CODE FINISHED RUNNING IN 83486 s TIME!
+Job Statistics for 477820:
+           JobID       User               Start                 End    Elapsed     MaxRSS   TotalCPU      State Exit        NodeList                                  ReqTRES 
+---------------- ---------- ------------------- ------------------- ---------- ---------- ---------- ---------- ---- --------------- ---------------------------------------- 
+          477820   rsjxw007 2022-07-13T14:31:57 2022-07-14T13:43:24   23:11:27            28-06:35:+  COMPLETED  0:0   r1pl-hpcf-n23     billing=30,cpu=30,mem=234360M,node=1 
+    477820.batch            2022-07-13T14:31:57 2022-07-14T13:43:24   23:11:27     42.21M 28-06:35:+  COMPLETED  0:0   r1pl-hpcf-n23                                          
+   477820.extern            2022-07-13T14:31:57 2022-07-14T13:43:24   23:11:27          0  00:00.001  COMPLETED  0:0   r1pl-hpcf-n23                                          
+CPU Efficiency: 97.54% of 28-23:43:30 core-walltime

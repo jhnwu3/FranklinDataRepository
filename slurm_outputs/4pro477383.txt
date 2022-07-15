@@ -1,0 +1,32 @@
+Program Begin:
+** Please Make Sure That All Inputted Files are in the UNIX Line Formatting to Prevent Bugs! **
+Reading in Parameters from Configuration File!
+sh: bionetgen: command not found
+------ Reading in X_0! ------
+"data/X/t1m_processed.csv"
+Reading in (rows,columns): (1773,4) from X data directory
+---------------------------
+After removing all negative rows, X has 719 rows.
+If dimensions are unexpected of input data, please make sure to check csv files contains all possible values in each row/column.
+---------------------  Parameters  --------------------
+Total Number of Runs:5
+Number of Moments:14
+Hyper Cube Width:1
+Using Times:1 2
+Blind PSO --> nParts:1000 Nsteps:30
+Targeted PSO --> nParts:2 Nsteps:2
+Number of Rates:5
+Redirecting Model to SBML
+using gillespie
+--------------------------------------------------------
+[35mError: Could not open stream: File not found[0m
+terminate called after throwing an instance of 'rr::Exception'
+  what():  static std::string rr::SBMLReader::read(const string&), could not open sbml/4pro_sbml.xml as a file or uri
+/var/spool/slurmd/job477383/slurm_script: line 13: 1423377 Aborted                 (core dumped) ./CyGMM -m 4pro.bngl -c Config4pro.csv -t time_steps4.csv
+Job Statistics for 477383:
+           JobID       User               Start                 End    Elapsed     MaxRSS   TotalCPU      State Exit        NodeList                                  ReqTRES 
+---------------- ---------- ------------------- ------------------- ---------- ---------- ---------- ---------- ---- --------------- ---------------------------------------- 
+          477383   rsjxw007 2022-07-12T17:27:08 2022-07-12T17:27:08   00:00:00             00:00.087     FAILED  6:0   r1pl-hpcf-n21     billing=30,cpu=30,mem=234360M,node=1 
+    477383.batch            2022-07-12T17:27:08 2022-07-12T17:27:08   00:00:00      0.11M  00:00.086     FAILED  6:0   r1pl-hpcf-n21                                          
+   477383.extern            2022-07-12T17:27:08 2022-07-12T17:27:08   00:00:00          0  00:00.001  COMPLETED  0:0   r1pl-hpcf-n21                                          
+CPU Efficiency: 0.00% of 00:00:00 core-walltime
