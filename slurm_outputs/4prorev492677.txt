@@ -1,0 +1,374 @@
+Program Begin:
+** Please Make Sure That All Inputted Files are in the UNIX Line Formatting to Prevent Bugs! **
+Reading in Parameters from Configuration File!
+------ Reading in X_0! ------
+"data/X/t1m_processed.csv"
+Reading in (rows,columns): (1773,4) from X data directory
+After removing all negative rows, X has 719 rows.
+If dimensions are unexpected of input data, please make sure to check csv files contains all possible values in each row/column.
+---------------------------
+---------------------  Parameters  --------------------
+Total Number of Runs:30
+Number of Moments:14
+Hyper Cube Width:1
+Using Times:1 2
+Blind PSO --> nParts:1500 Nsteps:50
+Targeted PSO --> nParts:2 Nsteps:2
+Number of Rates:5
+Redirecting Model to SBML/BNGL
+using gillespie
+Enabled Bootstrapping!
+Outputting data to:
+--------------------------------------------------------
+------ Reading in Yt! ------
+"data/Y/t2m_processed.csv"
+Read in 1431 rows! 4 columns!
+---------------------------
+After removing all negative rows, Y0 has 653 rows.
+2 11.4785 11.5206 7.69268 21.0976 100.698 104.802 71.1406 1117.06 17.5912 1.01937  10.461 3.28421 17.1904 46.0558
+BioNetGen version 2.8.2
+Reading from file /gpfs0/home1/gddaslab/rsjxw007/CyGMM_Build/CyGMM_DockerBuild/CyGMM/4pro.bngl (level 0)
+Read 5 parameters.
+Read 4 species.
+Read 4 observable(s).
+Read 8 reaction rule(s).
+ACTION: generate_network( 4pro )
+Iteration   0:     4 species      0 rxns  0.00e+00 CPU s
+Iteration   1:     4 species      8 rxns  0.00e+00 CPU s
+Cumulative CPU time for each rule
+Rule   1:     1 reactions 0.00e+00 CPU s 0.00e+00 CPU s/rxn
+Rule   2:     1 reactions 0.00e+00 CPU s 0.00e+00 CPU s/rxn
+Rule   3:     1 reactions 0.00e+00 CPU s 0.00e+00 CPU s/rxn
+Rule   4:     1 reactions 0.00e+00 CPU s 0.00e+00 CPU s/rxn
+Rule   5:     1 reactions 0.00e+00 CPU s 0.00e+00 CPU s/rxn
+Rule   6:     1 reactions 0.00e+00 CPU s 0.00e+00 CPU s/rxn
+Rule   7:     1 reactions 0.00e+00 CPU s 0.00e+00 CPU s/rxn
+Rule   8:     1 reactions 0.00e+00 CPU s 0.00e+00 CPU s/rxn
+Total   :     8 reactions 0.00e+00 CPU s 0.00e+00 CPU s/rxn
+WARNING: writeFile(): Overwriting existing file ./4pro.net.
+Wrote network in net format to ./4pro.net.
+CPU TIME: generate_network 0.00 s.
+Wrote SBML to ./4pro_sbml.xml.
+CPU TIME: writeSBML 0.00 s.
+Finished processing file /gpfs0/home1/gddaslab/rsjxw007/CyGMM_Build/CyGMM_DockerBuild/CyGMM/4pro.bngl.
+CPU TIME: total 0.01 s.
+--------------------------------------------------------
+------- Matching Columns of X Data files to Ids -------
+pCD3z() to column:0 with first value:5.93
+pSLP76() to column:1 with first value:15.11
+pErk() to column:2 with first value:15.55
+pS6() to column:3 with first value:4.42
+--------------------------------------------------------
+PSO Seeded At: 0.999326 0.0504068 0.0712176  0.658046  0.532184| cost:1.45028
+PSO Estimation Has Begun, This may take some time...
+bootstrap means
+x0:13.1107 14.8098 4.10648  18.752
+Yt:11.5921 11.5327 7.28743 21.7301
+Held Parameter Estimates:0 0 0 0 0
+PSO Seeded At:0.327438 0.115216 0.451989  0.89843 0.912519| cost:2.60696
+PSO Estimation Has Begun, This may take some time...
+bootstrap means
+x0: 13.595  15.169 3.98053 19.7166
+Yt:11.4248 11.6082 7.73429 20.3545
+Held Parameter Estimates:0 0 0 0 0
+PSO Seeded At:0.986568 0.239328 0.246586 0.194338 0.825698| cost:2.14787
+PSO Estimation Has Begun, This may take some time...
+bootstrap means
+x0:14.2191 14.9124 4.04264  13.825
+Yt:11.8986 11.8625 7.51856 19.5662
+Held Parameter Estimates:0 0 0 0 0
+PSO Seeded At:0.657636   0.5636 0.847115 0.985787 0.234183| cost:1.33198
+PSO Estimation Has Begun, This may take some time...
+bootstrap means
+x0:13.2548   14.73 4.21495 16.9932
+Yt:11.7714 10.8595 7.98675 20.3388
+Held Parameter Estimates:0 0 0 0 0
+PSO Seeded At:0.0236864  0.146931  0.198852  0.815729  0.453585| cost:1.55585
+PSO Estimation Has Begun, This may take some time...
+bootstrap means
+x0:14.5582  16.281 4.24313 19.9329
+Yt: 11.025  11.501 7.95763  22.937
+Held Parameter Estimates:0 0 0 0 0
+PSO Seeded At: 0.349674   0.61814 0.0593835  0.688107  0.220217| cost:1.43603
+PSO Estimation Has Begun, This may take some time...
+bootstrap means
+x0:13.8087 15.6386 4.23469 16.6017
+Yt:10.5875 12.2732 7.33588 21.8014
+Held Parameter Estimates:0 0 0 0 0
+PSO Seeded At: 0.766899  0.487743 0.0263273  0.658846  0.746871| cost:1.93602
+PSO Estimation Has Begun, This may take some time...
+bootstrap means
+x0:13.3409 16.5188 4.46801 16.6917
+Yt:10.9494 11.5595 7.93153 22.2118
+Held Parameter Estimates:0 0 0 0 0
+PSO Seeded At: 0.83259 0.257828 0.268792 0.703086 0.469754| cost:1.401
+PSO Estimation Has Begun, This may take some time...
+bootstrap means
+x0:13.8954 15.6396 4.33403 16.1043
+Yt:11.6216 11.3018  7.6593 22.0717
+Held Parameter Estimates:0 0 0 0 0
+PSO Seeded At:0.907414 0.258419 0.606345 0.108502 0.919544| cost:2.47873
+PSO Estimation Has Begun, This may take some time...
+bootstrap means
+x0:14.8218 16.0562 4.70458 16.4641
+Yt:11.7438 11.5456 7.66688 21.9293
+Held Parameter Estimates:0 0 0 0 0
+PSO Seeded At: 0.377377 0.0866293   0.78821  0.772159  0.963257| cost:2.63298
+PSO Estimation Has Begun, This may take some time...
+bootstrap means
+x0:13.7583 15.2884 3.95541 14.1546
+Yt:11.6585 12.1316 7.71816 21.7764
+Held Parameter Estimates:0 0 0 0 0
+PSO Seeded At:0.100974 0.834691 0.477013 0.493102 0.277793| cost:1.33266
+PSO Estimation Has Begun, This may take some time...
+bootstrap means
+x0:13.5669 15.5377 4.11232 16.7904
+Yt:11.3612 11.0984 7.65715 19.3324
+Held Parameter Estimates:0 0 0 0 0
+PSO Seeded At:0.374509 0.819308 0.400767 0.192825 0.760274| cost:2.20254
+PSO Estimation Has Begun, This may take some time...
+bootstrap means
+x0:13.9796 14.5567 4.70537 19.0715
+Yt:11.1299 11.1114 7.25741 20.7026
+Held Parameter Estimates:0 0 0 0 0
+PSO Seeded At: 0.98653 0.986749 0.845615 0.339397 0.553887| cost:1.82739
+PSO Estimation Has Begun, This may take some time...
+bootstrap means
+x0:13.3508 14.5038 4.28669 17.4833
+Yt:11.4386 11.1315 7.42329 22.2528
+Held Parameter Estimates:0 0 0 0 0
+PSO Seeded At:0.997568  0.25636 0.938897  0.71391  0.29957| cost:1.33974
+PSO Estimation Has Begun, This may take some time...
+bootstrap means
+x0:13.4884 16.4178  3.9341 16.6128
+Yt:11.9039 11.8773 7.56482  21.175
+Held Parameter Estimates:0 0 0 0 0
+PSO Seeded At:0.193653 0.304445  0.17915 0.690318 0.616235| cost:1.97762
+PSO Estimation Has Begun, This may take some time...
+bootstrap means
+x0:13.8802 14.8635 4.44267 16.9813
+Yt:11.9174 11.0531 7.59323 22.7548
+Held Parameter Estimates:0 0 0 0 0
+PSO Seeded At:0.0186647  0.979486  0.372207  0.512376  0.832114| cost:2.28609
+PSO Estimation Has Begun, This may take some time...
+bootstrap means
+x0:14.0176 15.0443 4.01024 16.1338
+Yt:11.6843  11.372 7.63853 19.5069
+Held Parameter Estimates:0 0 0 0 0
+PSO Seeded At:0.0920274  0.956816  0.180943  0.931445  0.702402| cost:1.91362
+PSO Estimation Has Begun, This may take some time...
+bootstrap means
+x0:14.2229 15.6877 4.08922 17.8157
+Yt:11.4762 11.2459 7.30891 24.1509
+Held Parameter Estimates:0 0 0 0 0
+PSO Seeded At:0.748402 0.632423 0.705085 0.365447 0.207443| cost:1.08892
+PSO Estimation Has Begun, This may take some time...
+bootstrap means
+x0:13.8994  14.798 4.87469 17.4835
+Yt:12.0809 11.6333 7.32516 18.6664
+Held Parameter Estimates:0 0 0 0 0
+PSO Seeded At:0.0755734  0.667606  0.995535  0.673055  0.817391| cost:2.5507
+PSO Estimation Has Begun, This may take some time...
+bootstrap means
+x0:14.1866 15.4891 4.15006 14.1647
+Yt:11.5246  11.321 7.84152 22.0689
+Held Parameter Estimates:0 0 0 0 0
+PSO Seeded At:0.589627  0.66296 0.399162 0.246374 0.531101| cost:1.70836
+PSO Estimation Has Begun, This may take some time...
+bootstrap means
+x0:14.6058 14.9408 4.75376 19.3192
+Yt:11.5072 11.5013 7.72856 22.9964
+Held Parameter Estimates:0 0 0 0 0
+PSO Seeded At:  0.671594   0.683829   0.669167 0.00669728   0.410902| cost:1.4983
+PSO Estimation Has Begun, This may take some time...
+bootstrap means
+x0:13.6948 15.0604 3.89414 16.3983
+Yt:11.6217 10.9987 7.41864 21.1245
+Held Parameter Estimates:0 0 0 0 0
+PSO Seeded At:0.317129 0.241411  0.93397 0.370527 0.756475| cost:2.4012
+PSO Estimation Has Begun, This may take some time...
+bootstrap means
+x0:13.5373 15.0069 4.28695 14.0552
+Yt:11.3247 11.2483 7.46106 20.7331
+Held Parameter Estimates:0 0 0 0 0
+PSO Seeded At:0.734571 0.875967 0.921242 0.358734 0.452367| cost:1.96556
+PSO Estimation Has Begun, This may take some time...
+bootstrap means
+x0:14.1427  15.561 4.02442 16.0313
+Yt:11.4975 12.1254 7.90665 22.4488
+Held Parameter Estimates:0 0 0 0 0
+PSO Seeded At: 0.972424  0.280288  0.729019 0.0769303  0.157669| cost:1.05327
+PSO Estimation Has Begun, This may take some time...
+bootstrap means
+x0:14.1093 15.0209 4.25771 15.1413
+Yt:11.9257 11.5886 8.79677 21.6725
+Held Parameter Estimates:0 0 0 0 0
+PSO Seeded At:0.832978 0.726561 0.694904 0.766609 0.615407| cost:2.23068
+PSO Estimation Has Begun, This may take some time...
+bootstrap means
+x0:14.8799 15.7945 4.71392 14.8377
+Yt:11.4598 11.7509 7.92453 21.7722
+Held Parameter Estimates:0 0 0 0 0
+PSO Seeded At: 0.73613 0.507862 0.782146 0.179733 0.955859| cost:2.54207
+PSO Estimation Has Begun, This may take some time...
+bootstrap means
+x0:13.6822  14.922 3.97611  20.151
+Yt:11.6638 11.0585 7.66596 21.8559
+Held Parameter Estimates:0 0 0 0 0
+PSO Seeded At: 0.540629  0.877704  0.399114  0.710952 0.0411136| cost:1.34892
+PSO Estimation Has Begun, This may take some time...
+bootstrap means
+x0:13.9815 15.5639 3.92282 18.8186
+Yt:11.6125  12.204 7.44046 19.8992
+Held Parameter Estimates:0 0 0 0 0
+PSO Seeded At: 0.552194  0.570974  0.211109 0.0262809  0.482723| cost:1.49905
+PSO Estimation Has Begun, This may take some time...
+bootstrap means
+x0: 14.352 15.6268  4.6384 15.5419
+Yt:11.1805 11.0359 7.60329 22.6012
+Held Parameter Estimates:0 0 0 0 0
+PSO Seeded At: 0.324146   0.23774  0.112931 0.0603631  0.520895| cost:1.43204
+PSO Estimation Has Begun, This may take some time...
+bootstrap means
+x0:13.5936 15.6965 4.04293 15.3419
+Yt:11.5665 11.8818 7.95041 20.8442
+Held Parameter Estimates:0 0 0 0 0
+PSO Seeded At:0.0895779  0.127472  0.888457  0.926474   0.74202| cost:2.6601
+PSO Estimation Has Begun, This may take some time...
+bootstrap means
+x0:13.8246 15.5967 4.08125 13.9943
+Yt: 11.726 11.1328 7.66804 19.6409
+Held Parameter Estimates:0 0 0 0 0
+Hypercubescale Max:1
+Simulated Xt Moments (note: This Reports if Graphing Enabled) For Various Times:
+For Least Cost Estimate:  0.669838   0.134793   0.298805   0.345623 0.00665291
+2 11.6368 11.0028 7.48598   18.15 79.1065 64.2625 30.3038 430.155 26.6919 8.74759 10.2496 27.4726 14.2041 20.1433
+
+-------------- All Run Estimates: -------------------
+/var/spool/slurmd/job492677/slurm_script: line 13: 1625559 Segmentation fault      (core dumped) ./CyGMM -m 4pro.bngl -c Config4proSSABoot.csv -t time_steps4.csv
+Program Begin:
+** Please Make Sure That All Inputted Files are in the UNIX Line Formatting to Prevent Bugs! **
+Reading in Parameters from Configuration File!
+------ Reading in X_0! ------
+"data/X/X.csv"
+Reading in (rows,columns): (5000,6) from X data directory
+After removing all negative rows, X has 5000 rows.
+If dimensions are unexpected of input data, please make sure to check csv files contains all possible values in each row/column.
+---------------------------
+---------------------  Parameters  --------------------
+Total Number of Runs:30
+Number of Moments:27
+Hyper Cube Width:1
+Using Times:1 2
+Blind PSO --> nParts:1500 Nsteps:50
+Targeted PSO --> nParts:2 Nsteps:2
+Number of Rates:5
+Redirecting Model to SBML/BNGL
+using gillespie
+Outputting data to:
+--------------------------------------------------------
+------ Reading in Yt! ------
+"data/Y/Y.csv"
+Read in 5000 rows! 6 columns!
+---------------------------
+After removing all negative rows, Y0 has 5000 rows.
+2     206.045     2056.31     5.31495     5.41067     207.001     5.33054     6802.82      274554    0.416564    0.174483      6787.2    0.430872     5038.81   -0.136732    0.298545     288.926      1.0375    -4.89962     2.00168     4876.47   -0.178787   0.0224142    0.367035   0.0192468     0.57197   0.0305413 -0.00668727
+BioNetGen version 2.8.2
+Reading from file /gpfs0/home1/gddaslab/rsjxw007/CyGMM_Build/CyGMM_DockerBuild/CyGMM/4pro.bngl (level 0)
+Read 5 parameters.
+Read 4 species.
+Read 4 observable(s).
+Read 8 reaction rule(s).
+ACTION: generate_network( 4pro )
+Iteration   0:     4 species      0 rxns  0.00e+00 CPU s
+Iteration   1:     4 species      8 rxns  0.00e+00 CPU s
+Cumulative CPU time for each rule
+Rule   1:     1 reactions 0.00e+00 CPU s 0.00e+00 CPU s/rxn
+Rule   2:     1 reactions 0.00e+00 CPU s 0.00e+00 CPU s/rxn
+Rule   3:     1 reactions 0.00e+00 CPU s 0.00e+00 CPU s/rxn
+Rule   4:     1 reactions 0.00e+00 CPU s 0.00e+00 CPU s/rxn
+Rule   5:     1 reactions 0.00e+00 CPU s 0.00e+00 CPU s/rxn
+Rule   6:     1 reactions 0.00e+00 CPU s 0.00e+00 CPU s/rxn
+Rule   7:     1 reactions 0.00e+00 CPU s 0.00e+00 CPU s/rxn
+Rule   8:     1 reactions 0.00e+00 CPU s 0.00e+00 CPU s/rxn
+Total   :     8 reactions 0.00e+00 CPU s 0.00e+00 CPU s/rxn
+WARNING: writeFile(): Overwriting existing file ./4pro.net.
+Wrote network in net format to ./4pro.net.
+CPU TIME: generate_network 0.01 s.
+Wrote SBML to ./4pro_sbml.xml.
+CPU TIME: writeSBML 0.00 s.
+Finished processing file /gpfs0/home1/gddaslab/rsjxw007/CyGMM_Build/CyGMM_DockerBuild/CyGMM/4pro.bngl.
+CPU TIME: total 0.02 s.
+--------------------------------------------------------
+Error Too Many Species/Columns in X.csv file! Please remove some before continuing!
+Expected:4 Got:6
+Program Begin:
+** Please Make Sure That All Inputted Files are in the UNIX Line Formatting to Prevent Bugs! **
+Reading in Parameters from Configuration File!
+------ Reading in X_0! ------
+"data/X/X.csv"
+Reading in (rows,columns): (5000,6) from X data directory
+After removing all negative rows, X has 5000 rows.
+If dimensions are unexpected of input data, please make sure to check csv files contains all possible values in each row/column.
+---------------------------
+---------------------  Parameters  --------------------
+Total Number of Runs:30
+Number of Moments:27
+Hyper Cube Width:1
+Using Times:1 2
+Blind PSO --> nParts:1500 Nsteps:50
+Targeted PSO --> nParts:2 Nsteps:2
+Number of Rates:5
+Redirecting Model to SBML/BNGL
+and Modeling With Deterministic ODEs
+Enabled Bootstrapping!
+Outputting data to:
+--------------------------------------------------------
+------ Reading in Yt! ------
+"data/Y/Y.csv"
+Read in 5000 rows! 6 columns!
+---------------------------
+After removing all negative rows, Y0 has 5000 rows.
+2     206.045     2056.31     5.31495     5.41067     207.001     5.33054     6802.82      274554    0.416564    0.174483      6787.2    0.430872     5038.81   -0.136732    0.298545     288.926      1.0375    -4.89962     2.00168     4876.47   -0.178787   0.0224142    0.367035   0.0192468     0.57197   0.0305413 -0.00668727
+BioNetGen version 2.8.2
+Reading from file /gpfs0/home1/gddaslab/rsjxw007/CyGMM_Build/CyGMM_DockerBuild/CyGMM/4pro.bngl (level 0)
+Read 5 parameters.
+Read 4 species.
+Read 4 observable(s).
+Read 8 reaction rule(s).
+ACTION: generate_network( 4pro )
+Iteration   0:     4 species      0 rxns  0.00e+00 CPU s
+Iteration   1:     4 species      8 rxns  1.00e-02 CPU s
+Cumulative CPU time for each rule
+Rule   1:     1 reactions 1.00e-02 CPU s 1.00e-02 CPU s/rxn
+Rule   2:     1 reactions 0.00e+00 CPU s 0.00e+00 CPU s/rxn
+Rule   3:     1 reactions 0.00e+00 CPU s 0.00e+00 CPU s/rxn
+Rule   4:     1 reactions 0.00e+00 CPU s 0.00e+00 CPU s/rxn
+Rule   5:     1 reactions 0.00e+00 CPU s 0.00e+00 CPU s/rxn
+Rule   6:     1 reactions 0.00e+00 CPU s 0.00e+00 CPU s/rxn
+Rule   7:     1 reactions 0.00e+00 CPU s 0.00e+00 CPU s/rxn
+Rule   8:     1 reactions 0.00e+00 CPU s 0.00e+00 CPU s/rxn
+Total   :     8 reactions 1.00e-02 CPU s 1.25e-03 CPU s/rxn
+WARNING: writeFile(): Overwriting existing file ./4pro.net.
+Wrote network in net format to ./4pro.net.
+CPU TIME: generate_network 0.01 s.
+Wrote SBML to ./4pro_sbml.xml.
+CPU TIME: writeSBML 0.00 s.
+Finished processing file /gpfs0/home1/gddaslab/rsjxw007/CyGMM_Build/CyGMM_DockerBuild/CyGMM/4pro.bngl.
+CPU TIME: total 0.01 s.
+--------------------------------------------------------
+Error Too Many Species/Columns in X.csv file! Please remove some before continuing!
+Expected:4 Got:6
+Program Begin:
+** Please Make Sure That All Inputted Files are in the UNIX Line Formatting to Prevent Bugs! **
+Reading in Parameters from Configuration File!
+terminate called after throwing an instance of 'std::runtime_error'
+  what():  Could Not Open Configuration file
+/var/spool/slurmd/job492677/slurm_script: line 16: 1627527 Aborted                 (core dumped) ./CyGMM -m 4pro.bngl -c COnfig4proDetNoBoot.csv -t time_steps4.csv
+Job Statistics for 492677:
+           JobID       User               Start                 End    Elapsed     MaxRSS   TotalCPU      State Exit        NodeList                                  ReqTRES 
+---------------- ---------- ------------------- ------------------- ---------- ---------- ---------- ---------- ---- --------------- ---------------------------------------- 
+          492677   rsjxw007 2022-07-15T15:47:34 2022-07-15T16:06:17   00:18:43              08:09:04     FAILED  6:0   r1pl-hpcf-n21     billing=30,cpu=30,mem=234360M,node=1 
+    492677.batch            2022-07-15T15:47:34 2022-07-15T16:06:17   00:18:43     32.37M   08:09:04     FAILED  6:0   r1pl-hpcf-n21                                          
+   492677.extern            2022-07-15T15:47:34 2022-07-15T16:06:17   00:18:43          0  00:00.001  COMPLETED  0:0   r1pl-hpcf-n21                                          
+CPU Efficiency: 87.10% of 09:21:30 core-walltime
