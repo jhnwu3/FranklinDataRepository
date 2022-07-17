@@ -1,0 +1,1004 @@
+Program Begin:
+** Please Make Sure That All Inputted Files are in the UNIX Line Formatting to Prevent Bugs! **
+Reading in Parameters from Configuration File!
+------ Reading in X_0! ------
+"data/X/t1m_processed.csv"
+Reading in (rows,columns): (1773,4) from X data directory
+After removing all negative rows, X has 719 rows.
+If dimensions are unexpected of input data, please make sure to check csv files contains all possible values in each row/column.
+---------------------------
+---------------------  Parameters  --------------------
+Total Number of Runs:30
+Number of Moments:14
+Hyper Cube Width:1
+Using Times:1 2
+Blind PSO --> nParts:1500 Nsteps:50
+Targeted PSO --> nParts:2 Nsteps:2
+Number of Rates:5
+Redirecting Model to SBML/BNGL
+and Modeling With Deterministic ODEs
+Outputting data to:
+--------------------------------------------------------
+------ Reading in Yt! ------
+"data/Y/t2m_processed.csv"
+Read in 1431 rows! 4 columns!
+---------------------------
+After removing all negative rows, Y0 has 653 rows.
+2 11.4785 11.5206 7.69268 21.0976 100.698 104.802 71.1406 1117.06 17.5912 1.01937  10.461 3.28421 17.1904 46.0558
+BioNetGen version 2.8.2
+Reading from file /gpfs0/home1/gddaslab/rsjxw007/CyGMM_Build/CyGMM_DockerBuild/CyGMM/4pro.bngl (level 0)
+Read 5 parameters.
+Read 4 species.
+Read 4 observable(s).
+Read 8 reaction rule(s).
+ACTION: generate_network( 4pro )
+Iteration   0:     4 species      0 rxns  0.00e+00 CPU s
+Iteration   1:     4 species      8 rxns  0.00e+00 CPU s
+Cumulative CPU time for each rule
+Rule   1:     1 reactions 0.00e+00 CPU s 0.00e+00 CPU s/rxn
+Rule   2:     1 reactions 0.00e+00 CPU s 0.00e+00 CPU s/rxn
+Rule   3:     1 reactions 0.00e+00 CPU s 0.00e+00 CPU s/rxn
+Rule   4:     1 reactions 0.00e+00 CPU s 0.00e+00 CPU s/rxn
+Rule   5:     1 reactions 0.00e+00 CPU s 0.00e+00 CPU s/rxn
+Rule   6:     1 reactions 0.00e+00 CPU s 0.00e+00 CPU s/rxn
+Rule   7:     1 reactions 0.00e+00 CPU s 0.00e+00 CPU s/rxn
+Rule   8:     1 reactions 0.00e+00 CPU s 0.00e+00 CPU s/rxn
+Total   :     8 reactions 0.00e+00 CPU s 0.00e+00 CPU s/rxn
+WARNING: writeFile(): Overwriting existing file ./4pro.net.
+Wrote network in net format to ./4pro.net.
+CPU TIME: generate_network 0.00 s.
+Wrote SBML to ./4pro_sbml.xml.
+CPU TIME: writeSBML 0.00 s.
+Finished processing file /gpfs0/home1/gddaslab/rsjxw007/CyGMM_Build/CyGMM_DockerBuild/CyGMM/4pro.bngl.
+CPU TIME: total 0.01 s.
+--------------------------------------------------------
+------- Matching Columns of X Data files to Ids -------
+pCD3z() to column:0 with first value:5.93
+pSLP76() to column:1 with first value:15.11
+pErk() to column:2 with first value:15.55
+pS6() to column:3 with first value:4.42
+--------------------------------------------------------
+PSO Seeded At: 0.78992 0.210245 0.877378 0.255898 0.766275| cost:13.4201
+PSO Estimation Has Begun, This may take some time...
+Held Parameter Estimates:0 0 0 0 0
+PSO Seeded At:0.419184 0.841873 0.860428 0.651092 0.621256| cost:12.8811
+PSO Estimation Has Begun, This may take some time...
+Held Parameter Estimates:0 0 0 0 0
+PSO Seeded At: 0.343278  0.184024 0.0771613   0.96252  0.792841| cost:15.4016
+PSO Estimation Has Begun, This may take some time...
+Held Parameter Estimates:0 0 0 0 0
+PSO Seeded At:0.0514893  0.560735  0.469639  0.859641   0.21756| cost:5.66651
+PSO Estimation Has Begun, This may take some time...
+Held Parameter Estimates:0 0 0 0 0
+PSO Seeded At:0.0431388  0.736147  0.895694  0.749267  0.818552| cost:16.5675
+PSO Estimation Has Begun, This may take some time...
+Held Parameter Estimates:0 0 0 0 0
+PSO Seeded At: 0.578493  0.133561  0.340214  0.171658 0.0997508| cost:1.34488
+PSO Estimation Has Begun, This may take some time...
+Held Parameter Estimates:0 0 0 0 0
+PSO Seeded At:0.421728 0.299239 0.291145 0.932432 0.732629| cost:14.5218
+PSO Estimation Has Begun, This may take some time...
+Held Parameter Estimates:0 0 0 0 0
+PSO Seeded At:0.238338 0.554038 0.420384 0.204964 0.746873| cost:13.0553
+PSO Estimation Has Begun, This may take some time...
+Held Parameter Estimates:0 0 0 0 0
+PSO Seeded At: 0.423174  0.758596 0.0309643  0.380073  0.942621| cost:16.8049
+PSO Estimation Has Begun, This may take some time...
+Held Parameter Estimates:0 0 0 0 0
+PSO Seeded At:0.0245938  0.716151  0.903452  0.110145  0.203392| cost:9.0757
+PSO Estimation Has Begun, This may take some time...
+Held Parameter Estimates:0 0 0 0 0
+PSO Seeded At:0.559039 0.596956 0.118465  0.94368 0.923609| cost:16.8558
+PSO Estimation Has Begun, This may take some time...
+Held Parameter Estimates:0 0 0 0 0
+PSO Seeded At:0.761804 0.354705 0.585378 0.497594 0.622764| cost:11.4971
+PSO Estimation Has Begun, This may take some time...
+Held Parameter Estimates:0 0 0 0 0
+PSO Seeded At:0.0481498 0.0970145 0.0132734  0.404042  0.807265| cost:15.4202
+PSO Estimation Has Begun, This may take some time...
+Held Parameter Estimates:0 0 0 0 0
+PSO Seeded At:0.0690763  0.304815  0.944554  0.951864  0.267287| cost:7.85268
+PSO Estimation Has Begun, This may take some time...
+Held Parameter Estimates:0 0 0 0 0
+PSO Seeded At:0.0682137   0.92969 0.0805333   0.56015  0.932547| cost:17.1858
+PSO Estimation Has Begun, This may take some time...
+Held Parameter Estimates:0 0 0 0 0
+PSO Seeded At:  0.809383 0.00443526   0.720291   0.302903   0.773302| cost:14.1924
+PSO Estimation Has Begun, This may take some time...
+Held Parameter Estimates:0 0 0 0 0
+PSO Seeded At:0.179557 0.421049 0.801243 0.680636 0.187583| cost:5.01019
+PSO Estimation Has Begun, This may take some time...
+Held Parameter Estimates:0 0 0 0 0
+PSO Seeded At:0.246582 0.463612 0.744587 0.938322 0.413063| cost:9.91337
+PSO Estimation Has Begun, This may take some time...
+Held Parameter Estimates:0 0 0 0 0
+PSO Seeded At: 0.381401 0.0746935  0.459755  0.784673 0.0142415| cost:2.07264
+PSO Estimation Has Begun, This may take some time...
+Held Parameter Estimates:0 0 0 0 0
+PSO Seeded At: 0.96099 0.915026 0.103202 0.937099 0.569256| cost:11.9967
+PSO Estimation Has Begun, This may take some time...
+Held Parameter Estimates:0 0 0 0 0
+PSO Seeded At: 0.533257  0.945234  0.980083 0.0996048   0.69036| cost:11.826
+PSO Estimation Has Begun, This may take some time...
+Held Parameter Estimates:0 0 0 0 0
+PSO Seeded At: 0.58604 0.821532 0.305005 0.651367 0.250207| cost:5.96146
+PSO Estimation Has Begun, This may take some time...
+Held Parameter Estimates:0 0 0 0 0
+PSO Seeded At:0.773968 0.595792 0.432566 0.394681 0.564861| cost:9.86708
+PSO Estimation Has Begun, This may take some time...
+Held Parameter Estimates:0 0 0 0 0
+PSO Seeded At:0.700488 0.177682  0.86199 0.545176 0.359088| cost:7.45072
+PSO Estimation Has Begun, This may take some time...
+Held Parameter Estimates:0 0 0 0 0
+PSO Seeded At: 0.361919  0.926666  0.348612  0.779186 0.0168688| cost:5.60925
+PSO Estimation Has Begun, This may take some time...
+Held Parameter Estimates:0 0 0 0 0
+PSO Seeded At:0.838652 0.548712 0.990091 0.197556 0.960052| cost:15.6809
+PSO Estimation Has Begun, This may take some time...
+Held Parameter Estimates:0 0 0 0 0
+PSO Seeded At: 0.653116  0.598826  0.583884 0.0969012  0.435226| cost:6.99981
+PSO Estimation Has Begun, This may take some time...
+Held Parameter Estimates:0 0 0 0 0
+PSO Seeded At:0.259173 0.122842 0.768029 0.276958 0.362267| cost:6.8583
+PSO Estimation Has Begun, This may take some time...
+Held Parameter Estimates:0 0 0 0 0
+PSO Seeded At:0.896612 0.317083 0.922108 0.409938 0.696107| cost:12.7089
+PSO Estimation Has Begun, This may take some time...
+Held Parameter Estimates:0 0 0 0 0
+PSO Seeded At: 0.929397  0.953824  0.350576  0.940415 0.0104206| cost:5.72576
+PSO Estimation Has Begun, This may take some time...
+Held Parameter Estimates:0 0 0 0 0
+Hypercubescale Max:1
+Simulated Xt Moments (note: This Reports if Graphing Enabled) For Various Times:
+For Least Cost Estimate:   0.256811    0.119988    0.249164    0.319445 0.000218375
+2 11.4396 11.7546 7.14297 20.4814 86.8904 78.9163 26.3041 2607.24 35.2123 12.8188  7.8005 35.1627 33.1661 45.5672
+
+-------------- All Run Estimates: -------------------
+k1		k2		k3		k4		k5		cost		
+   0.317097    0.126071    0.255315    0.333829 0.000259624    0.609709
+   0.373773    0.131623    0.260611    0.343614 0.000393582    0.610194
+   0.332896    0.127811    0.256832    0.337007 0.000328517    0.609868
+   0.292301    0.123758    0.253574    0.330063 0.000301158    0.609612
+   0.292291    0.123834    0.253221    0.328364 0.000416433    0.609672
+   0.348056    0.129136    0.258846    0.339404 0.000421479    0.610041
+   0.349167    0.128732    0.257302    0.336155  0.00048369    0.610042
+   0.288761    0.123056    0.252828    0.327478 0.000289521    0.609558
+   0.362887    0.130343    0.259181    0.341332 0.000535324    0.610188
+   0.326402    0.127197    0.256314    0.335191 0.000258892    0.609773
+   0.256811    0.119988    0.249164    0.319445 0.000218375    0.609345
+   0.357636    0.129024    0.257382    0.337637 0.000294497    0.609979
+   0.372592    0.131401    0.260691    0.343151 0.000301523    0.610133
+   0.367194    0.131021    0.260221    0.344317 0.000499052    0.610246
+   0.540863    0.147878    0.275415    0.373361 0.000786365    0.611996
+    0.31215    0.126244    0.254733    0.332842 0.000443888    0.609833
+     0.2775    0.121956    0.251053    0.325486 0.000217532    0.609435
+    0.48086    0.142342    0.270588    0.363905 0.000689455     0.61134
+   0.398711    0.133724     0.26276    0.348058 0.000453928    0.610424
+   0.266524    0.121591    0.251419    0.324838 0.000229594    0.609434
+   0.315226    0.125975    0.254631    0.332881 0.000319881    0.609735
+   0.388723    0.132831    0.261578    0.346986 0.000614887    0.610453
+   0.334776    0.127737    0.256899    0.337852 0.000371797    0.609917
+   0.352788    0.129304    0.257504    0.339317 0.000407994    0.610041
+   0.327748    0.126345    0.255422    0.331964 0.000200074     0.60973
+   0.396016    0.133432    0.262028    0.347388 0.000568557    0.610464
+   0.266702    0.121037    0.250249    0.324217 0.000214627    0.609392
+   0.446037    0.139149    0.267799    0.357098 0.000619086    0.610977
+   0.284783     0.12261     0.25179    0.326619 0.000209547    0.609465
+   0.276169     0.12163    0.251563    0.326328  0.00015919    0.609408
+------- 95 Percent Confidence Intervals -------
+Rates | Standard Deviation
+0.343448   |   0.064953
+0.128559   |   0.00637703
+0.257564   |   0.00600614
+0.337871   |   0.0120115
+0.000383602   |   0.000160499
+Confidence Intervals for Each Rate:
+Theta0: [0.320205,0.366691]
+Theta1: [0.126277,0.130841]
+Theta2: [0.255414,0.259713]
+Theta3: [0.333573,0.342169]
+Theta4: [0.000326168,0.000441036]
+-----------------------------------------------
+CODE FINISHED RUNNING IN 2041 s TIME!
+Program Begin:
+** Please Make Sure That All Inputted Files are in the UNIX Line Formatting to Prevent Bugs! **
+Reading in Parameters from Configuration File!
+------ Reading in X_0! ------
+"data/X/t1m_processed.csv"
+Reading in (rows,columns): (1773,4) from X data directory
+After removing all negative rows, X has 719 rows.
+If dimensions are unexpected of input data, please make sure to check csv files contains all possible values in each row/column.
+---------------------------
+---------------------  Parameters  --------------------
+Total Number of Runs:30
+Number of Moments:14
+Hyper Cube Width:1
+Using Times:1 2
+Blind PSO --> nParts:1500 Nsteps:50
+Targeted PSO --> nParts:2 Nsteps:2
+Number of Rates:5
+Redirecting Model to SBML/BNGL
+and Modeling With Deterministic ODEs
+Outputting data to:
+--------------------------------------------------------
+------ Reading in Yt! ------
+"data/Y/t2m_processed.csv"
+Read in 1431 rows! 4 columns!
+---------------------------
+After removing all negative rows, Y0 has 653 rows.
+2 11.4785 11.5206 7.69268 21.0976 100.698 104.802 71.1406 1117.06 17.5912 1.01937  10.461 3.28421 17.1904 46.0558
+BioNetGen version 2.8.2
+Reading from file /gpfs0/home1/gddaslab/rsjxw007/CyGMM_Build/CyGMM_DockerBuild/CyGMM/4pro_bidir.bngl (level 0)
+Read 5 parameters.
+Read 4 species.
+Read 4 observable(s).
+Read 4 reaction rule(s).
+ACTION: generate_network( 4pro_bidir )
+Iteration   0:     4 species      0 rxns  0.00e+00 CPU s
+Iteration   1:     4 species      8 rxns  0.00e+00 CPU s
+Cumulative CPU time for each rule
+Rule   1:     2 reactions 0.00e+00 CPU s 0.00e+00 CPU s/rxn
+Rule   2:     2 reactions 0.00e+00 CPU s 0.00e+00 CPU s/rxn
+Rule   3:     2 reactions 0.00e+00 CPU s 0.00e+00 CPU s/rxn
+Rule   4:     2 reactions 0.00e+00 CPU s 0.00e+00 CPU s/rxn
+Total   :     8 reactions 0.00e+00 CPU s 0.00e+00 CPU s/rxn
+Wrote network in net format to ./4pro_bidir.net.
+CPU TIME: generate_network 0.00 s.
+Wrote SBML to ./4pro_bidir_sbml.xml.
+CPU TIME: writeSBML 0.00 s.
+Finished processing file /gpfs0/home1/gddaslab/rsjxw007/CyGMM_Build/CyGMM_DockerBuild/CyGMM/4pro_bidir.bngl.
+CPU TIME: total 0.01 s.
+--------------------------------------------------------
+------- Matching Columns of X Data files to Ids -------
+pCD3z() to column:0 with first value:5.93
+pSLP76() to column:1 with first value:15.11
+pErk() to column:2 with first value:15.55
+pS6() to column:3 with first value:4.42
+--------------------------------------------------------
+PSO Seeded At:0.0636138  0.864467  0.416892  0.112641  0.995903| cost:15.0804
+PSO Estimation Has Begun, This may take some time...
+Held Parameter Estimates:0 0 0 0 0
+PSO Seeded At:0.976418 0.788473 0.694702 0.933596 0.942132| cost:7.44507
+PSO Estimation Has Begun, This may take some time...
+Held Parameter Estimates:0 0 0 0 0
+PSO Seeded At:0.210747 0.862699 0.381214 0.750567 0.861546| cost:8.32254
+PSO Estimation Has Begun, This may take some time...
+Held Parameter Estimates:0 0 0 0 0
+PSO Seeded At: 0.456669 0.0349127  0.497408  0.154871  0.475436| cost:9.00796
+PSO Estimation Has Begun, This may take some time...
+Held Parameter Estimates:0 0 0 0 0
+PSO Seeded At: 0.625832  0.202685  0.832181   0.87648 0.0214826| cost:2.65677
+PSO Estimation Has Begun, This may take some time...
+Held Parameter Estimates:0 0 0 0 0
+PSO Seeded At: 0.0659945   0.482932 0.00330879   0.026406   0.392917| cost:11.0991
+PSO Estimation Has Begun, This may take some time...
+Held Parameter Estimates:0 0 0 0 0
+PSO Seeded At:0.488743 0.134905 0.859595 0.996772 0.990593| cost:10.8863
+PSO Estimation Has Begun, This may take some time...
+Held Parameter Estimates:0 0 0 0 0
+PSO Seeded At:  0.324777   0.945426 0.00337969   0.340797   0.864869| cost:13.6275
+PSO Estimation Has Begun, This may take some time...
+Held Parameter Estimates:0 0 0 0 0
+PSO Seeded At:   0.4308  0.282315  0.882343  0.575356 0.0481556| cost:3.13986
+PSO Estimation Has Begun, This may take some time...
+Held Parameter Estimates:0 0 0 0 0
+PSO Seeded At:0.563621 0.586876 0.031249 0.172746 0.659924| cost:13.5623
+PSO Estimation Has Begun, This may take some time...
+Held Parameter Estimates:0 0 0 0 0
+PSO Seeded At:0.140315 0.485265 0.343183 0.266925 0.801263| cost:12.3106
+PSO Estimation Has Begun, This may take some time...
+Held Parameter Estimates:0 0 0 0 0
+PSO Seeded At:0.311906 0.238193 0.697806   0.6031 0.215402| cost:2.49319
+PSO Estimation Has Begun, This may take some time...
+Held Parameter Estimates:0 0 0 0 0
+PSO Seeded At:0.523064 0.835873 0.385479 0.164614 0.308662| cost:4.16885
+PSO Estimation Has Begun, This may take some time...
+Held Parameter Estimates:0 0 0 0 0
+PSO Seeded At: 0.472785  0.534529  0.423155  0.490591 0.0434785| cost:2.62081
+PSO Estimation Has Begun, This may take some time...
+Held Parameter Estimates:0 0 0 0 0
+PSO Seeded At: 0.576251 0.0356719  0.926341 0.0443886  0.621701| cost:15.1287
+PSO Estimation Has Begun, This may take some time...
+Held Parameter Estimates:0 0 0 0 0
+PSO Seeded At:0.100682 0.881954 0.615911 0.274351 0.668776| cost:7.666
+PSO Estimation Has Begun, This may take some time...
+Held Parameter Estimates:0 0 0 0 0
+PSO Seeded At:0.0838783  0.218068  0.165543   0.88177  0.274871| cost:2.93899
+PSO Estimation Has Begun, This may take some time...
+Held Parameter Estimates:0 0 0 0 0
+PSO Seeded At:0.359933 0.618208 0.475853 0.990984 0.853505| cost:7.64413
+PSO Estimation Has Begun, This may take some time...
+Held Parameter Estimates:0 0 0 0 0
+PSO Seeded At:0.0967687  0.982303  0.355913  0.723253  0.347968| cost:3.77375
+PSO Estimation Has Begun, This may take some time...
+Held Parameter Estimates:0 0 0 0 0
+PSO Seeded At:0.757048 0.258315 0.269708 0.282398  0.67188| cost:11.2193
+PSO Estimation Has Begun, This may take some time...
+Held Parameter Estimates:0 0 0 0 0
+PSO Seeded At:0.330423 0.813371 0.853592 0.822013  0.28334| cost:3.83708
+PSO Estimation Has Begun, This may take some time...
+Held Parameter Estimates:0 0 0 0 0
+PSO Seeded At: 0.925153  0.207396  0.832263 0.0992931   0.56134| cost:9.69572
+PSO Estimation Has Begun, This may take some time...
+Held Parameter Estimates:0 0 0 0 0
+PSO Seeded At:0.540794 0.776244 0.503127 0.292701 0.049601| cost:6.44452
+PSO Estimation Has Begun, This may take some time...
+Held Parameter Estimates:0 0 0 0 0
+PSO Seeded At: 0.550964 0.0921247  0.946098  0.448398  0.107562| cost:4.42437
+PSO Estimation Has Begun, This may take some time...
+Held Parameter Estimates:0 0 0 0 0
+PSO Seeded At:0.439639 0.924566 0.256821  0.89714 0.478591| cost:4.39746
+PSO Estimation Has Begun, This may take some time...
+Held Parameter Estimates:0 0 0 0 0
+PSO Seeded At: 0.137662 0.0964215  0.887135  0.278619  0.345675| cost:4.60542
+PSO Estimation Has Begun, This may take some time...
+Held Parameter Estimates:0 0 0 0 0
+PSO Seeded At:0.372506 0.693604 0.397549 0.139771 0.813655| cost:13.1321
+PSO Estimation Has Begun, This may take some time...
+Held Parameter Estimates:0 0 0 0 0
+PSO Seeded At:0.147037 0.829874 0.102996 0.703916 0.163557| cost:7.59404
+PSO Estimation Has Begun, This may take some time...
+Held Parameter Estimates:0 0 0 0 0
+PSO Seeded At:0.141081 0.975592 0.486551 0.375921 0.252813| cost:4.55465
+PSO Estimation Has Begun, This may take some time...
+Held Parameter Estimates:0 0 0 0 0
+PSO Seeded At:0.0571728  0.374773   0.23503  0.397562  0.536586| cost:6.96405
+PSO Estimation Has Begun, This may take some time...
+Held Parameter Estimates:0 0 0 0 0
+Hypercubescale Max:1
+Simulated Xt Moments (note: This Reports if Graphing Enabled) For Various Times:
+For Least Cost Estimate:   0.32955    0.13043   0.258976    0.35609 0.00849513
+2 11.3529 11.6542 7.13479   20.63  81.584 75.5568 25.3563 2552.45 35.7155 13.1068  8.6804 34.2545 34.3585 74.4781
+
+-------------- All Run Estimates: -------------------
+k1		k2		k3		k4		k5		cost		
+  0.471235   0.145239   0.273362   0.386178 0.00922784   0.599816
+  0.374733   0.135128     0.2636   0.365587 0.00870174   0.599621
+  0.448304   0.142957   0.270837   0.381314 0.00920576   0.599759
+  0.664284   0.164537   0.291411   0.424303  0.0103583   0.600493
+  0.413779   0.139114   0.267339   0.373784 0.00891467   0.599681
+   0.47937   0.146104     0.2742   0.388052 0.00931647   0.599838
+  0.479797   0.145958   0.274488   0.388427 0.00937472   0.599843
+    0.4423    0.14211   0.270262   0.379917 0.00908482   0.599741
+  0.548562   0.152947   0.280616   0.401472 0.00974148   0.600045
+  0.451557   0.142886   0.271008   0.381384 0.00911437   0.599759
+  0.378736   0.135494   0.263859   0.366583 0.00880304   0.599626
+  0.502894   0.148225   0.275927   0.391432 0.00940163   0.599897
+   0.32955    0.13043   0.258976    0.35609 0.00849513   0.599584
+  0.461768   0.144249   0.272128   0.383895 0.00928155   0.599789
+  0.445389   0.142227   0.270364   0.379678 0.00911468   0.599745
+  0.366841   0.134268   0.262651   0.364062 0.00868758   0.599612
+   0.50724   0.148692   0.276538   0.392907 0.00936557   0.599913
+    0.5394   0.152173   0.280147   0.400742 0.00976993   0.600024
+  0.380163   0.135575   0.263899   0.366658 0.00877775   0.599627
+  0.404252   0.137992   0.266433   0.371441 0.00884478   0.599664
+  0.570292   0.155133   0.282928    0.40577  0.0097327   0.600126
+  0.521255   0.150178    0.27775   0.395349   0.009521   0.599955
+  0.487498   0.146775   0.275079   0.389745 0.00932809   0.599861
+  0.658524   0.164246   0.291095   0.424073  0.0104097   0.600477
+  0.397967    0.13757   0.266065   0.370553 0.00887838   0.599656
+  0.444097   0.142063    0.27015   0.379751 0.00910323   0.599741
+  0.358458   0.133387   0.261838   0.362218 0.00870311   0.599603
+  0.479528   0.146135   0.274086   0.387883  0.0092837   0.599839
+  0.662464   0.164536    0.29145   0.423614  0.0103222   0.600488
+  0.658573   0.164142   0.291184    0.42375  0.0103099   0.600474
+------- 95 Percent Confidence Intervals -------
+Rates | Standard Deviation
+0.477627   |   0.0937254
+0.145682   |   0.00960015
+0.273656   |   0.00914161
+0.386887   |   0.0191595
+0.00930579   |   0.000526766
+Confidence Intervals for Each Rate:
+Theta0: [0.444088,0.511166]
+Theta1: [0.142247,0.149118]
+Theta2: [0.270384,0.276927]
+Theta3: [0.380031,0.393743]
+Theta4: [0.00911729,0.00949429]
+-----------------------------------------------
+CODE FINISHED RUNNING IN 2108 s TIME!
+Program Begin:
+** Please Make Sure That All Inputted Files are in the UNIX Line Formatting to Prevent Bugs! **
+Reading in Parameters from Configuration File!
+------ Reading in X_0! ------
+"data/X/t1m_processed.csv"
+Reading in (rows,columns): (1773,4) from X data directory
+After removing all negative rows, X has 719 rows.
+If dimensions are unexpected of input data, please make sure to check csv files contains all possible values in each row/column.
+---------------------------
+---------------------  Parameters  --------------------
+Total Number of Runs:30
+Number of Moments:14
+Hyper Cube Width:1
+Using Times:1 2
+Blind PSO --> nParts:1500 Nsteps:50
+Targeted PSO --> nParts:2 Nsteps:2
+Number of Rates:5
+Redirecting Model to SBML/BNGL
+and Modeling With Deterministic ODEs
+Outputting data to:
+--------------------------------------------------------
+------ Reading in Yt! ------
+"data/Y/t2m_processed.csv"
+Read in 1431 rows! 4 columns!
+---------------------------
+After removing all negative rows, Y0 has 653 rows.
+2 11.4785 11.5206 7.69268 21.0976 100.698 104.802 71.1406 1117.06 17.5912 1.01937  10.461 3.28421 17.1904 46.0558
+BioNetGen version 2.8.2
+Reading from file /gpfs0/home1/gddaslab/rsjxw007/CyGMM_Build/CyGMM_DockerBuild/CyGMM/4pro_rand.bngl (level 0)
+Read 5 parameters.
+Read 4 species.
+Read 4 observable(s).
+Read 7 reaction rule(s).
+ACTION: generate_network( 4pro_rand )
+Iteration   0:     4 species      0 rxns  0.00e+00 CPU s
+Iteration   1:     4 species      7 rxns  0.00e+00 CPU s
+Cumulative CPU time for each rule
+Rule   1:     1 reactions 0.00e+00 CPU s 0.00e+00 CPU s/rxn
+Rule   2:     1 reactions 0.00e+00 CPU s 0.00e+00 CPU s/rxn
+Rule   3:     1 reactions 0.00e+00 CPU s 0.00e+00 CPU s/rxn
+Rule   4:     1 reactions 0.00e+00 CPU s 0.00e+00 CPU s/rxn
+Rule   5:     1 reactions 0.00e+00 CPU s 0.00e+00 CPU s/rxn
+Rule   6:     1 reactions 0.00e+00 CPU s 0.00e+00 CPU s/rxn
+Rule   7:     1 reactions 0.00e+00 CPU s 0.00e+00 CPU s/rxn
+Total   :     7 reactions 0.00e+00 CPU s 0.00e+00 CPU s/rxn
+Wrote network in net format to ./4pro_rand.net.
+CPU TIME: generate_network 0.00 s.
+Wrote SBML to ./4pro_rand_sbml.xml.
+CPU TIME: writeSBML 0.00 s.
+Finished processing file /gpfs0/home1/gddaslab/rsjxw007/CyGMM_Build/CyGMM_DockerBuild/CyGMM/4pro_rand.bngl.
+CPU TIME: total 0.01 s.
+--------------------------------------------------------
+------- Matching Columns of X Data files to Ids -------
+pCD3z() to column:0 with first value:5.93
+pSLP76() to column:1 with first value:15.11
+pErk() to column:2 with first value:15.55
+pS6() to column:3 with first value:4.42
+--------------------------------------------------------
+PSO Seeded At:0.0853152  0.910185   0.29322  0.357317  0.561823| cost:11.6182
+PSO Estimation Has Begun, This may take some time...
+Held Parameter Estimates:0 0 0 0 0
+PSO Seeded At:  0.201085   0.581902   0.492159   0.617897 0.00818981| cost:3.16865
+PSO Estimation Has Begun, This may take some time...
+Held Parameter Estimates:0 0 0 0 0
+PSO Seeded At: 0.378039  0.329215  0.909924 0.0229487  0.291422| cost:10.653
+PSO Estimation Has Begun, This may take some time...
+Held Parameter Estimates:0 0 0 0 0
+PSO Seeded At:0.646082 0.543856 0.547648 0.945685 0.240275| cost:7.38242
+PSO Estimation Has Begun, This may take some time...
+Held Parameter Estimates:0 0 0 0 0
+PSO Seeded At:0.298452  0.26346 0.211687 0.591632 0.705172| cost:10.9778
+PSO Estimation Has Begun, This may take some time...
+Held Parameter Estimates:0 0 0 0 0
+PSO Seeded At:0.275533 0.267292  0.20567  0.26508 0.826939| cost:12.2851
+PSO Estimation Has Begun, This may take some time...
+Held Parameter Estimates:0 0 0 0 0
+PSO Seeded At: 0.431079  0.317042 0.0840442 0.0702013  0.174259| cost:11.3399
+PSO Estimation Has Begun, This may take some time...
+Held Parameter Estimates:0 0 0 0 0
+PSO Seeded At:0.0910769  0.099886   0.17931  0.591121  0.726816| cost:12.09
+PSO Estimation Has Begun, This may take some time...
+Held Parameter Estimates:0 0 0 0 0
+PSO Seeded At: 0.328476  0.853159  0.867287 0.0565505 0.0260415| cost:9.14647
+PSO Estimation Has Begun, This may take some time...
+Held Parameter Estimates:0 0 0 0 0
+PSO Seeded At: 0.945948  0.770298  0.155096  0.733951 0.0709065| cost:15.9266
+PSO Estimation Has Begun, This may take some time...
+Held Parameter Estimates:0 0 0 0 0
+PSO Seeded At: 0.282513  0.660049 0.0280433  0.417694  0.283636| cost:6.62352
+PSO Estimation Has Begun, This may take some time...
+Held Parameter Estimates:0 0 0 0 0
+PSO Seeded At:0.377078 0.678678 0.716133 0.508382 0.215987| cost:5.77339
+PSO Estimation Has Begun, This may take some time...
+Held Parameter Estimates:0 0 0 0 0
+PSO Seeded At: 0.380708  0.213498  0.126973 0.0707814  0.343644| cost:7.91454
+PSO Estimation Has Begun, This may take some time...
+Held Parameter Estimates:0 0 0 0 0
+PSO Seeded At: 0.598915  0.955812  0.443376 0.0370677  0.572779| cost:10.7829
+PSO Estimation Has Begun, This may take some time...
+Held Parameter Estimates:0 0 0 0 0
+PSO Seeded At: 0.16308 0.239059 0.656428 0.791063 0.642677| cost:11.6176
+PSO Estimation Has Begun, This may take some time...
+Held Parameter Estimates:0 0 0 0 0
+PSO Seeded At:0.294736   0.1304 0.469381 0.905973 0.720077| cost:11.9264
+PSO Estimation Has Begun, This may take some time...
+Held Parameter Estimates:0 0 0 0 0
+PSO Seeded At:0.070703 0.991452 0.477527 0.190271 0.228451| cost:7.40507
+PSO Estimation Has Begun, This may take some time...
+Held Parameter Estimates:0 0 0 0 0
+PSO Seeded At:0.0777329  0.468747  0.493033  0.812521  0.652632| cost:12.8988
+PSO Estimation Has Begun, This may take some time...
+Held Parameter Estimates:0 0 0 0 0
+PSO Seeded At:0.736087 0.380937 0.696863 0.234583 0.731772| cost:11.7118
+PSO Estimation Has Begun, This may take some time...
+Held Parameter Estimates:0 0 0 0 0
+PSO Seeded At:0.0823025  0.849378  0.979445  0.366889  0.515367| cost:12.672
+PSO Estimation Has Begun, This may take some time...
+Held Parameter Estimates:0 0 0 0 0
+PSO Seeded At: 0.898311  0.548988  0.552403 0.0951579  0.296319| cost:20.9374
+PSO Estimation Has Begun, This may take some time...
+Held Parameter Estimates:0 0 0 0 0
+PSO Seeded At:0.118204 0.661184 0.757215 0.230478 0.108185| cost:4.92575
+PSO Estimation Has Begun, This may take some time...
+Held Parameter Estimates:0 0 0 0 0
+PSO Seeded At: 0.668033  0.257426 0.0863196  0.994801  0.152463| cost:10.0689
+PSO Estimation Has Begun, This may take some time...
+Held Parameter Estimates:0 0 0 0 0
+PSO Seeded At:0.419375 0.729163  0.35167 0.811299 0.648368| cost:10.2503
+PSO Estimation Has Begun, This may take some time...
+Held Parameter Estimates:0 0 0 0 0
+PSO Seeded At:0.964257  0.90951 0.271091   0.3207 0.538973| cost:9.49402
+PSO Estimation Has Begun, This may take some time...
+Held Parameter Estimates:0 0 0 0 0
+PSO Seeded At:0.987663 0.932147  0.28861 0.329922 0.299584| cost:10.8232
+PSO Estimation Has Begun, This may take some time...
+Held Parameter Estimates:0 0 0 0 0
+PSO Seeded At:0.408528  0.86339 0.947298 0.876983 0.494856| cost:9.02292
+PSO Estimation Has Begun, This may take some time...
+Held Parameter Estimates:0 0 0 0 0
+PSO Seeded At:0.528474 0.318715 0.102054 0.828666 0.344312| cost:7.99878
+PSO Estimation Has Begun, This may take some time...
+Held Parameter Estimates:0 0 0 0 0
+PSO Seeded At: 0.14386  0.26363  0.34513 0.323966 0.365979| cost:6.58805
+PSO Estimation Has Begun, This may take some time...
+Held Parameter Estimates:0 0 0 0 0
+PSO Seeded At:0.402669 0.680649 0.440731 0.510912 0.812431| cost:11.9244
+PSO Estimation Has Begun, This may take some time...
+Held Parameter Estimates:0 0 0 0 0
+Hypercubescale Max:1
+Simulated Xt Moments (note: This Reports if Graphing Enabled) For Various Times:
+For Least Cost Estimate:  0.0368175    0.295231     0.13747 0.000326589 8.07381e-05
+2 10.5054 11.7383 5.70111 22.3773 56.0319 106.219 56.4194 2239.05 39.8813 3.22502 46.3736  2.5695 41.9318 207.843
+
+-------------- All Run Estimates: -------------------
+k1		k2		k3		k4		k5		cost		
+  0.0370681    0.295369    0.137261 0.000565947 0.000107934    0.922522
+  0.0365896      0.2953    0.136929 0.000347033 0.000226705    0.922643
+  0.0367063    0.294012    0.137066 0.000505048 0.000116751    0.922403
+  0.0366791    0.294163    0.137417 0.000274713 0.000126132    0.921857
+  0.0369647    0.293939    0.136319 0.000495116 0.000113313    0.922376
+  0.0365356    0.294225    0.137443 0.000212887 0.000308221    0.922752
+  0.0366281    0.294442    0.137321 0.000600761 0.000183906     0.92305
+  0.0371503    0.296232    0.137912  0.00043441 0.000201321    0.922731
+  0.0369441    0.296305    0.137569 0.000434116 0.000195424    0.922692
+  0.0369707    0.294976    0.137721 0.000434786 0.000185063    0.922613
+  0.0365479    0.294635    0.136532 0.000466016 0.000210596    0.922864
+  0.0370219     0.29539    0.138014 0.000395933 0.000272101    0.923021
+    0.03636    0.294501    0.137215  0.00044102 0.000244932    0.923024
+   0.036542    0.294248    0.136449 0.000479586 0.000343551    0.923655
+  0.0365796    0.294575     0.13805 0.000529339 0.000221375    0.923123
+  0.0368931    0.292007    0.136406 0.000519101 0.000102635    0.922428
+  0.0371048    0.295348    0.137177 0.000431335 0.000183446    0.922604
+  0.0368175    0.295231     0.13747 0.000326589 8.07381e-05    0.921725
+  0.0365153    0.293335     0.13592 0.000391285 0.000184157    0.922521
+  0.0364217    0.292497    0.135331 0.000428544 0.000282879    0.923223
+  0.0366663    0.295338    0.137818 0.000186175 0.000238261     0.92228
+  0.0367153    0.292675    0.135628 0.000306827 0.000181752    0.922289
+  0.0369709     0.29366    0.136592 0.000347201 0.000231638    0.922648
+  0.0370889    0.293599    0.136546 0.000528297  0.00018287    0.922866
+  0.0365846    0.293892     0.13602 0.000454101 0.000274886    0.923202
+  0.0366546    0.292478    0.136167 0.000541341 0.000243099    0.923246
+  0.0370922    0.295272    0.137226  0.00034961 0.000273777    0.922901
+   0.036973    0.294297      0.1366 0.000507149 0.000235228    0.923089
+   0.036892    0.291814     0.13692 0.000715917  0.00022528    0.923675
+  0.0365469    0.290801    0.135461 0.000319334 0.000204989    0.922521
+------- 95 Percent Confidence Intervals -------
+Rates | Standard Deviation
+0.0367742   |   0.000231888
+0.294152   |   0.00131632
+0.136883   |   0.000758924
+0.000432317   |   0.000114638
+0.000206099   |   6.36768e-05
+Confidence Intervals for Each Rate:
+Theta0: [0.0366912,0.0368572]
+Theta1: [0.293681,0.294623]
+Theta2: [0.136612,0.137155]
+Theta3: [0.000391294,0.00047334]
+Theta4: [0.000183312,0.000228885]
+-----------------------------------------------
+CODE FINISHED RUNNING IN 1948 s TIME!
+Program Begin:
+** Please Make Sure That All Inputted Files are in the UNIX Line Formatting to Prevent Bugs! **
+Reading in Parameters from Configuration File!
+------ Reading in X_0! ------
+"data/X/t1m_processed.csv"
+Reading in (rows,columns): (1773,4) from X data directory
+After removing all negative rows, X has 719 rows.
+If dimensions are unexpected of input data, please make sure to check csv files contains all possible values in each row/column.
+---------------------------
+---------------------  Parameters  --------------------
+Total Number of Runs:30
+Number of Moments:14
+Hyper Cube Width:1
+Using Times:1 2
+Blind PSO --> nParts:1500 Nsteps:50
+Targeted PSO --> nParts:2 Nsteps:2
+Number of Rates:5
+Redirecting Model to SBML/BNGL
+and Modeling With Deterministic ODEs
+Outputting data to:
+--------------------------------------------------------
+------ Reading in Yt! ------
+"data/Y/t2m_processed.csv"
+Read in 1431 rows! 4 columns!
+---------------------------
+After removing all negative rows, Y0 has 653 rows.
+2 11.4785 11.5206 7.69268 21.0976 100.698 104.802 71.1406 1117.06 17.5912 1.01937  10.461 3.28421 17.1904 46.0558
+BioNetGen version 2.8.2
+Reading from file /gpfs0/home1/gddaslab/rsjxw007/CyGMM_Build/CyGMM_DockerBuild/CyGMM/4pro_ring.bngl (level 0)
+Read 5 parameters.
+Read 4 species.
+Read 4 observable(s).
+Read 7 reaction rule(s).
+ACTION: generate_network( 4pro_ring )
+Iteration   0:     4 species      0 rxns  0.00e+00 CPU s
+Iteration   1:     4 species      7 rxns  0.00e+00 CPU s
+Cumulative CPU time for each rule
+Rule   1:     1 reactions 0.00e+00 CPU s 0.00e+00 CPU s/rxn
+Rule   2:     1 reactions 0.00e+00 CPU s 0.00e+00 CPU s/rxn
+Rule   3:     1 reactions 0.00e+00 CPU s 0.00e+00 CPU s/rxn
+Rule   4:     1 reactions 0.00e+00 CPU s 0.00e+00 CPU s/rxn
+Rule   5:     1 reactions 0.00e+00 CPU s 0.00e+00 CPU s/rxn
+Rule   6:     1 reactions 0.00e+00 CPU s 0.00e+00 CPU s/rxn
+Rule   7:     1 reactions 0.00e+00 CPU s 0.00e+00 CPU s/rxn
+Total   :     7 reactions 0.00e+00 CPU s 0.00e+00 CPU s/rxn
+Wrote network in net format to ./4pro_ring.net.
+CPU TIME: generate_network 0.00 s.
+Wrote SBML to ./4pro_ring_sbml.xml.
+CPU TIME: writeSBML 0.00 s.
+Finished processing file /gpfs0/home1/gddaslab/rsjxw007/CyGMM_Build/CyGMM_DockerBuild/CyGMM/4pro_ring.bngl.
+CPU TIME: total 0.01 s.
+--------------------------------------------------------
+------- Matching Columns of X Data files to Ids -------
+pCD3z() to column:0 with first value:5.93
+pSLP76() to column:1 with first value:15.11
+pErk() to column:2 with first value:15.55
+pS6() to column:3 with first value:4.42
+--------------------------------------------------------
+PSO Seeded At:0.678195 0.323368 0.441402 0.501975 0.406431| cost:6.41205
+PSO Estimation Has Begun, This may take some time...
+Held Parameter Estimates:0 0 0 0 0
+PSO Seeded At:0.790706 0.696655 0.514423 0.668671 0.836879| cost:11.9648
+PSO Estimation Has Begun, This may take some time...
+Held Parameter Estimates:0 0 0 0 0
+PSO Seeded At:0.0857931 0.0989727  0.218813  0.135853  0.607862| cost:9.45039
+PSO Estimation Has Begun, This may take some time...
+Held Parameter Estimates:0 0 0 0 0
+PSO Seeded At: 0.15955 0.136813 0.445585 0.575942 0.732562| cost:12.2199
+PSO Estimation Has Begun, This may take some time...
+Held Parameter Estimates:0 0 0 0 0
+PSO Seeded At:0.337832 0.237148   0.9704 0.639934 0.360481| cost:6.93185
+PSO Estimation Has Begun, This may take some time...
+Held Parameter Estimates:0 0 0 0 0
+PSO Seeded At: 0.708977  0.806142 0.0184657  0.632835   0.35926| cost:9.98782
+PSO Estimation Has Begun, This may take some time...
+Held Parameter Estimates:0 0 0 0 0
+PSO Seeded At:0.516814 0.608403 0.299199 0.516781  0.40506| cost:6.37884
+PSO Estimation Has Begun, This may take some time...
+Held Parameter Estimates:0 0 0 0 0
+PSO Seeded At: 0.72583  0.28017 0.623819 0.118712 0.112487| cost:10.0446
+PSO Estimation Has Begun, This may take some time...
+Held Parameter Estimates:0 0 0 0 0
+PSO Seeded At:0.166783 0.803012 0.795408  0.31749 0.606723| cost:9.08386
+PSO Estimation Has Begun, This may take some time...
+Held Parameter Estimates:0 0 0 0 0
+PSO Seeded At:0.290576  0.77081 0.855607 0.284111 0.797283| cost:11.2874
+PSO Estimation Has Begun, This may take some time...
+Held Parameter Estimates:0 0 0 0 0
+PSO Seeded At:0.692512 0.739214 0.580701 0.131359  0.19426| cost:7.8771
+PSO Estimation Has Begun, This may take some time...
+Held Parameter Estimates:0 0 0 0 0
+PSO Seeded At:0.315961 0.513553 0.680462 0.896229 0.161002| cost:3.382
+PSO Estimation Has Begun, This may take some time...
+Held Parameter Estimates:0 0 0 0 0
+PSO Seeded At:0.771664 0.602638 0.104804 0.625131 0.888376| cost:13.1803
+PSO Estimation Has Begun, This may take some time...
+Held Parameter Estimates:0 0 0 0 0
+PSO Seeded At: 0.629356 0.0703512  0.955904 0.0525637  0.698958| cost:11.0978
+PSO Estimation Has Begun, This may take some time...
+Held Parameter Estimates:0 0 0 0 0
+PSO Seeded At:0.541811 0.400181 0.228252 0.991503 0.864139| cost:12.9619
+PSO Estimation Has Begun, This may take some time...
+Held Parameter Estimates:0 0 0 0 0
+PSO Seeded At:0.0120413  0.503214  0.892008  0.481218  0.786283| cost:14.3427
+PSO Estimation Has Begun, This may take some time...
+Held Parameter Estimates:0 0 0 0 0
+PSO Seeded At:0.547327 0.287755 0.160923  0.48515 0.115488| cost:6.13057
+PSO Estimation Has Begun, This may take some time...
+Held Parameter Estimates:0 0 0 0 0
+PSO Seeded At:0.245203 0.178017 0.189075 0.564861 0.477534| cost:8.22849
+PSO Estimation Has Begun, This may take some time...
+Held Parameter Estimates:0 0 0 0 0
+PSO Seeded At:  0.920508  0.0778196  0.0927643 0.00335812   0.799517| cost:12.5577
+PSO Estimation Has Begun, This may take some time...
+Held Parameter Estimates:0 0 0 0 0
+PSO Seeded At:0.150847 0.900084 0.797851 0.965374 0.664062| cost:11.6047
+PSO Estimation Has Begun, This may take some time...
+Held Parameter Estimates:0 0 0 0 0
+PSO Seeded At:  0.751014  0.0075417   0.806014 0.00246193   0.288928| cost:16.8846
+PSO Estimation Has Begun, This may take some time...
+Held Parameter Estimates:0 0 0 0 0
+PSO Seeded At:  0.44464 0.0147952  0.635082  0.787926  0.119997| cost:11.7727
+PSO Estimation Has Begun, This may take some time...
+Held Parameter Estimates:0 0 0 0 0
+PSO Seeded At:  0.205847 0.00502629  0.0299739   0.920569   0.797336| cost:13.8659
+PSO Estimation Has Begun, This may take some time...
+Held Parameter Estimates:0 0 0 0 0
+PSO Seeded At:0.181796 0.132419 0.463662 0.836638 0.520492| cost:9.69002
+PSO Estimation Has Begun, This may take some time...
+Held Parameter Estimates:0 0 0 0 0
+PSO Seeded At:0.812805 0.463815 0.445648 0.777219  0.39796| cost:6.52011
+PSO Estimation Has Begun, This may take some time...
+Held Parameter Estimates:0 0 0 0 0
+PSO Seeded At: 0.819181 0.0898538  0.677513  0.499906  0.108111| cost:19.7767
+PSO Estimation Has Begun, This may take some time...
+Held Parameter Estimates:0 0 0 0 0
+PSO Seeded At:0.723609  0.69214 0.644587 0.287328 0.808935| cost:11.247
+PSO Estimation Has Begun, This may take some time...
+Held Parameter Estimates:0 0 0 0 0
+PSO Seeded At:0.143478  0.98704 0.940448 0.778637 0.966212| cost:15.0371
+PSO Estimation Has Begun, This may take some time...
+Held Parameter Estimates:0 0 0 0 0
+PSO Seeded At:0.417142 0.319626 0.591561 0.316961 0.686201| cost:10.058
+PSO Estimation Has Begun, This may take some time...
+Held Parameter Estimates:0 0 0 0 0
+PSO Seeded At:0.825461 0.952097 0.846503 0.334756 0.201621| cost:7.65215
+PSO Estimation Has Begun, This may take some time...
+Held Parameter Estimates:0 0 0 0 0
+Hypercubescale Max:1
+Simulated Xt Moments (note: This Reports if Graphing Enabled) For Various Times:
+For Least Cost Estimate: 0.00168161   0.0989098    0.229429    0.281094 9.78151e-05
+2 11.5143 11.7634 7.10407  19.939 94.6326  82.766 27.1092 2585.56 34.8228 12.4871 15.0922 34.9702 32.5679 45.7023
+
+-------------- All Run Estimates: -------------------
+k1		k2		k3		k4		k5		cost		
+ 0.00152232    0.100424    0.233301    0.288008 0.000160048    0.609393
+ 0.00202949    0.100132    0.232134    0.286854 0.000243647    0.609575
+ 0.00155364   0.0987003    0.230351    0.281953 0.000188478    0.609353
+ 0.00225706    0.101999    0.233935    0.291794  9.5752e-05    0.609412
+ 0.00208804    0.100612    0.232975    0.287048 0.000158967    0.609416
+ 0.00201919    0.101117    0.233974    0.289485 0.000169787     0.60945
+ 0.00216935    0.101355    0.234129    0.291314 0.000342031     0.60989
+  0.0019052    0.100868    0.233492     0.28916 0.000187354    0.609461
+ 0.00195345    0.101388    0.233734    0.288742 0.000218209     0.60954
+ 0.00168908    0.100516    0.232764    0.286954 0.000148838    0.609327
+ 0.00209442    0.101463    0.234555     0.29096 0.000280097    0.609733
+ 0.00213546    0.101114    0.233289    0.288391 0.000129878    0.609376
+ 0.00174843    0.101067    0.233287    0.288989 0.000213127    0.609513
+ 0.00196517    0.100655    0.232784    0.287144 0.000130644    0.609321
+ 0.00210644    0.101448     0.23377    0.288045 0.000266384    0.609671
+ 0.00183429    0.101144    0.232244    0.287767 0.000336871     0.60978
+ 0.00192197   0.0997212    0.231027    0.285093   0.0001816    0.609418
+ 0.00168161   0.0989098    0.229429    0.281094 9.78151e-05    0.609205
+ 0.00212826     0.10129    0.234316    0.289308 0.000183763    0.609513
+ 0.00162806    0.100158    0.231945    0.285158  0.00021271     0.60943
+ 0.00204787      0.1005    0.232668    0.286076 0.000231527    0.609553
+ 0.00181701    0.100029    0.232204    0.285205 0.000227934    0.609484
+ 0.00205252    0.101847    0.234454    0.289184 0.000171793    0.609493
+  0.0023462    0.102505    0.235405     0.29109 0.000317367    0.609914
+  0.0019991    0.101184    0.233703    0.289807 0.000174431    0.609459
+ 0.00230473    0.101694    0.234891    0.290616 0.000154299     0.60952
+ 0.00213902    0.101397    0.234042    0.290046 0.000332851    0.609831
+ 0.00204341    0.101503    0.234103    0.289061 0.000111247    0.609339
+ 0.00158594   0.0996012    0.231067    0.283292 0.000202839    0.609386
+ 0.00189163    0.100459    0.233193    0.287017 0.000145595     0.60935
+------- 95 Percent Confidence Intervals -------
+Rates | Standard Deviation
+0.00195528   |   0.000221861
+0.100827   |   0.00086861
+0.233105   |   0.00135874
+0.287822   |   0.00266548
+0.000200529   |   6.91362e-05
+Confidence Intervals for Each Rate:
+Theta0: [0.00187589,0.00203467]
+Theta1: [0.100516,0.101137]
+Theta2: [0.232619,0.233592]
+Theta3: [0.286868,0.288776]
+Theta4: [0.000175789,0.00022527]
+-----------------------------------------------
+CODE FINISHED RUNNING IN 2065 s TIME!
+Program Begin:
+** Please Make Sure That All Inputted Files are in the UNIX Line Formatting to Prevent Bugs! **
+Reading in Parameters from Configuration File!
+------ Reading in X_0! ------
+"data/X/t1m_processed.csv"
+Reading in (rows,columns): (1773,4) from X data directory
+After removing all negative rows, X has 719 rows.
+If dimensions are unexpected of input data, please make sure to check csv files contains all possible values in each row/column.
+---------------------------
+---------------------  Parameters  --------------------
+Total Number of Runs:30
+Number of Moments:14
+Hyper Cube Width:1
+Using Times:1 2
+Blind PSO --> nParts:1500 Nsteps:50
+Targeted PSO --> nParts:2 Nsteps:2
+Number of Rates:5
+Redirecting Model to SBML/BNGL
+and Modeling With Deterministic ODEs
+Outputting data to:
+--------------------------------------------------------
+------ Reading in Yt! ------
+"data/Y/t2m_processed.csv"
+Read in 1431 rows! 4 columns!
+---------------------------
+After removing all negative rows, Y0 has 653 rows.
+2 11.4785 11.5206 7.69268 21.0976 100.698 104.802 71.1406 1117.06 17.5912 1.01937  10.461 3.28421 17.1904 46.0558
+BioNetGen version 2.8.2
+Reading from file /gpfs0/home1/gddaslab/rsjxw007/CyGMM_Build/CyGMM_DockerBuild/CyGMM/4pro_reducedK5.bngl (level 0)
+Read 5 parameters.
+Read 4 species.
+Read 4 observable(s).
+Read 5 reaction rule(s).
+ACTION: generate_network( 4pro_reducedK5 )
+Iteration   0:     4 species      0 rxns  0.00e+00 CPU s
+Iteration   1:     4 species      5 rxns  0.00e+00 CPU s
+Cumulative CPU time for each rule
+Rule   1:     1 reactions 0.00e+00 CPU s 0.00e+00 CPU s/rxn
+Rule   2:     1 reactions 0.00e+00 CPU s 0.00e+00 CPU s/rxn
+Rule   3:     1 reactions 0.00e+00 CPU s 0.00e+00 CPU s/rxn
+Rule   4:     1 reactions 0.00e+00 CPU s 0.00e+00 CPU s/rxn
+Rule   5:     1 reactions 0.00e+00 CPU s 0.00e+00 CPU s/rxn
+Total   :     5 reactions 0.00e+00 CPU s 0.00e+00 CPU s/rxn
+Wrote network in net format to ./4pro_reducedK5.net.
+CPU TIME: generate_network 0.00 s.
+Wrote SBML to ./4pro_reducedK5_sbml.xml.
+CPU TIME: writeSBML 0.00 s.
+Finished processing file /gpfs0/home1/gddaslab/rsjxw007/CyGMM_Build/CyGMM_DockerBuild/CyGMM/4pro_reducedK5.bngl.
+CPU TIME: total 0.01 s.
+--------------------------------------------------------
+------- Matching Columns of X Data files to Ids -------
+pCD3z() to column:0 with first value:5.93
+pSLP76() to column:1 with first value:15.11
+pErk() to column:2 with first value:15.55
+pS6() to column:3 with first value:4.42
+--------------------------------------------------------
+PSO Seeded At: 0.153299   0.44186  0.119604 0.0449383  0.444037| cost:6.26175
+PSO Estimation Has Begun, This may take some time...
+Held Parameter Estimates:0 0 0 0 0
+PSO Seeded At: 0.76813 0.649762 0.869012 0.497967 0.336068| cost:6.65168
+PSO Estimation Has Begun, This may take some time...
+Held Parameter Estimates:0 0 0 0 0
+PSO Seeded At:0.759866 0.853266 0.948472 0.545508 0.281059| cost:7.63329
+PSO Estimation Has Begun, This may take some time...
+Held Parameter Estimates:0 0 0 0 0
+PSO Seeded At: 0.693775 0.0741945  0.132996  0.964507  0.634512| cost:5.95134
+PSO Estimation Has Begun, This may take some time...
+Held Parameter Estimates:0 0 0 0 0
+PSO Seeded At:0.373793 0.559104 0.726069 0.339235 0.491289| cost:7.41397
+PSO Estimation Has Begun, This may take some time...
+Held Parameter Estimates:0 0 0 0 0
+PSO Seeded At:0.632543 0.913766 0.264454 0.222393 0.732784| cost:7.25057
+PSO Estimation Has Begun, This may take some time...
+Held Parameter Estimates:0 0 0 0 0
+PSO Seeded At:0.178124 0.654649  0.14971  0.81346 0.758785| cost:9.45233
+PSO Estimation Has Begun, This may take some time...
+Held Parameter Estimates:0 0 0 0 0
+PSO Seeded At:0.883129  0.97896 0.638749 0.873492 0.329107| cost:5.69702
+PSO Estimation Has Begun, This may take some time...
+Held Parameter Estimates:0 0 0 0 0
+PSO Seeded At:0.850423 0.755661 0.367737 0.545886 0.838196| cost:5.92191
+PSO Estimation Has Begun, This may take some time...
+Held Parameter Estimates:0 0 0 0 0
+PSO Seeded At:  0.23459  0.332487  0.759663  0.267317 0.0348917| cost:5.41737
+PSO Estimation Has Begun, This may take some time...
+Held Parameter Estimates:0 0 0 0 0
+PSO Seeded At: 0.66861 0.959828 0.782087 0.762598 0.463721| cost:6.76055
+PSO Estimation Has Begun, This may take some time...
+Held Parameter Estimates:0 0 0 0 0
+PSO Seeded At:0.980552 0.499924 0.712854 0.689001 0.146733| cost:3.17837
+PSO Estimation Has Begun, This may take some time...
+Held Parameter Estimates:0 0 0 0 0
+PSO Seeded At:0.643796 0.902493 0.543259 0.508272 0.323212| cost:5.90404
+PSO Estimation Has Begun, This may take some time...
+Held Parameter Estimates:0 0 0 0 0
+PSO Seeded At: 0.784715  0.676696 0.0949718   0.92244    0.5976| cost:11.2199
+PSO Estimation Has Begun, This may take some time...
+Held Parameter Estimates:0 0 0 0 0
+PSO Seeded At: 0.609331  0.613356   0.82293 0.0724345   0.46266| cost:14.9999
+PSO Estimation Has Begun, This may take some time...
+Held Parameter Estimates:0 0 0 0 0
+PSO Seeded At:0.427163 0.799032 0.907254 0.498592 0.756216| cost:8.68647
+PSO Estimation Has Begun, This may take some time...
+Held Parameter Estimates:0 0 0 0 0
+PSO Seeded At:0.201878 0.706426 0.090352 0.678781 0.828973| cost:11.1456
+PSO Estimation Has Begun, This may take some time...
+Held Parameter Estimates:0 0 0 0 0
+PSO Seeded At: 0.933211  0.672571  0.938932 0.0934219  0.407568| cost:16.5357
+PSO Estimation Has Begun, This may take some time...
+Held Parameter Estimates:0 0 0 0 0
+PSO Seeded At:0.976375 0.307051 0.199009 0.187286 0.644311| cost:4.224
+PSO Estimation Has Begun, This may take some time...
+Held Parameter Estimates:0 0 0 0 0
+PSO Seeded At: 0.495318 0.0119971   0.99186  0.174265 0.0545605| cost:7.58068
+PSO Estimation Has Begun, This may take some time...
+Held Parameter Estimates:0 0 0 0 0
+PSO Seeded At:0.129894 0.179235  0.25276 0.429976 0.666707| cost:4.4171
+PSO Estimation Has Begun, This may take some time...
+Held Parameter Estimates:0 0 0 0 0
+PSO Seeded At: 0.17191 0.544024 0.545771  0.32591 0.307661| cost:5.59124
+PSO Estimation Has Begun, This may take some time...
+Held Parameter Estimates:0 0 0 0 0
+PSO Seeded At:0.742973  0.54192 0.313706 0.915466 0.697616| cost:6.3185
+PSO Estimation Has Begun, This may take some time...
+Held Parameter Estimates:0 0 0 0 0
+PSO Seeded At:0.203968 0.387518 0.912805 0.627216 0.425988| cost:6.07675
+PSO Estimation Has Begun, This may take some time...
+Held Parameter Estimates:0 0 0 0 0
+PSO Seeded At:  0.326114   0.445834   0.555605   0.480088 0.00472607| cost:2.55773
+PSO Estimation Has Begun, This may take some time...
+Held Parameter Estimates:0 0 0 0 0
+PSO Seeded At: 0.267157  0.667408  0.421041  0.990593 0.0306627| cost:4.11602
+PSO Estimation Has Begun, This may take some time...
+Held Parameter Estimates:0 0 0 0 0
+PSO Seeded At:0.786118 0.182103 0.115496 0.575084 0.290211| cost:3.65151
+PSO Estimation Has Begun, This may take some time...
+Held Parameter Estimates:0 0 0 0 0
+PSO Seeded At:0.254381 0.140574 0.433122 0.694414 0.858919| cost:5.82628
+PSO Estimation Has Begun, This may take some time...
+Held Parameter Estimates:0 0 0 0 0
+PSO Seeded At:0.312752 0.732483 0.155638 0.452337 0.756556| cost:8.36763
+PSO Estimation Has Begun, This may take some time...
+Held Parameter Estimates:0 0 0 0 0
+PSO Seeded At:0.641724  0.16359 0.772756 0.162172 0.669602| cost:8.00165
+PSO Estimation Has Begun, This may take some time...
+Held Parameter Estimates:0 0 0 0 0
+Hypercubescale Max:1
+Simulated Xt Moments (note: This Reports if Graphing Enabled) For Various Times:
+For Least Cost Estimate:   0.164907    0.110639     0.23973     0.30232 0.000302417
+2 11.4842  11.778 7.11972 20.2672 90.1708 80.8354 26.6038 2606.54 35.0759 12.6045 7.54229 35.0935 32.6562 45.6272
+
+-------------- All Run Estimates: -------------------
+k1		k2		k3		k4		k5		cost		
+   0.244226    0.118899    0.248799    0.319545 0.000211654    0.609203
+    0.24406    0.118397     0.24815    0.318701 0.000366136    0.609227
+   0.308463    0.124294    0.254221    0.331244 0.000762621     0.60967
+   0.319266    0.126009    0.256158    0.335354  0.00064253    0.609748
+   0.276387    0.121432     0.25035    0.324012 0.000436976    0.609386
+   0.444683    0.137604     0.26731     0.35572  0.00129673    0.610893
+   0.164907    0.110639     0.23973     0.30232 0.000302417    0.608991
+   0.345006     0.12868    0.257314    0.337931 0.000626699     0.60989
+   0.339061     0.12789    0.257612    0.338058 0.000590063    0.609845
+   0.234041    0.117897     0.24709    0.317419 0.000228932    0.609154
+       0.26    0.120121    0.249629    0.322387 0.000529243    0.609346
+   0.205296    0.114579    0.243986     0.31031 0.000218857    0.609043
+   0.260348    0.120179    0.249499    0.321622 0.000422457    0.609312
+   0.271903    0.120833    0.250475    0.324102 0.000445166    0.609372
+   0.358558      0.1304    0.259311    0.341588 0.000814459     0.61007
+    0.42069    0.135015    0.264561    0.352923 0.000849427    0.610562
+   0.303673    0.124734    0.254077    0.330925 0.000480754    0.609581
+   0.346391    0.128352    0.257789    0.338758 0.000681402    0.609904
+   0.267743    0.120663    0.250023    0.322663 0.000323511    0.609315
+    0.48504    0.142208    0.271319    0.365211 0.000984698    0.611249
+   0.356689    0.129256    0.258393    0.339744 0.000731596    0.609981
+   0.412893    0.136484    0.266239    0.354393   0.0013341    0.610782
+   0.232905     0.11748    0.246931    0.316573 0.000418807    0.609196
+    0.32338    0.126081    0.255255    0.333759 0.000590809    0.609711
+   0.225677    0.116573    0.246138    0.315259 0.000456134    0.609179
+   0.260257     0.12007    0.249587    0.322051 0.000293474    0.609276
+   0.272089    0.121189    0.250731    0.324251 0.000410946    0.609367
+   0.275516    0.121279    0.250779    0.324514   0.0004282    0.609383
+   0.290043     0.12286    0.251854    0.326888 0.000538456     0.60949
+    0.37603    0.131523    0.260657    0.344518 0.000820054    0.610175
+------- 95 Percent Confidence Intervals -------
+Rates | Standard Deviation
+0.304174   |   0.0737057
+0.124387   |   0.00725983
+0.253799   |   0.00725043
+0.330425   |   0.0144336
+0.000574577   |   0.000283693
+Confidence Intervals for Each Rate:
+Theta0: [0.277799,0.330549]
+Theta1: [0.121789,0.126985]
+Theta2: [0.251204,0.256393]
+Theta3: [0.32526,0.33559]
+Theta4: [0.000473059,0.000676096]
+-----------------------------------------------
+CODE FINISHED RUNNING IN 1983 s TIME!
+Job Statistics for 493882:
+           JobID       User               Start                 End    Elapsed     MaxRSS   TotalCPU      State Exit        NodeList                                  ReqTRES 
+---------------- ---------- ------------------- ------------------- ---------- ---------- ---------- ---------- ---- --------------- ---------------------------------------- 
+          493882   rsjxw007 2022-07-17T16:31:07 2022-07-17T19:20:14   02:49:07            3-09:07:33  COMPLETED  0:0   r1pl-hpcf-n21     billing=30,cpu=30,mem=234360M,node=1 
+    493882.batch            2022-07-17T16:31:07 2022-07-17T19:20:14   02:49:07     32.43M 3-09:07:33  COMPLETED  0:0   r1pl-hpcf-n21                                          
+   493882.extern            2022-07-17T16:31:07 2022-07-17T19:20:14   02:49:07          0  00:00.001  COMPLETED  0:0   r1pl-hpcf-n21                                          
+CPU Efficiency: 95.94% of 3-12:33:30 core-walltime
