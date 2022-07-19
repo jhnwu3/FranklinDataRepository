@@ -1,0 +1,12 @@
+./CyGMM: /lib64/libstdc++.so.6: version `GLIBCXX_3.4.26' not found (required by ./CyGMM)
+./CyGMM: /lib64/libstdc++.so.6: version `GLIBCXX_3.4.26' not found (required by ./CyGMM)
+./CyGMM: /lib64/libstdc++.so.6: version `GLIBCXX_3.4.26' not found (required by ./CyGMM)
+./CyGMM: /lib64/libstdc++.so.6: version `GLIBCXX_3.4.26' not found (required by ./CyGMM)
+./CyGMM: /lib64/libstdc++.so.6: version `GLIBCXX_3.4.26' not found (required by ./CyGMM)
+Job Statistics for 493942:
+           JobID       User               Start                 End    Elapsed     MaxRSS   TotalCPU      State Exit        NodeList                                  ReqTRES 
+---------------- ---------- ------------------- ------------------- ---------- ---------- ---------- ---------- ---- --------------- ---------------------------------------- 
+          493942   rsjxw007 2022-07-18T11:18:46 2022-07-18T11:18:46   00:00:00             00:00.019     FAILED  1:0   r1pl-hpcf-n21     billing=30,cpu=30,mem=234360M,node=1 
+    493942.batch            2022-07-18T11:18:46 2022-07-18T11:18:46   00:00:00      0.10M  00:00.017     FAILED  1:0   r1pl-hpcf-n21                                          
+   493942.extern            2022-07-18T11:18:46 2022-07-18T11:18:46   00:00:00          0  00:00.002  COMPLETED  0:0   r1pl-hpcf-n21                                          
+CPU Efficiency: 0.00% of 00:00:00 core-walltime
