@@ -1,0 +1,143 @@
+Program Begin:
+** Please Make Sure That All Inputted Files are in the UNIX Line Formatting to Prevent Bugs! **
+Reading in Parameters from Configuration File!
+------ Reading in X_0! ------
+"data/X/X.csv"
+Reading in (rows,columns): (5000,6) from X data directory
+After removing all negative rows, X has 5000 rows.
+If dimensions are unexpected of input data, please make sure to check csv files contains all possible values in each row/column.
+---------------------------
+---------------------  Parameters  --------------------
+Total Number of Runs:10
+Number of Moments:27
+Theta Held Index:1 held value:0.1
+Hyper Cube Width:1
+Using Times:  0 0.5   2  10  20  30
+Blind PSO --> nParts:150 Nsteps:25
+Targeted PSO --> nParts:2 Nsteps:2
+Number of Rates:6
+Redirecting Model to SBML/BNGL
+and Modeling With Deterministic ODEs
+Outputting data to:
+--------------------------------------------------------
+BioNetGen version 2.8.2
+Reading from file /gpfs0/home1/gddaslab/rsjxw007/CyGMM_Build/CyGMM_DockerBuild/CyGMM/6pro.bngl (level 0)
+Read 6 parameters.
+Read 6 species.
+Read 6 observable(s).
+Read 4 reaction rule(s).
+ACTION: generate_network( 6pro )
+Iteration   0:     6 species      0 rxns  0.00e+00 CPU s
+Iteration   1:     6 species      6 rxns  0.00e+00 CPU s
+Cumulative CPU time for each rule
+Rule   1:     2 reactions 0.00e+00 CPU s 0.00e+00 CPU s/rxn
+Rule   2:     1 reactions 0.00e+00 CPU s 0.00e+00 CPU s/rxn
+Rule   3:     2 reactions 0.00e+00 CPU s 0.00e+00 CPU s/rxn
+Rule   4:     1 reactions 0.00e+00 CPU s 0.00e+00 CPU s/rxn
+Total   :     6 reactions 0.00e+00 CPU s 0.00e+00 CPU s/rxn
+WARNING: writeFile(): Overwriting existing file ./6pro.net.
+Wrote network in net format to ./6pro.net.
+CPU TIME: generate_network 0.01 s.
+Wrote SBML to ./6pro_sbml.xml.
+CPU TIME: writeSBML 0.00 s.
+Finished processing file /gpfs0/home1/gddaslab/rsjxw007/CyGMM_Build/CyGMM_DockerBuild/CyGMM/6pro.bngl.
+CPU TIME: total 0.01 s.
+--------------------------------------------------------
+------- Matching Columns of X Data files to Ids -------
+Syk() to column:0 with first value:192.796
+Vav() to column:1 with first value:1463.27
+SykVav() to column:2 with first value:5.251
+pVav() to column:3 with first value:5.8095
+SHP1() to column:4 with first value:435.297
+SHP1PVav() to column:5 with first value:6.2594
+--------------------------------------------------------
+------ SIMULATING YT! ------
+Read in Rates: 0.1  0.1 0.95 0.17 0.05 0.18
+------ Reading in Yt! ------
+"data/Y/Y.csv"
+Read in 5000 rows! 6 columns!
+---------------------------
+Note: We will only be using the first Yt file read in for this simulation!
+After removing all negative rows, Y has 5000 rows.
+Time Point 		 Moments
+0.5  1.40012  1757.38   209.96  14.0588  121.369  90.9622 0.728361   273328  6695.53  201.283  6369.12  859.989 -258.233    53.35  7.06668 -18.5846  17.0746 -4524.28 -958.283  5467.64 -992.478  790.754 -1962.44   2254.3 -690.745  162.181 -220.746
+2  2.02875  1502.19  209.331  166.261  17.7546  194.577  38.9033   297014  6491.13  21798.8  1643.98   4090.5 -858.206  136.465  294.958 -17.4936  7.96706   -12769 -25499.7   3417.3   1354.2  10341.5 -1090.96  1390.83 -2570.29 -2240.45  526.568
+10  77.0044  496.822  134.356  1229.31 0.458367  211.873  13231.1   314379  3938.92   266907  6.30111  6697.29 -36985.2 -5183.53  30543.6 -20.9905 -869.162  9457.24  -169272  239.452  8049.17   2947.3 -5.92609  1186.43 -276.447 -11054.3   42.015
+20  152.097  118.573  59.2632  1682.42 0.223975  212.108  10832.3  96629.5  1565.22   273423 0.436547  6760.46 -17446.1  -2797.3  18074.3 -8.50681 -1323.06  7003.32 -55389.7  59.0941  5177.31 -1659.97  2.69781  1619.22 -89.8343 -8664.61  13.3624
+30  166.666  40.0258  44.6934  1775.51 0.195352  212.136   8080.5  31243.6  548.992   276325 0.195456  6768.28  -6208.4 -913.263  10227.9 -4.85545  -1159.8  2210.42 -19383.3   29.713  3029.48 -1123.25  2.02158  1452.98 -59.8449  -6354.5  9.57283
+--------------------------------------------------------
+PSO Seeded At:0.00953423        0.1   0.770446   0.191251   0.871493   0.541181| cost:9.58412e+07
+PSO Estimation Has Begun, This may take some time...
+Held Parameter Estimates:0 0 0 0 0 0
+PSO Seeded At:  0.9066      0.1 0.490514 0.226842 0.804544 0.998025| cost:8.25139e+07
+PSO Estimation Has Begun, This may take some time...
+Held Parameter Estimates:0 0 0 0 0 0
+PSO Seeded At:0.160568      0.1 0.747923 0.403232 0.974573 0.597806| cost:1.09175e+08
+PSO Estimation Has Begun, This may take some time...
+Held Parameter Estimates:0 0 0 0 0 0
+PSO Seeded At: 0.296904       0.1  0.952693  0.939439  0.565567 0.0568357| cost:1.58306e+06
+PSO Estimation Has Begun, This may take some time...
+Held Parameter Estimates:0 0 0 0 0 0
+PSO Seeded At:0.669494      0.1 0.306864 0.314662 0.527541 0.675279| cost:8.42773e+07
+PSO Estimation Has Begun, This may take some time...
+Held Parameter Estimates:0 0 0 0 0 0
+PSO Seeded At: 0.561254       0.1   0.87737 0.0856678  0.703397  0.122064| cost:296173
+PSO Estimation Has Begun, This may take some time...
+Held Parameter Estimates:0 0 0 0 0 0
+PSO Seeded At:0.528536      0.1 0.817771 0.633915 0.599755 0.547974| cost:9.47472e+07
+PSO Estimation Has Begun, This may take some time...
+Held Parameter Estimates:0 0 0 0 0 0
+PSO Seeded At:0.435323      0.1 0.662826  0.75282 0.598918 0.523834| cost:9.59427e+07
+PSO Estimation Has Begun, This may take some time...
+Held Parameter Estimates:0 0 0 0 0 0
+PSO Seeded At:0.611969      0.1  0.53007 0.786917 0.490707 0.300367| cost:6.69356e+07
+PSO Estimation Has Begun, This may take some time...
+Held Parameter Estimates:0 0 0 0 0 0
+PSO Seeded At: 0.514446       0.1  0.530906 0.0270262  0.288686  0.424094| cost:8.43351e+07
+PSO Estimation Has Begun, This may take some time...
+Held Parameter Estimates:0 0 0 0 0 0
+Hypercubescale Max:1
+Simulated Xt Moments (note: This Reports if Graphing Enabled) For Various Times:
+For Least Cost Estimate:0.0800292       0.1  0.952226  0.710414  0.446566  0.180193
+0.5  1.71496  1765.86  207.694  6.80797  114.664  96.6775   1.0292   256359  6488.05  157.848  6758.95  959.525 -300.909  63.4703   6.4422 -22.6355  22.0885 -4697.39 -712.917  4822.87  -1274.8  574.883 -2028.17   2358.5  -480.76  104.792  -443.72
+2  2.33798  1514.24  207.071  159.911   15.523  195.819  23.0907   280284  6328.12  21705.6  1610.91  4340.49 -826.851  132.403  258.906 -17.1955  10.6708 -12805.6   -24890   2902.1  921.516  10085.7 -995.453  1331.76  -2284.6  -2637.4  439.818
+10  74.7394  509.713   134.67   1221.7 0.387799  210.954  12609.6   308653  3797.81   263896  15.4456  6704.34   -36495 -4895.69  29771.2 -19.7509 -821.353  8765.55  -172533    190.2  7459.34  3216.41 -5.33518  1176.22 -287.629 -11274.5  55.6231
+20   149.78  122.101  59.6294  1684.14 0.176681  211.165    10680    95469  1535.14   267371  3.21364  6792.93   -17546 -2799.55  18602.5 -10.1592 -1278.51  6852.55 -58888.1  62.9104  4781.79 -2466.52  2.90766  1615.54 -111.272 -9144.03  17.4454
+30  164.975  40.8728  44.4341  1780.54 0.153092  211.189  7848.52  31302.2  528.608   262818  2.46873   6802.1 -6167.72 -880.556  9947.17 -7.47571 -1105.01  2116.35 -20385.9   43.876   2712.6 -1363.43  2.52719  1439.74 -86.2826 -6909.58  13.2313
+
+-------------- All Run Estimates: -------------------
+k1		k2		k3		k4		k5		k6		cost		
+  0.10697       0.1  0.947281  0.500035  0.249182  0.180735   1981.71
+ 0.126846       0.1  0.932317  0.722049  0.544939  0.173516   3794.77
+0.0800292       0.1  0.952226  0.710414  0.446566  0.180193   781.832
+  0.34257       0.1  0.951212  0.639078  0.353721  0.185245   8210.94
+ 0.134092       0.1  0.941297  0.358406  0.209817  0.176344   4271.48
+ 0.266306       0.1  0.943579  0.644522  0.462375  0.181053   7441.31
+ 0.173523       0.1  0.937087  0.598876  0.411132  0.177167   5233.56
+ 0.555594       0.1  0.945796  0.817902  0.425138  0.183086   10139.9
+ 0.567418       0.1  0.945068  0.740301  0.543264  0.182874   10571.4
+0.0773473       0.1  0.940001  0.424847  0.342095  0.174373   1459.45
+------- 95 Percent Confidence Intervals -------
+Rates | Standard Deviation
+0.24307   |   0.18741
+0.1   |   0
+0.943586   |   0.00615411
+0.615643   |   0.146953
+0.398823   |   0.111924
+0.179459   |   0.00393212
+Confidence Intervals for Each Rate:
+Theta0: [0.126911,0.359228]
+Theta1: [0.1,0.1]
+Theta2: [0.939772,0.947401]
+Theta3: [0.524561,0.706725]
+Theta4: [0.329452,0.468194]
+Theta5: [0.177021,0.181896]
+-----------------------------------------------
+CODE FINISHED RUNNING IN 11801 s TIME!
+Job Statistics for 494182:
+           JobID       User               Start                 End    Elapsed     MaxRSS   TotalCPU      State Exit        NodeList                                  ReqTRES 
+---------------- ---------- ------------------- ------------------- ---------- ---------- ---------- ---------- ---- --------------- ---------------------------------------- 
+          494182   rsjxw007 2022-07-19T10:43:56 2022-07-19T14:00:38   03:16:42            3-17:48:56  COMPLETED  0:0   r1pl-hpcf-n22     billing=30,cpu=30,mem=234360M,node=1 
+    494182.batch            2022-07-19T10:43:56 2022-07-19T14:00:38   03:16:42     41.48M 3-17:48:56  COMPLETED  0:0   r1pl-hpcf-n22                                          
+   494182.extern            2022-07-19T10:43:56 2022-07-19T14:00:38   03:16:42          0  00:00.001  COMPLETED  0:0   r1pl-hpcf-n22                                          
+CPU Efficiency: 91.32% of 4-02:21:00 core-walltime
