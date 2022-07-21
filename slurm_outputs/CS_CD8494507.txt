@@ -1,0 +1,76 @@
+Program Begin:
+** Please Make Sure That All Inputted Files are in the UNIX Line Formatting to Prevent Bugs! **
+Reading in Parameters from Configuration File!
+------ Reading in X_0! ------
+"example/4_prot_CD3_CD8_CD28/1min_2min/X/t1m_processed.csv"
+Reading in (rows,columns): (1773,4) from X data directory
+After removing all negative rows, X has 719 rows.
+If dimensions are unexpected of input data, please make sure to check csv files contains all possible values in each row/column.
+---------------------------
+---------------------  Parameters  --------------------
+Total Number of Runs:30
+Number of Moments:14
+Hyper Cube Width:1
+Using Times:1 2
+Blind PSO --> nParts:200 Nsteps:20
+Targeted PSO --> nParts:2 Nsteps:2
+Number of Rates:5
+Particle Best Weight:5 Global Best Weight:2 Particle Inertia:10
+Redirecting Model to SBML/BNGL
+and Modeling With Deterministic ODEs
+Outputting data to:frontend/output/
+--------------------------------------------------------
+------ Reading in Yt! ------
+"example/4_prot_CD3_CD8_CD28/1min_2min/Y/t2m_processed.csv"
+Read in 1431 rows! 4 columns!
+---------------------------
+After removing all negative rows, Y0 has 653 rows.
+2 11.4785 11.5206 7.69268 21.0976 100.698 104.802 71.1406 1117.06 17.5912 1.01937  10.461 3.28421 17.1904 46.0558
+BioNetGen version 2.8.2
+Reading from file /gpfs0/home1/gddaslab/rsjxw007/CyGMM_Build/CyGMM_DockerBuild/CyGMM/4pro.bngl (level 0)
+Read 5 parameters.
+Read 4 species.
+Read 4 observable(s).
+Read 8 reaction rule(s).
+ACTION: generate_network( 4pro )
+Iteration   0:     4 species      0 rxns  0.00e+00 CPU s
+Iteration   1:     4 species      8 rxns  1.00e-02 CPU s
+Cumulative CPU time for each rule
+Rule   1:     1 reactions 0.00e+00 CPU s 0.00e+00 CPU s/rxn
+Rule   2:     1 reactions 0.00e+00 CPU s 0.00e+00 CPU s/rxn
+Rule   3:     1 reactions 0.00e+00 CPU s 0.00e+00 CPU s/rxn
+Rule   4:     1 reactions 0.00e+00 CPU s 0.00e+00 CPU s/rxn
+Rule   5:     1 reactions 0.00e+00 CPU s 0.00e+00 CPU s/rxn
+Rule   6:     1 reactions 0.00e+00 CPU s 0.00e+00 CPU s/rxn
+Rule   7:     1 reactions 1.00e-02 CPU s 1.00e-02 CPU s/rxn
+Rule   8:     1 reactions 0.00e+00 CPU s 0.00e+00 CPU s/rxn
+Total   :     8 reactions 1.00e-02 CPU s 1.25e-03 CPU s/rxn
+WARNING: writeFile(): Overwriting existing file ./4pro.net.
+Wrote network in net format to ./4pro.net.
+CPU TIME: generate_network 0.02 s.
+Wrote SBML to ./4pro_sbml.xml.
+CPU TIME: writeSBML 0.00 s.
+Finished processing file /gpfs0/home1/gddaslab/rsjxw007/CyGMM_Build/CyGMM_DockerBuild/CyGMM/4pro.bngl.
+CPU TIME: total 0.03 s.
+--------------------------------------------------------
+------- Matching Columns of X Data files to Ids -------
+pCD3z() to column:0 with first value:5.93
+pSLP76() to column:1 with first value:15.11
+pErk() to column:2 with first value:15.55
+pS6() to column:3 with first value:4.42
+--------------------------------------------------------
+PSO Seeded At:0.241528 0.841864 0.663724 0.669251 0.454135| cost:2.03746
+PSO Estimation Has Begun, This may take some time...
+PSO Seeded At: 0.234777 0.0518047  0.112992  0.109537 0.0162137| cost:0.109771
+PSO Estimation Has Begun, This may take some time...
+Held Parameter Estimates: 0.469554  0.103609  0.225985  0.219075 0.0324274
+PSO Seeded At:0.924204 0.686014 0.329749 0.649586 0.574498| cost:2.0648
+PSO Estimation Has Begun, This may take some time...
+slurmstepd: error: *** JOB 494507 ON r1pl-hpcf-n22 CANCELLED AT 2022-07-20T11:26:15 ***
+Job Statistics for 494507:
+           JobID       User               Start                 End    Elapsed     MaxRSS   TotalCPU      State Exit        NodeList                                  ReqTRES 
+---------------- ---------- ------------------- ------------------- ---------- ---------- ---------- ---------- ---- --------------- ---------------------------------------- 
+          494507   rsjxw007 2022-07-20T11:25:52 2022-07-20T11:26:15   00:00:23             05:23.019 CANCELLED+  0:0   r1pl-hpcf-n22     billing=16,cpu=16,mem=124992M,node=1 
+    494507.batch            2022-07-20T11:25:52 2022-07-20T11:26:16   00:00:24     16.82M  05:23.018  CANCELLED 0:15   r1pl-hpcf-n22                                          
+   494507.extern            2022-07-20T11:25:52 2022-07-20T11:26:15   00:00:23          0  00:00.001  COMPLETED  0:0   r1pl-hpcf-n22                                          
+CPU Efficiency: 87.77% of 00:06:08 core-walltime

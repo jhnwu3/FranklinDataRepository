@@ -1,0 +1,13 @@
+Program Begin:
+** Please Make Sure That All Inputted Files are in the UNIX Line Formatting to Prevent Bugs! **
+Reading in Parameters from Configuration File!
+terminate called after throwing an instance of 'std::out_of_range'
+  what():  vector::_M_range_check: __n (which is 22) >= this->size() (which is 22)
+/var/spool/slurmd/job494708/slurm_script: line 16: 1805075 Aborted                 (core dumped) ./CyGMM -m 6pro.bngl -c Config6pro.csv -r true_rates6.csv -t time_steps6.csv
+Job Statistics for 494708:
+           JobID       User               Start                 End    Elapsed     MaxRSS   TotalCPU      State Exit        NodeList                                  ReqTRES 
+---------------- ---------- ------------------- ------------------- ---------- ---------- ---------- ---------- ---- --------------- ---------------------------------------- 
+          494708   rsjxw007 2022-07-20T19:58:04 2022-07-20T19:58:04   00:00:00             00:00.062     FAILED  6:0   r1pl-hpcf-n25     billing=30,cpu=30,mem=234360M,node=1 
+    494708.batch            2022-07-20T19:58:04 2022-07-20T19:58:04   00:00:00      0.01M  00:00.061     FAILED  6:0   r1pl-hpcf-n25                                          
+   494708.extern            2022-07-20T19:58:04 2022-07-20T19:58:04   00:00:00          0  00:00.001  COMPLETED  0:0   r1pl-hpcf-n25                                          
+CPU Efficiency: 0.00% of 00:00:00 core-walltime

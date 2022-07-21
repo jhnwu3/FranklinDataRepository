@@ -1,0 +1,96 @@
+Program Begin:
+** Please Make Sure That All Inputted Files are in the UNIX Line Formatting to Prevent Bugs! **
+Reading in Parameters from Configuration File!
+------ Reading in X_0! ------
+"example/4_prot_CD3_CD8_CD28/1min_2min/X/t1m_processed.csv"
+Reading in (rows,columns): (1773,4) from X data directory
+After removing all negative rows, X has 719 rows.
+If dimensions are unexpected of input data, please make sure to check csv files contains all possible values in each row/column.
+---------------------------
+---------------------  Parameters  --------------------
+Total Number of Runs:30
+Number of Moments:14
+Hyper Cube Width:1
+Using Times:1 2
+Blind PSO --> nParts:200 Nsteps:20
+Targeted PSO --> nParts:2 Nsteps:2
+Number of Rates:5
+Particle Best Weight:5 Global Best Weight:3 Particle Inertia:4
+Redirecting Model to SBML/BNGL
+and Modeling With Deterministic ODEs
+Outputting data to:frontend/output/
+--------------------------------------------------------
+------ Reading in Yt! ------
+"example/4_prot_CD3_CD8_CD28/1min_2min/Y/t2m_processed.csv"
+Read in 1431 rows! 4 columns!
+---------------------------
+After removing all negative rows, Y0 has 653 rows.
+2 11.4785 11.5206 7.69268 21.0976 100.698 104.802 71.1406 1117.06 17.5912 1.01937  10.461 3.28421 17.1904 46.0558
+BioNetGen version 2.8.2
+Reading from file /gpfs0/home1/gddaslab/rsjxw007/CyGMM_Build/CyGMM_DockerBuild/CyGMM/4pro.bngl (level 0)
+Read 5 parameters.
+Read 4 species.
+Read 4 observable(s).
+Read 8 reaction rule(s).
+ACTION: generate_network( 4pro )
+Iteration   0:     4 species      0 rxns  0.00e+00 CPU s
+Iteration   1:     4 species      8 rxns  0.00e+00 CPU s
+Cumulative CPU time for each rule
+Rule   1:     1 reactions 0.00e+00 CPU s 0.00e+00 CPU s/rxn
+Rule   2:     1 reactions 0.00e+00 CPU s 0.00e+00 CPU s/rxn
+Rule   3:     1 reactions 0.00e+00 CPU s 0.00e+00 CPU s/rxn
+Rule   4:     1 reactions 0.00e+00 CPU s 0.00e+00 CPU s/rxn
+Rule   5:     1 reactions 0.00e+00 CPU s 0.00e+00 CPU s/rxn
+Rule   6:     1 reactions 0.00e+00 CPU s 0.00e+00 CPU s/rxn
+Rule   7:     1 reactions 0.00e+00 CPU s 0.00e+00 CPU s/rxn
+Rule   8:     1 reactions 0.00e+00 CPU s 0.00e+00 CPU s/rxn
+Total   :     8 reactions 0.00e+00 CPU s 0.00e+00 CPU s/rxn
+WARNING: writeFile(): Overwriting existing file ./4pro.net.
+Wrote network in net format to ./4pro.net.
+CPU TIME: generate_network 0.00 s.
+Wrote SBML to ./4pro_sbml.xml.
+CPU TIME: writeSBML 0.00 s.
+Finished processing file /gpfs0/home1/gddaslab/rsjxw007/CyGMM_Build/CyGMM_DockerBuild/CyGMM/4pro.bngl.
+CPU TIME: total 0.01 s.
+--------------------------------------------------------
+------- Matching Columns of X Data files to Ids -------
+pCD3z() to column:0 with first value:5.93
+pSLP76() to column:1 with first value:15.11
+pErk() to column:2 with first value:15.55
+pS6() to column:3 with first value:4.42
+--------------------------------------------------------
+PSO Seeded At:0.681172   0.1924 0.187561 0.305229 0.444443| cost:1.40368
+PSO Estimation Has Begun, This may take some time...
+PSO Seeded At: 0.188324 0.0338047 0.0809763 0.0235937 0.0268545| cost:0.100197
+PSO Estimation Has Begun, This may take some time...
+Held Parameter Estimates: 0.376648 0.0676095  0.161953 0.0471873  0.053709
+PSO Seeded At:0.128602 0.588401 0.188595 0.955829 0.135045| cost:1.16677
+PSO Estimation Has Begun, This may take some time...
+PSO Seeded At: 0.118022 0.0377951 0.0909072 0.0568641 0.0177834| cost:0.10333
+PSO Estimation Has Begun, This may take some time...
+Held Parameter Estimates: 0.236043 0.0755902  0.181814  0.113728 0.0355668
+PSO Seeded At:0.732426 0.976263 0.519792 0.355064 0.803252| cost:2.6776
+PSO Estimation Has Begun, This may take some time...
+PSO Seeded At: 0.343517 0.0639417  0.112903  0.110384 0.0187694| cost:0.111547
+PSO Estimation Has Begun, This may take some time...
+Held Parameter Estimates: 0.687035  0.127883  0.225806  0.220768 0.0375387
+PSO Seeded At:0.155916 0.421021   0.9287 0.560634 0.845471| cost:2.96403
+PSO Estimation Has Begun, This may take some time...
+PSO Seeded At: 0.271805 0.0588936  0.120096  0.122609 0.0154888| cost:0.11196
+PSO Estimation Has Begun, This may take some time...
+Held Parameter Estimates:  0.54361  0.117787  0.240192  0.245218 0.0309776
+PSO Seeded At:0.957789 0.285529 0.279273 0.122531 0.416655| cost:1.20793
+PSO Estimation Has Begun, This may take some time...
+PSO Seeded At:  0.26275 0.0618435  0.125631   0.12759 0.0155572| cost:0.113768
+PSO Estimation Has Begun, This may take some time...
+Held Parameter Estimates:   0.5255  0.123687  0.251261  0.255179 0.0311143
+PSO Seeded At:0.551388  0.87921 0.982112 0.311831 0.839914| cost:2.86066
+PSO Estimation Has Begun, This may take some time...
+slurmstepd: error: *** JOB 494506 ON r1pl-hpcf-n22 CANCELLED AT 2022-07-20T11:26:13 ***
+Job Statistics for 494506:
+           JobID       User               Start                 End    Elapsed     MaxRSS   TotalCPU      State Exit        NodeList                                  ReqTRES 
+---------------- ---------- ------------------- ------------------- ---------- ---------- ---------- ---------- ---- --------------- ---------------------------------------- 
+          494506   rsjxw007 2022-07-20T11:25:02 2022-07-20T11:26:13   00:01:11             17:32.023 CANCELLED+  0:0   r1pl-hpcf-n22     billing=16,cpu=16,mem=124992M,node=1 
+    494506.batch            2022-07-20T11:25:02 2022-07-20T11:26:14   00:01:12     17.14M  17:32.021  CANCELLED 0:15   r1pl-hpcf-n22                                          
+   494506.extern            2022-07-20T11:25:02 2022-07-20T11:26:13   00:01:11          0  00:00.001  COMPLETED  0:0   r1pl-hpcf-n22                                          
+CPU Efficiency: 92.61% of 00:18:56 core-walltime
