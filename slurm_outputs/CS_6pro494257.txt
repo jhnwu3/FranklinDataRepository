@@ -389,3 +389,11 @@ PSO Estimation Has Begun, This may take some time...
 Held Parameter Estimates:0.386836 0.269712 0.941927  0.48709 0.474037 0.180197
 PSO Seeded At: 0.970375  0.672975  0.424439 0.0276514  0.832584  0.124523| cost:23591.7
 PSO Estimation Has Begun, This may take some time...
+slurmstepd: error: *** JOB 494257 ON r1pl-hpcf-n21 CANCELLED AT 2022-07-21T16:33:52 DUE TO TIME LIMIT ***
+Job Statistics for 494257:
+           JobID       User               Start                 End    Elapsed     MaxRSS   TotalCPU      State Exit        NodeList                                  ReqTRES 
+---------------- ---------- ------------------- ------------------- ---------- ---------- ---------- ---------- ---- --------------- ---------------------------------------- 
+          494257   rsjxw007 2022-07-19T14:23:38 2022-07-21T16:33:52 2-02:10:14            31-19:45:+    TIMEOUT  0:0   r1pl-hpcf-n21     billing=16,cpu=16,mem=124992M,node=1 
+    494257.batch            2022-07-19T14:23:38 2022-07-21T16:33:53 2-02:10:15     25.09M 31-19:45:+  CANCELLED 0:15   r1pl-hpcf-n21                                          
+   494257.extern            2022-07-19T14:23:38 2022-07-21T16:33:52 2-02:10:14          0  00:00.001  COMPLETED  0:0   r1pl-hpcf-n21                                          
+CPU Efficiency: 95.15% of 33-10:43:44 core-walltime
