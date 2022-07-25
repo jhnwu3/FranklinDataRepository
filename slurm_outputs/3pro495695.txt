@@ -1,0 +1,80 @@
+Program Begin:
+** Please Make Sure That All Inputted Files are in the UNIX Line Formatting to Prevent Bugs! **
+Reading in Parameters from Configuration File!
+------ Reading in X_0! ------
+"example/3_prot_linear_sim/X/3linX.csv"
+Reading in (rows,columns): (5000,3) from X data directory
+After removing all negative rows, X has 5000 rows.
+If dimensions are unexpected of input data, please make sure to check csv files contains all possible values in each row/column.
+---------------------------
+---------------------  Parameters  --------------------
+Total Number of Runs:1
+Number of Moments:9
+Hyper Cube Width:1
+Using Times:  0 1.5
+Blind PSO --> nParts:500 Nsteps:40
+Targeted PSO --> nParts:2 Nsteps:2
+Number of Rates:5
+Particle Best Weight:3 Global Best Weight:1 Particle Inertia:6
+Redirecting Model to SBML/BNGL
+using gillespie
+Outputting data to:
+--------------------------------------------------------
+BioNetGen version 2.8.2
+Reading from file /gpfs0/home1/gddaslab/rsjxw007/CyGMM_Build/CyGMM_DockerBuild/CyGMM/example/3_prot_linear_sim/3pro.bngl (level 0)
+Read 5 parameters.
+Read 3 species.
+Read 3 observable(s).
+Read 3 reaction rule(s).
+ACTION: generate_network( 3pro )
+Iteration   0:     3 species      0 rxns  0.00e+00 CPU s
+Iteration   1:     3 species      5 rxns  0.00e+00 CPU s
+Cumulative CPU time for each rule
+Rule   1:     2 reactions 0.00e+00 CPU s 0.00e+00 CPU s/rxn
+Rule   2:     2 reactions 0.00e+00 CPU s 0.00e+00 CPU s/rxn
+Rule   3:     1 reactions 0.00e+00 CPU s 0.00e+00 CPU s/rxn
+Total   :     5 reactions 0.00e+00 CPU s 0.00e+00 CPU s/rxn
+WARNING: writeFile(): Overwriting existing file ./3pro.net.
+Wrote network in net format to ./3pro.net.
+CPU TIME: generate_network 0.00 s.
+Wrote SBML to ./3pro_sbml.xml.
+CPU TIME: writeSBML 0.00 s.
+Finished processing file /gpfs0/home1/gddaslab/rsjxw007/CyGMM_Build/CyGMM_DockerBuild/CyGMM/example/3_prot_linear_sim/3pro.bngl.
+CPU TIME: total 0.01 s.
+--------------------------------------------------------
+------- Matching Columns of X Data files to Ids -------
+P1() to column:0 with first value:3.26155
+P2() to column:1 with first value:8.43096
+P3() to column:2 with first value:10.5161
+--------------------------------------------------------
+------ SIMULATING YT! ------
+Read in Rates: 0.276782  0.837081  0.443217 0.0424412  0.304645
+------ Reading in Yt! ------
+"example/3_prot_linear_sim/Y/3linY.csv"
+Read in 5000 rows! 3 columns!
+---------------------------
+Note: We will only be using the first Yt file read in for this simulation!
+After removing all negative rows, Y has 5000 rows.
+Time Point 		 Moments
+1.5 10.8788 7.02575 10.5883 74.7425 40.3727 150.586 42.4232 53.7095  50.124
+--------------------------------------------------------
+PSO Seeded At:0.366426 0.012744  0.16934  0.29291 0.380441| cost:0.473461
+PSO Estimation Has Begun, This may take some time...
+Held Parameter Estimates:0 0 0 0 0
+Hypercubescale Max:1
+Simulated Xt Moments (note: This Reports if Graphing Enabled) For Various Times:
+For Least Cost Estimate:0.226296  0.59275 0.376001 0.144566 0.362473
+1.5 10.8289 7.03388 10.4721 74.8331 39.2343 158.471 42.2765   64.76 52.9347
+RSS (NOT GMM) COST FROM DATASET:193.525
+
+-------------- All Run Estimates: -------------------
+k1		k2		k3		k4		k5		cost		
+   0.226296     0.59275    0.376001    0.144566    0.362473 0.000705964
+CODE FINISHED RUNNING IN 55 s TIME!
+Job Statistics for 495695:
+           JobID       User               Start                 End    Elapsed     MaxRSS   TotalCPU      State Exit        NodeList                                  ReqTRES 
+---------------- ---------- ------------------- ------------------- ---------- ---------- ---------- ---------- ---- --------------- ---------------------------------------- 
+          495695   rsjxw007 2022-07-25T10:22:58 2022-07-25T10:23:54   00:00:56             25:40.489  COMPLETED  0:0   r1pl-hpcf-n24     billing=30,cpu=30,mem=234360M,node=1 
+    495695.batch            2022-07-25T10:22:58 2022-07-25T10:23:54   00:00:56     30.64M  25:40.487  COMPLETED  0:0   r1pl-hpcf-n24                                          
+   495695.extern            2022-07-25T10:22:58 2022-07-25T10:23:54   00:00:56          0  00:00.001  COMPLETED  0:0   r1pl-hpcf-n24                                          
+CPU Efficiency: 91.67% of 00:28:00 core-walltime
