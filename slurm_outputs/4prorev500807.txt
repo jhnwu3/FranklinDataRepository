@@ -1,0 +1,19 @@
+Program Begin:
+** Please Make Sure That All Inputted Files are in the UNIX Line Formatting to Prevent Bugs! **
+Reading in Parameters from Configuration File!
+terminate called after throwing an instance of 'std::out_of_range'
+  what():  vector::_M_range_check: __n (which is 22) >= this->size() (which is 22)
+/var/spool/slurmd/job500807/slurm_script: line 15: 805032 Aborted                 (core dumped) ./CyGMM -m 4pro.bngl -c Config4proDetBoot.csv -t time_steps4.csv
+Program Begin:
+** Please Make Sure That All Inputted Files are in the UNIX Line Formatting to Prevent Bugs! **
+Reading in Parameters from Configuration File!
+terminate called after throwing an instance of 'std::out_of_range'
+  what():  vector::_M_range_check: __n (which is 22) >= this->size() (which is 22)
+/var/spool/slurmd/job500807/slurm_script: line 16: 805035 Aborted                 (core dumped) ./CyGMM -m 4pro.bngl -c Config4proDetNoBoot.csv -t time_steps4.csv
+Job Statistics for 500807:
+           JobID       User               Start                 End    Elapsed     MaxRSS   TotalCPU      State Exit        NodeList                                  ReqTRES 
+---------------- ---------- ------------------- ------------------- ---------- ---------- ---------- ---------- ---- --------------- ---------------------------------------- 
+          500807   rsjxw007 2022-08-09T12:06:14 2022-08-09T12:06:15   00:00:01             00:00.190     FAILED  6:0   r1pl-hpcf-n24     billing=30,cpu=30,mem=234360M,node=1 
+    500807.batch            2022-08-09T12:06:14 2022-08-09T12:06:15   00:00:01          0  00:00.188     FAILED  6:0   r1pl-hpcf-n24                                          
+   500807.extern            2022-08-09T12:06:14 2022-08-09T12:06:15   00:00:01          0  00:00.001  COMPLETED  0:0   r1pl-hpcf-n24                                          
+CPU Efficiency: 0.00% of 00:00:30 core-walltime
