@@ -78,3 +78,152 @@ PSO Estimation Has Begun, This may take some time...
 Held Parameter Estimates:0 0 0 0 0 0
 PSO Seeded At:0.604952      0.1   0.6071  0.61324  0.91027 0.793112| cost:9.26444e+07
 PSO Estimation Has Begun, This may take some time...
+Held Parameter Estimates:0 0 0 0 0 0
+PSO Seeded At: 0.41001      0.1 0.305736 0.453098 0.653777 0.336221| cost:7.31221e+07
+PSO Estimation Has Begun, This may take some time...
+Held Parameter Estimates:0 0 0 0 0 0
+PSO Seeded At:0.806889      0.1 0.637783 0.278404 0.995733 0.586338| cost:9.98122e+07
+PSO Estimation Has Begun, This may take some time...
+Held Parameter Estimates:0 0 0 0 0 0
+PSO Seeded At:0.0106981       0.1  0.376825  0.789158  0.377147  0.278796| cost:4.88898e+07
+PSO Estimation Has Begun, This may take some time...
+Held Parameter Estimates:0 0 0 0 0 0
+PSO Seeded At:0.365582      0.1 0.286414 0.538799 0.390926 0.637138| cost:8.46079e+07
+PSO Estimation Has Begun, This may take some time...
+Held Parameter Estimates:0 0 0 0 0 0
+PSO Seeded At:0.318471      0.1 0.870114 0.275201 0.202956 0.572817| cost:9.50377e+07
+PSO Estimation Has Begun, This may take some time...
+Held Parameter Estimates:0 0 0 0 0 0
+PSO Seeded At:0.638148      0.1 0.448231 0.995268 0.366501 0.771217| cost:8.63639e+07
+PSO Estimation Has Begun, This may take some time...
+Held Parameter Estimates:0 0 0 0 0 0
+PSO Seeded At:0.0765413       0.1  0.475658   0.63419  0.769471 0.0566666| cost:1.43224e+07
+PSO Estimation Has Begun, This may take some time...
+Held Parameter Estimates:0 0 0 0 0 0
+PSO Seeded At:0.584588      0.1 0.139519 0.745564 0.287735  0.19644| cost:9.9582e+07
+PSO Estimation Has Begun, This may take some time...
+Held Parameter Estimates:0 0 0 0 0 0
+PSO Seeded At: 0.807122       0.1 0.0359018  0.680729  0.537062  0.946853| cost:3.27312e+07
+PSO Estimation Has Begun, This may take some time...
+Held Parameter Estimates:0 0 0 0 0 0
+PSO Seeded At:0.0393849       0.1  0.896277  0.184585  0.762666 0.0810252| cost:698734
+PSO Estimation Has Begun, This may take some time...
+Held Parameter Estimates:0 0 0 0 0 0
+PSO Seeded At: 0.645992       0.1  0.885166  0.464334  0.983059 0.0862231| cost:731482
+PSO Estimation Has Begun, This may take some time...
+Held Parameter Estimates:0 0 0 0 0 0
+PSO Seeded At:0.907015      0.1 0.744697 0.983949 0.361046 0.446367| cost:7.55781e+07
+PSO Estimation Has Begun, This may take some time...
+Held Parameter Estimates:0 0 0 0 0 0
+PSO Seeded At:0.503381      0.1 0.869019 0.120676 0.682384 0.756284| cost:1.3924e+08
+PSO Estimation Has Begun, This may take some time...
+Held Parameter Estimates:0 0 0 0 0 0
+PSO Seeded At:0.675574      0.1  0.77981 0.581187 0.799135 0.879539| cost:1.17689e+08
+PSO Estimation Has Begun, This may take some time...
+Held Parameter Estimates:0 0 0 0 0 0
+PSO Seeded At:0.246522      0.1 0.737355 0.936028 0.104209 0.290943| cost:3.00378e+07
+PSO Estimation Has Begun, This may take some time...
+Held Parameter Estimates:0 0 0 0 0 0
+PSO Seeded At:0.370552      0.1 0.596565 0.483812  0.34669 0.322117| cost:6.48581e+07
+PSO Estimation Has Begun, This may take some time...
+Held Parameter Estimates:0 0 0 0 0 0
+PSO Seeded At:0.536035      0.1 0.407592 0.402558 0.368697  0.44033| cost:7.41196e+07
+PSO Estimation Has Begun, This may take some time...
+Held Parameter Estimates:0 0 0 0 0 0
+PSO Seeded At: 0.986663       0.1 0.0600384   0.39771  0.306544  0.954904| cost:3.29391e+07
+PSO Estimation Has Begun, This may take some time...
+Held Parameter Estimates:0 0 0 0 0 0
+PSO Seeded At: 0.361548       0.1  0.165476  0.389558 0.0261409  0.164425| cost:6.99018e+07
+PSO Estimation Has Begun, This may take some time...
+Held Parameter Estimates:0 0 0 0 0 0
+PSO Seeded At:0.574988      0.1 0.603941 0.130149 0.809912 0.311286| cost:6.11885e+07
+PSO Estimation Has Begun, This may take some time...
+Held Parameter Estimates:0 0 0 0 0 0
+PSO Seeded At:0.770632      0.1 0.579846 0.813996 0.274986 0.494684| cost:8.48082e+07
+PSO Estimation Has Begun, This may take some time...
+Held Parameter Estimates:0 0 0 0 0 0
+PSO Seeded At:0.854928      0.1 0.890348  0.55849 0.956954 0.518629| cost:7.37607e+07
+PSO Estimation Has Begun, This may take some time...
+Held Parameter Estimates:0 0 0 0 0 0
+PSO Seeded At:0.541063      0.1 0.555445 0.994875 0.105142 0.457125| cost:7.98304e+07
+PSO Estimation Has Begun, This may take some time...
+Held Parameter Estimates:0 0 0 0 0 0
+PSO Seeded At: 0.959093       0.1  0.156792  0.174493  0.844824 0.0157347| cost:1.23847e+07
+PSO Estimation Has Begun, This may take some time...
+Held Parameter Estimates:0 0 0 0 0 0
+PSO Seeded At:  0.702307        0.1   0.860468    0.59695   0.840791 0.00979944| cost:1.61696e+06
+PSO Estimation Has Begun, This may take some time...
+Held Parameter Estimates:0 0 0 0 0 0
+PSO Seeded At:0.582448      0.1 0.942785 0.532428 0.688874 0.649535| cost:1.07498e+08
+PSO Estimation Has Begun, This may take some time...
+Held Parameter Estimates:0 0 0 0 0 0
+Hypercubescale Max:1
+Simulated Xt Moments (note: This Reports if Graphing Enabled) For Various Times:
+For Least Cost Estimate:0.0736048       0.1  0.958822  0.317423 0.0658454  0.183145
+0.5  1.87504  1765.41  207.534  9.71359  116.967  94.3746   1.2282   256291  6476.22  177.377  6566.56  909.297 -328.744  69.2825  8.00017 -23.9645  23.3634 -4683.14 -816.798  4723.69 -1170.82  665.215 -1954.55  2284.93 -580.899  128.989 -322.409
+RSS (NOT GMM) COST FROM DATASET:2.9104e+08
+2  2.55156  1512.49  206.858  162.021  15.6708  195.671  24.4781   280291  6305.14  21861.3  1618.67   4324.4 -894.202  143.198  279.782 -18.9556  12.2594 -12787.1 -25020.2  2945.68  892.132  10112.6 -1006.95  1343.42 -2327.73 -2596.71  443.983
+RSS (NOT GMM) COST FROM DATASET:2.80679e+08
+10  75.3831  507.851  134.026  1224.19   0.3676  210.974  12582.4   307689  3748.56   264935  16.0038  6704.67 -36538.9 -4857.46  29864.6 -19.3797 -834.109  8843.65  -172508  187.139  7534.87   3100.3 -5.21863  1188.49 -284.384 -11362.5  55.1827
+RSS (NOT GMM) COST FROM DATASET:6.1102e+07
+20  149.687  122.364  59.7224  1683.77  0.16486  211.177  10619.6  95463.4  1509.89   268217  3.47279  6792.78 -17501.6 -2756.73    18620 -10.1755 -1288.42  6803.06 -59215.7  64.0239  4853.78 -2496.57  2.84854  1625.52 -111.945 -9226.18  17.3916
+RSS (NOT GMM) COST FROM DATASET:4.462e+07
+30  164.651  41.5697  44.7583  1779.51 0.142418  211.199  7835.67  31666.7  527.103   263453  2.73039  6801.96 -6210.12  -873.38  10014.8 -7.65883 -1115.43  2119.37 -20853.2  45.9224  2779.06 -1397.56  2.51386  1450.35 -87.7818 -6986.97  13.1745
+RSS (NOT GMM) COST FROM DATASET:1.68696e+08
+
+-------------- All Run Estimates: -------------------
+k1		k2		k3		k4		k5		k6		cost		
+  0.07584       0.1  0.948467  0.334375   0.10843  0.177887   624.812
+ 0.287145       0.1  0.967693  0.487171  0.063212  0.192816   6991.78
+0.0776612       0.1  0.964569  0.331557      0.05   0.18597   374.009
+ 0.367025       0.1  0.944462  0.387407 0.0817201   0.18205    8454.4
+ 0.448321       0.1  0.959143  0.404169 0.0499105  0.189707   8917.77
+0.0736048       0.1  0.958822  0.317423 0.0658454  0.183145   335.119
+ 0.148851       0.1  0.938724  0.258882  0.047022  0.177293   3856.34
+ 0.118751       0.1  0.957293  0.430077 0.0499843  0.184023   2345.19
+ 0.589519       0.1  0.945854  0.293958 0.0437857   0.18356   10056.3
+ 0.343931       0.1  0.949211  0.338647      0.05  0.184241   7953.41
+ 0.311201       0.1  0.937512   0.29188 0.0517833  0.179031    7979.2
+ 0.394906       0.1    0.9617  0.396222 0.0707753  0.190577   8450.49
+ 0.590293       0.1  0.940372  0.313169 0.0554657  0.180766   10270.9
+ 0.144517       0.1  0.953433  0.353985 0.0554757  0.184399   3130.74
+ 0.364063       0.1  0.926541  0.291248 0.0978254  0.173943   9494.01
+ 0.250822       0.1  0.952354  0.342645 0.0447734  0.185515   6323.55
+ 0.184687       0.1  0.943786  0.300778 0.0504573  0.181008   4930.02
+0.0906073       0.1  0.950618  0.333756 0.0563957  0.181246   973.247
+0.0719043       0.1  0.952016   0.26339 0.0466901  0.179944   378.481
+ 0.319111       0.1  0.956142  0.404697 0.0501827  0.187248   7514.09
+ 0.200797       0.1  0.942746  0.338012 0.0508991  0.179799   5520.52
+ 0.329263       0.1  0.951795   0.47644  0.144283  0.185363   7785.18
+ 0.327413       0.1  0.947852  0.377159      0.05  0.184562    7982.2
+ 0.583911       0.1  0.961068  0.474718 0.0441929  0.190697   9859.48
+0.0766112       0.1  0.956135  0.296561 0.0535334  0.182182   346.964
+ 0.184958       0.1  0.939879  0.378502 0.0685562  0.178903   5282.59
+ 0.511192       0.1  0.946981  0.443505  0.119173  0.183914   9636.67
+ 0.640918       0.1  0.946366  0.372391  0.060215  0.183917   10302.3
+ 0.464214       0.1  0.951549  0.415639 0.0507899  0.185944   9174.14
+ 0.233546       0.1   0.95717  0.427991 0.0548975  0.187124   5920.54
+------- 95 Percent Confidence Intervals -------
+Rates | Standard Deviation
+0.293519   |   0.17605
+0.1   |   0
+0.950342   |   0.00899723
+0.362545   |   0.0636145
+0.0628758   |   0.0241943
+0.183559   |   0.00426925
+Confidence Intervals for Each Rate:
+Theta0: [0.230521,0.356518]
+Theta1: [0.1,0.1]
+Theta2: [0.947122,0.953561]
+Theta3: [0.339781,0.385309]
+Theta4: [0.054218,0.0715336]
+Theta5: [0.182031,0.185087]
+-----------------------------------------------
+CODE FINISHED RUNNING IN 34294 s TIME!
+Job Statistics for 500806:
+           JobID       User               Start                 End    Elapsed     MaxRSS   TotalCPU      State Exit        NodeList                                  ReqTRES 
+---------------- ---------- ------------------- ------------------- ---------- ---------- ---------- ---------- ---- --------------- ---------------------------------------- 
+          500806   rsjxw007 2022-08-09T11:52:41 2022-08-09T21:24:16   09:31:35            10-20:29:+  COMPLETED  0:0   r1pl-hpcf-n23     billing=30,cpu=30,mem=234360M,node=1 
+    500806.batch            2022-08-09T11:52:41 2022-08-09T21:24:16   09:31:35     42.67M 10-20:29:+  COMPLETED  0:0   r1pl-hpcf-n23                                          
+   500806.extern            2022-08-09T11:52:41 2022-08-09T21:24:16   09:31:35          0  00:00.001  COMPLETED  0:0   r1pl-hpcf-n23                                          
+CPU Efficiency: 91.15% of 11-21:47:30 core-walltime
