@@ -1,0 +1,91 @@
+Program Begin:
+** Please Make Sure That All Inputted Files are in the UNIX Line Formatting to Prevent Bugs! **
+Reading in Parameters from Configuration File!
+------ Reading in X_0! ------
+"example/6_prot_nonlinear_int/X/X.csv"
+Reading in (rows,columns): (5000,6) from X data directory
+After removing all negative rows, X has 5000 rows.
+If dimensions are unexpected of input data, please make sure to check csv files contains all possible values in each row/column.
+---------------------------
+---------------------  Parameters  --------------------
+Total Number of Runs:30
+Number of Moments:27
+Theta Held Index:1 held value:0.1
+Hyper Cube Width:1
+Using Times:  0 0.5   2  10  20  30
+Blind PSO --> nParts:150 Nsteps:30
+Targeted PSO --> nParts:2 Nsteps:2
+Number of Rates:6
+Particle Best Weight:3 Global Best Weight:1 Particle Inertia:6
+Redirecting Model to SBML/BNGL
+Modeling with Gillespie
+Number of Steps of Integration Determined:1
+Using Matrix Inverse!
+Outputting data to:frontend/output/
+--------------------------------------------------------
+BioNetGen version 2.8.2
+Reading from file /gpfs0/home1/gddaslab/rsjxw007/CyGMM_Build/CyGMM_DockerBuild/CyGMM/example/6_prot_nonlinear_int/6pro.bngl (level 0)
+Read 6 parameters.
+Read 6 species.
+Read 6 observable(s).
+Read 4 reaction rule(s).
+ACTION: generate_network( 6pro )
+Iteration   0:     6 species      0 rxns  0.00e+00 CPU s
+Iteration   1:     6 species      6 rxns  0.00e+00 CPU s
+Cumulative CPU time for each rule
+Rule   1:     2 reactions 0.00e+00 CPU s 0.00e+00 CPU s/rxn
+Rule   2:     1 reactions 0.00e+00 CPU s 0.00e+00 CPU s/rxn
+Rule   3:     2 reactions 0.00e+00 CPU s 0.00e+00 CPU s/rxn
+Rule   4:     1 reactions 0.00e+00 CPU s 0.00e+00 CPU s/rxn
+Total   :     6 reactions 0.00e+00 CPU s 0.00e+00 CPU s/rxn
+WARNING: writeFile(): Overwriting existing file ./6pro.net.
+Wrote network in net format to ./6pro.net.
+CPU TIME: generate_network 0.00 s.
+Wrote SBML to ./6pro_sbml.xml.
+CPU TIME: writeSBML 0.01 s.
+Finished processing file /gpfs0/home1/gddaslab/rsjxw007/CyGMM_Build/CyGMM_DockerBuild/CyGMM/example/6_prot_nonlinear_int/6pro.bngl.
+CPU TIME: total 0.02 s.
+--------------------------------------------------------
+------- Matching Columns of X Data files to Ids -------
+Syk() to column:0 with first value:192
+Vav() to column:1 with first value:1463
+SykVav() to column:2 with first value:5
+pVav() to column:3 with first value:5
+SHP1() to column:4 with first value:435
+SHP1PVav() to column:5 with first value:6
+--------------------------------------------------------
+------ SIMULATING YT! ------
+Read in Rates: 0.1  0.1 0.95 0.17 0.05 0.18
+------ Reading in Yt! ------
+"example/6_prot_nonlinear_int/Y/Yt3.csv"
+Read in 5000 rows! 6 columns!
+"example/6_prot_nonlinear_int/Y/Yt0.csv"
+Read in 5000 rows! 6 columns!
+"example/6_prot_nonlinear_int/Y/Yt4.csv"
+Read in 5000 rows! 6 columns!
+"example/6_prot_nonlinear_int/Y/Yt1.csv"
+Read in 5000 rows! 6 columns!
+"example/6_prot_nonlinear_int/Y/Yt2.csv"
+Read in 5000 rows! 6 columns!
+---------------------------
+Note: We will only be using the first Yt file read in for this simulation!
+After removing all negative rows, Y has 5000 rows.
+Time Point 		 Moments
+0.5  153.255  111.362  57.1026  1690.47     0.21   211.43  10605.2  90912.5  1484.47   273288 0.528006   6750.3 -16491.4 -2642.47  17349.2 -6.75058 -1305.97   6568.9 -52129.1  49.4019   5026.2 -1527.89  2.14608  1602.81 -75.4584 -8471.14  11.1736
+2  156.616  92.9764  53.7422  1712.22   0.2144  211.425  9942.19  75963.5   1233.1   273891 0.462525  6747.52 -14033.5 -2185.27  15610.2 -7.82059  -1281.1   5493.9 -43914.3  45.1407   4621.4 -1377.97  2.84784  1578.31  -80.501 -8031.88  12.5953
+10  165.732  40.8376  44.6264  1773.45   0.1962  211.444  8133.35  32083.4  580.798   276458  0.52141  6754.64 -6307.09 -954.689  10363.2 -5.04275 -1148.36  2232.98 -19870.2   29.919  3071.81 -1172.81   2.0135  1443.62  -59.072  -6356.5  9.00737
+20  169.005  19.1398  41.3534  1798.42    0.189  211.451  7330.79  14410.5  370.948   278654 0.335746  6758.25 -2795.69 -448.488  7707.16 -3.85544 -1074.16  874.998 -10879.2  22.2164  1986.45 -965.822  1.49091  1368.77 -54.3211 -5194.71  7.29226
+30  169.704   11.737  40.6542  1806.54    0.205  211.435  7099.61  8419.09  305.234   278517 0.306236  6756.86  -1560.7 -300.041  6806.21 -3.16171 -1015.64  452.032 -7373.61  15.4462  1428.09 -958.785  1.64482   1309.4 -54.8677 -4569.13  8.00407
+--------------------------------------------------------
+PSO Seeded At:0.216927      0.1 0.276429 0.697412 0.535779 0.743478| cost:4.95537e+06
+PSO Estimation Has Begun, This may take some time...
+PSO Seeded At:0.734758      0.1 0.522993 0.538398 0.905503 0.671031| cost:3.65902e+06
+PSO Estimation Has Begun, This may take some time...
+PSO Seeded At:  0.445476        0.1   0.640982  0.0437529 0.00870395   0.340102| cost:753580
+PSO Estimation Has Begun, This may take some time...
+PSO Seeded At:  0.823329        0.1   0.385637  0.0117264 0.00839346   0.228706| cost:997752
+PSO Estimation Has Begun, This may take some time...
+PSO Seeded At:0.956825      0.1 0.298746 0.581056 0.249028 0.506369| cost:4.66652e+06
+PSO Estimation Has Begun, This may take some time...
+PSO Seeded At: 0.478318       0.1  0.226527  0.751521   0.54356 0.0241217| cost:1.32408e+06
+PSO Estimation Has Begun, This may take some time...
