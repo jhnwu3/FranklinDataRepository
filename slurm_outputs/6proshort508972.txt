@@ -69,3 +69,9 @@ Time Point 		 Moments
 --------------------------------------------------------
 PSO Seeded At:0.907469      0.1 0.115786 0.544408 0.476685 0.792918| cost:9.75235e+06
 PSO Estimation Has Begun, This may take some time...
+0.120959      0.1   0.9572 0.520608 0.874332 0.162724  2127.46
+PSO Seeded At:0.454481      0.1 0.471464 0.252325 0.435204 0.673034| cost:1.03535e+07
+PSO Estimation Has Begun, This may take some time...
+0.0897995       0.1  0.939116  0.210356  0.413033  0.138414   910.287
+PSO Seeded At:0.122465      0.1 0.603326 0.868483 0.714026 0.194942| cost:1.5348e+06
+PSO Estimation Has Begun, This may take some time...
