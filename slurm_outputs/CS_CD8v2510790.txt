@@ -63,3 +63,118 @@ pS6() to column:3 with first value:4.42
 --------------------------------------------------------
 PSO Seeded At:0.764672 0.637586 0.104004 0.369748  0.35166| cost:0.747959
 PSO Estimation Has Begun, This may take some time...
+  0.553012 0.00307541   0.164702   0.761254   0.145534  0.0767559
+PSO Seeded At:0.500444 0.739381 0.915576 0.853801 0.431751| cost:4.3771
+PSO Estimation Has Begun, This may take some time...
+ 0.686525 0.0227193  0.175305   0.65459  0.155408 0.0800006
+PSO Seeded At:0.855492 0.705127 0.116567 0.904701 0.180209| cost:2.26943
+PSO Estimation Has Begun, This may take some time...
+  0.273513 0.00364715   0.159206   0.656588   0.135291  0.0797597
+PSO Seeded At:0.262495 0.443591 0.988774 0.411877 0.284423| cost:7.67429
+PSO Estimation Has Begun, This may take some time...
+  0.685888 0.00819702   0.171117   0.780145   0.151266  0.0767982
+PSO Seeded At:0.273041 0.268856 0.314219 0.408688 0.940954| cost:2.2681
+PSO Estimation Has Begun, This may take some time...
+ 0.653798 0.0198842  0.173072  0.600788  0.156758 0.0815983
+PSO Seeded At: 0.98213 0.763046 0.101471 0.457076   0.4965| cost:0.826831
+PSO Estimation Has Begun, This may take some time...
+ 0.816287 0.0204828  0.175381  0.785628  0.162774 0.0772739
+PSO Seeded At: 0.95877 0.813203 0.276871  0.81061 0.303026| cost:1.59215
+PSO Estimation Has Begun, This may take some time...
+ 0.740117 0.0122532  0.174881  0.769993  0.156112 0.0769894
+PSO Seeded At: 0.203653 0.0464979  0.361028  0.489887   0.24658| cost:0.28891
+PSO Estimation Has Begun, This may take some time...
+  0.618754 0.00638394   0.168635   0.750644    0.14894  0.0767976
+PSO Seeded At: 0.49593 0.962464 0.415579 0.243443 0.262752| cost:4.67493
+PSO Estimation Has Begun, This may take some time...
+ 0.533934 0.0106741  0.170538  0.655247  0.145579 0.0789032
+PSO Seeded At:0.814249 0.558695 0.972429  0.54445 0.405994| cost:4.25365
+PSO Estimation Has Begun, This may take some time...
+  0.57964 0.0114888  0.166795  0.779203  0.152161 0.0772339
+PSO Seeded At:0.327369 0.933191 0.650779 0.606863 0.467301| cost:2.20575
+PSO Estimation Has Begun, This may take some time...
+  0.387053 0.00390704   0.162457   0.682729   0.140503  0.0782994
+PSO Seeded At: 0.547131  0.924299 0.0295317  0.091418  0.915057| cost:2.07155
+PSO Estimation Has Begun, This may take some time...
+  0.467663 0.00584398   0.167437   0.697439   0.144022  0.0778211
+PSO Seeded At:0.819809 0.656876 0.524919 0.785965 0.197012| cost:5.62513
+PSO Estimation Has Begun, This may take some time...
+  0.390241 0.00296325   0.165303   0.699019   0.140874  0.0780252
+PSO Seeded At:0.118248 0.913847 0.498478 0.870026 0.319236| cost:3.54872
+PSO Estimation Has Begun, This may take some time...
+  0.487704 0.00951694   0.163793    0.76272    0.14868  0.0777087
+PSO Seeded At: 0.441455  0.978914  0.824076  0.845383 0.0102053| cost:91.5413
+PSO Estimation Has Begun, This may take some time...
+ 0.581254   0.01268  0.169719  0.630365  0.146337 0.0795704
+PSO Seeded At: 0.728999 0.0906434 0.0399769  0.907046  0.196604| cost:0.286245
+PSO Estimation Has Begun, This may take some time...
+ 0.727204 0.0137393  0.172872  0.762502  0.156642 0.0770279
+PSO Seeded At: 0.858779  0.541301   0.28508  0.691365 0.0482724| cost:5.62422
+PSO Estimation Has Begun, This may take some time...
+  0.577546 0.00976267   0.167802   0.618102   0.145899  0.0794946
+PSO Seeded At:0.131675 0.974339 0.516236 0.137149 0.770581| cost:1.14076
+PSO Estimation Has Begun, This may take some time...
+  0.685762 0.00700965   0.170627   0.761005    0.15349  0.0767798
+PSO Seeded At: 0.427256  0.339004 0.0905625  0.889092  0.400304| cost:0.618262
+PSO Estimation Has Begun, This may take some time...
+ 0.590738 0.0190232   0.17421  0.711808  0.157655 0.0787854
+PSO Seeded At: 0.33912 0.468295 0.891714 0.221752  0.20229| cost:10.7345
+PSO Estimation Has Begun, This may take some time...
+ 0.546233 0.0155289  0.166229   0.78236  0.152548   0.07783
+PSO Seeded At:0.696318 0.845112 0.956399 0.685289 0.534213| cost:3.0904
+PSO Estimation Has Begun, This may take some time...
+  0.308647 0.00373224   0.159313   0.707842   0.136828  0.0787926
+PSO Seeded At: 0.101966  0.392848  0.280023 0.0386934  0.852786| cost:1.99391
+PSO Estimation Has Begun, This may take some time...
+  0.458956 0.00521266   0.167561    0.69389    0.14216  0.0779156
+PSO Seeded At:0.478328 0.950258 0.418412 0.873775 0.615605| cost:0.705361
+PSO Estimation Has Begun, This may take some time...
+  0.537725 0.00674766   0.167834   0.729855   0.146784   0.077191
+PSO Seeded At:0.425781 0.490217 0.442474 0.560789 0.241179| cost:1.75739
+PSO Estimation Has Begun, This may take some time...
+ 0.796311 0.0172863  0.176389  0.735521  0.159747 0.0776023
+PSO Seeded At:0.0564856 0.0365847  0.420365  0.528424   0.44989| cost:0.751043
+PSO Estimation Has Begun, This may take some time...
+ 0.613002 0.0093793   0.16886  0.766906  0.150576 0.0769098
+PSO Seeded At: 0.941075   0.85792  0.525492  0.376508 0.0336239| cost:27.3697
+PSO Estimation Has Begun, This may take some time...
+ 0.621394 0.0148767  0.168519  0.795433  0.152725 0.0772648
+PSO Seeded At:0.0044409  0.686963  0.120785  0.572729  0.495182| cost:0.859696
+PSO Estimation Has Begun, This may take some time...
+ 0.673926  0.011498  0.169927   0.81732   0.15616 0.0769598
+PSO Seeded At:0.176991 0.765219  0.27222 0.289282 0.376088| cost:0.867461
+PSO Estimation Has Begun, This may take some time...
+ 0.673783 0.0085874   0.16782  0.726349    0.1503 0.0770856
+PSO Seeded At: 0.671164  0.615114  0.496864  0.329304 0.0877397| cost:10.0288
+PSO Estimation Has Begun, This may take some time...
+  0.650554 0.00635098   0.169724   0.751244   0.150632   0.076767
+PSO Seeded At: 0.334088   0.28168  0.625958  0.632115 0.0661934| cost:8.35395
+PSO Estimation Has Begun, This may take some time...
+ 0.623836 0.0144507  0.165097  0.664461   0.15071 0.0788676
+2 11.4001 11.6166 6.99429 20.1903 78.5186 103.125 32.3871  1559.3 20.1823 7.65136 8.78244 34.0783 43.5019 68.8725
+For Least Cost Estimate:  0.553012 0.00307541   0.164702   0.761254   0.145534
+RSS (NOT GMM) COST FROM DATASET:199788
+11.4001 11.6166 6.99429 20.1903 78.5186 103.125 32.3871  1559.3 20.1823 7.65136 8.78244 34.0783 43.5019 68.8725
+All Moments Across Time?
+All Moments Across Time?
+All Moments Across Time?
+All Moments Across Time?
+All Moments Across Time?
+All Moments Across Time?
+All Moments Across Time?
+All Moments Across Time?
+All Moments Across Time?
+All Moments Across Time?
+All Moments Across Time?
+All Moments Across Time?
+All Moments Across Time?
+All Moments Across Time?
+CyGMM: /export/apps/easybuild/software/Eigen/3.3.9-GCCcore-10.3.0/include/Eigen/src/Core/DenseCoeffsBase.h:425: Eigen::DenseCoeffsBase<Derived, 1>::Scalar& Eigen::DenseCoeffsBase<Derived, 1>::operator()(Eigen::Index) [with Derived = Eigen::Matrix<double, -1, 1>; Eigen::DenseCoeffsBase<Derived, 1>::Scalar = double; Eigen::Index = long int]: Assertion `index >= 0 && index < size()' failed.
+/var/spool/slurmd/job510790/slurm_script: line 9: 1767727 Aborted                 (core dumped) ./CyGMM -m 4proV2.bngl -c configs/ConfigCD8_1.csv -x example/4_prot_CD3_CD8_CD28/1min_2min/X/ -y example/4_prot_CD3_CD8_CD28/1min_2min/Y/ -t time_steps4.csv -o frontend/output/CD8
+Job Statistics for 510790:
+           JobID       User               Start                 End    Elapsed     MaxRSS   TotalCPU      State Exit        NodeList                                  ReqTRES 
+---------------- ---------- ------------------- ------------------- ---------- ---------- ---------- ---------- ---- --------------- ---------------------------------------- 
+          510790   rsjxw007 2022-08-22T11:44:16 2022-08-22T11:47:18   00:03:02              01:11:04     FAILED  6:0   r1pl-hpcf-n21     billing=30,cpu=30,mem=234360M,node=1 
+    510790.batch            2022-08-22T11:44:16 2022-08-22T11:47:18   00:03:02     30.68M   01:11:04     FAILED  6:0   r1pl-hpcf-n21                                          
+   510790.extern            2022-08-22T11:44:16 2022-08-22T11:47:18   00:03:02          0  00:00.001  COMPLETED  0:0   r1pl-hpcf-n21                                          
+CPU Efficiency: 78.10% of 01:31:00 core-walltime
