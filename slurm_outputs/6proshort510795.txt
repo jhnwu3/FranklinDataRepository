@@ -70,3 +70,291 @@ Time Point 		 Moments
 --------------------------------------------------------
 PSO Seeded At:0.260003      0.1 0.879341 0.109816 0.851315 0.967708| cost:1.53256e+08
 PSO Estimation Has Begun, This may take some time...
+0.180825      0.1 0.975771 0.461506 0.412092 0.181381  4521.58
+PSO Seeded At:  0.53408       0.1  0.956147 0.0830971  0.483841  0.103561| cost:31579.1
+PSO Estimation Has Begun, This may take some time...
+0.0765459       0.1  0.962844   0.44619  0.586857  0.167939   689.227
+PSO Seeded At: 0.224141       0.1  0.896239  0.998198  0.612806 0.0959295| cost:80436.6
+PSO Estimation Has Begun, This may take some time...
+0.662833      0.1 0.960103 0.389421   0.4327 0.170836  10044.4
+PSO Seeded At: 0.626041       0.1 0.0228593  0.304469  0.710449  0.536352| cost:1.27274e+07
+PSO Estimation Has Begun, This may take some time...
+0.182946      0.1 0.968171 0.452678 0.478829 0.174718  4638.18
+PSO Seeded At:0.751467      0.1 0.331953 0.405977 0.329055 0.209091| cost:1.44735e+07
+PSO Estimation Has Begun, This may take some time...
+0.0765511       0.1  0.970316  0.739988  0.715003  0.180796    949.65
+PSO Seeded At: 0.272796       0.1  0.426087  0.313711  0.501264 0.0837266| cost:2.60915e+06
+PSO Estimation Has Begun, This may take some time...
+0.0809636       0.1  0.964464  0.339531  0.489916  0.164175   756.093
+PSO Seeded At:0.213018      0.1 0.473338 0.674744 0.206565 0.713426| cost:2.00791e+07
+PSO Estimation Has Begun, This may take some time...
+0.107404      0.1 0.969817 0.716321 0.258975  0.19352   2522.3
+PSO Seeded At:0.877592      0.1 0.134813 0.253749 0.230981 0.222502| cost:1.35106e+07
+PSO Estimation Has Begun, This may take some time...
+0.356597      0.1 0.953357 0.364761 0.563275 0.160664  8032.17
+PSO Seeded At:0.190531      0.1 0.685485 0.672128 0.665282 0.156962| cost:538021
+PSO Estimation Has Begun, This may take some time...
+  0.5704      0.1 0.977375 0.593218  0.34034 0.191379  9983.25
+PSO Seeded At: 0.800903       0.1  0.191539 0.0540301  0.519732  0.891633| cost:9.38079e+06
+PSO Estimation Has Begun, This may take some time...
+0.079079      0.1 0.940318 0.258919 0.551479 0.137695  875.412
+PSO Seeded At: 0.856103       0.1  0.208334  0.156102 0.0152004  0.960679| cost:1.01062e+07
+PSO Estimation Has Begun, This may take some time...
+0.861305      0.1 0.942771  0.27689 0.546912 0.147197  10774.9
+PSO Seeded At:0.202383      0.1 0.292765 0.296416 0.512771 0.638205| cost:1.06032e+07
+PSO Estimation Has Begun, This may take some time...
+0.0743995       0.1  0.947269  0.247218  0.459751  0.147017   625.614
+PSO Seeded At:  0.110548        0.1  0.0642006 0.00631957    0.38934  0.0832405| cost:1.14562e+07
+PSO Estimation Has Begun, This may take some time...
+0.0804911       0.1  0.968023  0.347834  0.349552  0.172684   754.619
+PSO Seeded At:0.137648      0.1 0.439068 0.671242  0.41947 0.100691| cost:2.41705e+06
+PSO Estimation Has Begun, This may take some time...
+0.136279      0.1 0.953927 0.255794 0.253517 0.167097     2853
+PSO Seeded At:0.0586412       0.1 0.0361133   0.56512  0.913168  0.559513| cost:1.23216e+07
+PSO Estimation Has Begun, This may take some time...
+0.0743565       0.1  0.937032  0.212936  0.544474  0.129452   754.409
+PSO Seeded At:0.786401      0.1 0.974262 0.458102 0.698934 0.168864| cost:11086.9
+PSO Estimation Has Begun, This may take some time...
+0.129737      0.1 0.959027 0.398254 0.559388 0.165217  2392.96
+PSO Seeded At:  0.16191       0.1  0.874175  0.927096 0.0325406  0.925341| cost:1.1005e+08
+PSO Estimation Has Begun, This may take some time...
+0.343561      0.1 0.954863 0.692531 0.766125 0.174089  8181.08
+PSO Seeded At:0.502077      0.1 0.924564 0.839736 0.779136 0.601477| cost:6.18841e+07
+PSO Estimation Has Begun, This may take some time...
+0.0734098       0.1  0.926034  0.167441  0.466886  0.118211    913.66
+PSO Seeded At: 0.822366       0.1  0.260142 0.0891067  0.998133   0.80448| cost:9.14033e+06
+PSO Estimation Has Begun, This may take some time...
+ 0.128375       0.1  0.899486 0.0993994  0.523355 0.0677825   3936.58
+PSO Seeded At:0.500745      0.1 0.846702 0.629415 0.609434 0.807079| cost:1.10213e+08
+PSO Estimation Has Begun, This may take some time...
+0.0767636       0.1  0.970208  0.671189  0.547579  0.182804   1014.29
+PSO Seeded At:0.960472      0.1 0.617149 0.121683 0.329793 0.760816| cost:6.36373e+07
+PSO Estimation Has Begun, This may take some time...
+0.263258      0.1 0.983276 0.720984 0.452029 0.193909     7022
+PSO Seeded At:0.185605      0.1 0.556175 0.102843 0.620156 0.301395| cost:2.46518e+07
+PSO Estimation Has Begun, This may take some time...
+0.0745067       0.1  0.953019  0.266116  0.397167  0.156399   586.252
+PSO Seeded At: 0.406513       0.1  0.179016 0.0195914  0.369508   0.93655| cost:8.73155e+06
+PSO Estimation Has Begun, This may take some time...
+0.0747231       0.1  0.957021  0.265226  0.320736  0.162975   578.308
+PSO Seeded At:0.669256      0.1 0.232302 0.630402 0.961914 0.639984| cost:1.085e+07
+PSO Estimation Has Begun, This may take some time...
+0.668299      0.1 0.960506 0.567826 0.701171 0.171995  10323.5
+PSO Seeded At:0.0682233       0.1  0.266053  0.293053  0.532199  0.510694| cost:1.13989e+07
+PSO Estimation Has Begun, This may take some time...
+0.599239      0.1 0.944114 0.284357 0.653455 0.140156  10035.2
+PSO Seeded At:0.688317      0.1  0.27314 0.511857 0.974853 0.968301| cost:9.97929e+06
+PSO Estimation Has Begun, This may take some time...
+0.0745111       0.1  0.943733   0.30862  0.698107  0.140529    685.58
+PSO Seeded At:0.0286241       0.1  0.842429  0.906024 0.0101208 0.0306114| cost:162301
+PSO Estimation Has Begun, This may take some time...
+0.0785374       0.1  0.973574  0.760254    0.5898  0.186756   1103.87
+PSO Seeded At: 0.235758       0.1 0.0756245 0.0393473 0.0403492   0.51754| cost:1.12267e+07
+PSO Estimation Has Begun, This may take some time...
+0.259883      0.1 0.948805    0.313 0.511945 0.156341  6603.24
+PSO Seeded At:0.642858      0.1 0.112375 0.758554 0.656024 0.714484| cost:1.10662e+07
+PSO Estimation Has Begun, This may take some time...
+0.280924      0.1 0.963204 0.545061  0.50289 0.178532  7088.77
+PSO Seeded At:0.958201      0.1 0.286632 0.616675 0.576665 0.947825| cost:1.00832e+07
+PSO Estimation Has Begun, This may take some time...
+0.0747067       0.1  0.955734  0.378133  0.581252  0.159788   630.289
+0.5  1.84489  1764.93  207.564  11.6408  118.439  92.9032   1.1908   256322  6478.39   195.96  6440.58   879.04 -323.792  68.2196  8.53071 -23.0468  22.4544 -4699.56 -888.179  4667.68 -1114.96  726.851 -1903.67  2234.04 -639.118  139.508  -244.29
+For Least Cost Estimate:0.0747231       0.1  0.957021  0.265226  0.320736  0.162975
+RSS (NOT GMM) COST FROM DATASET:2.89982e+08
+ 1.84489  1764.93  207.564  11.6408  118.439  92.9032   1.1908   256322  6478.39   195.96  6440.58   879.04 -323.792  68.2196  8.53071 -23.0468  22.4544 -4699.56 -888.179  4667.68 -1114.96  726.851 -1903.67  2234.04 -639.118  139.508  -244.29
+2  2.52794  1507.23  206.881  168.529  16.9441  194.398   24.892   280436  6305.64  21763.8  1558.41  4275.97 -894.439  142.741  279.659 -19.3791  12.9872 -12850.1 -25062.4  2998.68  762.889    10158 -1024.56  1360.73 -2429.51  -2424.3   498.33
+For Least Cost Estimate:0.0747231       0.1  0.957021  0.265226  0.320736  0.162975
+RSS (NOT GMM) COST FROM DATASET:2.75751e+08
+ 2.52794  1507.23  206.881  168.529  16.9441  194.398   24.892   280436  6305.64  21763.8  1558.41  4275.97 -894.439  142.741  279.659 -19.3791  12.9872 -12850.1 -25062.4  2998.68  762.889    10158 -1024.56  1360.73 -2429.51  -2424.3   498.33
+7  36.5301  774.268  172.879  919.516  0.96818  210.374  7330.71   357085  3789.13   200515  36.5422  6584.09 -26019.5 -2251.91  18972.5 -24.2518 -287.662 -3938.74  -162792  364.841  6237.16  13575.1 -34.5294  676.222  -505.73 -9409.03  105.203
+For Least Cost Estimate:0.0747231       0.1  0.957021  0.265226  0.320736  0.162975
+RSS (NOT GMM) COST FROM DATASET:4.21348e+08
+ 36.5301  774.268  172.879  919.516  0.96818  210.374  7330.71   357085  3789.13   200515  36.5422  6584.09 -26019.5 -2251.91  18972.5 -24.2518 -287.662 -3938.74  -162792  364.841  6237.16  13575.1 -34.5294  676.222  -505.73 -9409.03  105.203
+10   78.722  483.544  130.687     1252 0.536388  210.805  13046.3   293777     3859   256312  9.04779  6715.99 -36404.8 -5144.65  29502.9 -22.4491 -770.883  9590.51  -161690  193.819  6676.18  2756.31 -3.70347  1126.81 -286.859   -10457  53.0006
+For Least Cost Estimate:0.0747231       0.1  0.957021  0.265226  0.320736  0.162975
+RSS (NOT GMM) COST FROM DATASET:5.97963e+08
+  78.722  483.544  130.687     1252 0.536388  210.805  13046.3   293777     3859   256312  9.04779  6715.99 -36404.8 -5144.65  29502.9 -22.4491 -770.883  9590.51  -161690  193.819  6676.18  2756.31 -3.70347  1126.81 -286.859   -10457  53.0006
+All Moments Across Time?
+All Moments Across Time?
+All Moments Across Time?
+All Moments Across Time?
+All Moments Across Time?
+All Moments Across Time?
+All Moments Across Time?
+All Moments Across Time?
+All Moments Across Time?
+All Moments Across Time?
+All Moments Across Time?
+All Moments Across Time?
+All Moments Across Time?
+All Moments Across Time?
+All Moments Across Time?
+All Moments Across Time?
+All Moments Across Time?
+All Moments Across Time?
+All Moments Across Time?
+All Moments Across Time?
+All Moments Across Time?
+All Moments Across Time?
+All Moments Across Time?
+All Moments Across Time?
+All Moments Across Time?
+All Moments Across Time?
+All Moments Across Time?
+All Moments Across Time?
+All Moments Across Time?
+All Moments Across Time?
+All Moments Across Time?
+All Moments Across Time?
+All Moments Across Time?
+All Moments Across Time?
+All Moments Across Time?
+All Moments Across Time?
+All Moments Across Time?
+All Moments Across Time?
+All Moments Across Time?
+All Moments Across Time?
+All Moments Across Time?
+All Moments Across Time?
+All Moments Across Time?
+All Moments Across Time?
+All Moments Across Time?
+All Moments Across Time?
+All Moments Across Time?
+All Moments Across Time?
+All Moments Across Time?
+All Moments Across Time?
+All Moments Across Time?
+All Moments Across Time?
+All Moments Across Time?
+All Moments Across Time?
+All Moments Across Time?
+All Moments Across Time?
+All Moments Across Time?
+All Moments Across Time?
+All Moments Across Time?
+All Moments Across Time?
+All Moments Across Time?
+All Moments Across Time?
+All Moments Across Time?
+All Moments Across Time?
+All Moments Across Time?
+All Moments Across Time?
+All Moments Across Time?
+All Moments Across Time?
+All Moments Across Time?
+All Moments Across Time?
+All Moments Across Time?
+All Moments Across Time?
+All Moments Across Time?
+All Moments Across Time?
+All Moments Across Time?
+All Moments Across Time?
+All Moments Across Time?
+All Moments Across Time?
+All Moments Across Time?
+All Moments Across Time?
+All Moments Across Time?
+All Moments Across Time?
+All Moments Across Time?
+All Moments Across Time?
+All Moments Across Time?
+All Moments Across Time?
+All Moments Across Time?
+All Moments Across Time?
+All Moments Across Time?
+All Moments Across Time?
+All Moments Across Time?
+All Moments Across Time?
+All Moments Across Time?
+All Moments Across Time?
+All Moments Across Time?
+All Moments Across Time?
+All Moments Across Time?
+All Moments Across Time?
+All Moments Across Time?
+All Moments Across Time?
+All Moments Across Time?
+All Moments Across Time?
+All Moments Across Time?
+All Moments Across Time?
+All Moments Across Time?
+All Moments Across Time?
+All Moments Across Time?
+All Moments Across Time?
+All Moments Across Time?
+All Moments Across Time?
+All Moments Across Time?
+All Moments Across Time?
+All Moments Across Time?
+All Moments Across Time?
+All Moments Across Time?
+All Moments Across Time?
+All Moments Across Time?
+All Moments Across Time?
+All Moments Across Time?
+All Moments Across Time?
+python3: can't open file '/gpfs0/home1/gddaslab/rsjxw007/CyGMM_Build/CyGMM_DockerBuild/CyGMM/graph.py': [Errno 2] No such file or directory
+python3: can't open file '/gpfs0/home1/gddaslab/rsjxw007/CyGMM_Build/CyGMM_DockerBuild/CyGMM/graph.py': [Errno 2] No such file or directory
+python3: can't open file '/gpfs0/home1/gddaslab/rsjxw007/CyGMM_Build/CyGMM_DockerBuild/CyGMM/graph.py': [Errno 2] No such file or directory
+python3: can't open file '/gpfs0/home1/gddaslab/rsjxw007/CyGMM_Build/CyGMM_DockerBuild/CyGMM/graph.py': [Errno 2] No such file or directory
+python3: can't open file '/gpfs0/home1/gddaslab/rsjxw007/CyGMM_Build/CyGMM_DockerBuild/CyGMM/graph.py': [Errno 2] No such file or directory
+Program returned normally, exit code 2
+Program returned normally, exit code 2
+
+-------------- All Run Estimates: -------------------
+k1 k2 k3 k4 k5 k6 cost 
+ 0.180825       0.1  0.975771  0.461506  0.412092  0.181381   4521.58
+0.0765459       0.1  0.962844   0.44619  0.586857  0.167939   689.227
+ 0.662833       0.1  0.960103  0.389421    0.4327  0.170836   10044.4
+ 0.182946       0.1  0.968171  0.452678  0.478829  0.174718   4638.18
+0.0765511       0.1  0.970316  0.739988  0.715003  0.180796    949.65
+0.0809636       0.1  0.964464  0.339531  0.489916  0.164175   756.093
+ 0.107404       0.1  0.969817  0.716321  0.258975   0.19352    2522.3
+ 0.356597       0.1  0.953357  0.364761  0.563275  0.160664   8032.17
+   0.5704       0.1  0.977375  0.593218   0.34034  0.191379   9983.25
+ 0.079079       0.1  0.940318  0.258919  0.551479  0.137695   875.412
+ 0.861305       0.1  0.942771   0.27689  0.546912  0.147197   10774.9
+0.0743995       0.1  0.947269  0.247218  0.459751  0.147017   625.614
+0.0804911       0.1  0.968023  0.347834  0.349552  0.172684   754.619
+ 0.136279       0.1  0.953927  0.255794  0.253517  0.167097      2853
+0.0743565       0.1  0.937032  0.212936  0.544474  0.129452   754.409
+ 0.129737       0.1  0.959027  0.398254  0.559388  0.165217   2392.96
+ 0.343561       0.1  0.954863  0.692531  0.766125  0.174089   8181.08
+0.0734098       0.1  0.926034  0.167441  0.466886  0.118211    913.66
+ 0.128375       0.1  0.899486 0.0993994  0.523355 0.0677825   3936.58
+0.0767636       0.1  0.970208  0.671189  0.547579  0.182804   1014.29
+ 0.263258       0.1  0.983276  0.720984  0.452029  0.193909      7022
+0.0745067       0.1  0.953019  0.266116  0.397167  0.156399   586.252
+0.0747231       0.1  0.957021  0.265226  0.320736  0.162975   578.308
+ 0.668299       0.1  0.960506  0.567826  0.701171  0.171995   10323.5
+ 0.599239       0.1  0.944114  0.284357  0.653455  0.140156   10035.2
+0.0745111       0.1  0.943733   0.30862  0.698107  0.140529    685.58
+0.0785374       0.1  0.973574  0.760254    0.5898  0.186756   1103.87
+ 0.259883       0.1  0.948805     0.313  0.511945  0.156341   6603.24
+ 0.280924       0.1  0.963204  0.545061   0.50289  0.178532   7088.77
+0.0747067       0.1  0.955734  0.378133  0.581252  0.159788   630.289
+------- 95 Percent Confidence Intervals -------
+Rates | Standard Deviation
+0.226714   |   0.223037
+0.1   |   0
+0.956139   |   0.0169399
+0.418053   |   0.188027
+0.508519   |   0.129345
+0.161401   |   0.0259214
+Confidence Intervals for Each Rate:
+Theta0: [0.146901,0.306526]
+Theta1: [0.1,0.1]
+Theta2: [0.950077,0.962201]
+Theta3: [0.350769,0.485338]
+Theta4: [0.462233,0.554804]
+Theta5: [0.152125,0.170677]
+-----------------------------------------------
+CODE FINISHED RUNNING IN 20309 s TIME!
+Job Statistics for 510795:
+           JobID       User               Start                 End    Elapsed     MaxRSS   TotalCPU      State Exit        NodeList                                  ReqTRES 
+---------------- ---------- ------------------- ------------------- ---------- ---------- ---------- ---------- ---- --------------- ---------------------------------------- 
+          510795   rsjxw007 2022-08-22T12:46:41 2022-08-22T18:25:11   05:38:30            6-11:18:47  COMPLETED  0:0   r1pl-hpcf-n21     billing=30,cpu=30,mem=234360M,node=1 
+    510795.batch            2022-08-22T12:46:41 2022-08-22T18:25:11   05:38:30     41.96M 6-11:18:47  COMPLETED  0:0   r1pl-hpcf-n21                                          
+   510795.extern            2022-08-22T12:46:41 2022-08-22T18:25:11   05:38:30          0  00:00.001  COMPLETED  0:0   r1pl-hpcf-n21                                          
+CPU Efficiency: 91.77% of 7-01:15:00 core-walltime
