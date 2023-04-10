@@ -1,0 +1,110 @@
+Program Begin:
+** Please Make Sure That All Inputted Files are in the UNIX Line Formatting to Prevent Bugs! To see the full list of commands with BNGMM, please do ./BNGMM -h **
+Reading in Parameters from Configuration File!
+------ Reading in X_0! ------
+"example/l3p_100_sim/X/l3pX.csv"
+Reading in (rows,columns): (5000,3) from X data directory
+After removing all negative rows, X has 5000 rows.
+If dimensions are unexpected of input data, please make sure to check csv files contains all possible values in each row/column.
+---------------------------
+---------------------  Parameters  --------------------
+Total Number of Runs:1
+Number of Moments:9
+Hyper Cube Width:1
+Using Times:0 3
+Blind PSO --> nParts:2 Nsteps:2
+Targeted PSO --> nParts:0 Nsteps:0
+Number of Rates:5
+Particle Best Weight:3 Global Best Weight:1 Particle Inertia:6
+Redirecting Model to SBML/BNGL
+Modeling with Gillespie
+Number of Steps of Integration Determined:1
+Using Matrix Inverse!
+Outputting data to:
+--------------------------------------------------------
+BioNetGen version 2.8.4
+Reading from file /gpfs0/home1/gddaslab/rsjxw007/CyGMM_Build/CyGMM_DockerBuild/CyGMM/example/l3p_100_sim/model.bngl (level 0)
+Read 5 parameters.
+Read 3 species.
+Read 3 observable(s).
+Read 3 reaction rule(s).
+ACTION: generate_network( model )
+Iteration   0:     3 species      0 rxns  0.00e+00 CPU s
+Iteration   1:     3 species      5 rxns  0.00e+00 CPU s
+Cumulative CPU time for each rule
+Rule   1:     2 reactions 0.00e+00 CPU s 0.00e+00 CPU s/rxn
+Rule   2:     2 reactions 0.00e+00 CPU s 0.00e+00 CPU s/rxn
+Rule   3:     1 reactions 0.00e+00 CPU s 0.00e+00 CPU s/rxn
+Total   :     5 reactions 0.00e+00 CPU s 0.00e+00 CPU s/rxn
+WARNING: writeFile(): Overwriting existing file ./model.net.
+Wrote network in net format to ./model.net.
+CPU TIME: generate_network 0.00 s.
+Wrote SBML to ./model_sbml.xml.
+CPU TIME: writeSBML 0.00 s.
+Finished processing file /gpfs0/home1/gddaslab/rsjxw007/CyGMM_Build/CyGMM_DockerBuild/CyGMM/example/l3p_100_sim/model.bngl.
+CPU TIME: total 0.01 s.
+--------------------------------------------------------
+------- Matching Columns of X Data files to Ids -------
+P1() to column:0 with first value:326.155
+P2() to column:1 with first value:843.096
+P3() to column:2 with first value:1051.61
+--------------------------------------------------------
+------ SIMULATING YT! ------
+Read in Rates: 0.276782  0.837081  0.443217 0.0424412  0.304645
+------ Reading in Yt! ------
+"example/l3p_100_sim/Y/l3pY.csv"
+Read in 5000 rows! 3 columns!
+---------------------------
+Note: We will only be using the first Yt file read in for this simulation!
+After removing all negative rows, Y has 5000 rows.
+Time Point 		 Moments
+3 1244.58 698.488 906.222  937925  320209  847230  537313  727523  473556
+--------------------------------------------------------
+--------------------------------------------------------
+Computed GMM Weight Matrix
+1.06618e-06           0           0           0           0           0           0           0           0
+          0 3.12296e-06           0           0           0           0           0           0           0
+          0           0 1.18032e-06           0           0           0           0           0           0
+          0           0           0  2.9582e-14           0           0           0           0           0
+          0           0           0           0 2.44953e-13           0           0           0           0
+          0           0           0           0           0 2.67071e-14           0           0           0
+          0           0           0           0           0           0 8.82424e-14           0           0
+          0           0           0           0           0           0           0 3.88365e-14           0
+          0           0           0           0           0           0           0           0 9.22478e-14
+--------------------------------------------------------
+
+PSO Seeded At:0.300063 0.899594 0.278758 0.613784 0.692007| cost:1.24978
+PSO Estimation Has Begun, This may take some time...
+0.300063 0.899594 0.278758 0.613784 0.692007  1.24978
+3     1995.37      429.69     408.429 2.75935e+06      136288      176516      611094      665253      149982
+For Least Cost Estimate:0.300063 0.899594 0.278758 0.613784 0.692007
+RSS (NOT GMM) COST FROM DATASET:3.9153e+12
+Moments:    1995.37      429.69     408.429 2.75935e+06      136288      176516      611094      665253      149982
+['graph.py', '-f', 'modelt3.00_leastCostMoments.csv', '-g', 'Moments', '-n', 'Fit of Predicted Moments', '-m', '3']
+Traceback (most recent call last):
+  File "graph.py", line 233, in <module>
+    Graph.plotMoments(getFile(sys.argv), title=getName(sys.argv), nSpecies= getMomentSubset(sys.argv))
+  File "graph.py", line 146, in plotMoments
+    axes.spines.right.set_visible(False)
+AttributeError: 'collections.OrderedDict' object has no attribute 'right'
+['graph.py', '-f', 'model_estimates.csv', '-g', 'CI_truth', '-r', 'example/l3p_100_sim/true_rates.csv', '-n', 'Parameter', 'Estimates']
+Traceback (most recent call last):
+  File "graph.py", line 231, in <module>
+    Graph.plotConfidenceIntervals(1.96, getFile(sys.argv),simulated=True, trueRatesFile=getSimulatedRates(sys.argv), title=getName(sys.argv))
+  File "graph.py", line 98, in plotConfidenceIntervals
+    axes.spines.right.set_visible(False)
+AttributeError: 'collections.OrderedDict' object has no attribute 'right'
+Program returned normally, exit code 1
+Program returned normally, exit code 1
+
+-------------- All Run Estimates: -------------------
+k1 k2 k3 k4 k5 cost 
+0.300063 0.899594 0.278758 0.613784 0.692007  1.24978
+CODE FINISHED RUNNING IN 79 s TIME!
+Job Statistics for 2666977:
+           JobID       User               Start                 End    Elapsed     MaxRSS   TotalCPU      State Exit        NodeList                                  ReqTRES 
+---------------- ---------- ------------------- ------------------- ---------- ---------- ---------- ---------- ---- --------------- ---------------------------------------- 
+         2666977   rsjxw007 2023-03-10T17:08:41 2023-03-10T17:10:02   00:01:21             01:45.036  COMPLETED  0:0   r1pl-hpcf-n21     billing=30,cpu=30,mem=223650M,node=1 
+   2666977.batch            2023-03-10T17:08:41 2023-03-10T17:10:02   00:01:21     13.47M  01:45.033  COMPLETED  0:0   r1pl-hpcf-n21                                          
+  2666977.extern            2023-03-10T17:08:41 2023-03-10T17:10:03   00:01:22          0  00:00.002  COMPLETED  0:0   r1pl-hpcf-n21                                          
+CPU Efficiency: 4.32% of 00:40:30 core-walltime
