@@ -1,0 +1,42 @@
+Program Begin:
+** Please Make Sure That All Inputted Files are in the UNIX Line Formatting to Prevent Bugs! To see the full list of commands with BNGMM, please do ./BNGMM -h **
+Reading in Parameters from Configuration File!
+------ Reading in X_0! ------
+"example/6_pro_lin_sim/X/X0.csv"
+Reading in (rows,columns): (5000,6) from X data directory
+After removing all negative rows, X has 5000 rows.
+If dimensions are unexpected of input data, please make sure to check csv files contains all possible values in each row/column.
+---------------------------
+---------------------  Parameters  --------------------
+Total Number of Runs:1
+Number of Moments:27
+Hyper Cube Width:1
+Using Times:  0 1.5
+Blind PSO --> nParts:1500 Nsteps:50
+Targeted PSO --> nParts:0 Nsteps:0
+Number of Rates:5
+Particle Best Weight:3 Global Best Weight:1 Particle Inertia:6
+Redirecting Model to SBML/BNGL
+Modeling With Deterministic ODEs
+Number of Steps of Integration Determined:1
+Using Matrix Inverse!
+Outputting data to:test/
+--------------------------------------------------------
+ABORT: Couldn't read from file /gpfs0/home1/gddaslab/rsjxw007/CyGMM_Build/CyGMM_DockerBuild/CyGMM/example/6_pro_lin_sim/6pro_lin.bngl: No such file or directory
+ERROR: Command failed to run
+BioNetGen version 2.8.4
+Reading from file /gpfs0/home1/gddaslab/rsjxw007/CyGMM_Build/CyGMM_DockerBuild/CyGMM/example/6_pro_lin_sim/6pro_lin.bngl (level 0)
+BNGError > Tried to run command: ['perl', '/home/gddaslab/rsjxw007/software/virtual_envs/python-3.6.8/lib64/python3.6/site-packages/bionetgen/bng-linux/BNG2.pl', '/gpfs0/home1/gddaslab/rsjxw007/CyGMM_Build/CyGMM_DockerBuild/CyGMM/example/6_pro_lin_sim/6pro_lin.bngl']
+There was an issue with running BNG2.pl. There might be an issue with your model.
+
+[35mError: Could not open stream: File not found[0m
+terminate called after throwing an instance of 'rr::Exception'
+  what():  static std::string rr::SBMLReader::read(const string&), could not open sbml/6pro_lin_sbml.xml as a file or uri
+/var/spool/slurmd/job3613865/slurm_script: line 12: 1331840 Aborted                 (core dumped) ./BNGMM -m example/6_pro_lin_sim/6pro_lin.bngl -c example/6_pro_lin_sim/Config.csv -x example/6_pro_lin_sim/X -y example/6_pro_lin_sim/Y -t example/6_pro_lin_sim/ts.csv -r example/6_pro_lin_sim/tr.csv -o test/ --g
+Job Statistics for 3613865:
+           JobID       User               Start                 End    Elapsed     MaxRSS   TotalCPU      State Exit        NodeList                                  ReqTRES 
+---------------- ---------- ------------------- ------------------- ---------- ---------- ---------- ---------- ---- --------------- ---------------------------------------- 
+         3613865   rsjxw007 2023-04-13T17:33:39 2023-04-13T17:33:42   00:00:03             00:04.217     FAILED  6:0   r1pl-hpcf-n22     billing=30,cpu=30,mem=223650M,node=1 
+   3613865.batch            2023-04-13T17:33:39 2023-04-13T17:33:42   00:00:03      0.11M  00:04.214     FAILED  6:0   r1pl-hpcf-n22                                          
+  3613865.extern            2023-04-13T17:33:39 2023-04-13T17:33:42   00:00:03          0  00:00.003  COMPLETED  0:0   r1pl-hpcf-n22                                          
+CPU Efficiency: 4.44% of 00:01:30 core-walltime
