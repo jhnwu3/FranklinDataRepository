@@ -1,0 +1,88 @@
+Program Begin:
+** Please Make Sure That All Inputted Files are in the UNIX Line Formatting to Prevent Bugs! To see the full list of commands with BNGMM, please do ./BNGMM -h **
+Reading in Parameters from Configuration File!
+------ Reading in X_0! ------
+"example/6_pro_lin_sim/X/X0.csv"
+Reading in (rows,columns): (5000,6) from X data directory
+After removing all negative rows, X has 5000 rows.
+If dimensions are unexpected of input data, please make sure to check csv files contains all possible values in each row/column.
+---------------------------
+---------------------  Parameters  --------------------
+Total Number of Runs:30
+Number of Moments:6
+Using Only Means!
+Hyper Cube Width:1
+Using Times:  0 1.5
+Blind PSO --> nParts:1500 Nsteps:50
+Number of Rates:5
+Particle Best Weight:3 Global Best Weight:1 Particle Inertia:6
+Redirecting Model to SBML/BNGL
+Modeling With Deterministic ODEs
+Number of Steps of Integration Determined:1
+Using Matrix Inverse!
+Outputting data to:test/
+--------------------------------------------------------
+BioNetGen version 2.8.4
+Reading from file /gpfs0/home1/gddaslab/rsjxw007/CyGMM_Build/CyGMM_DockerBuild/CyGMM/example/6_pro_lin_sim/6_pro_lin.bngl (level 0)
+Read 6 parameters.
+Read 6 species.
+Read 6 observable(s).
+Read 6 reaction rule(s).
+ACTION: generate_network( 6_pro_lin )
+Iteration   0:     6 species      0 rxns  0.00e+00 CPU s
+Iteration   1:     6 species      6 rxns  1.00e-02 CPU s
+Cumulative CPU time for each rule
+Rule   1:     1 reactions 0.00e+00 CPU s 0.00e+00 CPU s/rxn
+Rule   2:     1 reactions 0.00e+00 CPU s 0.00e+00 CPU s/rxn
+Rule   3:     1 reactions 1.00e-02 CPU s 1.00e-02 CPU s/rxn
+Rule   4:     1 reactions 0.00e+00 CPU s 0.00e+00 CPU s/rxn
+Rule   5:     1 reactions 0.00e+00 CPU s 0.00e+00 CPU s/rxn
+Rule   6:     1 reactions 0.00e+00 CPU s 0.00e+00 CPU s/rxn
+Total   :     6 reactions 1.00e-02 CPU s 1.67e-03 CPU s/rxn
+WARNING: writeFile(): Overwriting existing file ./6_pro_lin.net.
+Wrote network in net format to ./6_pro_lin.net.
+CPU TIME: generate_network 0.01 s.
+Wrote SBML to ./6_pro_lin_sbml.xml.
+CPU TIME: writeSBML 0.00 s.
+Finished processing file /gpfs0/home1/gddaslab/rsjxw007/CyGMM_Build/CyGMM_DockerBuild/CyGMM/example/6_pro_lin_sim/6_pro_lin.bngl.
+CPU TIME: total 0.02 s.
+--------------------------------------------------------
+------- Matching Columns of X Data files to Ids -------
+X1() to column:0 with first value:192.796
+X2() to column:1 with first value:1463.27
+X3() to column:2 with first value:5.251
+X4() to column:3 with first value:5.8095
+X5() to column:4 with first value:435.297
+X6() to column:5 with first value:6.2594
+--------------------------------------------------------
+------ SIMULATING YT! ------
+Read in Rates:0.52 0.06  0.1  0.9 0.06
+------ Reading in Yt! ------
+"example/6_pro_lin_sim/Y/Y0.csv"
+Read in 5000 rows! 6 columns!
+---------------------------
+Note: We will only be using the first Yt file read in for this simulation!
+After removing all negative rows, Y has 5000 rows.
+Time Point 		 Moments
+1.5 94.4522 1988.27 174.046 20.1914 189.185 19.2618
+--------------------------------------------------------
+--------------------------------------------------------
+Computed GMM Weight Matrix:
+0.000699537           0           0           0           0           0
+          0 4.23766e-06           0           0           0           0
+          0           0 0.000563571           0           0           0
+          0           0           0   0.0464481           0           0
+          0           0           0           0 0.000176393           0
+          0           0           0           0           0   0.0930016
+--------------------------------------------------------
+
+PSO Seeded At:0.411245 0.228247 0.341439 0.573307   0.7505| cost:1900.86
+PSO Estimation Has Begun, This may take some time...
+slurmstepd: error: *** JOB 3622477 ON r1pl-hpcf-n21 CANCELLED AT 2023-04-18T13:52:44 ***
+Job Statistics for 3622477:
+           JobID       User               Start                 End    Elapsed     MaxRSS   TotalCPU      State Exit        NodeList                                  ReqTRES 
+---------------- ---------- ------------------- ------------------- ---------- ---------- ---------- ---------- ---- --------------- ---------------------------------------- 
+         3622477   rsjxw007 2023-04-18T13:52:03 2023-04-18T13:52:44   00:00:41             18:14.029 CANCELLED+  0:0   r1pl-hpcf-n21     billing=30,cpu=30,mem=223650M,node=1 
+   3622477.batch            2023-04-18T13:52:03 2023-04-18T13:52:45   00:00:42     36.71M  18:14.026  CANCELLED 0:15   r1pl-hpcf-n21                                          
+  3622477.extern            2023-04-18T13:52:03 2023-04-18T13:52:44   00:00:41          0  00:00.003  COMPLETED  0:0   r1pl-hpcf-n21                                          
+CPU Efficiency: 88.94% of 00:20:30 core-walltime

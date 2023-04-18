@@ -1,0 +1,158 @@
+Program Begin:
+** Please Make Sure That All Inputted Files are in the UNIX Line Formatting to Prevent Bugs! To see the full list of commands with BNGMM, please do ./BNGMM -h **
+Reading in Parameters from Configuration File!
+------ Reading in X_0! ------
+"example/6_pro_lin_sim/X/X0.csv"
+Reading in (rows,columns): (5000,6) from X data directory
+After removing all negative rows, X has 5000 rows.
+If dimensions are unexpected of input data, please make sure to check csv files contains all possible values in each row/column.
+---------------------------
+---------------------  Parameters  --------------------
+Total Number of Runs:1
+Number of Moments:12
+Using Only Means!
+Hyper Cube Width:1
+Using Times:  0 1.5
+Blind PSO --> nParts:1500 Nsteps:30
+Number of Rates:6
+Particle Best Weight:3 Global Best Weight:1 Particle Inertia:6
+Redirecting Model to SBML/BNGL
+Modeling With Deterministic ODEs
+Number of Steps of Integration Determined:1
+Using Matrix Inverse!
+Outputting data to:test/l6p_meansvars_only/
+--------------------------------------------------------
+BioNetGen version 2.8.4
+Reading from file /gpfs0/home1/gddaslab/rsjxw007/CyGMM_Build/CyGMM_DockerBuild/CyGMM/example/6_pro_lin_sim/6_pro_lin.bngl (level 0)
+Read 6 parameters.
+Read 6 species.
+Read 6 observable(s).
+Read 6 reaction rule(s).
+ACTION: generate_network( 6_pro_lin )
+Iteration   0:     6 species      0 rxns  0.00e+00 CPU s
+Iteration   1:     6 species      6 rxns  1.00e-02 CPU s
+Cumulative CPU time for each rule
+Rule   1:     1 reactions 0.00e+00 CPU s 0.00e+00 CPU s/rxn
+Rule   2:     1 reactions 0.00e+00 CPU s 0.00e+00 CPU s/rxn
+Rule   3:     1 reactions 0.00e+00 CPU s 0.00e+00 CPU s/rxn
+Rule   4:     1 reactions 1.00e-02 CPU s 1.00e-02 CPU s/rxn
+Rule   5:     1 reactions 0.00e+00 CPU s 0.00e+00 CPU s/rxn
+Rule   6:     1 reactions 0.00e+00 CPU s 0.00e+00 CPU s/rxn
+Total   :     6 reactions 1.00e-02 CPU s 1.67e-03 CPU s/rxn
+WARNING: writeFile(): Overwriting existing file ./6_pro_lin.net.
+Wrote network in net format to ./6_pro_lin.net.
+CPU TIME: generate_network 0.01 s.
+Wrote SBML to ./6_pro_lin_sbml.xml.
+CPU TIME: writeSBML 0.00 s.
+Finished processing file /gpfs0/home1/gddaslab/rsjxw007/CyGMM_Build/CyGMM_DockerBuild/CyGMM/example/6_pro_lin_sim/6_pro_lin.bngl.
+CPU TIME: total 0.02 s.
+--------------------------------------------------------
+------- Matching Columns of X Data files to Ids -------
+X1() to column:0 with first value:192.796
+X2() to column:1 with first value:1463.27
+X3() to column:2 with first value:5.251
+X4() to column:3 with first value:5.8095
+X5() to column:4 with first value:435.297
+X6() to column:5 with first value:6.2594
+--------------------------------------------------------
+------ SIMULATING YT! ------
+Read in Rates:0.52 0.06  0.1  0.9 0.06 0.07
+------ Reading in Yt! ------
+"example/6_pro_lin_sim/Y/Y0.csv"
+Read in 5000 rows! 6 columns!
+---------------------------
+Note: We will only be using the first Yt file read in for this simulation!
+After removing all negative rows, Y has 5000 rows.
+Time Point 		 Moments
+1.5 94.4522  1986.6 173.988 20.1894 189.185 20.9922 1429.52  235916 1774.29 21.5284 5669.15 12.1352
+--------------------------------------------------------
+--------------------------------------------------------
+Computed GMM Weight Matrix:
+   0.0163292   -0.0168159     0.199522    -0.136268   0.00712959  -0.00678863 -4.07482e-05  1.04386e-06 -0.000137159  8.53544e-05  -5.2233e-07  9.32457e-05
+  -0.0168159    0.0679969    -0.807335     0.395502   -0.0211466    0.0242252  2.14787e-05 -1.05009e-05   0.00139425  0.000465338  4.32133e-07 -0.000726861
+    0.199522    -0.807335      9.89656     -10.6463     0.526945     0.429129 -0.000249103  0.000122227    -0.016308   0.00165057 -1.33622e-05   0.00138468
+   -0.136268     0.395502     -10.6463      134.907     -5.54094     -42.9044  2.42828e-05  5.13456e-06  0.000205691    -0.443963 -0.000138295      0.79325
+  0.00712959   -0.0211466     0.526945     -5.54094     0.281916    -0.194563 -1.91251e-06  3.03596e-08 -1.50409e-05   -0.0015865 -2.51183e-05    0.0133844
+ -0.00678863    0.0242252     0.429129     -42.9044    -0.194563      91.6195  1.91975e-05 -6.11217e-06 -5.79159e-05     0.827437   0.00146272     -2.10979
+-4.07482e-05  2.14787e-05 -0.000249103  2.42828e-05 -1.91251e-06  1.91975e-05  1.77055e-07   -5.539e-09  7.30967e-07 -1.79544e-07  1.60078e-09  -2.5301e-07
+ 1.04386e-06 -1.05009e-05  0.000122227  5.13456e-06  3.03596e-08 -6.11217e-06   -5.539e-09  2.65869e-09 -3.53205e-07 -1.23425e-07  3.66026e-12  1.26456e-07
+-0.000137159   0.00139425    -0.016308  0.000205691 -1.50409e-05 -5.79159e-05  7.30967e-07 -3.53205e-07  4.71307e-05 -4.56461e-06  2.20735e-08  4.07659e-06
+ 8.53544e-05  0.000465338   0.00165057    -0.443963   -0.0015865     0.827437 -1.79544e-07 -1.23425e-07 -4.56461e-06    0.0110533  3.69904e-06    -0.019658
+ -5.2233e-07  4.32133e-07 -1.33622e-05 -0.000138295 -2.51183e-05   0.00146272  1.60078e-09  3.66026e-12  2.20735e-08  3.69904e-06  6.25447e-08 -3.48754e-05
+ 9.32457e-05 -0.000726861   0.00138468      0.79325    0.0133844     -2.10979  -2.5301e-07  1.26456e-07  4.07659e-06    -0.019658 -3.48754e-05    0.0501752
+--------------------------------------------------------
+
+PSO Seeded At:  0.576472   0.581755 0.00823324   0.379023   0.916864    0.87602| cost:9.12464e+06
+PSO Estimation Has Begun, This may take some time...
+----------------PSO Best Each Iterations----------------
+   0.576472    0.581755  0.00823324    0.379023    0.916864     0.87602 9.12464e+06
+   0.576472    0.581755  0.00823324    0.379023    0.916864     0.87602 9.12464e+06
+   0.216827   0.0710455    0.145815    0.646673   0.0768738     0.44845     28977.7
+   0.216827   0.0710455    0.145815    0.646673   0.0768738     0.44845     28977.7
+   0.336855   0.0474705     0.12109    0.850263   0.0313701    0.433032     16127.6
+   0.326547   0.0615293    0.139203    0.831015   0.0650246    0.425484      6532.7
+   0.326547   0.0615293    0.139203    0.831015   0.0650246    0.425484      6532.7
+   0.361157   0.0620729   0.0771015    0.823161   0.0437271    0.363089     6165.06
+   0.370413   0.0605536   0.0933917    0.813921   0.0607701    0.392747     3071.76
+   0.359481   0.0596007   0.0967458    0.812404   0.0548094    0.385043     3069.44
+   0.358484   0.0608398    0.101956    0.812776   0.0628668    0.345753     2826.64
+   0.394411   0.0611614    0.101484    0.782953   0.0621674    0.289867     2789.89
+   0.412266    0.061581   0.0962931    0.855936   0.0599841     0.36463     2356.09
+   0.373662   0.0581486   0.0864536    0.863526   0.0711277    0.310447     1420.95
+   0.340959    0.057671   0.0597848     0.85966   0.0782451     0.29772     963.515
+   0.440843   0.0577726   0.0782127    0.924736   0.0732068    0.307116     709.401
+   0.556999   0.0601041   0.0737487    0.931598   0.0810845    0.295341     473.678
+   0.453134   0.0592451   0.0781026    0.945751   0.0775539      0.2732     257.012
+   0.427571   0.0578617   0.0595468    0.962791   0.0894523    0.211258      13.163
+   0.424976   0.0581338   0.0605895    0.959622   0.0885388    0.214424      10.399
+   0.424822   0.0578634   0.0580434    0.957512   0.0886097     0.21711     7.99861
+   0.429887   0.0583417   0.0655725    0.959742   0.0836638    0.195386     3.76746
+   0.427636   0.0583662    0.067239    0.954407   0.0830689    0.189165     3.23504
+   0.429063   0.0583411   0.0665441    0.956458   0.0833219    0.189443     2.66411
+   0.428998   0.0583441   0.0665047    0.956626   0.0833348    0.188843     2.65503
+   0.439751    0.058349   0.0663285    0.956539   0.0832961    0.187266     2.27048
+   0.446774   0.0583333   0.0663416    0.956722    0.083383    0.188851     2.02033
+   0.453901   0.0583536   0.0659624    0.955375   0.0835663    0.189437     1.81097
+   0.453901   0.0583536   0.0659624    0.955375   0.0835663    0.189437     1.81097
+   0.461318   0.0584142   0.0658958     0.95543   0.0836821    0.190045     1.69995
+   0.474834    0.058359   0.0649867    0.952662   0.0839579    0.187577     1.35887
+--------------------------------------------------------
+ 0.474834  0.058359 0.0649867  0.952662 0.0839579  0.187577   1.35887
+--------------------------------------------------------
+--------------------------------------------------------
+For Least Cost Estimate: 0.474834  0.058359 0.0649867  0.952662 0.0839579  0.187577
+RSS (NOT GMM) COST FROM DATASET:2.19841e+08
+t                  moments
+1.5 100.116 1990.49 174.171 19.8446 181.653 20.8861 1591.64  221095  1656.2 29.4272 5308.93 19.0027
+--------------------------------------------------------
+Plotting R^2 Plot and Confidence Intervals!
+graph.py:100: MatplotlibDeprecationWarning: Passing the minor parameter of set_ticks() positionally is deprecated since Matplotlib 3.2; the parameter will become keyword-only two minor releases later.
+  axes.set_xticks(categoriesNumeric, df.columns)
+Traceback (most recent call last):
+  File "graph.py", line 322, in <module>
+    Graph.plotConfidenceIntervals(1.96, getFile(sys.argv),simulated=True, trueRatesFile=getSimulatedRates(sys.argv), title=getName(sys.argv))
+  File "graph.py", line 100, in plotConfidenceIntervals
+    axes.set_xticks(categoriesNumeric, df.columns)
+  File "/home/gddaslab/rsjxw007/software/virtual_envs/python-3.6.8/lib64/python3.6/site-packages/matplotlib/axes/_base.py", line 63, in wrapper
+    return get_method(self)(*args, **kwargs)
+  File "/home/gddaslab/rsjxw007/software/virtual_envs/python-3.6.8/lib64/python3.6/site-packages/matplotlib/cbook/deprecation.py", line 451, in wrapper
+    return func(*args, **kwargs)
+  File "/home/gddaslab/rsjxw007/software/virtual_envs/python-3.6.8/lib64/python3.6/site-packages/matplotlib/axis.py", line 1819, in set_ticks
+    if minor:
+  File "/home/gddaslab/rsjxw007/software/virtual_envs/python-3.6.8/lib64/python3.6/site-packages/pandas/core/indexes/base.py", line 2420, in __nonzero__
+    f"The truth value of a {type(self).__name__} is ambiguous. "
+ValueError: The truth value of a Index is ambiguous. Use a.empty, a.bool(), a.item(), a.any() or a.all().
+Program returned normally, exit code 0
+Program returned normally, exit code 1
+
+--------------- All Run Estimates: -------------------
+k1 k2 k3 k4 k5 k6 cost 
+ 0.474834  0.058359 0.0649867  0.952662 0.0839579  0.187577   1.35887
+CODE FINISHED RUNNING IN 263 s TIME!
+Job Statistics for 3622489:
+           JobID       User               Start                 End    Elapsed     MaxRSS   TotalCPU      State Exit        NodeList                                  ReqTRES 
+---------------- ---------- ------------------- ------------------- ---------- ---------- ---------- ---------- ---- --------------- ---------------------------------------- 
+         3622489   rsjxw007 2023-04-18T14:03:44 2023-04-18T14:08:08   00:04:24              02:04:04  COMPLETED  0:0   r1pl-hpcf-n23     billing=30,cpu=30,mem=223650M,node=1 
+   3622489.batch            2023-04-18T14:03:44 2023-04-18T14:08:08   00:04:24     34.99M   02:04:04  COMPLETED  0:0   r1pl-hpcf-n23                                          
+  3622489.extern            2023-04-18T14:03:44 2023-04-18T14:08:08   00:04:24          0  00:00.003  COMPLETED  0:0   r1pl-hpcf-n23                                          
+CPU Efficiency: 93.99% of 02:12:00 core-walltime
