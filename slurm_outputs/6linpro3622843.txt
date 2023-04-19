@@ -1,0 +1,94 @@
+Program Begin:
+** Please Make Sure That All Inputted Files are in the UNIX Line Formatting to Prevent Bugs! To see the full list of commands with BNGMM, please do ./BNGMM -h **
+Reading in Parameters from Configuration File!
+------ Reading in X_0! ------
+"example/6_pro_lin_sim/X/X0.csv"
+Reading in (rows,columns): (5000,6) from X data directory
+After removing all negative rows, X has 5000 rows.
+If dimensions are unexpected of input data, please make sure to check csv files contains all possible values in each row/column.
+---------------------------
+---------------------  Parameters  --------------------
+Total Number of Runs:30
+Number of Moments:12
+Using Only Means!
+Hyper Cube Width:1
+Using Times:  0 1.5
+Blind PSO --> nParts:1500 Nsteps:30
+Number of Rates:6
+Particle Best Weight:3 Global Best Weight:1 Particle Inertia:6
+Redirecting Model to SBML/BNGL
+Modeling With Deterministic ODEs
+Number of Steps of Integration Determined:1
+Using Matrix Inverse!
+Outputting data to:test/l6p_meansvars_only/
+--------------------------------------------------------
+BioNetGen version 2.8.4
+Reading from file /gpfs0/home1/gddaslab/rsjxw007/CyGMM_Build/CyGMM_DockerBuild/CyGMM/example/6_pro_lin_sim/6_pro_lin.bngl (level 0)
+Read 6 parameters.
+Read 6 species.
+Read 6 observable(s).
+Read 6 reaction rule(s).
+ACTION: generate_network( 6_pro_lin )
+Iteration   0:     6 species      0 rxns  0.00e+00 CPU s
+Iteration   1:     6 species      6 rxns  0.00e+00 CPU s
+Cumulative CPU time for each rule
+Rule   1:     1 reactions 0.00e+00 CPU s 0.00e+00 CPU s/rxn
+Rule   2:     1 reactions 0.00e+00 CPU s 0.00e+00 CPU s/rxn
+Rule   3:     1 reactions 0.00e+00 CPU s 0.00e+00 CPU s/rxn
+Rule   4:     1 reactions 0.00e+00 CPU s 0.00e+00 CPU s/rxn
+Rule   5:     1 reactions 0.00e+00 CPU s 0.00e+00 CPU s/rxn
+Rule   6:     1 reactions 0.00e+00 CPU s 0.00e+00 CPU s/rxn
+Total   :     6 reactions 0.00e+00 CPU s 0.00e+00 CPU s/rxn
+WARNING: writeFile(): Overwriting existing file ./6_pro_lin.net.
+Wrote network in net format to ./6_pro_lin.net.
+CPU TIME: generate_network 0.01 s.
+Wrote SBML to ./6_pro_lin_sbml.xml.
+CPU TIME: writeSBML 0.00 s.
+Finished processing file /gpfs0/home1/gddaslab/rsjxw007/CyGMM_Build/CyGMM_DockerBuild/CyGMM/example/6_pro_lin_sim/6_pro_lin.bngl.
+CPU TIME: total 0.02 s.
+--------------------------------------------------------
+------- Matching Columns of X Data files to Ids -------
+X1() to column:0 with first value:192.796
+X2() to column:1 with first value:1463.27
+X3() to column:2 with first value:5.251
+X4() to column:3 with first value:5.8095
+X5() to column:4 with first value:435.297
+X6() to column:5 with first value:6.2594
+--------------------------------------------------------
+------ SIMULATING YT! ------
+Read in Rates:0.52 0.06  0.1  0.9 0.06 0.07
+------ Reading in Yt! ------
+"example/6_pro_lin_sim/Y/Y0.csv"
+Read in 5000 rows! 6 columns!
+---------------------------
+Note: We will only be using the first Yt file read in for this simulation!
+After removing all negative rows, Y has 5000 rows.
+Time Point 		 Moments
+1.5 94.4522  1986.6 173.988 20.1894 189.185 20.9922 1429.52  235916 1774.29 21.5284 5669.15 12.1352
+--------------------------------------------------------
+--------------------------------------------------------
+Computed GMM Weight Matrix:
+   0.0163292   -0.0168159     0.199522    -0.136268   0.00712959  -0.00678863 -4.07482e-05  1.04386e-06 -0.000137159  8.53544e-05  -5.2233e-07  9.32457e-05
+  -0.0168159    0.0679969    -0.807335     0.395502   -0.0211466    0.0242252  2.14787e-05 -1.05009e-05   0.00139425  0.000465338  4.32133e-07 -0.000726861
+    0.199522    -0.807335      9.89656     -10.6463     0.526945     0.429129 -0.000249103  0.000122227    -0.016308   0.00165057 -1.33622e-05   0.00138468
+   -0.136268     0.395502     -10.6463      134.907     -5.54094     -42.9044  2.42828e-05  5.13456e-06  0.000205691    -0.443963 -0.000138295      0.79325
+  0.00712959   -0.0211466     0.526945     -5.54094     0.281916    -0.194563 -1.91251e-06  3.03596e-08 -1.50409e-05   -0.0015865 -2.51183e-05    0.0133844
+ -0.00678863    0.0242252     0.429129     -42.9044    -0.194563      91.6195  1.91975e-05 -6.11217e-06 -5.79159e-05     0.827437   0.00146272     -2.10979
+-4.07482e-05  2.14787e-05 -0.000249103  2.42828e-05 -1.91251e-06  1.91975e-05  1.77055e-07   -5.539e-09  7.30967e-07 -1.79544e-07  1.60078e-09  -2.5301e-07
+ 1.04386e-06 -1.05009e-05  0.000122227  5.13456e-06  3.03596e-08 -6.11217e-06   -5.539e-09  2.65869e-09 -3.53205e-07 -1.23425e-07  3.66026e-12  1.26456e-07
+-0.000137159   0.00139425    -0.016308  0.000205691 -1.50409e-05 -5.79159e-05  7.30967e-07 -3.53205e-07  4.71307e-05 -4.56461e-06  2.20735e-08  4.07659e-06
+ 8.53544e-05  0.000465338   0.00165057    -0.443963   -0.0015865     0.827437 -1.79544e-07 -1.23425e-07 -4.56461e-06    0.0110533  3.69904e-06    -0.019658
+ -5.2233e-07  4.32133e-07 -1.33622e-05 -0.000138295 -2.51183e-05   0.00146272  1.60078e-09  3.66026e-12  2.20735e-08  3.69904e-06  6.25447e-08 -3.48754e-05
+ 9.32457e-05 -0.000726861   0.00138468      0.79325    0.0133844     -2.10979  -2.5301e-07  1.26456e-07  4.07659e-06    -0.019658 -3.48754e-05    0.0501752
+--------------------------------------------------------
+
+PSO Seeded At:0.408854 0.647934 0.192128 0.409923 0.780167  0.32677| cost:1.05574e+07
+PSO Estimation Has Begun, This may take some time...
+slurmstepd: error: *** JOB 3622843 ON r1pl-hpcf-n21 CANCELLED AT 2023-04-18T17:08:02 ***
+Job Statistics for 3622843:
+           JobID       User               Start                 End    Elapsed     MaxRSS   TotalCPU      State Exit        NodeList                                  ReqTRES 
+---------------- ---------- ------------------- ------------------- ---------- ---------- ---------- ---------- ---- --------------- ---------------------------------------- 
+         3622843   rsjxw007 2023-04-18T17:07:10 2023-04-18T17:08:02   00:00:52             24:22.026 CANCELLED+  0:0   r1pl-hpcf-n21     billing=30,cpu=30,mem=223650M,node=1 
+   3622843.batch            2023-04-18T17:07:10 2023-04-18T17:08:03   00:00:53     33.46M  24:22.023  CANCELLED 0:15   r1pl-hpcf-n21                                          
+  3622843.extern            2023-04-18T17:07:10 2023-04-18T17:08:02   00:00:52          0  00:00.003  COMPLETED  0:0   r1pl-hpcf-n21                                          
+CPU Efficiency: 93.72% of 00:26:00 core-walltime
